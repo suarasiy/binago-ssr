@@ -1,0 +1,66 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;0,1000;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900;1,1000&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Klee+One:wght@400;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Kaisei+Decol:wght@400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .rx {
+    @apply border border-red-500;
+  }
+
+  .nav__menu {
+    @apply relative mb-3 flex cursor-pointer flex-row items-center gap-3 rounded-lg px-5 py-4 font-notoSans text-sm font-normal text-slate-700 transition-all duration-300 ease-out hover:bg-blue-500 hover:bg-opacity-10 active:scale-95;
+  }
+
+  .nav__sub__menu {
+    @apply ml-14 flex flex-col gap-1 overflow-hidden text-sm font-normal text-slate-400 opacity-100 transition-all duration-300 ease-out;
+  }
+
+  .nav__sub__menu.nav__sub__menu--hide {
+    @apply opacity-0;
+  }
+
+  .nav__menu.nav__menu--active {
+    @apply bg-blue-500 bg-opacity-20 font-medium hover:bg-opacity-30;
+  }
+
+  .nav__menu .indicator {
+    @apply relative ml-3 w-3 transition-all duration-150 ease-out;
+  }
+
+  .nav__menu .indicator--active {
+    @apply -rotate-180;
+  }
+}
+
+@layer base {
+  * {
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    -webkit-tap-highlight-color: transparent;
+
+    image-rendering: -moz-crisp-edges; /* Firefox */
+    image-rendering: -o-crisp-edges; /* Opera */
+    image-rendering: -webkit-optimize-contrast; /* Webkit (non-standard naming) */
+    image-rendering: crisp-edges;
+    -ms-interpolation-mode: nearest-neighbor; /* IE (non-standard property) */
+  }
+
+  html {
+    @apply scroll-smooth;
+  }
+
+  button {
+    @apply outline-none;
+  }
+}

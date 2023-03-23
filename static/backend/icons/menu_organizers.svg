@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="192" height="192">
+  <rect width="6" height="12" x="4" y="8" opacity=".35" fill="#46BCFF" />
+  <path d="M20,21h-9V5c0-1.105,0.895-2,2-2h6c1.105,0,2,0.895,2,2v15C21,20.552,20.552,21,20,21z" opacity=".35" fill="#46BCFF" />
+  <path d="M19,7h-2V5h2V7z" fill="#46BCFF" />
+  <path d="M15,7h-2V5h2V7z" fill="#46BCFF" />
+  <path d="M19,11h-2V9h2V11z" fill="#46BCFF" />
+  <path d="M15,11h-2V9h2V11z" fill="#46BCFF" />
+  <path d="M19,15h-2v-2h2V15z" fill="#46BCFF" />
+  <path d="M15,15h-2v-2h2V15z" fill="#46BCFF" />
+  <path d="M19,19h-2v-2h2V19z" fill="#46BCFF" />
+  <path d="M15,19h-2v-2h2V19z" fill="#46BCFF" />
+  <path d="M9,6H5C3.895,6,3,6.895,3,8v12c0,0.552,0.448,1,1,1h7V8C11,6.895,10.105,6,9,6z M9,19H5v-2h4V19z M9,15H5v-2h4V15z M9,11H5V9h4V11z" fill="#46BCFF" />
+</svg>

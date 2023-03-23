@@ -1,0 +1,562 @@
+{% load static tailwind_tags %} {% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    {% tailwind_css %}
+    <title>{{ title }}</title>
+  </head>
+  <body class="bg-gray-50">
+    <div class="absolute top-0 z-0 h-64 w-full rounded-b-3xl bg-blue-500"></div>
+    <main class="relative flex flex-row gap-5 p-8">
+      <!-- [Sidebar Navigation] -->
+      <aside
+        class="bg-red sticky top-8 flex h-fit w-fit flex-shrink-0 select-none flex-col gap-8 rounded-2xl bg-white p-5"
+      >
+        <div class="self-center py-3">
+          <img src="{% static 'web/logo.png' %}" alt="" srcset="" class="w-52 object-contain px-2" />
+        </div>
+        <hr />
+        <!-- MENU: DASHBOARD -->
+        <div class="">
+          <div class="nav__menu nav__menu--active" data-target-menu="menu-dashboard">
+            <img src="{% static 'backend/icons/menu_dashboard.svg' %}" alt="" srcset="" class="w-6" draggable="false" />
+            <span class="flex w-full flex-row justify-between">
+              <p>Dashboard</p>
+              <img
+                src="{% static 'backend/icons/chevron.svg' %}"
+                alt=""
+                srcset=""
+                class="indicator indicator--active"
+                draggable="false"
+              />
+            </span>
+          </div>
+          <div id="menu-dashboard" class="nav__sub__menu">
+            <a href="" class="py-2 hover:text-slate-700">Events</a>
+            <a href="" class="py-2 hover:text-slate-700">Payments</a>
+            <a href="" class="py-2 hover:text-slate-700">Customer</a>
+            <a href="" class="py-2 hover:text-slate-700">Provider</a>
+          </div>
+        </div>
+        <!-- MENU: EVENTS -->
+        <div class="">
+          <div class="nav__menu" data-target-menu="menu-events">
+            <img src="{% static 'backend/icons/menu_events.svg' %}" alt="" srcset="" class="w-6" draggable="false" />
+            <span class="flex w-full flex-row justify-between">
+              <p>Events</p>
+              <img
+                src="{% static 'backend/icons/chevron.svg' %}"
+                alt=""
+                srcset=""
+                class="indicator"
+                draggable="false"
+              />
+            </span>
+          </div>
+          <div id="menu-events" class="nav__sub__menu nav__sub__menu--hide">
+            <a href="" class="py-2 hover:text-slate-700">Data</a>
+            <a href="" class="py-2 hover:text-slate-700">Summary</a>
+          </div>
+        </div>
+        <!-- MENU: ORGANIZERS -->
+        <div class="">
+          <div class="nav__menu" data-target-menu="menu-organizers">
+            <img
+              src="{% static 'backend/icons/menu_organizers.svg' %}"
+              alt=""
+              srcset=""
+              class="w-6"
+              draggable="false"
+            />
+            <span class="flex w-full flex-row justify-between">
+              <p>Organizers</p>
+              <img
+                src="{% static 'backend/icons/chevron.svg' %}"
+                alt=""
+                srcset=""
+                class="indicator"
+                draggable="false"
+              />
+            </span>
+          </div>
+          <div id="menu-organizers" class="nav__sub__menu nav__sub__menu--hide">
+            <a href="" class="py-2 hover:text-slate-700">Data</a>
+            <a href="" class="py-2 hover:text-slate-700">Summary</a>
+          </div>
+        </div>
+        <!-- MENU: USERS -->
+        <div class="">
+          <div class="nav__menu" data-target-menu="menu-users">
+            <img src="{% static 'backend/icons/menu_users.svg' %}" alt="" srcset="" class="w-6" draggable="false" />
+            <span class="flex w-full flex-row justify-between">
+              <p>Users</p>
+              <img
+                src="{% static 'backend/icons/chevron.svg' %}"
+                alt=""
+                srcset=""
+                class="indicator"
+                draggable="false"
+              />
+            </span>
+          </div>
+          <div id="menu-users" class="nav__sub__menu nav__sub__menu">
+            <a href="" class="py-2 hover:text-slate-700">Data</a>
+            <a href="" class="py-2 hover:text-slate-700">Summary</a>
+          </div>
+        </div>
+        <hr />
+        <small class="font-poppins mb-2 text-center text-xs text-slate-400">&copy; Binago Staff, 2023.</small>
+      </aside>
+      <!-- [End Sidebar Navigation] -->
+      <!-- [Page Content] -->
+      <div class="flex w-full flex-col">
+        <div class="flex flex-row justify-between p-5 text-white">
+          <div class="flex flex-col gap-2">
+            <!-- [Breadcrumb] -->
+            <div class="font-poppins flex flex-row items-center gap-2">
+              <span class="text-sm font-medium text-[#BDD0FF]">Dashboard</span>
+              <span class="text-sm font-semibold text-white">/</span>
+              <span class="text-sm font-semibold text-white">Events</span>
+            </div>
+            <!-- [Page Description / Title] -->
+            <p class="font-dmSans mt-2 text-2xl font-medium">Here is the summaries about the recent events.</p>
+          </div>
+          <!-- [Control TOP-RIGHT navigation] -->
+          <div class="flex h-fit flex-row items-center gap-4">
+            <button
+              class="relative rounded-xl bg-black bg-opacity-10 px-4 py-3 transition-all duration-300 ease-out hover:bg-opacity-20 hover:shadow-sm"
+              tabindex="-1"
+            >
+              <div
+                class="font-poppins absolute top-2 left-2 h-5 w-5 rounded-full bg-red-500 text-center text-xs text-white"
+              >
+                <span class="absolute top-2/4 left-2/4 -translate-y-2/4 -translate-x-2/4">5</span>
+              </div>
+              <img src="{% static 'backend/icons/notifications.svg' %}" alt="" srcset="" class="w-7" />
+            </button>
+            <button
+              class="flex flex-row items-center gap-3 rounded-xl bg-black bg-opacity-10 px-4 py-3 transition-all duration-300 ease-out hover:bg-opacity-20 hover:shadow-sm"
+              tabindex="-1"
+            >
+              <span class="font-poppins text-sm font-semibold">{{ user.username }}</span>
+              <!-- example image: https://play-lh.googleusercontent.com/hYdIazwJBlPhmN74Yz3m_jU9nA6t02U7ZARfKunt6dauUAB6O3nLHp0v5ypisNt9OJk -->
+              <img
+                src="{% get_media_prefix %}{{ user.avatar }}"
+                alt=""
+                srcset=""
+                class="h-7 w-7 rounded-full border-2 border-white object-cover object-center"
+              />
+            </button>
+          </div>
+        </div>
+        <!-- [Main Container Area] -->
+        <div class="p-5">
+          <div class="grid grid-cols-3 gap-6">
+            <span class="col-span-2">
+              <div class="shadow-container3 flex flex-col gap-4 rounded-xl bg-white p-5">
+                <div class="flex flex-row justify-between">
+                  <div class="font-poppins flex flex-col gap-1">
+                    <p class="font-medium text-slate-900">Total attended users into events</p>
+                    <small class="text-xs font-light text-slate-600"
+                      >Count every users that attended in many webinar in this month.</small
+                    >
+                  </div>
+                  <span class="h-fit rounded-md bg-blue-400 bg-opacity-10 px-3 py-2 text-sm font-semibold text-blue-500"
+                    >Monthly</span
+                  >
+                </div>
+                <span class="bg-slate-container border-slate-container rounded-xl border bg-opacity-10 p-5">
+                  <p>
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Incidunt cum adipisci excepturi. Minima
+                    neque placeat alias deserunt fugiat dolores quos recusandae exercitationem incidunt odit libero quam
+                    commodi veniam modi facilis reprehenderit, tempora corrupti quod, nulla iste doloremque numquam unde
+                    fugit temporibus. Ducimus quisquam temporibus suscipit, autem reiciendis accusantium corrupti
+                    aliquam non possimus recusandae quia deleniti, nesciunt numquam alias, consequuntur corporis.
+                    Delectus debitis veniam id soluta nulla accusantium voluptatibus fugit ea minus quas recusandae
+                    obcaecati officia exercitationem consequuntur pariatur quia, cupiditate voluptate sit reiciendis
+                    unde illo architecto vero? Accusantium ut autem neque beatae, voluptatum, voluptatibus eveniet
+                    officiis deserunt doloremque est quae.
+                  </p>
+                </span>
+              </div>
+            </span>
+            <span class="">
+              <div class="shadow-container3 flex h-max flex-col gap-4 rounded-xl bg-white p-5">
+                <div class="flex flex-row justify-between">
+                  <div class="font-poppins flex flex-col gap-1">
+                    <p class="font-medium text-slate-900">Event categories</p>
+                    <small class="text-xs font-light text-slate-600"
+                      >Summaries of created events this month based on each categories.</small
+                    >
+                  </div>
+                  <span class="h-fit rounded-md bg-blue-400 bg-opacity-10 px-3 py-2 text-sm font-semibold text-blue-500"
+                    >Monthly</span
+                  >
+                </div>
+                <span class="bg-slate-container border-slate-container rounded-xl border bg-opacity-10 p-5">
+                  <p>
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet qui ipsam facilis vel hic neque
+                    ratione, quisquam mollitia voluptatibus quae.
+                  </p>
+                </span>
+              </div>
+            </span>
+            <span class="col-span-3">
+              <div class="shadow-container3 flex flex-col gap-4 rounded-xl bg-white p-5">
+                <div class="flex flex-row justify-between">
+                  <div class="font-poppins flex flex-col gap-1">
+                    <p class="font-medium text-slate-900">The latest ratings by Attended</p>
+                    <small class="text-xs font-light text-slate-600"
+                      >Only valid users that attended to the event can giving an rating.</small
+                    >
+                  </div>
+                  <span class="h-fit rounded-md bg-blue-400 bg-opacity-10 px-3 py-2 text-sm font-semibold text-blue-500"
+                    >Monthly</span
+                  >
+                </div>
+                <div class="my-5 overflow-x-auto">
+                  <table class="w-full items-center">
+                    <thead>
+                      <tr>
+                        <th
+                          class="font-dmSans whitespace-nowrap border-b border-b-gray-200 bg-transparent px-6 py-3 text-left text-xs font-semibold uppercase tracking-normal text-slate-400 opacity-70"
+                        >
+                          no
+                        </th>
+                        <th
+                          class="font-dmSans whitespace-nowrap border-b border-b-gray-200 bg-transparent px-6 py-3 text-left text-xs font-semibold uppercase tracking-normal text-slate-400 opacity-70"
+                        >
+                          event
+                        </th>
+                        <th
+                          class="font-dmSans whitespace-nowrap border-b border-b-gray-200 bg-transparent px-6 py-3 text-left text-xs font-semibold uppercase tracking-normal text-slate-400 opacity-70"
+                        >
+                          message
+                        </th>
+                        <th
+                          class="font-dmSans whitespace-nowrap border-b border-b-gray-200 bg-transparent px-6 py-3 text-left text-xs font-semibold uppercase tracking-normal text-slate-400 opacity-70"
+                        >
+                          rating by
+                        </th>
+                        <th
+                          class="font-dmSans whitespace-nowrap border-b border-b-gray-200 bg-transparent px-6 py-3 text-left text-xs font-semibold uppercase tracking-normal text-slate-400 opacity-70"
+                        >
+                          update at
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr class="hover:bg-slate-500 hover:bg-opacity-5">
+                        <td class="border-b border-b-gray-200 px-6 py-4">
+                          <p class="font-inter text-sm text-slate-400">1</p>
+                        </td>
+                        <td
+                          class="max-w-[105px] place-items-center content-center items-center justify-center border-b border-b-gray-200 px-6 py-4"
+                        >
+                          <img
+                            src="{% static 'examples/4.png' %}"
+                            alt=""
+                            srcset=""
+                            class="shadow-container1 h-20 w-36 rounded-xl object-cover object-center"
+                            draggable="false"
+                          />
+                        </td>
+                        <td
+                          class="font-jost max-w-[250px] border-b border-b-gray-200 px-6 py-4 text-left text-slate-800"
+                        >
+                          <p class="line-clamp-2">
+                            "Solid fundamental explanation. Given it's from Microsoft, providing best real case example
+                            so we can absorb the materials every details."
+                          </p>
+                        </td>
+                        <td class="border-b border-b-gray-200 px-6 py-4">
+                          <div class="flex flex-col gap-1">
+                            <div class="flex flex-row items-center gap-2">
+                              <div class="flex flex-row items-center">
+                                <img src="{% static 'backend/icons/star.svg' %}" alt="" srcset="" class="w-4" />
+                                <img src="{% static 'backend/icons/star.svg' %}" alt="" srcset="" class="w-4" />
+                                <img src="{% static 'backend/icons/star.svg' %}" alt="" srcset="" class="w-4" />
+                                <img src="{% static 'backend/icons/star.svg' %}" alt="" srcset="" class="w-4" />
+                                <img src="{% static 'backend/icons/star_half.svg' %}" alt="" srcset="" class="w-4" />
+                              </div>
+                              <span
+                                class="font-quicksand rounded-lg bg-yellow-500 bg-opacity-10 px-2 py-1 text-xs font-semibold text-yellow-500"
+                              >
+                                4.5/5
+                              </span>
+                            </div>
+                            <div class="flex flex-row items-center gap-2">
+                              <img
+                                src="https://play-lh.googleusercontent.com/hYdIazwJBlPhmN74Yz3m_jU9nA6t02U7ZARfKunt6dauUAB6O3nLHp0v5ypisNt9OJk"
+                                alt=""
+                                srcset=""
+                                class="h-5 w-5 rounded-full object-center"
+                              />
+                              <p class="font-inter text-sm font-medium text-slate-400">Mr. Tanaka</p>
+                            </div>
+                          </div>
+                        </td>
+                        <td class="font-inter border-b border-b-gray-200 px-6 py-4 text-sm font-medium text-slate-500">
+                          5 hours ago.
+                        </td>
+                      </tr>
+                      <tr class="hover:bg-slate-500 hover:bg-opacity-5">
+                        <td class="border-b border-b-gray-200 px-6 py-4">
+                          <p class="font-inter text-sm text-slate-400">2</p>
+                        </td>
+                        <td
+                          class="max-w-[105px] place-items-center content-center items-center justify-center border-b border-b-gray-200 px-6 py-4"
+                        >
+                          <img
+                            src="{% static 'examples/3.png' %}"
+                            alt=""
+                            srcset=""
+                            class="shadow-container1 h-20 w-36 rounded-xl object-cover object-center"
+                            draggable="false"
+                          />
+                        </td>
+                        <td
+                          class="font-jost max-w-[250px] border-b border-b-gray-200 px-6 py-4 text-left text-slate-800"
+                        >
+                          <p class="line-clamp-2">
+                            "Really Comprehensive explanation, easy going and provide complete materials at the and in
+                            free."
+                          </p>
+                        </td>
+                        <td class="border-b border-b-gray-200 px-6 py-4">
+                          <div class="flex flex-col gap-1">
+                            <div class="flex flex-row items-center gap-2">
+                              <div class="flex flex-row items-center">
+                                <img src="{% static 'backend/icons/star.svg' %}" alt="" srcset="" class="w-4" />
+                                <img src="{% static 'backend/icons/star.svg' %}" alt="" srcset="" class="w-4" />
+                                <img src="{% static 'backend/icons/star.svg' %}" alt="" srcset="" class="w-4" />
+                                <img src="{% static 'backend/icons/star.svg' %}" alt="" srcset="" class="w-4" />
+                                <img src="{% static 'backend/icons/star_half.svg' %}" alt="" srcset="" class="w-4" />
+                              </div>
+                              <span
+                                class="font-quicksand rounded-lg bg-yellow-500 bg-opacity-10 px-2 py-1 text-xs font-semibold text-yellow-500"
+                              >
+                                4.5/5
+                              </span>
+                            </div>
+                            <div class="flex flex-row items-center gap-2">
+                              <img
+                                src="https://play-lh.googleusercontent.com/hYdIazwJBlPhmN74Yz3m_jU9nA6t02U7ZARfKunt6dauUAB6O3nLHp0v5ypisNt9OJk"
+                                alt=""
+                                srcset=""
+                                class="h-5 w-5 rounded-full object-center"
+                              />
+                              <p class="font-inter text-sm font-medium text-slate-400">Mr. Tanaka</p>
+                            </div>
+                          </div>
+                        </td>
+                        <td class="font-inter border-b border-b-gray-200 px-6 py-4 text-sm font-medium text-slate-500">
+                          5 hours ago.
+                        </td>
+                      </tr>
+                      <tr class="hover:bg-slate-500 hover:bg-opacity-5">
+                        <td class="border-b border-b-gray-200 px-6 py-4">
+                          <p class="font-inter text-sm text-slate-400">3</p>
+                        </td>
+                        <td
+                          class="max-w-[105px] place-items-center content-center items-center justify-center border-b border-b-gray-200 px-6 py-4"
+                        >
+                          <img
+                            src="{% static 'examples/1.jpg' %}"
+                            alt=""
+                            srcset=""
+                            class="shadow-container1 h-20 w-36 rounded-xl object-cover object-center"
+                            draggable="false"
+                          />
+                        </td>
+                        <td
+                          class="font-jost max-w-[250px] border-b border-b-gray-200 px-6 py-4 text-left text-slate-800"
+                        >
+                          <p class="line-clamp-2">
+                            "Materials is easy to understand, but the explanation is not quite friendly for beginner I
+                            think, since there's lot section that I didn't understand when to use it and what different
+                            with the other tools."
+                          </p>
+                        </td>
+                        <td class="border-b border-b-gray-200 px-6 py-4">
+                          <div class="flex flex-col gap-1">
+                            <div class="flex flex-row items-center gap-2">
+                              <div class="flex flex-row items-center">
+                                <img src="{% static 'backend/icons/star.svg' %}" alt="" srcset="" class="w-4" />
+                                <img src="{% static 'backend/icons/star.svg' %}" alt="" srcset="" class="w-4" />
+                                <img src="{% static 'backend/icons/star.svg' %}" alt="" srcset="" class="w-4" />
+                                <img src="{% static 'backend/icons/star.svg' %}" alt="" srcset="" class="w-4" />
+                                <img src="{% static 'backend/icons/star_half.svg' %}" alt="" srcset="" class="w-4" />
+                              </div>
+                              <span
+                                class="font-quicksand rounded-lg bg-yellow-500 bg-opacity-10 px-2 py-1 text-xs font-semibold text-yellow-500"
+                              >
+                                4.5/5
+                              </span>
+                            </div>
+                            <div class="flex flex-row items-center gap-2">
+                              <img
+                                src="https://play-lh.googleusercontent.com/hYdIazwJBlPhmN74Yz3m_jU9nA6t02U7ZARfKunt6dauUAB6O3nLHp0v5ypisNt9OJk"
+                                alt=""
+                                srcset=""
+                                class="h-5 w-5 rounded-full object-center"
+                              />
+                              <p class="font-inter text-sm font-medium text-slate-400">Mr. Tanaka</p>
+                            </div>
+                          </div>
+                        </td>
+                        <td class="font-inter border-b border-b-gray-200 px-6 py-4 text-sm font-medium text-slate-500">
+                          5 hours ago.
+                        </td>
+                      </tr>
+                      <tr class="hover:bg-slate-500 hover:bg-opacity-5">
+                        <td class="border-b border-b-gray-200 px-6 py-4">
+                          <p class="font-inter text-sm text-slate-400">4</p>
+                        </td>
+                        <td
+                          class="max-w-[105px] place-items-center content-center items-center justify-center border-b border-b-gray-200 px-6 py-4"
+                        >
+                          <img
+                            src="{% static 'examples/2.jpg' %}"
+                            alt=""
+                            srcset=""
+                            class="shadow-container1 h-20 w-36 rounded-xl object-cover object-center"
+                            draggable="false"
+                          />
+                        </td>
+                        <td
+                          class="font-jost max-w-[250px] border-b border-b-gray-200 px-6 py-4 text-left text-slate-800"
+                        >
+                          <p class="line-clamp-2">
+                            “Really Comprehensive explanation, easy going and provide complete materials at the and in
+                            free.”
+                          </p>
+                        </td>
+                        <td class="border-b border-b-gray-200 px-6 py-4">
+                          <div class="flex flex-col gap-1">
+                            <div class="flex flex-row items-center gap-2">
+                              <div class="flex flex-row items-center">
+                                <img src="{% static 'backend/icons/star.svg' %}" alt="" srcset="" class="w-4" />
+                                <img src="{% static 'backend/icons/star.svg' %}" alt="" srcset="" class="w-4" />
+                                <img src="{% static 'backend/icons/star.svg' %}" alt="" srcset="" class="w-4" />
+                                <img src="{% static 'backend/icons/star.svg' %}" alt="" srcset="" class="w-4" />
+                                <img src="{% static 'backend/icons/star_half.svg' %}" alt="" srcset="" class="w-4" />
+                              </div>
+                              <span
+                                class="font-quicksand rounded-lg bg-yellow-500 bg-opacity-10 px-2 py-1 text-xs font-semibold text-yellow-500"
+                              >
+                                4.5/5
+                              </span>
+                            </div>
+                            <div class="flex flex-row items-center gap-2">
+                              <img
+                                src="https://play-lh.googleusercontent.com/hYdIazwJBlPhmN74Yz3m_jU9nA6t02U7ZARfKunt6dauUAB6O3nLHp0v5ypisNt9OJk"
+                                alt=""
+                                srcset=""
+                                class="h-5 w-5 rounded-full object-center"
+                              />
+                              <p class="font-inter text-sm font-medium text-slate-400">Mr. Tanaka</p>
+                            </div>
+                          </div>
+                        </td>
+                        <td class="font-inter border-b border-b-gray-200 px-6 py-4 text-sm font-medium text-slate-500">
+                          5 hours ago.
+                        </td>
+                      </tr>
+                      <tr class="hover:bg-slate-500 hover:bg-opacity-5">
+                        <td class="border-b border-b-gray-200 px-6 py-4">
+                          <p class="font-inter text-sm text-slate-400">5</p>
+                        </td>
+                        <td
+                          class="max-w-[105px] place-items-center content-center items-center justify-center border-b border-b-gray-200 px-6 py-4"
+                        >
+                          <img
+                            src="{% static 'examples/5.png' %}"
+                            alt=""
+                            srcset=""
+                            class="shadow-container1 h-20 w-36 rounded-xl object-cover object-center"
+                            draggable="false"
+                          />
+                        </td>
+                        <td
+                          class="font-jost max-w-[250px] border-b border-b-gray-200 px-6 py-4 text-left text-slate-800"
+                        >
+                          <p class="line-clamp-2">
+                            “Really Comprehensive explanation, easy going and provide complete materials at the and in
+                            free.”
+                          </p>
+                        </td>
+                        <td class="border-b border-b-gray-200 px-6 py-4">
+                          <div class="flex flex-col gap-1">
+                            <div class="flex flex-row items-center gap-2">
+                              <div class="flex flex-row items-center">
+                                <img src="{% static 'backend/icons/star.svg' %}" alt="" srcset="" class="w-4" />
+                                <img src="{% static 'backend/icons/star.svg' %}" alt="" srcset="" class="w-4" />
+                                <img src="{% static 'backend/icons/star.svg' %}" alt="" srcset="" class="w-4" />
+                                <img src="{% static 'backend/icons/star.svg' %}" alt="" srcset="" class="w-4" />
+                                <img src="{% static 'backend/icons/star_half.svg' %}" alt="" srcset="" class="w-4" />
+                              </div>
+                              <span
+                                class="font-quicksand rounded-lg bg-yellow-500 bg-opacity-10 px-2 py-1 text-xs font-semibold text-yellow-500"
+                              >
+                                4.5/5
+                              </span>
+                            </div>
+                            <div class="flex flex-row items-center gap-2">
+                              <img
+                                src="https://play-lh.googleusercontent.com/hYdIazwJBlPhmN74Yz3m_jU9nA6t02U7ZARfKunt6dauUAB6O3nLHp0v5ypisNt9OJk"
+                                alt=""
+                                srcset=""
+                                class="h-5 w-5 rounded-full object-center"
+                              />
+                              <p class="font-inter text-sm font-medium text-slate-400">Mr. Tanaka</p>
+                            </div>
+                          </div>
+                        </td>
+                        <td class="font-inter border-b border-b-gray-200 px-6 py-4 text-sm font-medium text-slate-500">
+                          5 hours ago.
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div class="flex flex-row justify-between">
+                  <span class="flex flex-row items-center gap-1">
+                    <p class="text-sm text-slate-600">
+                      Showing <strong>1</strong> to <strong>3</strong> of <strong>100</strong> entries.
+                    </p>
+                  </span>
+                  <div class="flex flex-row items-center gap-2">
+                    <button
+                      class="font-poppins relative h-10 w-10 rounded-lg bg-blue-500 text-sm font-semibold text-white"
+                      tabindex="-1"
+                    >
+                      <p class="absolute top-2/4 left-2/4 -translate-x-2/4 -translate-y-2/4">1</p>
+                    </button>
+                    <button
+                      class="font-poppins relative h-10 w-10 rounded-lg border border-slate-300 text-sm font-semibold text-slate-300"
+                      tabindex="-1"
+                    >
+                      <p class="absolute top-2/4 left-2/4 -translate-x-2/4 -translate-y-2/4">2</p>
+                    </button>
+                    <button
+                      class="font-poppins relative h-10 w-10 rounded-lg border border-slate-300 text-sm font-semibold text-slate-300"
+                      tabindex="-1"
+                    >
+                      <p class="absolute top-2/4 left-2/4 -translate-x-2/4 -translate-y-2/4">3</p>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </span>
+          </div>
+        </div>
+      </div>
+      <!-- [End Page Content] -->
+    </main>
+    <script src="{% static 'backend/js/binago.js' %}"></script>
+  </body>
+</html>

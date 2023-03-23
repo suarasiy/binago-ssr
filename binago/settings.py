@@ -30,7 +30,17 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'authentication',
+    'tailwind',
+    'theme',
+    'django_browser_reload',
     'django_cleanup.apps.CleanupConfig'
+]
+
+TAILWIND_APP_NAME = 'theme'
+# NPM_BIN_PATH = os.getenv('NPM_BIN_PATH')
+NPM_BIN_PATH = r"C:\Program Files\nodejs\npm.cmd"
+INTERNAL_IPS = [
+    "127.0.0.1"
 ]
 
 AUTH_USER_MODEL = 'authentication.User'
@@ -43,6 +53,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django_browser_reload.middleware.BrowserReloadMiddleware',
 ]
 
 ROOT_URLCONF = 'binago.urls'
@@ -50,7 +61,9 @@ ROOT_URLCONF = 'binago.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            'templates', os.path.join(BASE_DIR, 'templates')
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

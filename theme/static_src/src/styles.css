@@ -19,6 +19,29 @@
     @apply border border-red-500;
   }
 
+  .aside__navigation {
+    @apply sticky top-8 h-[calc(100vh-4rem)] w-fit flex-shrink-0 select-none overflow-hidden rounded-2xl bg-white;
+  }
+
+  .aside__navigation ::-webkit-scrollbar {
+    width: 7px;
+  }
+
+  .aside__navigation ::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 10px 10px rgb(231, 236, 241);
+    border: solid 0px transparent;
+  }
+
+  .aside__navigation ::-webkit-scrollbar-thumb {
+    box-shadow: inset 0 0 10px 10px rgb(199, 215, 231, 0.75);
+    border: solid 0px transparent;
+    border-radius: 15px;
+  }
+
+  .aside__navigation ::-webkit-scrollbar-thumb:hover {
+    box-shadow: inset 0 0 10px 10px rgb(140, 166, 193);
+  }
+
   .nav__menu {
     @apply relative mb-3 flex cursor-pointer flex-row items-center gap-3 rounded-lg px-5 py-4 font-notoSans text-sm font-normal text-slate-700 transition-all duration-300 ease-out hover:bg-blue-500 hover:bg-opacity-10 active:scale-95;
   }
@@ -54,6 +77,25 @@
     image-rendering: -webkit-optimize-contrast; /* Webkit (non-standard naming) */
     image-rendering: crisp-edges;
     -ms-interpolation-mode: nearest-neighbor; /* IE (non-standard property) */
+  }
+
+  ::-webkit-scrollbar {
+    width: 13px;
+  }
+
+  ::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 10px 10px transparent;
+    border: solid 3px transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    box-shadow: inset 0 0 10px 10px rgb(140, 166, 193, 0.75);
+    border: solid 3px transparent;
+    border-radius: 15px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    box-shadow: inset 0 0 10px 10px rgb(140, 166, 193);
   }
 
   html {

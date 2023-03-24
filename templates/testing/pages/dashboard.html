@@ -12,103 +12,109 @@
     <div class="absolute top-0 z-0 h-64 w-full rounded-b-3xl bg-blue-500"></div>
     <main class="relative flex flex-row gap-5 p-8">
       <!-- [Sidebar Navigation] -->
-      <aside
-        class="bg-red sticky top-8 flex h-fit w-fit flex-shrink-0 select-none flex-col gap-8 rounded-2xl bg-white p-5"
-      >
-        <div class="self-center py-3">
-          <img src="{% static 'web/logo.png' %}" alt="" srcset="" class="w-52 object-contain px-2" />
-        </div>
-        <hr />
-        <!-- MENU: DASHBOARD -->
-        <div class="">
-          <div class="nav__menu nav__menu--active" data-target-menu="menu-dashboard">
-            <img src="{% static 'backend/icons/menu_dashboard.svg' %}" alt="" srcset="" class="w-6" draggable="false" />
-            <span class="flex w-full flex-row justify-between">
-              <p>Dashboard</p>
+      <aside class="aside__navigation">
+        <div class="flex h-full flex-col gap-8 overflow-y-scroll py-5 pr-5 pl-5" aria-role="aside-wrapper">
+          <div class="self-center py-3">
+            <img src="{% static 'web/logo.png' %}" alt="" srcset="" class="w-52 object-contain px-2" />
+          </div>
+          <hr />
+          <!-- MENU: DASHBOARD -->
+          <div class="">
+            <div class="nav__menu nav__menu--active" data-target-menu="menu-dashboard">
               <img
-                src="{% static 'backend/icons/chevron.svg' %}"
+                src="{% static 'backend/icons/menu_dashboard.svg' %}"
                 alt=""
                 srcset=""
-                class="indicator indicator--active"
+                class="w-6"
                 draggable="false"
               />
-            </span>
+              <span class="flex w-full flex-row justify-between">
+                <p>Dashboard</p>
+                <img
+                  src="{% static 'backend/icons/chevron.svg' %}"
+                  alt=""
+                  srcset=""
+                  class="indicator indicator--active"
+                  draggable="false"
+                />
+              </span>
+            </div>
+            <div id="menu-dashboard" class="nav__sub__menu">
+              <a href="" class="py-2 hover:text-slate-700">Events</a>
+              <a href="" class="py-2 hover:text-slate-700">Payments</a>
+              <a href="" class="py-2 hover:text-slate-700">Customer</a>
+              <a href="" class="py-2 hover:text-slate-700">Provider</a>
+            </div>
           </div>
-          <div id="menu-dashboard" class="nav__sub__menu">
-            <a href="" class="py-2 hover:text-slate-700">Events</a>
-            <a href="" class="py-2 hover:text-slate-700">Payments</a>
-            <a href="" class="py-2 hover:text-slate-700">Customer</a>
-            <a href="" class="py-2 hover:text-slate-700">Provider</a>
+          <!-- MENU: EVENTS -->
+          <div class="">
+            <div class="nav__menu" data-target-menu="menu-events">
+              <img src="{% static 'backend/icons/menu_events.svg' %}" alt="" srcset="" class="w-6" draggable="false" />
+              <span class="flex w-full flex-row justify-between">
+                <p>Events</p>
+                <img
+                  src="{% static 'backend/icons/chevron.svg' %}"
+                  alt=""
+                  srcset=""
+                  class="indicator"
+                  draggable="false"
+                />
+              </span>
+            </div>
+            <div id="menu-events" class="nav__sub__menu nav__sub__menu--hide">
+              <a href="" class="py-2 hover:text-slate-700">Data</a>
+              <a href="" class="py-2 hover:text-slate-700">Summary</a>
+            </div>
           </div>
-        </div>
-        <!-- MENU: EVENTS -->
-        <div class="">
-          <div class="nav__menu" data-target-menu="menu-events">
-            <img src="{% static 'backend/icons/menu_events.svg' %}" alt="" srcset="" class="w-6" draggable="false" />
-            <span class="flex w-full flex-row justify-between">
-              <p>Events</p>
+          <!-- MENU: ORGANIZERS -->
+          <div class="">
+            <div class="nav__menu" data-target-menu="menu-organizers">
               <img
-                src="{% static 'backend/icons/chevron.svg' %}"
+                src="{% static 'backend/icons/menu_organizers.svg' %}"
                 alt=""
                 srcset=""
-                class="indicator"
+                class="w-6"
                 draggable="false"
               />
-            </span>
+              <span class="flex w-full flex-row justify-between">
+                <p>Organizers</p>
+                <img
+                  src="{% static 'backend/icons/chevron.svg' %}"
+                  alt=""
+                  srcset=""
+                  class="indicator"
+                  draggable="false"
+                />
+              </span>
+            </div>
+            <div id="menu-organizers" class="nav__sub__menu nav__sub__menu--hide">
+              <a href="" class="py-2 hover:text-slate-700">Data</a>
+              <a href="" class="py-2 hover:text-slate-700">Summary</a>
+            </div>
           </div>
-          <div id="menu-events" class="nav__sub__menu nav__sub__menu--hide">
-            <a href="" class="py-2 hover:text-slate-700">Data</a>
-            <a href="" class="py-2 hover:text-slate-700">Summary</a>
+          <!-- MENU: USERS -->
+          <div class="">
+            <div class="nav__menu" data-target-menu="menu-users">
+              <img src="{% static 'backend/icons/menu_users.svg' %}" alt="" srcset="" class="w-6" draggable="false" />
+              <span class="flex w-full flex-row justify-between">
+                <p>Users</p>
+                <img
+                  src="{% static 'backend/icons/chevron.svg' %}"
+                  alt=""
+                  srcset=""
+                  class="indicator"
+                  draggable="false"
+                />
+              </span>
+            </div>
+            <div id="menu-users" class="nav__sub__menu nav__sub__menu">
+              <a href="" class="py-2 hover:text-slate-700">Data</a>
+              <a href="" class="py-2 hover:text-slate-700">Summary</a>
+            </div>
           </div>
+          <hr />
+          <small class="font-poppins mb-2 text-center text-xs text-slate-400">&copy; Binago Staff, 2023.</small>
         </div>
-        <!-- MENU: ORGANIZERS -->
-        <div class="">
-          <div class="nav__menu" data-target-menu="menu-organizers">
-            <img
-              src="{% static 'backend/icons/menu_organizers.svg' %}"
-              alt=""
-              srcset=""
-              class="w-6"
-              draggable="false"
-            />
-            <span class="flex w-full flex-row justify-between">
-              <p>Organizers</p>
-              <img
-                src="{% static 'backend/icons/chevron.svg' %}"
-                alt=""
-                srcset=""
-                class="indicator"
-                draggable="false"
-              />
-            </span>
-          </div>
-          <div id="menu-organizers" class="nav__sub__menu nav__sub__menu--hide">
-            <a href="" class="py-2 hover:text-slate-700">Data</a>
-            <a href="" class="py-2 hover:text-slate-700">Summary</a>
-          </div>
-        </div>
-        <!-- MENU: USERS -->
-        <div class="">
-          <div class="nav__menu" data-target-menu="menu-users">
-            <img src="{% static 'backend/icons/menu_users.svg' %}" alt="" srcset="" class="w-6" draggable="false" />
-            <span class="flex w-full flex-row justify-between">
-              <p>Users</p>
-              <img
-                src="{% static 'backend/icons/chevron.svg' %}"
-                alt=""
-                srcset=""
-                class="indicator"
-                draggable="false"
-              />
-            </span>
-          </div>
-          <div id="menu-users" class="nav__sub__menu nav__sub__menu">
-            <a href="" class="py-2 hover:text-slate-700">Data</a>
-            <a href="" class="py-2 hover:text-slate-700">Summary</a>
-          </div>
-        </div>
-        <hr />
-        <small class="font-poppins mb-2 text-center text-xs text-slate-400">&copy; Binago Staff, 2023.</small>
       </aside>
       <!-- [End Sidebar Navigation] -->
       <!-- [Page Content] -->

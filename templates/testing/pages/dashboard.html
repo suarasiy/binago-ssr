@@ -8,8 +8,10 @@
     {% tailwind_css %}
     <title>{{ title }}</title>
   </head>
-  <body class="bg-gray-50">
-    <div class="absolute top-0 z-0 h-64 w-full rounded-b-3xl bg-blue-500"></div>
+  <body class="flex flex-col gap-5 bg-gray-50">
+    <div
+      class="absolute top-0 z-0 h-64 w-full rounded-b-3xl bg-gradient-to-br from-sky-500 via-blue-500 to-blue-500"
+    ></div>
     <main class="relative flex flex-row gap-5 p-8">
       <!-- [Sidebar Navigation] -->
       <aside class="aside__navigation">
@@ -40,7 +42,7 @@
               </span>
             </div>
             <div id="menu-dashboard" class="nav__sub__menu">
-              <a href="" class="py-2 hover:text-slate-700">Events</a>
+              <a href="" class="py-2 font-medium text-slate-800">Events</a>
               <a href="" class="py-2 hover:text-slate-700">Payments</a>
               <a href="" class="py-2 hover:text-slate-700">Customer</a>
               <a href="" class="py-2 hover:text-slate-700">Provider</a>
@@ -119,7 +121,8 @@
       <!-- [End Sidebar Navigation] -->
       <!-- [Page Content] -->
       <div class="flex w-full flex-col">
-        <div class="flex flex-row justify-between p-5 text-white">
+        <!-- [Top Menu Content] -->
+        <div class="flex select-none flex-row justify-between p-5 text-white">
           <div class="flex flex-col gap-2">
             <!-- [Breadcrumb] -->
             <div class="font-poppins flex flex-row items-center gap-2">
@@ -158,9 +161,103 @@
             </button>
           </div>
         </div>
+        <!-- [End Top Menu Content] -->
         <!-- [Main Container Area] -->
         <div class="p-5">
-          <div class="grid grid-cols-3 gap-6">
+          <div class="grid grid-cols-3 gap-7">
+            <span class="select-none">
+              <div class="shadow-container3 flex h-max flex-col gap-4 rounded-xl bg-white p-5">
+                <div class="flex flex-row justify-between">
+                  <div class="font-poppins flex flex-col gap-1">
+                    <small class="font-jost text-sm font-semibold uppercase text-slate-400">
+                      <span class="rounded-md bg-emerald-500 bg-opacity-10 px-1 py-[2px] text-xs text-emerald-500"
+                        >Attended</span
+                      >
+                      vs
+                      <span class="rounded-md bg-slate-500 bg-opacity-10 px-1 py-[2px] text-xs text-slate-500"
+                        >Unattended</span
+                      >
+                      Users
+                    </small>
+                    <span class="font-dmSans py-5 pl-1 text-5xl font-semibold text-slate-900">169</span>
+                    <small class="font-poppins text-xs font-medium text-slate-600"
+                      >Registered users <strong class="font-semibold text-green-600">+27% (45)</strong> since the last
+                      month.</small
+                    >
+                  </div>
+                  <div class="">
+                    <div id="chart-widget-1" class="h-32 w-32"></div>
+                  </div>
+                </div>
+              </div>
+            </span>
+            <span class="select-none">
+              <div class="shadow-container3 flex h-max flex-col gap-4 rounded-xl bg-white p-5">
+                <div class="flex flex-row justify-between">
+                  <div class="font-poppins flex flex-col gap-1">
+                    <small class="font-jost text-sm font-semibold uppercase text-slate-400">
+                      <span class="rounded-md bg-emerald-500 bg-opacity-10 px-1 py-[2px] text-emerald-500">Free</span>
+                      vs
+                      <span class="rounded-md bg-blue-500 bg-opacity-10 px-1 py-[2px] text-blue-500">Paid</span>
+                      Events
+                    </small>
+                    <span class="font-dmSans py-5 pl-1 text-5xl font-semibold text-slate-900">260</span>
+                    <small class="font-poppins text-xs font-medium text-slate-600"
+                      >Registered events <strong class="font-semibold text-green-600">+30% (78)</strong> since the last
+                      month.</small
+                    >
+                  </div>
+                  <div class="">
+                    <div id="chart-widget-2" class="h-32 w-32"></div>
+                  </div>
+                </div>
+              </div>
+            </span>
+            <span class="select-none">
+              <div
+                class="shadow-container3 relative flex h-max flex-col gap-4 overflow-hidden rounded-xl bg-gradient-to-br from-sky-500 to-blue-500 p-5"
+              >
+                <div class="z-[1] flex flex-row justify-between">
+                  <div class="font-poppins flex flex-col gap-1">
+                    <small class="font-jost text-sm font-semibold uppercase text-white text-opacity-70"
+                      >Overall Ratings</small
+                    >
+                    <span
+                      class="font-dmSans flex flex-row items-center gap-2 py-5 pl-1 text-5xl font-semibold text-white text-opacity-90"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        fill="currentColor"
+                        class="w-16 text-white text-opacity-80"
+                      >
+                        <path
+                          fill-rule="evenodd"
+                          d="M10.702,2.781C10.957,2.301,11.456,2,12,2s1.043,0.301,1.298,0.781l2.463,4.645c0.028,0.054,0.069,0.1,0.118,0.136c0.049,0.036,0.106,0.06,0.166,0.07l5.178,0.907c0.536,0.094,0.975,0.476,1.144,0.993c0.168,0.517,0.037,1.085-0.342,1.476l-3.656,3.778c-0.042,0.044-0.074,0.097-0.093,0.154c-0.019,0.058-0.024,0.119-0.016,0.18l0.737,5.205c0.076,0.538-0.151,1.075-0.591,1.395c-0.44,0.32-1.02,0.37-1.509,0.131l-4.722-2.31C12.121,19.514,12.061,19.5,12,19.5s-0.121,0.014-0.176,0.04l-4.722,2.31c-0.489,0.239-1.069,0.188-1.509-0.131c-0.44-0.32-0.667-0.856-0.591-1.395l0.737-5.205c0.009-0.06,0.003-0.122-0.016-0.18c-0.019-0.058-0.05-0.111-0.093-0.154l-3.656-3.778c-0.378-0.391-0.51-0.959-0.342-1.476c0.168-0.517,0.608-0.899,1.144-0.993l5.178-0.907c0.06-0.011,0.117-0.035,0.166-0.07c0.049-0.036,0.09-0.082,0.118-0.136L10.702,2.781z"
+                          clip-rule="evenodd"
+                        />
+                      </svg>
+                      <p class="flex flex-row items-end font-semibold">
+                        4,3 <small class="text-xs font-normal opacity-70">/ 5.0</small>
+                      </p>
+                    </span>
+                    <small class="font-poppins text-xs font-medium text-slate-100"
+                      >From <strong class="font-semibold text-green-200">78</strong> users that attended in different
+                      webinars over the month.</small
+                    >
+                  </div>
+                </div>
+                <img
+                  src="{% static 'web/assets/ui_widget_stars.png' %}"
+                  alt=""
+                  srcset=""
+                  class="absolute inset-0 z-0 h-full w-full scale-110 object-cover object-center opacity-50"
+                />
+                <div
+                  class="absolute bottom-0 left-0 right-0 z-0 h-14 w-full bg-gradient-to-t from-sky-500 to-transparent"
+                ></div>
+              </div>
+            </span>
             <span class="col-span-2">
               <div class="shadow-container3 flex flex-col gap-4 rounded-xl bg-white p-5">
                 <div class="flex flex-row justify-between">
@@ -174,7 +271,10 @@
                     >Monthly</span
                   >
                 </div>
-                <span class="bg-slate-container border-slate-container rounded-xl border bg-opacity-10 p-5">
+                <div class="container__group">
+                  <div id="main" class="h-96"></div>
+                </div>
+                <span class="container__group">
                   <p>
                     Lorem ipsum dolor sit amet consectetur adipisicing elit. Incidunt cum adipisci excepturi. Minima
                     neque placeat alias deserunt fugiat dolores quos recusandae exercitationem incidunt odit libero quam
@@ -202,7 +302,10 @@
                     >Monthly</span
                   >
                 </div>
-                <span class="bg-slate-container border-slate-container rounded-xl border bg-opacity-10 p-5">
+                <div class="container__group">
+                  <div id="main-donuts" class="h-96"></div>
+                </div>
+                <span class="container__group">
                   <p>
                     Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet qui ipsam facilis vel hic neque
                     ratione, quisquam mollitia voluptatibus quae.
@@ -537,19 +640,19 @@
                   </span>
                   <div class="flex flex-row items-center gap-2">
                     <button
-                      class="font-poppins relative h-10 w-10 rounded-lg bg-blue-500 text-sm font-semibold text-white"
+                      class="font-poppins relative h-10 w-10 rounded-lg bg-blue-500 text-sm font-semibold text-white hover:bg-opacity-80"
                       tabindex="-1"
                     >
                       <p class="absolute top-2/4 left-2/4 -translate-x-2/4 -translate-y-2/4">1</p>
                     </button>
                     <button
-                      class="font-poppins relative h-10 w-10 rounded-lg border border-slate-300 text-sm font-semibold text-slate-300"
+                      class="font-poppins relative h-10 w-10 rounded-lg border border-slate-300 text-sm font-semibold text-slate-300 hover:border-slate-400 hover:text-slate-400"
                       tabindex="-1"
                     >
                       <p class="absolute top-2/4 left-2/4 -translate-x-2/4 -translate-y-2/4">2</p>
                     </button>
                     <button
-                      class="font-poppins relative h-10 w-10 rounded-lg border border-slate-300 text-sm font-semibold text-slate-300"
+                      class="font-poppins relative h-10 w-10 rounded-lg border border-slate-300 text-sm font-semibold text-slate-300 hover:border-slate-400 hover:text-slate-400"
                       tabindex="-1"
                     >
                       <p class="absolute top-2/4 left-2/4 -translate-x-2/4 -translate-y-2/4">3</p>
@@ -558,11 +661,330 @@
                 </div>
               </div>
             </span>
+            <span class="col-span-3">
+              <div class="shadow-container3 flex h-max flex-col gap-4 rounded-xl bg-white p-5">
+                <div class="flex flex-row justify-between">
+                  <div class="font-poppins flex flex-col gap-1">
+                    <p class="font-medium text-slate-900">Events on this months</p>
+                    <small class="text-xs font-light text-slate-600"
+                      >Shows the events that registered in this months. It's included event that already done, upcoming
+                      and even today.</small
+                    >
+                  </div>
+                  <span class="h-fit rounded-md bg-blue-400 bg-opacity-10 px-3 py-2 text-sm font-semibold text-blue-500"
+                    >Monthly</span
+                  >
+                </div>
+                <div class="container__group">
+                  <div id="calendar" class="calendar"></div>
+                </div>
+              </div>
+            </span>
           </div>
         </div>
       </div>
       <!-- [End Page Content] -->
     </main>
+    <footer class="shadow-container1 rounded-t-xl bg-white py-8 px-10">
+      <div class="flex flex-row gap-6">
+        <img src="{% static 'web/logo.png' %}" alt="" srcset="" class="w-44 object-contain" draggable="false" />
+        <div class="font-poppins flex flex-col gap-2">
+          <small class="text-sm font-medium text-slate-600"
+            >Build with love and patiently, <strong class="font-semibold">Binago Team .Inc</strong></small
+          >
+          <small class="text-xs font-normal text-slate-400">Ease Kalimantan, Samarinda. Indonesia</small>
+        </div>
+      </div>
+    </footer>
     <script src="{% static 'backend/js/binago.js' %}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.1/dist/echarts.min.js"></script>
+    <script src="{% static 'backend/js/binago_dashboard_events.js' %}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.5/index.global.min.js"></script>
+    <script>
+      const chartDom = document.querySelector('#main');
+      const myChart = echarts.init(chartDom);
+      const option = {
+        color: ['#80FFA5', '#00DDFF', '#37A2FF', '#FF0087', '#FFBF00'],
+        title: {
+          text: 'Gradient Stacked Area Chart',
+        },
+        tooltip: {
+          trigger: 'axis',
+          axisPointer: {
+            type: 'cross',
+            label: {
+              backgroundColor: '#6a7985',
+            },
+          },
+        },
+        legend: {
+          data: ['Line 1', 'Line 2', 'Line 3', 'Line 4', 'Line 5'],
+        },
+        toolbox: {
+          feature: {
+            saveAsImage: {},
+          },
+        },
+        grid: {
+          left: '3%',
+          right: '4%',
+          bottom: '3%',
+          containLabel: true,
+        },
+        xAxis: [
+          {
+            type: 'category',
+            boundaryGap: false,
+            data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+          },
+        ],
+        yAxis: [
+          {
+            type: 'value',
+          },
+        ],
+        series: [
+          {
+            name: 'Line 1',
+            type: 'line',
+            stack: 'Total',
+            smooth: true,
+            lineStyle: {
+              width: 0,
+            },
+            showSymbol: false,
+            areaStyle: {
+              opacity: 0.8,
+              color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                {
+                  offset: 0,
+                  color: 'rgb(128, 255, 165)',
+                },
+                {
+                  offset: 1,
+                  color: 'rgb(1, 191, 236)',
+                },
+              ]),
+            },
+            emphasis: {
+              focus: 'series',
+            },
+            data: [140, 232, 101, 264, 90, 340, 250],
+          },
+          {
+            name: 'Line 2',
+            type: 'line',
+            stack: 'Total',
+            smooth: true,
+            lineStyle: {
+              width: 0,
+            },
+            showSymbol: false,
+            areaStyle: {
+              opacity: 0.8,
+              color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                {
+                  offset: 0,
+                  color: 'rgb(0, 221, 255)',
+                },
+                {
+                  offset: 1,
+                  color: 'rgb(77, 119, 255)',
+                },
+              ]),
+            },
+            emphasis: {
+              focus: 'series',
+            },
+            data: [120, 282, 111, 234, 220, 340, 310],
+          },
+          {
+            name: 'Line 3',
+            type: 'line',
+            stack: 'Total',
+            smooth: true,
+            lineStyle: {
+              width: 0,
+            },
+            showSymbol: false,
+            areaStyle: {
+              opacity: 0.8,
+              color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                {
+                  offset: 0,
+                  color: 'rgb(55, 162, 255)',
+                },
+                {
+                  offset: 1,
+                  color: 'rgb(116, 21, 219)',
+                },
+              ]),
+            },
+            emphasis: {
+              focus: 'series',
+            },
+            data: [320, 132, 201, 334, 190, 130, 220],
+          },
+          {
+            name: 'Line 4',
+            type: 'line',
+            stack: 'Total',
+            smooth: true,
+            lineStyle: {
+              width: 0,
+            },
+            showSymbol: false,
+            areaStyle: {
+              opacity: 0.8,
+              color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                {
+                  offset: 0,
+                  color: 'rgb(255, 0, 135)',
+                },
+                {
+                  offset: 1,
+                  color: 'rgb(135, 0, 157)',
+                },
+              ]),
+            },
+            emphasis: {
+              focus: 'series',
+            },
+            data: [220, 402, 231, 134, 190, 230, 120],
+          },
+          {
+            name: 'Line 5',
+            type: 'line',
+            stack: 'Total',
+            smooth: true,
+            lineStyle: {
+              width: 0,
+            },
+            showSymbol: false,
+            label: {
+              show: true,
+              position: 'top',
+            },
+            areaStyle: {
+              opacity: 0.8,
+              color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                {
+                  offset: 0,
+                  color: 'rgb(255, 191, 0)',
+                },
+                {
+                  offset: 1,
+                  color: 'rgb(224, 62, 76)',
+                },
+              ]),
+            },
+            emphasis: {
+              focus: 'series',
+            },
+            data: [220, 302, 181, 234, 210, 290, 150],
+          },
+        ],
+      };
+
+      myChart.setOption(option);
+    </script>
+    <script>
+      const chartDomDonuts = document.querySelector('#main-donuts');
+      const myChartDonuts = echarts.init(chartDomDonuts);
+      const optionDonuts = {
+        tooltip: {
+          trigger: 'item',
+        },
+        legend: {
+          top: '5%',
+          left: 'center',
+        },
+        series: [
+          {
+            name: 'Access From',
+            type: 'pie',
+            radius: ['40%', '70%'],
+            avoidLabelOverlap: false,
+            itemStyle: {
+              borderRadius: 10,
+              borderColor: '#fff',
+              borderWidth: 2,
+            },
+            label: {
+              show: false,
+              position: 'center',
+            },
+            emphasis: {
+              label: {
+                show: true,
+                fontSize: 40,
+                fontWeight: 'bold',
+              },
+            },
+            labelLine: {
+              show: false,
+            },
+            data: [
+              { value: 1048, name: 'Search Engine' },
+              { value: 735, name: 'Direct' },
+              { value: 580, name: 'Email' },
+              { value: 484, name: 'Union Ads' },
+              { value: 300, name: 'Video Ads' },
+            ],
+          },
+        ],
+      };
+
+      optionDonuts && myChartDonuts.setOption(optionDonuts);
+    </script>
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        var calendarEl = document.getElementById('calendar');
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+          initialView: 'dayGridMonth',
+          headerToolbar: {
+            left: 'prev,next today',
+            center: 'title',
+            right: 'dayGridMonth,timeGridWeek,timeGridDay',
+          },
+          selectable: true,
+          nowIndicator: true,
+          events: [
+            {
+              title: 'VMWare Webinar - Build From Zero Trust',
+              start: '2023-03-24T10:30:00',
+              end: '2023-03-26T23:59:00',
+              customRender: true,
+              colorStyle: 'calendar-green',
+            },
+            {
+              title: 'Microsoft Azure - Hybrid Innovation with Azure Stack HCI and Intel',
+              start: '2023-03-24',
+              customRender: true,
+              colorStyle: 'calendar-blue',
+            },
+            {
+              title: 'Webinar Q&A Session Microsoft Teams Live Event',
+              start: '2023-03-12',
+              customRender: true,
+              colorStyle: 'calendar-red',
+            },
+            {
+              title: 'Opening',
+              start: '2023-03-24T10:30:00',
+            },
+          ],
+          eventDidMount: (info) => {
+            if (info.event.extendedProps.customRender) {
+              info.el.classList.add('calendar__event');
+            }
+            if (info.event.extendedProps.customRender && info.event.extendedProps.colorStyle) {
+              info.el.classList.add(info.event.extendedProps.colorStyle);
+            }
+          },
+        });
+        calendar.render();
+      });
+    </script>
   </body>
 </html>

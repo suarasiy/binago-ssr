@@ -1,0 +1,94 @@
+<!-- -->
+{% load static %}
+
+<!-- -->
+{% load active_link_tags %}
+
+<aside class="aside__navigation">
+  <div class="flex h-full flex-col gap-8 overflow-y-scroll py-5 pr-5 pl-5" aria-role="aside-wrapper">
+    <div class="self-center py-3">
+      <img src="{% static 'web/logo.png' %}" alt="" srcset="" class="w-52 object-contain px-2" />
+    </div>
+    <hr />
+    <!-- MENU: DASHBOARD -->
+    <div class="">
+      <div
+        class="nav__menu {% active_link 'dashboard-events' 'nav__menu--active' strict=True %}"
+        data-target-menu="menu-dashboard"
+      >
+        <img src="{% static 'backend/icons/menu_dashboard.svg' %}" alt="" srcset="" class="w-6" draggable="false" />
+        <span class="flex w-full flex-row justify-between">
+          <p>Overview</p>
+          <img
+            src="{% static 'backend/icons/chevron.svg' %}"
+            alt=""
+            srcset=""
+            class="indicator {% active_link 'dashboard-events' 'indicator--active' strict=True %}"
+            draggable="false"
+          />
+        </span>
+      </div>
+      <div id="menu-dashboard" class="nav__sub__menu">
+        <a
+          href="{% url 'dashboard-events' %}"
+          class="link {% active_link 'dashboard-events' 'link--active' strict=True %}"
+          >Events</a
+        >
+        <a href="" class="link">Payments</a>
+        <a href="" class="link">Customer</a>
+        <a href="" class="link">Provider</a>
+      </div>
+    </div>
+    <!-- MENU: EVENTS -->
+    <div class="">
+      <div class="nav__menu {% active_link 'events' 'nav__menu--active' %}" data-target-menu="menu-events">
+        <img src="{% static 'backend/icons/menu_events.svg' %}" alt="" srcset="" class="w-6" draggable="false" />
+        <span class="flex w-full flex-row justify-between">
+          <p>Events</p>
+          <img
+            src="{% static 'backend/icons/chevron.svg' %}"
+            alt=""
+            srcset=""
+            class="indicator {% active_link 'events' 'indicator--active' %}"
+            draggable="false"
+          />
+        </span>
+      </div>
+      <div id="menu-events" class="nav__sub__menu nav__sub__menu--hide">
+        <a href="{% url 'events' %}" class="link {% active_link 'events' 'link--active' %}">Data</a>
+        <a href="" class="link">Summary</a>
+      </div>
+    </div>
+    <!-- MENU: ORGANIZERS -->
+    <div class="">
+      <div class="nav__menu" data-target-menu="menu-organizers">
+        <img src="{% static 'backend/icons/menu_organizers.svg' %}" alt="" srcset="" class="w-6" draggable="false" />
+        <span class="flex w-full flex-row justify-between">
+          <p>Organizers</p>
+          <img src="{% static 'backend/icons/chevron.svg' %}" alt="" srcset="" class="indicator" draggable="false" />
+        </span>
+      </div>
+      <div id="menu-organizers" class="nav__sub__menu nav__sub__menu--hide">
+        <a href="" class="py-2 hover:text-slate-700">Data</a>
+        <a href="" class="py-2 hover:text-slate-700">Profile</a>
+        <a href="" class="py-2 hover:text-slate-700">Summary</a>
+      </div>
+    </div>
+    <!-- MENU: USERS -->
+    <div class="">
+      <div class="nav__menu" data-target-menu="menu-users">
+        <img src="{% static 'backend/icons/menu_users.svg' %}" alt="" srcset="" class="w-6" draggable="false" />
+        <span class="flex w-full flex-row justify-between">
+          <p>Users</p>
+          <img src="{% static 'backend/icons/chevron.svg' %}" alt="" srcset="" class="indicator" draggable="false" />
+        </span>
+      </div>
+      <div id="menu-users" class="nav__sub__menu nav__sub__menu">
+        <a href="" class="py-2 hover:text-slate-700">Data</a>
+        <a href="" class="py-2 hover:text-slate-700">Summary</a>
+      </div>
+    </div>
+    <hr />
+    <small class="font-poppins mb-2 text-center text-xs text-slate-400">&copy; Binago Staff, 2023.</small>
+  </div>
+</aside>

@@ -7,6 +7,7 @@
 <!-- -->
 {% block css %}
 <link rel="stylesheet" href="https://unpkg.com/tippy.js@6.3.7/animations/scale.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" />
 {% endblock %}
 
 <!-- -->
@@ -27,7 +28,7 @@
           type="text"
           name="title"
           id="title"
-          class="rounded-xl border border-slate-200 bg-white px-4 py-3 focus:border-transparent focus:ring-2 focus:ring-blue-500"
+          class="rounded-xl border border-slate-200 bg-white px-4 py-3 ring-0 transition-all duration-150 ease-out focus:border-transparent focus:ring-2 focus:ring-blue-500 focus:ring-offset-1"
           placeholder="Write your event title"
           spellcheck="false"
         />
@@ -39,7 +40,7 @@
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
             fill="currentColor"
-            class="w-4 text-slate-500 outline-none"
+            class="w-4 cursor-pointer text-slate-500 outline-none transition-all duration-150 ease-out hover:scale-110 hover:text-slate-700"
             data-tippy-content="Limit the maximum of user who can register to the event"
           >
             <path
@@ -52,19 +53,19 @@
           min="0"
           name="max-audience"
           id="max-audience"
-          class="rounded-xl border border-slate-200 bg-white px-4 py-3 focus:border-transparent focus:ring-2 focus:ring-blue-500"
+          class="rounded-xl border border-slate-200 bg-white px-4 py-3 ring-0 transition-all duration-150 ease-out focus:border-transparent focus:ring-2 focus:ring-blue-500 focus:ring-offset-1"
           placeholder="Total max audience / seat"
         />
       </div>
       <div class="flex flex-col gap-2">
-        <label for="fee" class="cursor-pointer text-sm font-semibold text-slate-500">Fee for Attended</label>
+        <label for="fee" class="cursor-pointer text-sm font-semibold text-slate-500">Registration Fee</label>
         <input
           type="number"
           min="0"
           value="0"
           name="fee"
           id="fee"
-          class="rounded-xl border border-slate-200 bg-white px-4 py-3 focus:border-transparent focus:ring-2 focus:ring-blue-500"
+          class="rounded-xl border border-slate-200 bg-white px-4 py-3 ring-0 transition-all duration-150 ease-out focus:border-transparent focus:ring-2 focus:ring-blue-500 focus:ring-offset-1"
           placeholder="Set it to 0 if it's free"
         />
       </div>
@@ -75,7 +76,7 @@
           min="0"
           name="category"
           id="category"
-          class="rounded-xl border border-slate-200 bg-white px-4 py-3 focus:border-transparent focus:ring-2 focus:ring-blue-500"
+          class="rounded-xl border border-slate-200 bg-white px-4 py-3 ring-0 transition-all duration-150 ease-out focus:border-transparent focus:ring-2 focus:ring-blue-500 focus:ring-offset-1"
           placeholder="Category event field"
         />
       </div>
@@ -85,10 +86,119 @@
           name="description"
           id="description"
           rows="4"
-          class="min-h-[50px] rounded-xl border border-slate-200 bg-white px-4 py-3 focus:border-transparent focus:ring-2 focus:ring-blue-500"
+          class="min-h-[50px] rounded-xl border border-slate-200 bg-white px-4 py-3 ring-0 transition-all duration-150 ease-out focus:border-transparent focus:ring-2 focus:ring-blue-500 focus:ring-offset-1"
           placeholder="Describe your event goals..."
           spellcheck="false"
         ></textarea>
+      </div>
+      <div class="col-span-3 flex flex-col gap-2">
+        <label for="banner" class="cursor-pointer text-sm font-semibold text-slate-500">Banner Image</label>
+        <div class="grid grid-cols-2 gap-5">
+          <img
+            src="{% static 'web/assets/event_no_banner.png' %}"
+            alt=""
+            srcset=""
+            id="preview_banner"
+            class="h-40 w-full rounded-xl border border-slate-200 bg-white object-cover hover:object-contain"
+          />
+          <div class="flex flex-col gap-2">
+            <label for="banner" class="cursor-pointer text-sm font-semibold text-slate-500"
+              >Upload your event banner</label
+            >
+            <input
+              type="file"
+              name="banner"
+              id="banner"
+              class="relative block min-w-0 flex-auto flex-grow-0 rounded-xl border border-slate-200 bg-white bg-clip-padding text-xs ring-0 transition-all duration-150 ease-out file:overflow-hidden file:rounded-none file:border-0 file:border-solid file:border-inherit file:bg-neutral-100 file:px-4 file:py-3 file:text-sm file:text-neutral-700 file:transition file:duration-150 file:ease-in-out file:[margin-inline-end:0.75rem] file:[border-inline-end-width:1px] hover:file:bg-neutral-200 focus:text-neutral-700 focus:shadow-[0_0_0_1px] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1"
+            />
+            <small class="text-xs font-light text-slate-600">Maximum image size is 5.0 Mb</small>
+          </div>
+        </div>
+      </div>
+      <div class="col-span-3 flex flex-col gap-2">
+        <label class="cursor-pointer text-sm font-semibold text-slate-500">Event Schedules</label>
+        <div class="grid grid-cols-2 gap-6">
+          <div class="flex flex-col gap-2">
+            <label for="schedule-start" class="text-xs font-light text-slate-600">Event Start</label>
+            <input
+              placeholder="Schedule to start"
+              class="flatpickr rounded-xl border border-slate-200 bg-white px-4 py-3 outline-none ring-0 transition-all duration-150 ease-out focus:border-transparent focus:ring-2 focus:ring-blue-500 focus:ring-offset-1"
+            />
+          </div>
+          <div class="flex flex-col gap-2">
+            <label for="schedule-end" class="text-xs font-light text-slate-600">Event End</label>
+            <input
+              id="input2"
+              placeholder="Schedule to end"
+              class="flatpickr rounded-xl border border-slate-200 bg-white px-4 py-3 outline-none ring-0 transition-all duration-150 ease-out focus:border-transparent focus:ring-2 focus:ring-blue-500 focus:ring-offset-1"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container__group flex flex-col gap-7">
+      <div class="font-poppins flex flex-col gap-1">
+        <p class="font-medium text-slate-900">Invoice Information</p>
+        <small class="text-xs font-light text-slate-600"
+          >To get your event published, kindly you need to proceed the payment. If you make a new events, you need
+          another payment to get published. The price as follows:</small
+        >
+      </div>
+      <div class="grid grid-cols-2 gap-7 p-3">
+        <div id="widget-event-free" class="widget widget--active">
+          <strong class="context">Free Event Registration</strong>
+          <p class="subcon">You need to pay <span class="font-medium">Rp 5,000</span> (Rupiah).</p>
+        </div>
+        <div id="widget-event-paid" class="widget">
+          <strong class="context">Paid Event Registration</strong>
+          <p class="subcon">
+            You need to pay <span class="font-medium">Rp 20,000 + (5% of events register price)</span>.
+          </p>
+        </div>
+      </div>
+      <div class="wrapper__table">
+        <div class="container__table">
+          <table class="w-full">
+            <thead>
+              <tr class="border-y border-gray-300">
+                <th class="px-3 py-2 text-right uppercase">name</th>
+                <th class="px-3 py-2 text-right uppercase">price</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="font-poppins px-3 py-2 text-right text-sm font-normal text-slate-600">
+                  <label for="fee" class="cursor-pointer hover:text-slate-900">Event Price</label>
+                </td>
+                <td
+                  id="label-event-price"
+                  class="font-poppins w-[180px] min-w-[140px] px-3 py-2 text-right text-sm font-normal text-slate-600"
+                >
+                  Rp 0
+                </td>
+              </tr>
+              <tr>
+                <td class="font-poppins px-3 py-2 text-right text-sm font-normal text-slate-600">Publish Price</td>
+                <td
+                  class="font-poppins w-[180px] min-w-[140px] px-3 py-2 text-right text-sm font-normal text-slate-600"
+                >
+                  Rp 5,000
+                </td>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr class="rounded-xl bg-slate-300 bg-opacity-10 p-3">
+                <td class="font-dmSans px-3 py-2 text-right font-medium">Total Price</td>
+                <td
+                  id="total-price"
+                  class="font-dmSans w-[130px] min-w-[100px] max-w-[140px] px-3 py-2 text-right font-medium"
+                >
+                  Rp 5,000
+                </td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
       </div>
     </div>
     <div class="flex flex-row items-center gap-3">
@@ -101,7 +211,7 @@
         type="submit"
         class="font-mulish relative rounded-lg border border-transparent bg-green-500 px-7 py-2 text-sm font-semibold uppercase text-white transition-all duration-150 ease-out hover:brightness-110"
       >
-        Save
+        Proceed
       </button>
     </div>
   </div>
@@ -113,12 +223,72 @@
 {% block js %}
 <script src="https://unpkg.com/@popperjs/core@2"></script>
 <script src="https://unpkg.com/tippy.js@6"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr@4.6.13/dist/plugins/rangePlugin.js"></script>
+<script>
+  flatpickr('.flatpickr', {
+    altInput: true,
+    altFormat: 'F j, Y. h:i K',
+    enableTime: true,
+    dateFormat: 'Y-m-d H:i',
+    plugins: [new rangePlugin({ input: '#input2' })],
+  });
+</script>
+<script>
+  const inputBanner = document.querySelector('#banner');
+  const bannerPreview = document.querySelector('#preview_banner');
+
+  inputBanner.onchange = (event) => {
+    const [file] = inputBanner.files;
+    if (file) {
+      bannerPreview.src = URL.createObjectURL(file);
+    }
+  };
+</script>
+<script>
+  const widgetEventInvoiceHandlerIsPaid = (isPaid) => {
+    const widgetEventFree = document.querySelector('#widget-event-free');
+    const widgetEventPaid = document.querySelector('#widget-event-paid');
+    if (isPaid) {
+      widgetEventPaid.classList.add('widget--active');
+      widgetEventFree.classList.remove('widget--active');
+      return;
+    }
+    widgetEventFree.classList.add('widget--active');
+    widgetEventPaid.classList.remove('widget--active');
+    return;
+  };
+  const calculateRegistrationFee = (selector) => {
+    const totalPrice = document.querySelector('#total-price');
+    const labelEventPrice = document.querySelector('#label-event-price');
+    let pcgFee = 0;
+    let fee = 0;
+    document.querySelector(selector).oninput = (e) => {
+      if (e.target.value > 0) {
+        pcgFee = (e.target.value * 5) / 100;
+        if (pcgFee > 500) {
+          fee = (20000 + (e.target.value * 5) / 100).toString();
+        } else {
+          fee = (20000).toString();
+        }
+        widgetEventInvoiceHandlerIsPaid(true);
+      } else {
+        fee = (5000).toString();
+        widgetEventInvoiceHandlerIsPaid(false);
+      }
+      labelEventPrice.textContent = `Rp ${e.target.value.length == 0 ? 0 : e.target.value}`;
+      totalPrice.textContent = `Rp ${fee}`;
+    };
+  };
+  calculateRegistrationFee('#fee');
+</script>
 <script>
   tippy('[data-tippy-content]', {
     delay: 50,
     duration: 150,
     animation: 'scale',
     inertia: true,
+    trigger: 'click',
   });
 </script>
 {% endblock %}

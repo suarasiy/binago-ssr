@@ -330,6 +330,7 @@ module.exports = {
           '0 12px 22px -5px rgb(0 0 0 / 4%), 0 10px 10px -5px rgb(0 0 0 / 3%), 1px 8px 24px 2px rgb(0 0 0 / 2%)',
         container3:
           '0 12px 24px -5px rgb(0 0 0 / 3%), 0 11px 14px -6px rgb(0 0 0 / 2%), 0px 11px 27px -2px rgb(0 0 0 / 1%)',
+        priceWidget: '0 10px 17px -12px rgb(58 65 111), 0 16px 27px -16px rgb(58 65 111 / 38%)',
       },
     },
   },

@@ -137,6 +137,30 @@
   main .container .wrapper__table ::-webkit-scrollbar-thumb:hover {
     box-shadow: inset 0 0 10px 10px rgb(140, 166, 193);
   }
+
+  main .widget {
+    @apply rounded-xl bg-white p-8 transition-all duration-150 ease-out;
+  }
+
+  main .widget.widget--active {
+    @apply bg-slate-800 shadow-priceWidget;
+  }
+
+  main .widget > strong.context {
+    @apply font-dmSans text-lg font-semibold text-slate-800 transition-all duration-150 ease-out;
+  }
+
+  main .widget > strong.context + p.subcon {
+    @apply font-poppins text-xs font-light text-slate-500;
+  }
+
+  main .widget.widget--active > strong.context {
+    @apply text-lg text-white text-opacity-90;
+  }
+
+  main .widget.widget--active > strong.context + p.subcon {
+    @apply text-white text-opacity-60;
+  }
 }
 
 @layer base {

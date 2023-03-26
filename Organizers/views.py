@@ -9,20 +9,20 @@ from binago.context_interface import backend_context
 
 @login_required
 @require_http_methods(['GET'])
-def events(request):
-    template_name = pages_backend('dashboard/events.html')
+def index(request):
+    template = pages_backend('organizers/index.html')
     context = backend_context(
-        'Events',
-        {
-            'main': 'Overview',
+        title='Organizers',
+        description='Manage your organizers in this page.',
+        breadcrumb={
+            'main': 'Organizers',
             'branch': [
                 {
-                    'name': 'Events',
-                    'reverse': reverse('dashboard-events'),
+                    'name': 'Data',
+                    'reverse': reverse('organizers'),
                     'type': 'current'
-                },
+                }
             ]
-        },
-        'Here is the summaries about the recent events over the month.'
+        }
     )
-    return render(request, template_name, context)
+    return render(request, template, context)

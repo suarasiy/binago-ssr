@@ -93,6 +93,18 @@
     @apply -rotate-180;
   }
 
+  .breadcrumb {
+    @apply flex flex-row items-center gap-2 font-poppins;
+  }
+
+  .breadcrumb .path__previous {
+    @apply text-sm font-medium text-[#BDD0FF];
+  }
+
+  .breadcrumb .path {
+    @apply text-sm font-semibold text-white;
+  }
+
   main .container {
     @apply flex h-max flex-col gap-4 rounded-xl bg-white p-5 shadow-container3;
   }

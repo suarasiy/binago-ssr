@@ -4,13 +4,20 @@
 <div class="flex select-none flex-row justify-between p-5 text-white">
   <div class="flex flex-col gap-2">
     <!-- [Breadcrumb] -->
-    <div class="font-poppins flex flex-row items-center gap-2">
-      <span class="text-sm font-medium text-[#BDD0FF]"> {{ breadcrumb.main }} </span>
-      <!-- <span class="text-sm font-semibold text-white">/</span>
+    <div class="breadcrumb">
+      <span class="path__previous"> {{ breadcrumb.main }} </span>
+      <!-- <span class="path__previous">/</span>
       <span class="text-sm font-semibold text-white">{{ breadcrumb.sub }}</span> -->
       {% for branch in breadcrumb.branch %}
-      <span class="text-sm font-semibold text-white">/</span>
-      <a href="{{ branch.reverse }}" class="text-sm font-semibold text-white">{{ branch.name }}</a>
+      <!-- -->
+      {% if branch.type == 'previous' %}
+      <span class="path__previous">/</span>
+      <a href="{{ branch.reverse }}" class="path__previous">{{ branch.name }}</a>
+      {% else %}
+      <span class="path">/</span>
+      <a href="{{ branch.reverse }}" class="path">{{ branch.name }}</a>
+      {% endif %}
+      <!-- -->
       {% endfor %}
     </div>
     <!-- [Page Description / Title] -->

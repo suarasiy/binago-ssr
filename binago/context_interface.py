@@ -4,6 +4,7 @@ from typing import TypedDict, List
 class BreadcrumbBranch(TypedDict):
     name: str
     reverse: str
+    type: str
 
 
 class Breadcrumb(TypedDict):

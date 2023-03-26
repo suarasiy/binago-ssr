@@ -61,16 +61,37 @@
     </div>
     <!-- MENU: ORGANIZERS -->
     <div class="">
-      <div class="nav__menu" data-target-menu="menu-organizers">
+      <div class="nav__menu {% active_link 'organizers' 'nav__menu--active' %}" data-target-menu="menu-organizers">
         <img src="{% static 'backend/icons/menu_organizers.svg' %}" alt="" srcset="" class="w-6" draggable="false" />
         <span class="flex w-full flex-row justify-between">
           <p>Organizers</p>
-          <img src="{% static 'backend/icons/chevron.svg' %}" alt="" srcset="" class="indicator" draggable="false" />
+          <img
+            src="{% static 'backend/icons/chevron.svg' %}"
+            alt=""
+            srcset=""
+            class="indicator {% active_link 'organizers' 'indicator--active' %}"
+            draggable="false"
+          />
         </span>
       </div>
       <div id="menu-organizers" class="nav__sub__menu nav__sub__menu--hide">
+        <a href="{% url 'organizers' %}" class="link {% active_link 'organizers' 'link--active' %}">Data</a>
+        <a href="" class="link">Profile</a>
+        <a href="" class="link">Summary</a>
+      </div>
+    </div>
+    <!-- MENU: INVOICES -->
+    <div class="">
+      <div class="nav__menu" data-target-menu="menu-invoices">
+        <img src="{% static 'backend/icons/menu_invoices.svg' %}" alt="" srcset="" class="w-6" draggable="false" />
+        <span class="flex w-full flex-row justify-between">
+          <p>Invoices</p>
+          <img src="{% static 'backend/icons/chevron.svg' %}" alt="" srcset="" class="indicator" draggable="false" />
+        </span>
+      </div>
+      <div id="menu-invoices" class="nav__sub__menu nav__sub__menu--hide">
         <a href="" class="py-2 hover:text-slate-700">Data</a>
-        <a href="" class="py-2 hover:text-slate-700">Profile</a>
+        <a href="" class="py-2 hover:text-slate-700">Activity</a>
         <a href="" class="py-2 hover:text-slate-700">Summary</a>
       </div>
     </div>

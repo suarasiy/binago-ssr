@@ -1,4 +1,4 @@
-from typing import TypedDict, List
+from typing import TypedDict, List, Any
 
 
 class BreadcrumbBranch(TypedDict):
@@ -12,9 +12,10 @@ class Breadcrumb(TypedDict):
     branch: List[BreadcrumbBranch]
 
 
-def backend_context(title: str, breadcrumb: Breadcrumb, description: str):
+def backend_context(title: str, breadcrumb: Breadcrumb, description: str, forms):
     return {
         'title': title,
         'breadcrumb': breadcrumb,
-        'description': description
+        'description': description,
+        'forms': forms,
     }

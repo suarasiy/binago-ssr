@@ -495,11 +495,12 @@
         >
       </div>
       <div class="container__group">
-        <div id="calendar" class="calendar"></div>
+        <div id="calendar" class="calendar h-[36rem]"></div>
       </div>
     </div>
   </span>
 </div>
+<input type="hidden" value="{{ timeline }}" id="timeline" />
 {% endblock content %}
 
 <!-- -->
@@ -746,6 +747,7 @@
 </script>
 <script>
   document.addEventListener('DOMContentLoaded', function () {
+    const timeline = document.querySelector('#timeline').value;
     var calendarEl = document.getElementById('calendar');
     var calendar = new FullCalendar.Calendar(calendarEl, {
       initialView: 'dayGridMonth',
@@ -756,31 +758,7 @@
       },
       selectable: true,
       nowIndicator: true,
-      events: [
-        {
-          title: 'VMWare Webinar - Build From Zero Trust',
-          start: '2023-03-24T10:30:00',
-          end: '2023-03-26T23:59:00',
-          customRender: true,
-          colorStyle: 'calendar-green',
-        },
-        {
-          title: 'Microsoft Azure - Hybrid Innovation with Azure Stack HCI and Intel',
-          start: '2023-03-24',
-          customRender: true,
-          colorStyle: 'calendar-blue',
-        },
-        {
-          title: 'Webinar Q&A Session Microsoft Teams Live Event',
-          start: '2023-03-12',
-          customRender: true,
-          colorStyle: 'calendar-red',
-        },
-        {
-          title: 'Opening',
-          start: '2023-03-24T10:30:00',
-        },
-      ],
+      events: JSON.parse(timeline),
       eventDidMount: (info) => {
         if (info.event.extendedProps.customRender) {
           info.el.classList.add('calendar__event');

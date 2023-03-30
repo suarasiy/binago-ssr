@@ -114,19 +114,28 @@
         <label for="banner" class="cursor-pointer text-sm font-semibold text-slate-500">Banner Image</label>
         <div class="grid grid-cols-2 gap-5">
           <img
-            src="{% static 'web/assets/event_no_banner.png' %}"
+            src="{% get_media_prefix %}{{ forms.banner.value }}"
             alt=""
             srcset=""
             id="preview_banner"
             class="h-40 w-full cursor-pointer rounded-xl border border-slate-200 bg-white object-cover ring ring-transparent transition-all duration-150 ease-out hover:border-transparent hover:ring-blue-500 hover:ring-offset-1"
           />
           <div class="flex flex-col gap-2">
-            <label for="banner" class="cursor-pointer text-sm font-semibold text-slate-500"
+            <label for="{{ forms.banner.id_for_label }}" class="cursor-pointer text-sm font-semibold text-slate-500"
               >Upload your event banner</label
             >
-            {{ forms.banner }} {% for error in forms.banner.errors %}
+            <div class="hidden">{{ forms.banner }}</div>
+            <!-- -->
+            {% for error in forms.banner.errors %}
             <p>{{ error }}</p>
             {% endfor %}
+            <label
+              for="{{ forms.banner.id_for_label }}"
+              class="relative flex min-w-0 flex-auto flex-grow-0 flex-row items-center overflow-hidden rounded-xl border border-slate-200 bg-white bg-clip-padding text-xs ring ring-transparent cursor-pointer ring-offset-0 transition-all duration-150 ease-out file:text-sm file:text-neutral-700 hover:ring-blue-500 hover:ring-offset-2 focus:text-neutral-700 focus:shadow-[0_0_0_1px] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1"
+            >
+              <span class="border-r border-slate-200 bg-neutral-100 px-4 py-3 text-sm">Choose File</span>
+              <span class="line-clamp-1 mx-4 my-3">Upload new banner to replace.</span>
+            </label>
             <!--<input
               type="file"
               name="banner"

@@ -10,7 +10,6 @@ from Organizers.models import *
 class EventsCategories(models.Model):
     category = models.CharField(max_length=80, db_index=True, unique=True)
     slug = models.SlugField(unique=True)
-    created_by = models.ForeignKey(User, on_delete=SET_NULL, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -28,20 +27,21 @@ class EventsCategories(models.Model):
 def banner_events_upload_handler(instance, filename):
     fpath = pathlib.Path(filename)
     fname = str(uuid1())
-    return f"events/banner/{instance.id}_{fname}{fpath.suffix}"
+    return f"events/banner/{instance.slug}_{fname}{fpath.suffix}"
 
 
 class Events(models.Model):
     title = models.CharField(max_length=200, db_index=True, unique=True)
-    banner = models.ImageField(upload_to=banner_events_upload_handler)
+    banner = models.ImageField(upload_to=banner_events_upload_handler, max_length=500)
     category = models.ForeignKey(EventsCategories, on_delete=SET_NULL, blank=True, null=True)
-    slug = models.SlugField(unique=True)
+    slug = models.SlugField(max_length=200, unique=True)
+    price = models.PositiveIntegerField()
     description = models.TextField()
     schedule_start = models.DateTimeField()
     schedule_end = models.DateTimeField()
-    url = models.TextField()
-    url_youtube = models.TextField(blank=True, null=True)
-    url_custom = models.TextField(blank=True, null=True)
+    max_audience = models.PositiveIntegerField()
+    url_stream = models.TextField()
+    url_homepage = models.TextField(blank=True, null=True)
     is_published = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

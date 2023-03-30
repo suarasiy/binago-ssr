@@ -68,12 +68,96 @@
               <th
                 class="font-dmSans whitespace-nowrap border-b border-b-gray-200 bg-transparent px-6 py-3 text-left text-xs font-semibold uppercase tracking-normal text-slate-400 opacity-70"
               >
+                published
+              </th>
+
+              <th
+                class="font-dmSans whitespace-nowrap border-b border-b-gray-200 bg-transparent px-6 py-3 text-left text-xs font-semibold uppercase tracking-normal text-slate-400 opacity-70"
+              >
                 action
               </th>
             </tr>
           </thead>
           <tbody>
+            {% for event in events %}
             <tr class="hover:bg-slate-500 hover:bg-opacity-5">
+              <td class="min-w-[80px] border-b border-b-gray-200 px-6 py-4">
+                <p class="font-inter text-sm text-slate-400">{{ forloop.counter }}</p>
+              </td>
+              <td
+                class="min-w-[15rem] place-items-center content-center items-center justify-center border-b border-b-gray-200 px-6 py-4"
+              >
+                <img
+                  src="{% get_media_prefix %}{{ event.banner }}"
+                  alt="{{ event.slug }}"
+                  srcset=""
+                  class="shadow-container1 h-20 w-36 rounded-xl object-cover object-center"
+                  draggable="false"
+                />
+              </td>
+              <td class="font-jost min-w-[310px] border-b border-b-gray-200 px-6 py-4 text-left text-slate-800">
+                <p class="line-clamp-2">{{ event.title }}</p>
+              </td>
+              <td class="min-w-[290px] border-b border-b-gray-200 px-6 py-4">
+                <div class="flex flex-col gap-1">
+                  <div class="flex flex-row items-center gap-2">
+                    {% if event.schedule_start|date:'M j, Y' == event.schedule_end|date:'M j, Y' %}
+                    <span>{{ event.schedule_start|date:'M j, Y' }}</span>
+                    {% else %}
+                    <span>{{ event.schedule_start|date:'M j, Y' }}</span>
+                    <span>{{ event.schedule_end|date:'M j, Y' }}</span>
+                    {% endif %}
+                  </div>
+                  <p class="font-inter text-sm font-medium text-slate-400">
+                    {{ event.schedule_start|date:'h:i A' }} - {{ event.schedule_end|date:'h:i A (e)' }}
+                  </p>
+                </div>
+              </td>
+              <td
+                class="font-inter min-w-[190px] border-b border-b-gray-200 px-6 py-4 text-sm font-medium text-slate-500"
+              >
+                {{ event.updated_at|date:'d F Y'}}
+              </td>
+              <td class="min-w-[280px] border-b border-b-gray-200 px-6 py-4 text-xs font-medium text-slate-500">
+                <ul>
+                  <li>Sidiq Indrajati Yusuf</li>
+                  <li>Terry Andersen</li>
+                </ul>
+              </td>
+              <td class="min-w-[250px] border-b border-b-gray-200 px-6 py-4 text-xs font-medium text-slate-500">
+                {% if event.is_published %}
+                <span class="rounded-md bg-green-200 px-2 py-1 text-xs uppercase text-green-500">Published</span>
+                {% else %}
+                <span class="rounded-md bg-rose-200 px-2 py-1 text-xs uppercase text-rose-500">Not Published</span>
+                {% endif %}
+              </td>
+              <td class="min-w-[150px] border-b border-b-gray-200 px-6 py-4">
+                <div class="font-quicksand flex flex-row items-center gap-2 text-sm font-semibold">
+                  <a
+                    href=""
+                    class="hover:shadow-container1 relative rounded-md bg-emerald-500 bg-opacity-10 px-3 py-2 text-emerald-600 transition-all duration-150 ease-out hover:scale-95 hover:brightness-75"
+                    >Preview</a
+                  >
+                  <a
+                    href="{% url 'events-edit' event.slug %}"
+                    class="hover:shadow-container1 relative rounded-md bg-gradient-to-b from-sky-600 to-sky-500 px-3 py-2 text-white transition-all duration-150 ease-out hover:scale-95 hover:brightness-110"
+                    >Edit</a
+                  >
+                  <form action="{% url 'events-destroy' event.slug %}" method="post">
+                    {% csrf_token %}
+                    <button
+                      type="submit"
+                      class="hover:shadow-container1 relative rounded-md bg-gradient-to-b from-red-600 to-red-500 px-3 py-2 text-white transition-all duration-150 ease-out hover:scale-95 hover:brightness-110"
+                      onclick="return confirm(`Delete the event {{ event.title|truncatechars:40 }}? This action is irreversible!`)"
+                    >
+                      Delete
+                    </button>
+                  </form>
+                </div>
+              </td>
+            </tr>
+            {% endfor %}
+            <!--<tr class="hover:bg-slate-500 hover:bg-opacity-5">
               <td class="min-w-[80px] border-b border-b-gray-200 px-6 py-4">
                 <p class="font-inter text-sm text-slate-400">1</p>
               </td>
@@ -121,7 +205,7 @@
                   <a href="" class="rounded-md bg-gradient-to-b from-red-600 to-red-500 px-3 py-2 text-white">Delete</a>
                 </div>
               </td>
-            </tr>
+            </tr>-->
           </tbody>
         </table>
       </div>

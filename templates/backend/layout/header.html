@@ -15,7 +15,7 @@
       <a href="{{ branch.reverse }}" class="path__previous">{{ branch.name }}</a>
       {% else %}
       <span class="path">/</span>
-      <a href="{{ branch.reverse }}" class="path">{{ branch.name }}</a>
+      <a href="{{ branch.reverse }}" class="path">{{ branch.name|truncatechars:"30" }}</a>
       {% endif %}
       <!-- -->
       {% endfor %}

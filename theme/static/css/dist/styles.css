@@ -1277,6 +1277,10 @@ main .widget.widget--active > strong.context + p.subcon{
   height: 100vh;
 }
 
+.h-8{
+  height: 2rem;
+}
+
 .min-h-\[50px\]{
   min-height: 50px;
 }
@@ -1287,6 +1291,10 @@ main .widget.widget--active > strong.context + p.subcon{
 
 .w-16{
   width: 4rem;
+}
+
+.w-28{
+  width: 7rem;
 }
 
 .w-32{
@@ -1321,12 +1329,21 @@ main .widget.widget--active > strong.context + p.subcon{
   width: 1.75rem;
 }
 
+.w-8{
+  width: 2rem;
+}
+
 .w-\[130px\]{
   width: 130px;
 }
 
 .w-\[180px\]{
   width: 180px;
+}
+
+.w-fit{
+  width: -moz-fit-content;
+  width: fit-content;
 }
 
 .w-full{
@@ -1341,6 +1358,10 @@ main .widget.widget--active > strong.context + p.subcon{
   min-width: 100px;
 }
 
+.min-w-\[13rem\]{
+  min-width: 13rem;
+}
+
 .min-w-\[140px\]{
   min-width: 140px;
 }
@@ -1351,6 +1372,10 @@ main .widget.widget--active > strong.context + p.subcon{
 
 .min-w-\[15rem\]{
   min-width: 15rem;
+}
+
+.min-w-\[16rem\]{
+  min-width: 16rem;
 }
 
 .min-w-\[190px\]{
@@ -1375,6 +1400,10 @@ main .widget.widget--active > strong.context + p.subcon{
 
 .min-w-\[80px\]{
   min-width: 80px;
+}
+
+.min-w-\[18rem\]{
+  min-width: 18rem;
 }
 
 .max-w-\[105px\]{
@@ -1700,6 +1729,12 @@ main .widget.widget--active > strong.context + p.subcon{
   --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
 }
 
+.from-emerald-500{
+  --tw-gradient-from: #2dce89;
+  --tw-gradient-to: rgb(45 206 137 / 0);
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+}
+
 .from-red-600{
   --tw-gradient-from: #f5365c;
   --tw-gradient-to: rgb(245 54 92 / 0);
@@ -1725,6 +1760,10 @@ main .widget.widget--active > strong.context + p.subcon{
 
 .to-blue-500{
   --tw-gradient-to: #5e72e4;
+}
+
+.to-emerald-400{
+  --tw-gradient-to: #34d399;
 }
 
 .to-red-500{
@@ -1902,6 +1941,11 @@ main .widget.widget--active > strong.context + p.subcon{
   line-height: 1;
 }
 
+.text-base{
+  font-size: 1rem;
+  line-height: 1.5rem;
+}
+
 .text-sm{
   font-size: 0.875rem;
   line-height: 1.25rem;
@@ -1948,6 +1992,11 @@ main .widget.widget--active > strong.context + p.subcon{
 .text-blue-500{
   --tw-text-opacity: 1;
   color: rgb(94 114 228 / var(--tw-text-opacity));
+}
+
+.text-blue-700{
+  --tw-text-opacity: 1;
+  color: rgb(17 113 239 / var(--tw-text-opacity));
 }
 
 .text-emerald-500{
@@ -2037,12 +2086,36 @@ main .widget.widget--active > strong.context + p.subcon{
   --tw-text-opacity: 0.9;
 }
 
+.underline-offset-1{
+  text-underline-offset: 1px;
+}
+
 .opacity-50{
   opacity: 0.5;
 }
 
 .opacity-70{
   opacity: 0.7;
+}
+
+.opacity-30{
+  opacity: 0.3;
+}
+
+.opacity-20{
+  opacity: 0.2;
+}
+
+.bg-blend-overlay{
+  background-blend-mode: overlay;
+}
+
+.mix-blend-overlay{
+  mix-blend-mode: overlay;
+}
+
+.mix-blend-difference{
+  mix-blend-mode: difference;
 }
 
 .shadow-container1{
@@ -2425,6 +2498,11 @@ main .selectize-control .selectize-input > input{
   --tw-bg-opacity: 0.8;
 }
 
+.hover\:text-blue-600:hover{
+  --tw-text-opacity: 1;
+  color: rgb(33 82 255 / var(--tw-text-opacity));
+}
+
 .hover\:text-slate-400:hover{
   --tw-text-opacity: 1;
   color: rgb(131 146 171 / var(--tw-text-opacity));
@@ -2438,6 +2516,10 @@ main .selectize-control .selectize-input > input{
 .hover\:text-slate-900:hover{
   --tw-text-opacity: 1;
   color: rgb(5 17 57 / var(--tw-text-opacity));
+}
+
+.hover\:underline:hover{
+  text-decoration-line: underline;
 }
 
 .hover\:shadow-container1:hover{
@@ -2469,6 +2551,11 @@ main .selectize-control .selectize-input > input{
 
 .hover\:ring-offset-2:hover{
   --tw-ring-offset-width: 2px;
+}
+
+.hover\:brightness-105:hover{
+  --tw-brightness: brightness(1.05);
+  filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
 }
 
 .hover\:brightness-110:hover{

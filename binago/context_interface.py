@@ -1,4 +1,5 @@
 from typing import TypedDict, List, Any
+from django.forms import ModelForm
 
 
 class BreadcrumbBranch(TypedDict):
@@ -12,10 +13,8 @@ class Breadcrumb(TypedDict):
     branch: List[BreadcrumbBranch]
 
 
-def backend_context(title: str, breadcrumb: Breadcrumb, description: str, forms):
-    return {
-        'title': title,
-        'breadcrumb': breadcrumb,
-        'description': description,
-        'forms': forms,
-    }
+class Context(TypedDict):
+    title: str
+    breadcrumb: Breadcrumb
+    description: str
+    forms: ModelForm

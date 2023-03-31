@@ -6,7 +6,6 @@ from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_http_methods
 
 from binago.utils import pages_backend
-from binago.context_interface import backend_context
 
 from .models import Events, EventsCategories
 from .forms import EventForm, EventEditForm
@@ -39,7 +38,9 @@ def events_create(request):
         print('schedule_start :', form.data.get('schedule_start'))
         print('schedule_end :', form.data.get('schedule_end'))
         if form.is_valid():
-            form.save()
+            event = form.save(commit=False)
+            event.association = request.user.associations
+            event.save()
 
             messages.success(request, 'Event successfully created.')
             return redirect('events')

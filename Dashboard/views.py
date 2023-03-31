@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_http_methods
 
 from binago.utils import pages_backend
-from binago.context_interface import backend_context
+from binago.context_interface import Context
 
 from Events.models import Events
 
@@ -19,7 +19,7 @@ def get_calendar_color(start: datetime, end: datetime):
     now = datetime.today().replace(tzinfo=pytz.UTC)
     start = timezone.localtime(start)
     end = timezone.localtime(end)
-    if end.date() < now.date() or start.date() < now.date():
+    if end.date() < now.date():
         return 'calendar-red'
     if start.date() == now.date() or end.date() == now.date():
         return 'calendar-blue'
@@ -57,6 +57,7 @@ def events(request):
             ]
         },
         'description': 'Here is the summaries about the recent events over the month.',
-        'timeline': json.dumps(events_collection)
+        'timeline': json.dumps(events_collection),
+        'header': request.user.avatar
     }
     return render(request, template, context)

@@ -13,7 +13,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('dashboard/', include([
         path('overview/', include('Dashboard.urls')),
-        path('organizers/', include('Organizers.urls')),
+        # path('organizers/', include('Organizers.urls')),
+        path('associations/', include('Associations.urls')),
         path('events/', include('Events.urls')),
     ]))
 ]

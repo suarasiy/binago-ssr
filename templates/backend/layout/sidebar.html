@@ -56,26 +56,35 @@
       </div>
       <div id="menu-events" class="nav__sub__menu nav__sub__menu--hide">
         <a href="{% url 'events' %}" class="link {% active_link 'events' 'link--active' %}">Data</a>
+        <!-- history event -->
+        <a href="" class="link">Attended</a>
         <a href="" class="link">Summary</a>
       </div>
     </div>
-    <!-- MENU: ORGANIZERS -->
+    <!-- MENU: ASSOCIATIONS -->
     <div class="">
-      <div class="nav__menu {% active_link 'organizers' 'nav__menu--active' %}" data-target-menu="menu-organizers">
-        <img src="{% static 'backend/icons/menu_organizers.svg' %}" alt="" srcset="" class="w-6" draggable="false" />
+      <div class="nav__menu {% active_link 'associations' 'nav__menu--active' %}" data-target-menu="menu-associations">
+        <img src="{% static 'backend/icons/menu_associations.svg' %}" alt="" srcset="" class="w-6" draggable="false" />
         <span class="flex w-full flex-row justify-between">
-          <p>Organizers</p>
+          <p>Associations</p>
           <img
             src="{% static 'backend/icons/chevron.svg' %}"
             alt=""
             srcset=""
-            class="indicator {% active_link 'organizers' 'indicator--active' %}"
+            class="indicator {% active_link 'associations' 'indicator--active' %}"
             draggable="false"
           />
         </span>
       </div>
-      <div id="menu-organizers" class="nav__sub__menu nav__sub__menu--hide">
-        <a href="{% url 'organizers' %}" class="link {% active_link 'organizers' 'link--active' %}">Data</a>
+      <div id="menu-associations" class="nav__sub__menu nav__sub__menu--hide">
+        <a
+          href="{% url 'associations-approval' %}"
+          class="link {% active_link 'associations-approval' 'link--active' strict=True %}"
+          >Approval</a
+        >
+        <a href="{% url 'associations' %}" class="link {% active_link 'associations' 'link--active' strict=True %}"
+          >Data</a
+        >
         <a href="" class="link">Profile</a>
         <a href="" class="link">Summary</a>
       </div>
@@ -107,6 +116,20 @@
       <div id="menu-users" class="nav__sub__menu nav__sub__menu">
         <a href="" class="py-2 hover:text-slate-700">Data</a>
         <a href="" class="py-2 hover:text-slate-700">Summary</a>
+      </div>
+    </div>
+    <!-- MENU: SETTINGS -->
+    <div class="">
+      <div class="nav__menu" data-target-menu="menu-settings">
+        <img src="{% static 'backend/icons/menu_settings.svg' %}" alt="" srcset="" class="w-6" draggable="false" />
+        <span class="flex w-full flex-row justify-between">
+          <p>Settings</p>
+          <img src="{% static 'backend/icons/chevron.svg' %}" alt="" srcset="" class="indicator" draggable="false" />
+        </span>
+      </div>
+      <div id="menu-settings" class="nav__sub__menu nav__sub__menu">
+        <a href="" class="py-2 hover:text-slate-700">Profile</a>
+        <a href="" class="py-2 hover:text-slate-700">Logout</a>
       </div>
     </div>
     <hr />

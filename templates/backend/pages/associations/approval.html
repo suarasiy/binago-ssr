@@ -1,0 +1,141 @@
+{% extends 'backend/layout/master.html' %}
+
+<!-- -->
+{% load static %}
+
+<!-- -->
+{% block content %}
+
+<div class="grid select-none grid-cols-4">
+  <div class="container col-span-4">
+    <div class="flex flex-row justify-between">
+      <div class="font-poppins flex flex-col gap-1">
+        <p class="font-medium text-slate-900">Associations Approval Requests</p>
+        <small class="text-xs font-light text-slate-600">Manage approval associations</small>
+      </div>
+    </div>
+    <div class="wrapper__table">
+      <div class="container__table">
+        <table class="w-full items-center">
+          <thead>
+            <tr>
+              <th
+                class="font-dmSans whitespace-nowrap border-b border-b-gray-200 bg-transparent px-6 py-3 text-left text-xs font-semibold uppercase tracking-normal text-slate-400 opacity-70"
+              >
+                no
+              </th>
+              <th
+                class="font-dmSans whitespace-nowrap border-b border-b-gray-200 bg-transparent px-6 py-3 text-left text-xs font-semibold uppercase tracking-normal text-slate-400 opacity-70"
+              >
+                association
+              </th>
+              <th
+                class="font-dmSans whitespace-nowrap border-b border-b-gray-200 bg-transparent px-6 py-3 text-left text-xs font-semibold uppercase tracking-normal text-slate-400 opacity-70"
+              >
+                requested by
+              </th>
+              <th
+                class="font-dmSans whitespace-nowrap border-b border-b-gray-200 bg-transparent px-6 py-3 text-left text-xs font-semibold uppercase tracking-normal text-slate-400 opacity-70"
+              >
+                requested at
+              </th>
+              <th
+                class="font-dmSans whitespace-nowrap border-b border-b-gray-200 bg-transparent px-6 py-3 text-left text-xs font-semibold uppercase tracking-normal text-slate-400 opacity-70"
+              >
+                action
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for approval in associations %}
+            <tr class="hover:bg-slate-500 hover:bg-opacity-5">
+              <td class="min-w-[80px] border-b border-b-gray-200 px-6 py-4">
+                <p class="font-inter text-sm text-slate-400">{{ forloop.counter }}</p>
+              </td>
+              <td class="font-jost min-w-[310px] border-b border-b-gray-200 px-6 py-4 text-left text-slate-800">
+                <div class="flex flex-row items-center gap-3">
+                  <img
+                    src="{% get_media_prefix %}{{ approval.association.logo }}"
+                    alt="{{ approval.association.slug }}"
+                    srcset=""
+                    class="h-8 w-8 rounded-lg object-cover object-center"
+                  />
+                  <p class="line-clamp-2 font-medium">{{ approval.association.name }}</p>
+                </div>
+              </td>
+              <td class="font-jost min-w-[18rem] border-b border-b-gray-200 px-6 py-4 text-left text-slate-800">
+                <a
+                  href=""
+                  class="flex w-fit flex-row items-center gap-2 text-base font-medium text-blue-700 underline-offset-1 hover:text-blue-600 hover:underline"
+                >
+                  <img
+                    src="{% get_media_prefix %}{{ approval.association.user.avatar }}"
+                    alt=""
+                    srcset=""
+                    class="w-6 rounded-full border object-cover"
+                    draggable="false"
+                  />
+                  {{ approval.association.user }}</a
+                >
+              </td>
+              <td
+                class="font-inter min-w-[15rem] border-b border-b-gray-200 px-6 py-4 text-sm font-medium text-slate-500"
+              >
+                {{ approval.created_at|date:'M d, Y' }}
+              </td>
+              <td class="min-w-[150px] border-b border-b-gray-200 px-6 py-4">
+                <div class="font-quicksand flex flex-row items-center gap-2 text-sm font-semibold">
+                  <button
+                    type="submit"
+                    class="hover:shadow-container1 relative rounded-md bg-gradient-to-b from-emerald-500 to-emerald-400 px-3 py-2 text-white transition-all duration-150 ease-out hover:scale-95 hover:brightness-105"
+                    onclick="return confirm(`Approve this request? ({{ approval.association.name|truncatechars:40 }})`)"
+                  >
+                    Accept
+                  </button>
+                  <button
+                    type="submit"
+                    class="hover:shadow-container1 relative rounded-md bg-gradient-to-b from-red-600 to-red-500 px-3 py-2 text-white transition-all duration-150 ease-out hover:scale-95 hover:brightness-110"
+                    onclick="return confirm(`Reject this request? ({{ approval.association.name|truncatechars:40 }})`)"
+                  >
+                    Reject
+                  </button>
+                </div>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="flex flex-row justify-between">
+      <span class="flex flex-row items-center gap-1">
+        <p class="text-sm text-slate-600">
+          Showing <strong>1</strong> to <strong>3</strong> of <strong>100</strong> entries.
+        </p>
+      </span>
+      <div class="flex flex-row items-center gap-2">
+        <button
+          class="font-poppins relative h-10 w-10 rounded-lg bg-blue-500 text-sm font-semibold text-white hover:bg-opacity-80"
+          tabindex="-1"
+        >
+          <p class="absolute top-2/4 left-2/4 -translate-x-2/4 -translate-y-2/4">1</p>
+        </button>
+        <button
+          class="font-poppins relative h-10 w-10 rounded-lg border border-slate-300 text-sm font-semibold text-slate-300 hover:border-slate-400 hover:text-slate-400"
+          tabindex="-1"
+        >
+          <p class="absolute top-2/4 left-2/4 -translate-x-2/4 -translate-y-2/4">2</p>
+        </button>
+        <button
+          class="font-poppins relative h-10 w-10 rounded-lg border border-slate-300 text-sm font-semibold text-slate-300 hover:border-slate-400 hover:text-slate-400"
+          tabindex="-1"
+        >
+          <p class="absolute top-2/4 left-2/4 -translate-x-2/4 -translate-y-2/4">3</p>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- -->
+{% endblock content %}

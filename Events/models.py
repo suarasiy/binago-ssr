@@ -4,7 +4,7 @@ from django.db import models
 from django.db.models import SET_NULL, CASCADE
 from django.utils.text import slugify
 from authentication.models import User
-from Organizers.models import *
+from Associations.models import Associations
 
 
 class EventsCategories(models.Model):
@@ -31,6 +31,7 @@ def banner_events_upload_handler(instance, filename):
 
 
 class Events(models.Model):
+    association = models.ForeignKey(Associations, on_delete=CASCADE)
     title = models.CharField(max_length=200, db_index=True, unique=True)
     banner = models.ImageField(upload_to=banner_events_upload_handler, max_length=500)
     category = models.ForeignKey(EventsCategories, on_delete=SET_NULL, blank=True, null=True)

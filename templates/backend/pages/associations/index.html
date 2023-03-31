@@ -1,0 +1,209 @@
+{% extends 'backend/layout/master.html' %}
+
+<!-- -->
+{% load static %}
+
+<!-- -->
+{% block content %}
+
+<div class="grid select-none grid-cols-4">
+  <div class="container col-span-4">
+    <div class="flex flex-row justify-between">
+      <div class="font-poppins flex flex-col gap-1">
+        <p class="font-medium text-slate-900">Associations Datalist Views</p>
+        <small class="text-xs font-light text-slate-600">Manage users' associations.</small>
+      </div>
+      <a
+        href="{% url 'associations-approval' %}"
+        class="hover:shadow-container3 relative top-0 flex h-fit flex-row items-center gap-2 rounded-md bg-gradient-to-br from-blue-400 to-blue-500 px-3 py-2 text-sm font-semibold text-white transition-all duration-150 ease-out hover:-top-1 hover:brightness-110"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="h-5 text-white">
+          <path
+            d="M5.5859375 3.4140625C5.3300625 3.4140625 5.0744063 3.5115312 4.8789062 3.7070312L3.5859375 5L3 5C2.448 5 2 5.448 2 6C2 6.552 2.448 7 3 7L4.4140625 7L6.2929688 5.1210938C6.6839687 4.7310937 6.6839688 4.0980313 6.2929688 3.7070312C6.0979688 3.5115312 5.8418125 3.4140625 5.5859375 3.4140625 z M 10 5C9.448 5 9 5.448 9 6C9 6.552 9.448 7 10 7L21 7C21.552 7 22 6.552 22 6C22 5.448 21.552 5 21 5L10 5 z M 5.5859375 9.4140625C5.3300625 9.4140625 5.0744063 9.5115313 4.8789062 9.7070312L3.5859375 11L3 11C2.448 11 2 11.448 2 12C2 12.552 2.448 13 3 13L4.4140625 13L6.2929688 11.121094C6.6839687 10.731094 6.6839688 10.098031 6.2929688 9.7070312C6.0979688 9.5115312 5.8418125 9.4140625 5.5859375 9.4140625 z M 10 11C9.448 11 9 11.448 9 12C9 12.552 9.448 13 10 13L21 13C21.552 13 22 12.552 22 12C22 11.448 21.552 11 21 11L10 11 z M 4 16.5 A 1.5 1.5 0 0 0 2.5 18 A 1.5 1.5 0 0 0 4 19.5 A 1.5 1.5 0 0 0 5.5 18 A 1.5 1.5 0 0 0 4 16.5 z M 10 17C9.448 17 9 17.448 9 18C9 18.552 9.448 19 10 19L21 19C21.552 19 22 18.552 22 18C22 17.448 21.552 17 21 17L10 17 z"
+            fill="currentColor"
+          />
+        </svg>
+        <span>Check Approval List</span>
+      </a>
+    </div>
+    <div class="wrapper__table">
+      <div class="container__table">
+        <table class="w-full items-center">
+          <thead>
+            <tr>
+              <th
+                class="font-dmSans whitespace-nowrap border-b border-b-gray-200 bg-transparent px-6 py-3 text-left text-xs font-semibold uppercase tracking-normal text-slate-400 opacity-70"
+              >
+                no
+              </th>
+              <th
+                class="font-dmSans whitespace-nowrap border-b border-b-gray-200 bg-transparent px-6 py-3 text-left text-xs font-semibold uppercase tracking-normal text-slate-400 opacity-70"
+              >
+                logo
+              </th>
+              <th
+                class="font-dmSans whitespace-nowrap border-b border-b-gray-200 bg-transparent px-6 py-3 text-left text-xs font-semibold uppercase tracking-normal text-slate-400 opacity-70"
+              >
+                name
+              </th>
+              <th
+                class="font-dmSans whitespace-nowrap border-b border-b-gray-200 bg-transparent px-6 py-3 text-left text-xs font-semibold uppercase tracking-normal text-slate-400 opacity-70"
+              >
+                information
+              </th>
+              <th
+                class="font-dmSans whitespace-nowrap border-b border-b-gray-200 bg-transparent px-6 py-3 text-left text-xs font-semibold uppercase tracking-normal text-slate-400 opacity-70"
+              >
+                status
+              </th>
+              <th
+                class="font-dmSans whitespace-nowrap border-b border-b-gray-200 bg-transparent px-6 py-3 text-left text-xs font-semibold uppercase tracking-normal text-slate-400 opacity-70"
+              >
+                updated at
+              </th>
+              <th
+                class="font-dmSans whitespace-nowrap border-b border-b-gray-200 bg-transparent px-6 py-3 text-left text-xs font-semibold uppercase tracking-normal text-slate-400 opacity-70"
+              >
+                action
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for association in associations %}
+            <tr class="hover:bg-slate-500 hover:bg-opacity-5">
+              <td class="min-w-[80px] border-b border-b-gray-200 px-6 py-4">
+                <p class="font-inter text-sm text-slate-400">{{ forloop.counter }}</p>
+              </td>
+              <td
+                class="min-w-[13rem] place-items-center content-center items-center justify-center border-b border-b-gray-200 px-6 py-4"
+              >
+                {% if association.logo %}
+                <img
+                  src="{% get_media_prefix %}{{ association.logo }}"
+                  alt="{{ association.slug }}"
+                  srcset=""
+                  class="shadow-container1 h-20 w-28 rounded-xl object-cover object-center"
+                  draggable="false"
+                />
+                {% else %}
+                <img
+                  src="{% static 'web/assets/image_not_found.png' %}"
+                  alt="{{ association.slug }}"
+                  srcset=""
+                  class="shadow-container1 h-20 w-28 rounded-xl object-cover object-center"
+                  draggable="false"
+                />
+                {% endif %}
+              </td>
+              <td class="font-jost min-w-[310px] border-b border-b-gray-200 px-6 py-4 text-left text-slate-800">
+                <span class="flex flex-col gap-1">
+                  <p class="line-clamp-2 font-medium">{{ association.name }}</p>
+                  <a
+                    href=""
+                    class="flex w-fit flex-row items-center gap-2 text-base font-medium text-blue-700 underline-offset-1 hover:text-blue-600 hover:underline"
+                  >
+                    <img
+                      src="{% get_media_prefix %}{{ association.user.avatar }}"
+                      alt=""
+                      srcset=""
+                      class="w-6 rounded-full border object-cover"
+                      draggable="false"
+                    />
+                    {{ association.user }}</a
+                  >
+                </span>
+              </td>
+              <td class="min-w-[16rem] border-b border-b-gray-200 px-6 py-4">
+                <div class="flex flex-col gap-2">
+                  <span class="flex flex-row items-center gap-2 text-slate-800">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-5">
+                      <path
+                        d="M4 4C3.334 4 2.7467656 4.3270781 2.3847656 4.8300781C2.1407656 5.1680781 2.2485625 5.6471875 2.6015625 5.8671875L11.382812 11.339844C11.760812 11.575844 12.239187 11.575844 12.617188 11.339844L21.361328 5.8203125C21.728328 5.5883125 21.819828 5.0840937 21.548828 4.7460938C21.183828 4.2920937 20.627 4 20 4L4 4 z M 21.515625 8.0859375C21.432 8.0868594 21.347078 8.1099062 21.267578 8.1601562L12.617188 13.615234C12.239187 13.850234 11.760812 13.849281 11.382812 13.613281L2.7304688 8.2226562C2.4124687 8.0246562 2 8.2539062 2 8.6289062L2 18C2 19.105 2.895 20 4 20L20 20C21.105 20 22 19.105 22 18L22 8.5644531C22 8.2824531 21.7665 8.0831719 21.515625 8.0859375 z"
+                        fill="currentColor"
+                      />
+                    </svg>
+                    <p class="text-sm font-medium">{{ association.email|urlize }}</p>
+                  </span>
+                  <p class="line-clamp-2 text-sm text-slate-600">{{ association.location }}</p>
+                </div>
+              </td>
+              <td class="min-w-[150px] border-b border-b-gray-200 px-6 py-4 text-xs font-medium text-slate-500">
+                {% if association.is_active %}
+                <span class="rounded-md bg-green-200 px-2 py-1 text-xs uppercase text-green-500">Active</span>
+                {% else %}
+                <span class="rounded-md bg-rose-200 px-2 py-1 text-xs uppercase text-rose-500">Disabled</span>
+                {% endif %}
+              </td>
+              <td
+                class="font-inter min-w-[190px] border-b border-b-gray-200 px-6 py-4 text-sm font-medium text-slate-500"
+              >
+                {{ association.updated_at|date:'M d, Y' }}
+              </td>
+              <td class="min-w-[150px] border-b border-b-gray-200 px-6 py-4">
+                <div class="font-quicksand flex flex-row items-center gap-2 text-sm font-semibold">
+                  <a
+                    href=""
+                    class="hover:shadow-container1 relative rounded-md bg-emerald-500 bg-opacity-10 px-3 py-2 text-emerald-600 transition-all duration-150 ease-out hover:scale-95 hover:brightness-75"
+                    >Preview</a
+                  >
+                  <a
+                    href=""
+                    class="hover:shadow-container1 relative rounded-md bg-gradient-to-b from-sky-600 to-sky-500 px-3 py-2 text-white transition-all duration-150 ease-out hover:scale-95 hover:brightness-110"
+                    >Edit</a
+                  >
+                  {% if association.is_active %}
+                  <button
+                    type="submit"
+                    class="hover:shadow-container1 relative rounded-md bg-gradient-to-b from-red-600 to-red-500 px-3 py-2 text-white transition-all duration-150 ease-out hover:scale-95 hover:brightness-110"
+                    onclick="return confirm(`Delete the event {{ event.title|truncatechars:40 }}? This action is irreversible!`)"
+                  >
+                    Disable
+                  </button>
+                  {% else %}
+                  <button
+                    type="submit"
+                    class="hover:shadow-container1 relative rounded-md bg-gradient-to-b from-emerald-500 to-emerald-400 px-3 py-2 text-white transition-all duration-150 ease-out hover:scale-95 hover:brightness-105"
+                    onclick="return confirm(`Delete the event {{ event.title|truncatechars:40 }}? This action is irreversible!`)"
+                  >
+                    Enable
+                  </button>
+                  {% endif %}
+                </div>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="flex flex-row justify-between">
+      <span class="flex flex-row items-center gap-1">
+        <p class="text-sm text-slate-600">
+          Showing <strong>1</strong> to <strong>3</strong> of <strong>100</strong> entries.
+        </p>
+      </span>
+      <div class="flex flex-row items-center gap-2">
+        <button
+          class="font-poppins relative h-10 w-10 rounded-lg bg-blue-500 text-sm font-semibold text-white hover:bg-opacity-80"
+          tabindex="-1"
+        >
+          <p class="absolute top-2/4 left-2/4 -translate-x-2/4 -translate-y-2/4">1</p>
+        </button>
+        <button
+          class="font-poppins relative h-10 w-10 rounded-lg border border-slate-300 text-sm font-semibold text-slate-300 hover:border-slate-400 hover:text-slate-400"
+          tabindex="-1"
+        >
+          <p class="absolute top-2/4 left-2/4 -translate-x-2/4 -translate-y-2/4">2</p>
+        </button>
+        <button
+          class="font-poppins relative h-10 w-10 rounded-lg border border-slate-300 text-sm font-semibold text-slate-300 hover:border-slate-400 hover:text-slate-400"
+          tabindex="-1"
+        >
+          <p class="absolute top-2/4 left-2/4 -translate-x-2/4 -translate-y-2/4">3</p>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}

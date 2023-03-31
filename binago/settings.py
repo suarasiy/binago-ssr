@@ -31,6 +31,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'authentication',
     'Organizers',
+    'Associations',
     'Events',
     'Dashboard',
     'active_link',

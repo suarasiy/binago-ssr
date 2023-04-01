@@ -5,7 +5,7 @@ from django.conf.urls.static import static
 from django.conf import settings
 
 from .views import (
-    dashboard, settings_profile
+    dashboard, settings_profile, signout
 )
 
 urlpatterns = [
@@ -19,7 +19,8 @@ urlpatterns = [
         path('settings/', include([
             path('profile/', settings_profile, name='settings')
         ]))
-    ]))
+    ])),
+    path('signout', signout, name='signout')
 ]
 
 # media

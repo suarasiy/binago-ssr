@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils.safestring import mark_safe
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 import pathlib
@@ -68,6 +69,14 @@ class User(AbstractBaseUser, PermissionsMixin):
     REQUIRED_FIELDS = ['username']
 
     objects = UserManager()
+
+    def avatar_preview(self):
+        return mark_safe(
+            f"""
+            <img src="{self.avatar.url}" width="120" height="120" style="object-fit: cover; object-position: center; border-radius: 15px; margin-right: 5px;" />
+            <img src="{self.banner.url}" width="180" height="120" style="object-fit: cover; object-position: center; border-radius: 15px;" />
+            """
+        )
 
     def __str__(self):
         return self.username

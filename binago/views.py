@@ -1,10 +1,11 @@
-from .utils import pages_testing, pages_backend
+from .utils import pages_testing, pages_backend, pages_frontend
 from .context_interface import Context
 
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect, HttpResponsePermanentRedirect
 from django.urls import reverse
 from django.shortcuts import render, redirect
 from django.views.decorators.http import require_http_methods
+from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 
 from authentication.models import User
@@ -49,3 +50,17 @@ def settings_profile(request) -> HttpResponse:
         'powerheader': user
     }
     return render(request, template, context)
+
+
+@require_http_methods(['GET'])
+def signin(request) -> HttpResponse:
+    template: str = pages_frontend('authentication/login.html')
+    context = {}
+    return render(request, template, context)
+
+
+@login_required
+@require_http_methods(['POST'])
+def signout(request) -> HttpResponseRedirect | HttpResponsePermanentRedirect:
+    logout(request)
+    return redirect('admin')

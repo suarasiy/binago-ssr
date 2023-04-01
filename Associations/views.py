@@ -19,6 +19,10 @@ class ContextIndex(Context):
     associations: Union[QuerySet, List[Associations] | List[AssociationsApprovalRequest]]
 
 
+class ContextProfile(Context):
+    association: Union[QuerySet, Associations]
+
+
 @login_required
 @require_http_methods(['GET'])
 def index(request) -> HttpResponse:
@@ -36,7 +40,7 @@ def index(request) -> HttpResponse:
             ]
         },
         'description': 'Manage association members and activity.',
-        'associations': Associations.objects.all()
+        'associations': Associations.objects.filter(approval__is_approved=True)
     }
     return render(request, template, context)
 
@@ -65,13 +69,36 @@ def index_approval(request) -> HttpResponse:
 
 
 @login_required
+@require_http_methods(['GET'])
+def profile(request) -> HttpResponse:
+    template: str = pages_backend('associations/profile.html')
+    association: Associations = Associations.objects.get(user=request.user)
+    context: ContextProfile = {
+        'title': 'Associations Profile',
+        'breadcrumb': {
+            'main': 'Associations',
+            'branch': [
+                {
+                    'name': 'Profile',
+                    'reverse': reverse('associations-profile'),
+                    'type': 'current'
+                }
+            ]
+        },
+        'description': 'Your association profile',
+        'association': association
+    }
+    return render(request, template, context)
+
+
+@login_required
 @require_http_methods(['POST'])
 def approval_accept(request, id) -> HttpResponseRedirect | HttpResponsePermanentRedirect:
     approval: AssociationsApprovalRequest = AssociationsApprovalRequest.objects.get(id=id)
     approval.is_approved = True
     approval.save()
 
-    messages.success(request, f'Approval of {approval.association.name} successfully accepted.')
+    messages.success(request, f'Approval of {approval.associations.name} successfully accepted.')
     return redirect('associations-approval')
 
 
@@ -82,5 +109,5 @@ def approval_reject(request, id) -> HttpResponseRedirect | HttpResponsePermanent
     approval.is_approved = False
     approval.save()
 
-    messages.success(request, f'Approval of {approval.association.name} successfully rejected.')
+    messages.success(request, f'Approval of {approval.associations.name} successfully rejected.')
     return redirect('associations-approval')

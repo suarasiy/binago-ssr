@@ -10,7 +10,18 @@
       <img src="{% static 'web/logo.png' %}" alt="" srcset="" class="w-52 object-contain px-2" />
     </div>
     <hr />
-    <!-- MENU: DASHBOARD -->
+    <!-- MENU: ROOT -->
+    <div class="">
+      <a class="nav__menu" href="/admin/" target="_blank">
+        <img src="{% static 'backend/icons/menu_root.svg' %}" alt="" srcset="" class="w-6" draggable="false" />
+        <span class="flex w-full flex-row justify-between">
+          <p>Root</p>
+          <img src="{% static 'backend/icons/linking.svg' %}" alt="" srcset="" class="indicator" draggable="false" />
+        </span>
+      </a>
+    </div>
+    <hr />
+    <!-- MENU: OVERVIEW -->
     <div class="">
       <div
         class="nav__menu {% active_link 'dashboard-events' 'nav__menu--active' strict=True %}"
@@ -85,7 +96,11 @@
         <a href="{% url 'associations' %}" class="link {% active_link 'associations' 'link--active' strict=True %}"
           >Data</a
         >
-        <a href="" class="link">Profile</a>
+        <a
+          href="{% url 'associations-profile' %}"
+          class="link {% active_link 'associations-profile' 'link--active' strict=True %}"
+          >Profile</a
+        >
         <a href="" class="link">Summary</a>
       </div>
     </div>
@@ -135,7 +150,12 @@
       </div>
       <div id="menu-settings" class="nav__sub__menu nav__sub__menu">
         <a href="{% url 'settings' %}" class="link {% active_link 'settings' 'link--active' strict=True %}">Profile</a>
-        <a href="" class="link">Logout</a>
+        <form action="{% url 'signout' %}" method="post">
+          {% csrf_token %}
+          <button type="submit" class="link" tabindex="-1" onclick="return confirm(`Are you sure want to logout?`)">
+            Logout
+          </button>
+        </form>
       </div>
     </div>
     <hr />

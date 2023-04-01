@@ -72,7 +72,7 @@
                     src="{% get_media_prefix %}{{ approval.association.user.avatar }}"
                     alt=""
                     srcset=""
-                    class="w-6 rounded-full border object-cover"
+                    class="h-6 w-6 rounded-full border object-cover"
                     draggable="false"
                   />
                   {{ approval.association.user }}</a
@@ -85,20 +85,26 @@
               </td>
               <td class="min-w-[150px] border-b border-b-gray-200 px-6 py-4">
                 <div class="font-quicksand flex flex-row items-center gap-2 text-sm font-semibold">
-                  <button
-                    type="submit"
-                    class="hover:shadow-container1 relative rounded-md bg-gradient-to-b from-emerald-500 to-emerald-400 px-3 py-2 text-white transition-all duration-150 ease-out hover:scale-95 hover:brightness-105"
-                    onclick="return confirm(`Approve this request? ({{ approval.association.name|truncatechars:40 }})`)"
-                  >
-                    Accept
-                  </button>
-                  <button
-                    type="submit"
-                    class="hover:shadow-container1 relative rounded-md bg-gradient-to-b from-red-600 to-red-500 px-3 py-2 text-white transition-all duration-150 ease-out hover:scale-95 hover:brightness-110"
-                    onclick="return confirm(`Reject this request? ({{ approval.association.name|truncatechars:40 }})`)"
-                  >
-                    Reject
-                  </button>
+                  <form action="{% url 'associations-approval-accept' approval.id %}" method="post">
+                    {% csrf_token %}
+                    <button
+                      type="submit"
+                      class="hover:shadow-container1 relative rounded-md bg-gradient-to-b from-emerald-500 to-emerald-400 px-3 py-2 text-white transition-all duration-150 ease-out hover:scale-95 hover:brightness-105"
+                      onclick="return confirm(`Approve this request? ({{ approval.association.name|truncatechars:40 }})`)"
+                    >
+                      Accept
+                    </button>
+                  </form>
+                  <form action="{% url 'associations-approval-reject' approval.id %}" method="post">
+                    {% csrf_token %}
+                    <button
+                      type="submit"
+                      class="hover:shadow-container1 relative rounded-md bg-gradient-to-b from-red-600 to-red-500 px-3 py-2 text-white transition-all duration-150 ease-out hover:scale-95 hover:brightness-110"
+                      onclick="return confirm(`Reject this request? ({{ approval.association.name|truncatechars:40 }})`)"
+                    >
+                      Reject
+                    </button>
+                  </form>
                 </div>
               </td>
             </tr>

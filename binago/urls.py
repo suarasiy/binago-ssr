@@ -5,7 +5,7 @@ from django.conf.urls.static import static
 from django.conf import settings
 
 from .views import (
-    dashboard
+    dashboard, settings_profile
 )
 
 urlpatterns = [
@@ -16,6 +16,9 @@ urlpatterns = [
         # path('organizers/', include('Organizers.urls')),
         path('associations/', include('Associations.urls')),
         path('events/', include('Events.urls')),
+        path('settings/', include([
+            path('profile/', settings_profile, name='settings')
+        ]))
     ]))
 ]
 

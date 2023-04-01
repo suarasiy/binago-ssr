@@ -16,13 +16,18 @@
     {% endblock %}
   </head>
   <body class="flex flex-col gap-5 bg-gray-50">
-    <div class="absolute top-0 z-0 h-64 w-full rounded-b-3xl bg-gradient-to-br from-sky-500 via-blue-500 to-blue-500">
-      {% if header %}
+    <div
+      class="absolute top-0 z-0 h-64 w-full overflow-hidden rounded-b-3xl bg-gradient-to-br from-sky-500 via-blue-500 to-blue-500"
+    >
+      {% if powerheader.banner %}
+      <div
+        class="absolute inset-0 -top-6 z-[1] h-[calc(100%+1.5rem)] w-full bg-gradient-to-b from-sky-500 via-blue-500 to-gray-50 opacity-80"
+      ></div>
       <img
-        src="{% get_media_prefix %}{{ header }}"
-        alt="{{ request.user.username }}"
+        src="{% get_media_prefix %}{{ powerheader.banner }}"
+        alt="{{ powerheader.username }}"
         srcset=""
-        class="absolute h-full w-full object-cover object-center opacity-20 mix-blend-overlay"
+        class="absolute z-0 h-full w-full object-cover object-center mix-blend-screen"
       />
       {% endif %}
     </div>

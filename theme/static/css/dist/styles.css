@@ -4,6 +4,8 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap');
 
 @import url('https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;0,1000;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900;1,1000&display=swap');
@@ -1115,6 +1117,10 @@ main .widget.widget--active > strong.context + p.subcon{
   left: 0px;
 }
 
+.-top-6{
+  top: -1.5rem;
+}
+
 .bottom-0{
   bottom: 0px;
 }
@@ -1171,6 +1177,16 @@ main .widget.widget--active > strong.context + p.subcon{
   grid-column-start: 2;
 }
 
+.mx-2{
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
+}
+
+.mx-3{
+  margin-left: 0.75rem;
+  margin-right: 0.75rem;
+}
+
 .mx-4{
   margin-left: 1rem;
   margin-right: 1rem;
@@ -1191,12 +1207,36 @@ main .widget.widget--active > strong.context + p.subcon{
   margin-bottom: 1.25rem;
 }
 
+.mb-12{
+  margin-bottom: 3rem;
+}
+
 .mb-2{
   margin-bottom: 0.5rem;
 }
 
+.ml-2{
+  margin-left: 0.5rem;
+}
+
+.ml-3{
+  margin-left: 0.75rem;
+}
+
+.mr-8{
+  margin-right: 2rem;
+}
+
+.mt-1{
+  margin-top: 0.25rem;
+}
+
 .mt-2{
   margin-top: 0.5rem;
+}
+
+.mt-4{
+  margin-top: 1rem;
 }
 
 .block{
@@ -1243,6 +1283,14 @@ main .widget.widget--active > strong.context + p.subcon{
   height: 1.25rem;
 }
 
+.h-56{
+  height: 14rem;
+}
+
+.h-6{
+  height: 1.5rem;
+}
+
 .h-64{
   height: 16rem;
 }
@@ -1251,12 +1299,20 @@ main .widget.widget--active > strong.context + p.subcon{
   height: 1.75rem;
 }
 
+.h-8{
+  height: 2rem;
+}
+
 .h-96{
   height: 24rem;
 }
 
 .h-\[36rem\]{
   height: 36rem;
+}
+
+.h-\[calc\(100\%\+1\.5rem\)\]{
+  height: calc(100% + 1.5rem);
 }
 
 .h-fit{
@@ -1275,10 +1331,6 @@ main .widget.widget--active > strong.context + p.subcon{
 
 .h-screen{
   height: 100vh;
-}
-
-.h-8{
-  height: 2rem;
 }
 
 .min-h-\[50px\]{
@@ -1319,6 +1371,10 @@ main .widget.widget--active > strong.context + p.subcon{
 
 .w-52{
   width: 13rem;
+}
+
+.w-56{
+  width: 14rem;
 }
 
 .w-6{
@@ -1378,6 +1434,10 @@ main .widget.widget--active > strong.context + p.subcon{
   min-width: 16rem;
 }
 
+.min-w-\[18rem\]{
+  min-width: 18rem;
+}
+
 .min-w-\[190px\]{
   min-width: 190px;
 }
@@ -1400,10 +1460,6 @@ main .widget.widget--active > strong.context + p.subcon{
 
 .min-w-\[80px\]{
   min-width: 80px;
-}
-
-.min-w-\[18rem\]{
-  min-width: 18rem;
 }
 
 .max-w-\[105px\]{
@@ -1476,6 +1532,10 @@ main .widget.widget--active > strong.context + p.subcon{
   flex-direction: column;
 }
 
+.flex-wrap{
+  flex-wrap: wrap;
+}
+
 .place-items-center{
   place-items: center;
 }
@@ -1502,6 +1562,10 @@ main .widget.widget--active > strong.context + p.subcon{
 
 .gap-1{
   gap: 0.25rem;
+}
+
+.gap-10{
+  gap: 2.5rem;
 }
 
 .gap-2{
@@ -1552,6 +1616,14 @@ main .widget.widget--active > strong.context + p.subcon{
   white-space: nowrap;
 }
 
+.rounded-3xl{
+  border-radius: 1.5rem;
+}
+
+.rounded-\[2rem\]{
+  border-radius: 2rem;
+}
+
 .rounded-full{
   border-radius: 9999px;
 }
@@ -1599,6 +1671,21 @@ main .widget.widget--active > strong.context + p.subcon{
   border-right-width: 1px;
 }
 
+.border-black{
+  --tw-border-opacity: 1;
+  border-color: rgb(0 0 0 / var(--tw-border-opacity));
+}
+
+.border-gray-100{
+  --tw-border-opacity: 1;
+  border-color: rgb(235 239 244 / var(--tw-border-opacity));
+}
+
+.border-gray-200{
+  --tw-border-opacity: 1;
+  border-color: rgb(233 236 239 / var(--tw-border-opacity));
+}
+
 .border-gray-300{
   --tw-border-opacity: 1;
   border-color: rgb(210 214 218 / var(--tw-border-opacity));
@@ -1631,6 +1718,10 @@ main .widget.widget--active > strong.context + p.subcon{
 .border-b-gray-200{
   --tw-border-opacity: 1;
   border-bottom-color: rgb(233 236 239 / var(--tw-border-opacity));
+}
+
+.border-opacity-5{
+  --tw-border-opacity: 0.05;
 }
 
 .bg-black{
@@ -1711,6 +1802,10 @@ main .widget.widget--active > strong.context + p.subcon{
   --tw-bg-opacity: 0.1;
 }
 
+.bg-opacity-70{
+  --tw-bg-opacity: 0.7;
+}
+
 .bg-gradient-to-b{
   background-image: linear-gradient(to bottom, var(--tw-gradient-stops));
 }
@@ -1764,6 +1859,10 @@ main .widget.widget--active > strong.context + p.subcon{
 
 .to-emerald-400{
   --tw-gradient-to: #34d399;
+}
+
+.to-gray-50{
+  --tw-gradient-to: #f8f9fa;
 }
 
 .to-red-500{
@@ -1879,6 +1978,10 @@ main .widget.widget--active > strong.context + p.subcon{
   padding-bottom: 2px;
 }
 
+.pb-3{
+  padding-bottom: 0.75rem;
+}
+
 .pl-1{
   padding-left: 0.25rem;
 }
@@ -1915,6 +2018,10 @@ main .widget.widget--active > strong.context + p.subcon{
   font-family: Jost, Inter, "Klee One", "Sans Serif";
 }
 
+.font-montserrat{
+  font-family: Montserrat, "Open Sans", "Sans Serif";
+}
+
 .font-mulish{
   font-family: Mulish, "Sans Serif";
 }
@@ -1934,6 +2041,11 @@ main .widget.widget--active > strong.context + p.subcon{
 .text-2xl{
   font-size: 1.5rem;
   line-height: 2rem;
+}
+
+.text-3xl{
+  font-size: 1.875rem;
+  line-height: 2.25rem;
 }
 
 .text-5xl{
@@ -1956,6 +2068,10 @@ main .widget.widget--active > strong.context + p.subcon{
   line-height: 1rem;
 }
 
+.font-bold{
+  font-weight: 700;
+}
+
 .font-light{
   font-weight: 300;
 }
@@ -1974,6 +2090,10 @@ main .widget.widget--active > strong.context + p.subcon{
 
 .uppercase{
   text-transform: uppercase;
+}
+
+.leading-7{
+  line-height: 1.75rem;
 }
 
 .leading-normal{
@@ -2029,6 +2149,11 @@ main .widget.widget--active > strong.context + p.subcon{
   color: rgb(244 63 94 / var(--tw-text-opacity));
 }
 
+.text-sky-500{
+  --tw-text-opacity: 1;
+  color: rgb(14 165 233 / var(--tw-text-opacity));
+}
+
 .text-slate-100{
   --tw-text-opacity: 1;
   color: rgb(222 226 230 / var(--tw-text-opacity));
@@ -2054,6 +2179,11 @@ main .widget.widget--active > strong.context + p.subcon{
   color: rgb(98 117 148 / var(--tw-text-opacity));
 }
 
+.text-slate-700{
+  --tw-text-opacity: 1;
+  color: rgb(52 71 103 / var(--tw-text-opacity));
+}
+
 .text-slate-800{
   --tw-text-opacity: 1;
   color: rgb(58 65 111 / var(--tw-text-opacity));
@@ -2072,6 +2202,10 @@ main .widget.widget--active > strong.context + p.subcon{
 .text-yellow-500{
   --tw-text-opacity: 1;
   color: rgb(251 177 64 / var(--tw-text-opacity));
+}
+
+.text-opacity-50{
+  --tw-text-opacity: 0.5;
 }
 
 .text-opacity-70{
@@ -2098,24 +2232,12 @@ main .widget.widget--active > strong.context + p.subcon{
   opacity: 0.7;
 }
 
-.opacity-30{
-  opacity: 0.3;
+.opacity-80{
+  opacity: 0.8;
 }
 
-.opacity-20{
-  opacity: 0.2;
-}
-
-.bg-blend-overlay{
-  background-blend-mode: overlay;
-}
-
-.mix-blend-overlay{
-  mix-blend-mode: overlay;
-}
-
-.mix-blend-difference{
-  mix-blend-mode: difference;
+.mix-blend-screen{
+  mix-blend-mode: screen;
 }
 
 .shadow-container1{
@@ -2153,6 +2275,12 @@ main .widget.widget--active > strong.context + p.subcon{
 
 .ring-offset-0{
   --tw-ring-offset-width: 0px;
+}
+
+.backdrop-blur-lg{
+  --tw-backdrop-blur: blur(16px);
+  -webkit-backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);
+          backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);
 }
 
 .transition-all{
@@ -2460,6 +2588,12 @@ main .selectize-control .selectize-input > input{
   top: -0.25rem;
 }
 
+.hover\:scale-105:hover{
+  --tw-scale-x: 1.05;
+  --tw-scale-y: 1.05;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+
 .hover\:scale-110:hover{
   --tw-scale-x: 1.1;
   --tw-scale-y: 1.1;
@@ -2479,6 +2613,11 @@ main .selectize-control .selectize-input > input{
 
 .hover\:border-transparent:hover{
   border-color: transparent;
+}
+
+.hover\:bg-gray-200:hover{
+  --tw-bg-opacity: 1;
+  background-color: rgb(233 236 239 / var(--tw-bg-opacity));
 }
 
 .hover\:bg-slate-500:hover{

@@ -315,6 +315,7 @@ module.exports = {
         dmSans: ['"DM Sans"', 'Poppins', 'Inter', '"Sans Serif"'],
         jost: ['Jost', 'Inter', '"Klee One"', '"Sans Serif"'],
         openSans: ['"Open Sans"', 'Caveat', '"DM Sans"', '"Noto Sans"', '"Sans Serif"'],
+        montserrat: ['Montserrat', '"Open Sans"', '"Sans Serif"'],
         mulish: ['Mulish', '"Sans Serif"'],
         poppins: ['Poppins', 'Mulish', '"Sans Serif"'],
         quicksand: ['Quicksand', 'Mulish', 'Poppins', '"Sans Serif"'],

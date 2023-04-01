@@ -99,9 +99,9 @@
         </span>
       </div>
       <div id="menu-invoices" class="nav__sub__menu nav__sub__menu--hide">
-        <a href="" class="py-2 hover:text-slate-700">Data</a>
-        <a href="" class="py-2 hover:text-slate-700">Activity</a>
-        <a href="" class="py-2 hover:text-slate-700">Summary</a>
+        <a href="" class="link">Data</a>
+        <a href="" class="link">Activity</a>
+        <a href="" class="link">Summary</a>
       </div>
     </div>
     <!-- MENU: USERS -->
@@ -114,22 +114,28 @@
         </span>
       </div>
       <div id="menu-users" class="nav__sub__menu nav__sub__menu">
-        <a href="" class="py-2 hover:text-slate-700">Data</a>
-        <a href="" class="py-2 hover:text-slate-700">Summary</a>
+        <a href="" class="link">Data</a>
+        <a href="" class="link">Summary</a>
       </div>
     </div>
     <!-- MENU: SETTINGS -->
     <div class="">
-      <div class="nav__menu" data-target-menu="menu-settings">
+      <div class="nav__menu {% active_link 'settings' 'nav__menu--active' %}" data-target-menu="menu-settings">
         <img src="{% static 'backend/icons/menu_settings.svg' %}" alt="" srcset="" class="w-6" draggable="false" />
         <span class="flex w-full flex-row justify-between">
           <p>Settings</p>
-          <img src="{% static 'backend/icons/chevron.svg' %}" alt="" srcset="" class="indicator" draggable="false" />
+          <img
+            src="{% static 'backend/icons/chevron.svg' %}"
+            alt=""
+            srcset=""
+            class="indicator {% active_link 'settings' 'indicator--active' %}"
+            draggable="false"
+          />
         </span>
       </div>
       <div id="menu-settings" class="nav__sub__menu nav__sub__menu">
-        <a href="" class="py-2 hover:text-slate-700">Profile</a>
-        <a href="" class="py-2 hover:text-slate-700">Logout</a>
+        <a href="{% url 'settings' %}" class="link {% active_link 'settings' 'link--active' strict=True %}">Profile</a>
+        <a href="" class="link">Logout</a>
       </div>
     </div>
     <hr />

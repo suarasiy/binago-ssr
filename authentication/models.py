@@ -5,10 +5,16 @@ import pathlib
 from uuid import uuid1
 
 
-def user_avatar_upload_handler(instance, filename):
+def user_avatar_upload_handler(instance, filename) -> str:
     fpath = pathlib.Path(filename)
     fname = str(uuid1())
     return f"user/avatar/{instance.id}__{fname}{fpath.suffix}"
+
+
+def user_banner_upload_handler(instance, filename) -> str:
+    fpath = pathlib.Path(filename)
+    fname = str(uuid1())
+    return f"user/banner/{instance.id}__{fname}{fpath.suffix}"
 
 
 class UserManager(BaseUserManager):
@@ -50,6 +56,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     last_name = models.CharField(max_length=60)
     email = models.EmailField(max_length=255, unique=True, db_index=True)
     avatar = models.ImageField(upload_to=user_avatar_upload_handler, blank=True, null=True)
+    banner = models.ImageField(upload_to=user_banner_upload_handler, blank=True, null=True)
     gender = models.TextField(max_length=1, choices=Gender.choices, default=Gender.HIDE)
     is_verified = models.BooleanField(default=False)
     is_staff = models.BooleanField(default=False)

@@ -1173,6 +1173,10 @@ main .widget.widget--active > strong.context + p.subcon{
   grid-column: span 4 / span 4;
 }
 
+.col-span-6{
+  grid-column: span 6 / span 6;
+}
+
 .col-start-2{
   grid-column-start: 2;
 }
@@ -1257,6 +1261,10 @@ main .widget.widget--active > strong.context + p.subcon{
 
 .hidden{
   display: none;
+}
+
+.aspect-1{
+  aspect-ratio: 1;
 }
 
 .aspect-2{
@@ -1511,6 +1519,10 @@ main .widget.widget--active > strong.context + p.subcon{
   flex: 1 1 auto;
 }
 
+.shrink-0{
+  flex-shrink: 0;
+}
+
 .flex-grow-0{
   flex-grow: 0;
 }
@@ -1555,10 +1567,6 @@ main .widget.widget--active > strong.context + p.subcon{
 
 .grid-cols-6{
   grid-template-columns: repeat(6, minmax(0, 1fr));
-}
-
-.grid-cols-1{
-  grid-template-columns: repeat(1, minmax(0, 1fr));
 }
 
 .flex-row{
@@ -1643,6 +1651,10 @@ main .widget.widget--active > strong.context + p.subcon{
   align-self: center;
 }
 
+.justify-self-center{
+  justify-self: center;
+}
+
 .overflow-hidden{
   overflow: hidden;
 }
@@ -1657,6 +1669,10 @@ main .widget.widget--active > strong.context + p.subcon{
 
 .whitespace-nowrap{
   white-space: nowrap;
+}
+
+.rounded-2xl{
+  border-radius: 1rem;
 }
 
 .rounded-3xl{
@@ -2380,6 +2396,16 @@ main .widget.widget--active > strong.context + p.subcon{
   transition-duration: 150ms;
 }
 
+.transition-colors{
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+
+.duration-100{
+  transition-duration: 100ms;
+}
+
 .duration-150{
   transition-duration: 150ms;
 }
@@ -2509,6 +2535,70 @@ main .input__field__file:focus{
   --tw-ring-opacity: 1;
   --tw-ring-color: rgb(94 114 228 / var(--tw-ring-opacity));
   --tw-ring-offset-width: 1px;
+}
+
+main .render__content{
+  margin-left: 0.75rem;
+  margin-right: 2rem;
+  margin-top: 0.25rem;
+  font-family: Poppins, Mulish, "Sans Serif";
+  font-size: 1rem;
+  line-height: 1.75rem;
+  --tw-text-opacity: 1;
+  color: rgb(98 117 148 / var(--tw-text-opacity));
+}
+
+main .render__content a{
+  border-bottom-width: 2px;
+  border-color: rgb(94 114 228 / var(--tw-border-opacity));
+  --tw-border-opacity: 0.2;
+  font-weight: 600;
+  --tw-text-opacity: 1;
+  color: rgb(94 114 228 / var(--tw-text-opacity));
+}
+
+main .input__field__list{
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  border-radius: 0.75rem;
+  border-width: 1px;
+  --tw-border-opacity: 1;
+  border-color: rgb(203 211 218 / var(--tw-border-opacity));
+  --tw-bg-opacity: 1;
+  background-color: rgb(255 255 255 / var(--tw-bg-opacity));
+  padding-left: 1rem;
+  padding-right: 1rem;
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+  --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
+  --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(0px + var(--tw-ring-offset-width)) var(--tw-ring-color);
+  box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000);
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+  transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
+}
+
+main .input__field__list:focus{
+  border-color: transparent;
+  --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
+  --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color);
+  box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000);
+  --tw-ring-opacity: 1;
+  --tw-ring-color: rgb(94 114 228 / var(--tw-ring-opacity));
+  --tw-ring-offset-width: 1px;
+}
+
+main .input__field__radio{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 1rem;
+  border-radius: 1rem;
+  padding: 0.75rem;
 }
 
 main .min__h__50px{
@@ -2706,6 +2796,11 @@ main .selectize-control .selectize-input > input{
   border-color: transparent;
 }
 
+.hover\:bg-black:hover{
+  --tw-bg-opacity: 1;
+  background-color: rgb(0 0 0 / var(--tw-bg-opacity));
+}
+
 .hover\:bg-gray-200:hover{
   --tw-bg-opacity: 1;
   background-color: rgb(233 236 239 / var(--tw-bg-opacity));
@@ -2714,6 +2809,10 @@ main .selectize-control .selectize-input > input{
 .hover\:bg-slate-500:hover{
   --tw-bg-opacity: 1;
   background-color: rgb(103 116 142 / var(--tw-bg-opacity));
+}
+
+.hover\:bg-opacity-10:hover{
+  --tw-bg-opacity: 0.1;
 }
 
 .hover\:bg-opacity-20:hover{
@@ -2841,6 +2940,12 @@ main .selectize-control .selectize-input > input{
 
 .focus\:ring-offset-1:focus{
   --tw-ring-offset-width: 1px;
+}
+
+.active\:scale-\[\.98\]:active{
+  --tw-scale-x: .98;
+  --tw-scale-y: .98;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
 
 .group:hover .group-hover\:bg-gray-50{

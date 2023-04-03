@@ -30,7 +30,7 @@ class EventForm(forms.ModelForm):
     ))
     description = forms.CharField(widget=forms.Textarea(
         attrs={'class': 'input__field min__h__50px', 'placeholder': 'Describe abour your events...',
-               'rows': '4', 'spellcheck': 'false', 'id': 'description', 'autocomplete': 'off'}
+               'rows': '8', 'spellcheck': 'false', 'id': 'description', 'autocomplete': 'off'}
     ))
     # schedule_start = forms.DateTimeField(widget=DateTimeInput(
     #     attrs={'class': 'input__field', 'placeholder': 'Schedule to start', 'id': 'schedule-start'}

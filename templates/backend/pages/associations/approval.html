@@ -85,7 +85,7 @@
               </td>
               <td class="min-w-[150px] border-b border-b-gray-200 px-6 py-4">
                 <div class="font-quicksand flex flex-row items-center gap-2 text-sm font-semibold">
-                  <form action="{% url 'associations-approval-accept' approval.id %}" method="post">
+                  <form action="{% url 'associations-data-approval-accept' approval.id %}" method="post">
                     {% csrf_token %}
                     <button
                       type="submit"
@@ -95,7 +95,7 @@
                       Accept
                     </button>
                   </form>
-                  <form action="{% url 'associations-approval-reject' approval.id %}" method="post">
+                  <form action="{% url 'associations-data-approval-reject' approval.id %}" method="post">
                     {% csrf_token %}
                     <button
                       type="submit"
@@ -139,6 +139,13 @@
           <p class="absolute top-2/4 left-2/4 -translate-x-2/4 -translate-y-2/4">3</p>
         </button>
       </div>
+    </div>
+    <div class="flex flex-row items-center gap-3">
+      <a
+        href="{% url 'associations-data' %}"
+        class="font-mulish relative rounded-lg border border-slate-100 bg-slate-500 bg-opacity-10 px-4 py-2 text-sm font-semibold uppercase text-slate-400 transition-all duration-150 ease-out hover:brightness-50"
+        >Back</a
+      >
     </div>
   </div>
 </div>

@@ -12,10 +12,18 @@
       <!-- -->
       {% if branch.type == 'previous' %}
       <span class="path__previous">/</span>
-      <a href="{{ branch.reverse }}" class="path__previous">{{ branch.name }}</a>
+      <a
+        href="{{ branch.reverse }}"
+        class="path__previous rounded-md px-2 py-1 transition-colors duration-150 ease-out hover:bg-black hover:bg-opacity-10"
+        >{{ branch.name }}</a
+      >
       {% else %}
       <span class="path">/</span>
-      <a href="{{ branch.reverse }}" class="path">{{ branch.name|truncatechars:"30" }}</a>
+      <a
+        href="{{ branch.reverse }}"
+        class="path rounded-md px-2 py-1 transition-colors duration-150 ease-out hover:bg-black hover:bg-opacity-10"
+        >{{ branch.name|truncatechars:"30" }}</a
+      >
       {% endif %}
       <!-- -->
       {% endfor %}

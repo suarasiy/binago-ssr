@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     'tailwind',
     'theme',
     'django_browser_reload',
-    'django_cleanup.apps.CleanupConfig'
+    'django_cleanup.apps.CleanupConfig',
+    'widget_tweaks',
 ]
 
 TAILWIND_APP_NAME = 'theme'

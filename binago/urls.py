@@ -17,8 +17,12 @@ urlpatterns = [
         path('associations/', include('Associations.urls')),
         path('events/', include('Events.urls')),
         path('settings/', include([
-            path('profile/', settings_profile, name='settings')
-        ]))
+            # TODO: Need to improve
+            path('profile/', include([
+                path('', settings_profile, name='settings'),
+                path('', include('authentication.urls')),
+            ])),
+        ])),
     ])),
     path('signout', signout, name='signout')
 ]

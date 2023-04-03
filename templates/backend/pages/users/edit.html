@@ -4,87 +4,121 @@
 {% load static %}
 
 <!-- -->
+{% load widget_tweaks %}
+
+<!-- -->
 {% block content %}
 
 <div class="grid select-none grid-cols-6">
-  <form action="" method="post" class="container col-span-4 col-start-2" enctype="multipart/form-data">
+  <form method="post" class="container col-span-4 col-start-2" enctype="multipart/form-data">
     {% csrf_token %}
     <div class="flex flex-row justify-between">
       <div class="font-poppins flex flex-col gap-1">
-        <p class="font-medium text-slate-900">Edit Association</p>
-        <small class="text-xs font-light text-slate-600">Update information association.</small>
+        <p class="font-medium text-slate-900">Edit Profile</p>
+        <small class="text-xs font-light text-slate-600">Update your information</small>
       </div>
     </div>
-    <div class="container__group grid grid-cols-4 gap-6">
-      <div class="col-span-2 flex flex-col gap-2">
-        <label for="{{ form.name.id_for_label }}" class="cursor-pointer text-sm font-semibold text-slate-500"
-          >Association Name</label
+    <div class="container__group grid grid-cols-6 gap-6">
+      <div class="col-span-3 flex flex-col gap-2">
+        <label for="{{ form.first_name.id_for_label }}" class="cursor-pointer text-sm font-semibold text-slate-500"
+          >First Name</label
         >
-        {{ form.name }}
+        {{ form.first_name }}
       </div>
-      <div class="col col-span-2 flex flex-col gap-2">
-        <label for="{{ form.email.id_for_label }}" class="cursor-pointer text-sm font-semibold text-slate-500">
-          Email
-        </label>
+      <div class="col-span-3 flex flex-col gap-2">
+        <label for="{{ form.last_name.id_for_label }}" class="cursor-pointer text-sm font-semibold text-slate-500"
+          >Last Name</label
+        >
+        {{ form.last_name }}
+      </div>
+      <div class="col-span-3 flex flex-col gap-2">
+        <label for="{{ form.username.id_for_label }}" class="cursor-pointer text-sm font-semibold text-slate-500"
+          >Username</label
+        >
+        {{ form.username }}
+      </div>
+      <div class="col-span-3 flex flex-col gap-2">
+        <label for="{{ form.email.id_for_label }}" class="cursor-pointer text-sm font-semibold text-slate-500"
+          >Email</label
+        >
         {{ form.email }}
       </div>
-      <div class="col col-span-2 flex flex-col gap-2">
-        <label for="{{ form.location.id_for_label }}" class="cursor-pointer text-sm font-semibold text-slate-500"
-          >Location</label
+      <div class="col-span-3 flex flex-col gap-2">
+        <label for="{{ form.institute.id_for_label }}" class="cursor-pointer text-sm font-semibold text-slate-500"
+          >Institute</label
         >
-        {{ form.location }}
+        {{ form.institute }}
       </div>
-      <div class="col col-span-2 flex flex-col gap-2">
-        <label for="{{ form.phone.id_for_label }}" class="cursor-pointer text-sm font-semibold text-slate-500"
-          >Phone Number</label
+      <div class="col-span-3 flex flex-col gap-2">
+        <label for="{{ form.city.id_for_label }}" class="cursor-pointer text-sm font-semibold text-slate-500"
+          >City</label
         >
-        {{ form.phone }}
+        {{ form.city }}
       </div>
-      <div class="col col-span-4 flex flex-col gap-2">
-        <label for="{{ form.about.id_for_label }}" class="cursor-pointer text-sm font-semibold text-slate-500">
-          About
-        </label>
+      <div class="col-span-6 flex flex-col gap-2">
+        <label for="{{ form.gender.id_for_label }}" class="cursor-pointer text-sm font-semibold text-slate-500"
+          >Gender</label
+        >
+        <div class="input__field__list">
+          {% for value in form.gender %}
+          <!-- -->
+          <label
+            for="{{ value.id_for_label }}"
+            class="flex cursor-pointer flex-row items-center gap-4 rounded-2xl p-3 transition-colors duration-100 ease-out hover:bg-slate-500 hover:bg-opacity-10"
+          >
+            {{ value.tag }} {{ value.choice_label }}
+          </label>
+          <!-- -->
+          {% endfor %}
+        </div>
+      </div>
+      <div class="col-span-6 flex flex-col gap-2">
+        <label for="{{ form.about.id_for_label }}" class="cursor-pointer text-sm font-semibold text-slate-500"
+          >About</label
+        >
         {{ form.about }}
       </div>
-      <div class="col-span-4 flex flex-col gap-2">
-        <label for="{{ form.logo.id_for_label }}" class="cursor-pointer text-sm font-semibold text-slate-500"
-          >Logo Image</label
+      <div class="col-span-6 flex flex-col gap-2">
+        <label for="{{ form.avatar.id_for_label }}" class="cursor-pointer text-sm font-semibold text-slate-500"
+          >Avatar Image</label
         >
         <div class="grid grid-cols-3 gap-5">
           <img
-            src="{% get_media_prefix %}{{ form.logo.value }}"
+            src="{% get_media_prefix %}{{ form.avatar.value }}"
             alt=""
-            id="preview_{{ form.logo.id_for_label }}"
+            id="preview_{{ form.avatar.id_for_label }}"
             class="aspect-1 h-40 cursor-pointer justify-self-center rounded-xl border border-slate-200 bg-white object-cover ring ring-transparent transition-all duration-150 ease-out hover:border-transparent hover:ring-blue-500 hover:ring-offset-1"
+            draggable="false"
           />
           <div class="col-span-2 flex flex-col gap-2">
-            <label for="{{ form.logo.id_for_label }}" class="cursor-pointer text-sm font-semibold text-slate-500"
-              >Upload your logo</label
+            <label for="{{ form.avatar.id_for_label }}" class="cursor-pointer text-sm font-semibold text-slate-500"
+              >Upload your avatar</label
             >
-            <div class="hidden">{{ form.logo }}</div>
+            <div class="hidden">{{ form.avatar }}</div>
             <label
-              for="{{ form.logo.id_for_label }}"
+              for="{{ form.avatar.id_for_label }}"
               class="relative flex min-w-0 flex-auto flex-grow-0 cursor-pointer flex-row items-center overflow-hidden rounded-xl border border-slate-200 bg-white bg-clip-padding text-xs ring ring-transparent ring-offset-0 transition-all duration-150 ease-out file:text-sm file:text-neutral-700 hover:ring-blue-500 hover:ring-offset-2 focus:text-neutral-700 focus:shadow-[0_0_0_1px] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1"
             >
               <span class="border-r border-slate-200 bg-neutral-100 px-4 py-3 text-sm">Choose File</span>
-              <span class="line-clamp-1 mx-4 my-3">Upload new logo to replace.</span>
+              <span class="line-clamp-1 mx-4 my-3">Upload new avatar to replace.</span>
             </label>
             <small class="text-xs font-light text-slate-600">Maximum image size is 5.0 Mb</small>
           </div>
         </div>
       </div>
-      <div class="col-span-4 flex flex-col gap-2">
+      <div class="col-span-6 flex flex-col gap-2">
         <label for="{{ form.logo.id_for_label }}" class="cursor-pointer text-sm font-semibold text-slate-500"
           >Banner Image</label
         >
-        <div class="grid grid-cols-2 gap-5">
+        <div class="grid grid-cols-3 gap-5">
           <img
             src="{% get_media_prefix %}{{ form.banner.value }}"
             alt=""
             id="preview_{{ form.banner.id_for_label }}"
             class="h-40 w-full cursor-pointer rounded-xl border border-slate-200 bg-white object-cover ring ring-transparent transition-all duration-150 ease-out hover:border-transparent hover:ring-blue-500 hover:ring-offset-1"
+            draggable="false"
           />
-          <div class="flex flex-col gap-2">
+          <div class="col-span-2 flex flex-col gap-2">
             <label for="{{ form.banner.id_for_label }}" class="cursor-pointer text-sm font-semibold text-slate-500"
               >Upload your banner</label
             >
@@ -103,7 +137,7 @@
     </div>
     <div class="flex flex-row items-center gap-3">
       <a
-        href="{% url 'associations-profile' %}"
+        href="{% url 'settings' %}"
         class="font-mulish relative rounded-lg border border-slate-100 bg-slate-500 bg-opacity-10 px-4 py-2 text-sm font-semibold uppercase text-slate-400 transition-all duration-150 ease-out hover:brightness-50"
         >Cancel</a
       >
@@ -118,12 +152,12 @@
 </div>
 
 {% endblock content %}
+
 <!-- -->
 {% block js %}
-
 <script>
-  const inputImg1 = document.querySelector(`#{{ form.logo.id_for_label }}`);
-  const previewImg1 = document.querySelector(`#preview_{{ form.logo.id_for_label }}`);
+  const inputImg1 = document.querySelector(`#{{ form.avatar.id_for_label }}`);
+  const previewImg1 = document.querySelector(`#preview_{{ form.avatar.id_for_label }}`);
   const inputImg2 = document.querySelector(`#{{ form.banner.id_for_label }}`);
   const previewImg2 = document.querySelector(`#preview_{{ form.banner.id_for_label }}`);
 
@@ -158,5 +192,4 @@
     return;
   };
 </script>
-
 {% endblock %}

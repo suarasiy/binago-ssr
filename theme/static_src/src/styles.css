@@ -213,6 +213,22 @@ main .input__field__file {
   @apply relative block min-w-0 flex-auto flex-grow-0 rounded-xl border border-slate-200 bg-white bg-clip-padding text-xs ring-0 transition-all duration-150 ease-out file:overflow-hidden file:rounded-none file:border-0 file:border-solid file:border-inherit file:bg-neutral-100 file:px-4 file:py-3 file:text-sm file:text-neutral-700 file:transition file:duration-150 file:ease-in-out file:[margin-inline-end:0.75rem] file:[border-inline-end-width:1px] hover:file:bg-neutral-200 focus:text-neutral-700 focus:shadow-[0_0_0_1px] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1;
 }
 
+main .render__content {
+  @apply ml-3 mr-8 mt-1 font-poppins text-base leading-7 text-slate-600;
+}
+
+main .render__content a {
+  @apply border-b-2 border-blue-500 border-opacity-20 font-semibold text-blue-500;
+}
+
+main .input__field__list {
+  @apply flex flex-col gap-2 rounded-xl border border-slate-200 bg-white px-4 py-3 outline-none ring-0 transition-all duration-150 ease-out focus:border-transparent focus:ring-2 focus:ring-blue-500 focus:ring-offset-1;
+}
+
+main .input__field__radio {
+  @apply flex flex-row items-center gap-4 rounded-2xl p-3;
+}
+
 main .min__h__50px {
   @apply min-h-[50px];
 }

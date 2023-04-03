@@ -49,6 +49,12 @@ class ContextProfile(Context):
 @login_required
 @require_http_methods(['GET'])
 def index(request) -> HttpResponse:
+    ...
+
+
+@login_required
+@require_http_methods(['GET'])
+def index_data(request) -> HttpResponse:
     template: str = pages_backend('associations/index.html')
     associations: Associations = Associations.objects.get(user=request.user)
     members: Any = associations.associationsgroup_set.filter(is_approved=True).exclude(user=associations.user)
@@ -59,7 +65,7 @@ def index(request) -> HttpResponse:
             'branch': [
                 {
                     'name': 'Data',
-                    'reverse': reverse('associations'),
+                    'reverse': reverse('associations-data'),
                     'type': 'current'
                 }
             ]
@@ -73,7 +79,7 @@ def index(request) -> HttpResponse:
 
 @login_required
 @require_http_methods(['GET'])
-def index_approval(request) -> HttpResponse:
+def index_data_approval(request) -> HttpResponse:
     template: str = pages_backend('associations/approval.html')
     associations = AssociationsApprovalRequest.objects.filter(is_approved=None)
     context: ContextIndexApproval = {
@@ -82,10 +88,15 @@ def index_approval(request) -> HttpResponse:
             'main': 'Associations',
             'branch': [
                 {
-                    'name': 'Approval',
-                    'reverse': reverse('associations-approval'),
+                    'name': 'Data',
+                    'reverse': reverse('associations-data'),
+                    'type': 'previous'
+                },
+                {
+                    'name': 'Approval Requests',
+                    'reverse': reverse('associations-data-approval'),
                     'type': 'current'
-                }
+                },
             ]
         },
         'description': 'Associations approval requests.',
@@ -173,7 +184,7 @@ def approval_accept(request, id) -> HttpResponseRedirect | HttpResponsePermanent
     approval.save()
 
     messages.success(request, f'Approval of {approval.associations.name} successfully accepted.')
-    return redirect('associations-approval')
+    return redirect('associations-data-approval')
 
 
 @login_required
@@ -184,7 +195,7 @@ def approval_reject(request, id) -> HttpResponseRedirect | HttpResponsePermanent
     approval.save()
 
     messages.success(request, f'Approval of {approval.associations.name} successfully rejected.')
-    return redirect('associations-approval')
+    return redirect('associations-data-approval')
 
 
 @login_required
@@ -205,7 +216,7 @@ def invite(request) -> HttpResponse:
                 else:
                     messages.success(request, 'Already sent the invitation.')
 
-            return redirect('associations')
+            return redirect('associations-data')
     else:
         form: AssociationInviteForm = AssociationInviteForm()
 
@@ -217,12 +228,12 @@ def invite(request) -> HttpResponse:
             'branch': [
                 {
                     'name': 'Data',
-                    'reverse': reverse('associations'),
+                    'reverse': reverse('associations-data'),
                     'type': 'previous'
                 },
                 {
                     'name': 'Invite Member',
-                    'reverse': reverse('associations-invite'),
+                    'reverse': reverse('associations-data-invite'),
                     'type': 'current'
                 }
             ]

@@ -27,7 +27,7 @@ class AssociationForm(forms.ModelForm):
             'placeholder': 'Describe abour your association...',
             'spellcheck': 'false',
             'autocomplete': 'off',
-            'rows': '4',
+            'rows': '8',
             'id': 'about'
         }
     ))

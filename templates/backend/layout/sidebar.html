@@ -90,23 +90,11 @@
         </span>
       </div>
       <div id="menu-associations" class="nav__sub__menu nav__sub__menu--hide">
-        <a
-          href="{% url 'associations-approval' %}"
-          class="link {% active_link 'associations-approval' 'link--active' strict=True %}"
-          >Approval</a
-        >
-        <a href="{% url 'associations' %}" class="link {% active_link 'associations' 'link--active' strict=True %}"
+        <a href="{% url 'associations-data' %}" class="link {% active_link 'associations-data' 'link--active' %}"
           >Data</a
         >
-        <a
-          href="{% url 'associations-profile' %}"
-          class="link {% active_link 'associations-profile' 'link--active' strict=True %}"
+        <a href="{% url 'associations-profile' %}" class="link {% active_link 'associations-profile' 'link--active' %}"
           >Profile</a
-        >
-        <a
-          href="{% url 'associations-edit' %}"
-          class="link {% active_link 'associations-edit' 'link--active' strict=True %}"
-          >Edit Profile</a
         >
         <a href="" class="link">Summary</a>
       </div>
@@ -156,7 +144,7 @@
         </span>
       </div>
       <div id="menu-settings" class="nav__sub__menu nav__sub__menu">
-        <a href="{% url 'settings' %}" class="link {% active_link 'settings' 'link--active' strict=True %}">Profile</a>
+        <a href="{% url 'settings' %}" class="link {% active_link 'settings' 'link--active' %}">Profile</a>
         <form action="{% url 'signout' %}" method="post">
           {% csrf_token %}
           <button type="submit" class="link" tabindex="-1" onclick="return confirm(`Are you sure want to logout?`)">

@@ -1259,12 +1259,20 @@ main .widget.widget--active > strong.context + p.subcon{
   display: none;
 }
 
+.aspect-2{
+  aspect-ratio: 2;
+}
+
 .h-10{
   height: 2.5rem;
 }
 
 .h-14{
   height: 3.5rem;
+}
+
+.h-2{
+  height: 0.5rem;
 }
 
 .h-20{
@@ -1301,6 +1309,10 @@ main .widget.widget--active > strong.context + p.subcon{
 
 .h-8{
   height: 2rem;
+}
+
+.h-9{
+  height: 2.25rem;
 }
 
 .h-96{
@@ -1389,12 +1401,20 @@ main .widget.widget--active > strong.context + p.subcon{
   width: 2rem;
 }
 
+.w-9{
+  width: 2.25rem;
+}
+
 .w-\[130px\]{
   width: 130px;
 }
 
 .w-\[180px\]{
   width: 180px;
+}
+
+.w-auto{
+  width: auto;
 }
 
 .w-fit{
@@ -1442,8 +1462,16 @@ main .widget.widget--active > strong.context + p.subcon{
   min-width: 190px;
 }
 
+.min-w-\[20px\]{
+  min-width: 20px;
+}
+
 .min-w-\[250px\]{
   min-width: 250px;
+}
+
+.min-w-\[26rem\]{
+  min-width: 26rem;
 }
 
 .min-w-\[280px\]{
@@ -1460,6 +1488,11 @@ main .widget.widget--active > strong.context + p.subcon{
 
 .min-w-\[80px\]{
   min-width: 80px;
+}
+
+.min-w-max{
+  min-width: -moz-max-content;
+  min-width: max-content;
 }
 
 .max-w-\[105px\]{
@@ -1522,6 +1555,10 @@ main .widget.widget--active > strong.context + p.subcon{
 
 .grid-cols-6{
   grid-template-columns: repeat(6, minmax(0, 1fr));
+}
+
+.grid-cols-1{
+  grid-template-columns: repeat(1, minmax(0, 1fr));
 }
 
 .flex-row{
@@ -1594,6 +1631,12 @@ main .widget.widget--active > strong.context + p.subcon{
 
 .gap-8{
   gap: 2rem;
+}
+
+.-space-x-4 > :not([hidden]) ~ :not([hidden]){
+  --tw-space-x-reverse: 0;
+  margin-right: calc(-1rem * var(--tw-space-x-reverse));
+  margin-left: calc(-1rem * calc(1 - var(--tw-space-x-reverse)));
 }
 
 .self-center{
@@ -1744,6 +1787,11 @@ main .widget.widget--active > strong.context + p.subcon{
   background-color: rgb(45 206 137 / var(--tw-bg-opacity));
 }
 
+.bg-gray-200{
+  --tw-bg-opacity: 1;
+  background-color: rgb(233 236 239 / var(--tw-bg-opacity));
+}
+
 .bg-gray-50{
   --tw-bg-opacity: 1;
   background-color: rgb(248 249 250 / var(--tw-bg-opacity));
@@ -1772,6 +1820,11 @@ main .widget.widget--active > strong.context + p.subcon{
 .bg-rose-200{
   --tw-bg-opacity: 1;
   background-color: rgb(254 205 211 / var(--tw-bg-opacity));
+}
+
+.bg-slate-200{
+  --tw-bg-opacity: 1;
+  background-color: rgb(203 211 218 / var(--tw-bg-opacity));
 }
 
 .bg-slate-300{
@@ -1986,8 +2039,16 @@ main .widget.widget--active > strong.context + p.subcon{
   padding-left: 0.25rem;
 }
 
+.pl-2{
+  padding-left: 0.5rem;
+}
+
 .pl-5{
   padding-left: 1.25rem;
+}
+
+.pr-4{
+  padding-right: 1rem;
 }
 
 .pr-5{
@@ -2061,6 +2122,11 @@ main .widget.widget--active > strong.context + p.subcon{
 .text-sm{
   font-size: 0.875rem;
   line-height: 1.25rem;
+}
+
+.text-xl{
+  font-size: 1.25rem;
+  line-height: 1.75rem;
 }
 
 .text-xs{
@@ -2142,6 +2208,11 @@ main .widget.widget--active > strong.context + p.subcon{
 .text-green-600{
   --tw-text-opacity: 1;
   color: rgb(23 173 55 / var(--tw-text-opacity));
+}
+
+.text-red-600{
+  --tw-text-opacity: 1;
+  color: rgb(245 54 92 / var(--tw-text-opacity));
 }
 
 .text-rose-500{
@@ -2269,12 +2340,32 @@ main .widget.widget--active > strong.context + p.subcon{
   box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000);
 }
 
+.ring-2{
+  --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
+  --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color);
+  box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000);
+}
+
+.ring-gray-300{
+  --tw-ring-opacity: 1;
+  --tw-ring-color: rgb(210 214 218 / var(--tw-ring-opacity));
+}
+
 .ring-transparent{
   --tw-ring-color: transparent;
 }
 
+.ring-yellow-500{
+  --tw-ring-opacity: 1;
+  --tw-ring-color: rgb(251 177 64 / var(--tw-ring-opacity));
+}
+
 .ring-offset-0{
   --tw-ring-offset-width: 0px;
+}
+
+.ring-offset-2{
+  --tw-ring-offset-width: 2px;
 }
 
 .backdrop-blur-lg{
@@ -2750,4 +2841,9 @@ main .selectize-control .selectize-input > input{
 
 .focus\:ring-offset-1:focus{
   --tw-ring-offset-width: 1px;
+}
+
+.group:hover .group-hover\:bg-gray-50{
+  --tw-bg-opacity: 1;
+  background-color: rgb(248 249 250 / var(--tw-bg-opacity));
 }

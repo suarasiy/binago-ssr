@@ -1,5 +1,5 @@
 from django.db import models
-from django.db.models import CASCADE, SET_NULL
+from django.db.models import CASCADE, SET_NULL, QuerySet
 from django.utils.text import slugify
 
 import pathlib
@@ -64,7 +64,9 @@ class Associations(models.Model):
 class AssociationsGroup(models.Model):
     association = models.ForeignKey(Associations, on_delete=CASCADE)
     user = models.ForeignKey(User, on_delete=CASCADE)
+    is_approved = models.BooleanField(default=None, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
         verbose_name_plural: str = 'Associations Group'

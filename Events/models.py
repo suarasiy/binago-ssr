@@ -56,7 +56,7 @@ class Events(models.Model):
 
     class Meta:
         verbose_name_plural = 'Events'
-        ordering = ['-updated_at']
+        ordering = ['-created_at']
 
 
 class EventsExtendedUrl(models.Model):

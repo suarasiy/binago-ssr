@@ -12,7 +12,7 @@ class AssociationsAdmin(admin.ModelAdmin):
 
 @admin.register(AssociationsGroup)
 class AssociationsGroupAdmin(admin.ModelAdmin):
-    list_display = ('association', 'user', 'created_at')
+    list_display = ('association', 'user', 'is_approved', 'created_at', 'updated_at')
 
 
 @admin.register(AssociationsApprovalRequest)

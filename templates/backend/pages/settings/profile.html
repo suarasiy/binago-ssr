@@ -6,17 +6,17 @@
 <!-- -->
 {% block content %}
 
-<div class="grid select-none grid-cols-6 gap-4">
+<div class="grid select-none grid-cols-6 gap-8">
   <div class="col-span-4 flex flex-col gap-8">
     <div class="flex flex-row items-end gap-8">
       <div
-        class="shadow-container3 group relative h-56 w-56 rounded-[2rem] bg-white p-3 transition-all duration-150 ease-out hover:scale-105"
+        class="shadow-container3 group relative h-56 w-56 rounded-full bg-white p-3 transition-all duration-150 ease-out hover:scale-105"
       >
         <img
           src="{% get_media_prefix %}{{ powerheader.avatar }}"
           alt=""
           srcset=""
-          class="relative h-full w-full rounded-3xl object-cover object-center"
+          class="relative h-full w-full rounded-full object-cover object-center"
           draggable="false"
         />
       </div>
@@ -35,7 +35,7 @@
         </div>
       </div>
     </div>
-    <div class="mx-3 flex flex-row gap-3">
+    <div class="mx-3 flex flex-row flex-wrap gap-3">
       <a
         href=""
         class="font-dmSans flex flex-row items-center gap-2 rounded-xl border border-gray-200 bg-white px-3 py-2 text-xs font-semibold text-slate-800 transition-all duration-150 ease-out hover:scale-95 hover:bg-gray-200"
@@ -48,6 +48,30 @@
         />
         <span> {{ powerheader.associations }} </span>
       </a>
+      {% if powerheader.is_superuser %}
+      <span
+        href=""
+        class="font-dmSans flex flex-row items-center gap-2 rounded-xl border border-gray-200 bg-white px-3 py-2 text-xs font-semibold text-slate-800"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-5 text-emerald-600">
+          <path
+            d="M10.501,21c-0.097,0-0.196-0.01-0.295-0.03c-0.812-0.162-1.339-0.953-1.177-1.765l3-15c0.162-0.812,0.951-1.343,1.765-1.177c0.812,0.162,1.339,0.953,1.177,1.765l-3,15C11.828,20.507,11.202,21,10.501,21z"
+            fill="currentColor"
+          />
+          <path
+            d="M19.499,18c-0.286,0-0.575-0.082-0.831-0.252c-0.689-0.459-0.875-1.391-0.416-2.08L20.697,12l-2.445-3.668c-0.459-0.689-0.273-1.621,0.416-2.08c0.689-0.46,1.62-0.273,2.08,0.416l3,4.5c0.336,0.504,0.336,1.16,0,1.664l-3,4.5C20.459,17.766,19.983,18,19.499,18z"
+            opacity=".35"
+            fill="currentColor"
+          />
+          <path
+            d="M4.501,18c-0.485,0-0.96-0.234-1.25-0.668l-3-4.5c-0.336-0.504-0.336-1.16,0-1.664l3-4.5c0.459-0.689,1.39-0.876,2.08-0.416c0.689,0.459,0.875,1.391,0.416,2.08L3.303,12l2.445,3.668c0.459,0.689,0.273,1.621-0.416,2.08C5.076,17.918,4.787,18,4.501,18z"
+            opacity=".35"
+            fill="currentColor"
+          />
+        </svg>
+        <span> Developer </span>
+      </span>
+      {% endif %}
       <span
         href=""
         class="font-dmSans flex flex-row items-center gap-2 rounded-xl border border-gray-200 bg-white px-3 py-2 text-xs font-semibold text-slate-800"

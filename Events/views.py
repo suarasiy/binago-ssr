@@ -4,6 +4,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_http_methods
+from django.http import HttpResponse, HttpResponseRedirect, HttpResponsePermanentRedirect
 
 from binago.utils import pages_backend
 
@@ -32,11 +33,9 @@ def index(request):
 
 @login_required
 @require_http_methods(['GET', 'POST'])
-def events_create(request):
+def events_create(request) -> HttpResponse | HttpResponseRedirect | HttpResponsePermanentRedirect:
     if request.method == "POST":
         form = EventForm(request.POST, request.FILES)
-        print('schedule_start :', form.data.get('schedule_start'))
-        print('schedule_end :', form.data.get('schedule_end'))
         if form.is_valid():
             event = form.save(commit=False)
             event.association = request.user.associations

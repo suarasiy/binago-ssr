@@ -1227,12 +1227,8 @@ main .widget.widget--active > strong.context + p.subcon{
   margin-left: 0.75rem;
 }
 
-.mr-8{
-  margin-right: 2rem;
-}
-
-.mt-1{
-  margin-top: 0.25rem;
+.mr-4{
+  margin-right: 1rem;
 }
 
 .mt-2{
@@ -2037,6 +2033,11 @@ main .widget.widget--active > strong.context + p.subcon{
   padding-bottom: 1.25rem;
 }
 
+.py-6{
+  padding-top: 1.5rem;
+  padding-bottom: 1.5rem;
+}
+
 .py-8{
   padding-top: 2rem;
   padding-bottom: 2rem;
@@ -2069,6 +2070,10 @@ main .widget.widget--active > strong.context + p.subcon{
 
 .pr-5{
   padding-right: 1.25rem;
+}
+
+.pr-8{
+  padding-right: 2rem;
 }
 
 .text-left{
@@ -2172,10 +2177,6 @@ main .widget.widget--active > strong.context + p.subcon{
 
 .uppercase{
   text-transform: uppercase;
-}
-
-.leading-7{
-  line-height: 1.75rem;
 }
 
 .leading-normal{

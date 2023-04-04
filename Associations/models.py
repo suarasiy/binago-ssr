@@ -1,3 +1,9 @@
+from __future__ import annotations
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from Events.models import Events
+
 from django.db import models
 from django.db.models import CASCADE, SET_NULL, QuerySet
 from django.utils.text import slugify
@@ -49,6 +55,9 @@ class Associations(models.Model):
     is_active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    associationsgroup_set: QuerySet[AssociationsGroup]
+    events_set: QuerySet[Events]
 
     def save(self, *args, **kwargs) -> None:
         self.slug = slugify(self.name)

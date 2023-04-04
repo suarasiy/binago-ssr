@@ -1,10 +1,30 @@
+from __future__ import annotations
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from typing import Literal, TypedDict
+    from datetime import datetime
+    from django.http import HttpResponse, HttpResponseRedirect, HttpResponsePermanentRedirect
+    from django.db.models import QuerySet
+    from .context import Context
+
+    CustomEventCollectionRender = TypedDict(
+        '_', {
+            'title': str,
+            'start': str,
+            'end': str,
+            'customRender': bool,
+            'colorStyle': Literal['calendar-red', 'calendar-blue', 'calendar-green'],
+        }
+    )
+
+from django.utils import timezone
 from django.urls import reverse
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_http_methods
 
 from binago.utils import pages_backend
-from binago.context_interface import Context
 
 from Events.models import Events
 
@@ -12,11 +32,9 @@ from datetime import datetime
 import pytz
 import json
 
-from django.utils import timezone
 
-
-def get_calendar_color(start: datetime, end: datetime):
-    now = datetime.today().replace(tzinfo=pytz.UTC)
+def get_calendar_color(start: datetime, end: datetime) -> Literal['calendar-red', 'calendar-blue', 'calendar-green']:
+    now: datetime = datetime.today().replace(tzinfo=pytz.UTC)
     start = timezone.localtime(start)
     end = timezone.localtime(end)
     if end.date() < now.date():
@@ -28,12 +46,12 @@ def get_calendar_color(start: datetime, end: datetime):
 
 @login_required
 @require_http_methods(['GET'])
-def events(request):
-    events = Events.objects.all()
-    events_collection = []
+def events(request) -> HttpResponse:
+    events: QuerySet[Events] = Events.objects.all()
+    events_collection: list[CustomEventCollectionRender] = []
     for event in events:
-        event_start = event.schedule_start.replace(tzinfo=pytz.UTC)
-        event_end = event.schedule_end.replace(tzinfo=pytz.UTC)
+        event_start: datetime = event.schedule_start.replace(tzinfo=pytz.UTC)
+        event_end: datetime = event.schedule_end.replace(tzinfo=pytz.UTC)
 
         events_collection.append({
             'title': event.title,
@@ -43,8 +61,8 @@ def events(request):
             'colorStyle': get_calendar_color(event_start, event_end),
         })
 
-    template = pages_backend('dashboard/events.html')
-    context = {
+    template: str = pages_backend('dashboard/events.html')
+    context: Context = {
         'title': 'Events',
         'breadcrumb': {
             'main': 'Overview',

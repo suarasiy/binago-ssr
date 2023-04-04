@@ -1,12 +1,11 @@
-from binago.context_interface import Context
-from .forms import UserForm
-from .models import User
+from typing import Union, TYPE_CHECKING
 
-from django.db.models import QuerySet
+if TYPE_CHECKING:
+    from django.db.models import QuerySet
+    from binago.context_interface import Context
+    from .models import User
+    from .forms import UserForm
 
-from typing import Union
-
-
-class UserFormContext(Context):
-    form: UserForm
-    powerheader: Union[QuerySet, User]
+    class UserFormContext(Context):
+        form: UserForm
+        powerheader: Union[QuerySet, User]

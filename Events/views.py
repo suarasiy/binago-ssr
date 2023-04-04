@@ -1,28 +1,40 @@
-import json
+from __future__ import annotations
+from typing import TYPE_CHECKING
+
 from django.urls import reverse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_http_methods
-from django.http import HttpResponse, HttpResponseRedirect, HttpResponsePermanentRedirect
 
 from binago.utils import pages_backend
 
-from .models import Events, EventsCategories
-from .forms import EventForm, EventEditForm
+from .models import Events
+from .forms import EventForm
+if TYPE_CHECKING:
+    from django.db.models import QuerySet
+    from django.http import HttpResponse, HttpResponseRedirect, HttpResponsePermanentRedirect
+    from .context import (
+        IndexContext, FormContext
+    )
+    from typing import Union, List
 
 
 @login_required
 @require_http_methods(['GET'])
-def index(request):
-    template_name = pages_backend('events/index.html')
-    events = Events.objects.all()
-    context = {
+def index(request) -> HttpResponse:
+    template_name: str = pages_backend('events/index.html')
+    events: Union[QuerySet, List[Events]] = Events.objects.all()
+    context: IndexContext = {
         'title': 'Events',
         'breadcrumb': {
             'main': 'Events',
             'branch': [
-                {'name': 'Data', 'reverse': reverse('events')},
+                {
+                    'name': 'Data',
+                    'reverse': reverse('events'),
+                    'type': 'current'
+                },
             ]
         },
         'description': 'Manage your events in this page.',
@@ -35,7 +47,7 @@ def index(request):
 @require_http_methods(['GET', 'POST'])
 def events_create(request) -> HttpResponse | HttpResponseRedirect | HttpResponsePermanentRedirect:
     if request.method == "POST":
-        form = EventForm(request.POST, request.FILES)
+        form: EventForm = EventForm(request.POST, request.FILES)
         if form.is_valid():
             event = form.save(commit=False)
             event.association = request.user.associations
@@ -44,10 +56,10 @@ def events_create(request) -> HttpResponse | HttpResponseRedirect | HttpResponse
             messages.success(request, 'Event successfully created.')
             return redirect('events')
     else:
-        form = EventForm()
+        form: EventForm = EventForm()
 
-    template = pages_backend('events/create.html')
-    context = {
+    template: str = pages_backend('events/create.html')
+    context: FormContext = {
         'title': 'Events',
         'breadcrumb': {
             'main': 'Events',
@@ -72,11 +84,11 @@ def events_create(request) -> HttpResponse | HttpResponseRedirect | HttpResponse
 
 @login_required
 @require_http_methods(['GET', 'POST'])
-def events_edit(request, slug):
-    event = get_object_or_404(Events, slug=slug)
+def events_edit(request, slug) -> HttpResponse | HttpResponseRedirect | HttpResponsePermanentRedirect:
+    event: Events = get_object_or_404(Events, slug=slug)
 
     if request.method == "POST":
-        form = EventForm(request.POST, request.FILES, instance=event)
+        form: EventForm = EventForm(request.POST, request.FILES, instance=event)
         if form.is_valid():
             form.save()
 
@@ -84,10 +96,10 @@ def events_edit(request, slug):
             return redirect('events')
 
     else:
-        form = EventForm(instance=event)
+        form: EventForm = EventForm(instance=event)
 
-    template = pages_backend('events/edit.html')
-    context = {
+    template: str = pages_backend('events/edit.html')
+    context: FormContext = {
         'title': 'Events',
         'breadcrumb': {
             'main': 'Events',
@@ -113,9 +125,9 @@ def events_edit(request, slug):
 
 @login_required
 @require_http_methods(["POST"])
-def events_destroy(request, slug):
+def events_destroy(request, slug) -> HttpResponseRedirect | HttpResponsePermanentRedirect:
     if request.method == "POST":
-        event = get_object_or_404(Events, slug=slug)
+        event: Events = get_object_or_404(Events, slug=slug)
         event.delete()
 
     messages.success(request, 'Event successfully deleted.')

@@ -1,15 +1,21 @@
+from __future__ import annotations
+from typing import TYPE_CHECKING
+
 from django.urls import reverse
 from django.contrib import messages
 from django.shortcuts import render, redirect, get_object_or_404
-from django.http import HttpResponse, HttpResponseRedirect, HttpResponsePermanentRedirect
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_http_methods
 
-from binago.context_interface import Context
 from binago.utils import pages_backend
 from .models import User
 from .forms import UserForm
-from .context import UserFormContext
+
+if TYPE_CHECKING:
+    from django.http import HttpResponse, HttpResponseRedirect, HttpResponsePermanentRedirect
+    from .context import (
+        UserFormContext
+    )
 
 
 @login_required
@@ -22,7 +28,6 @@ def edit(request) -> HttpResponse | HttpResponseRedirect | HttpResponsePermanent
             form.save()
 
             messages.success(request, 'Profile has been updated.')
-
             return redirect('settings')
     else:
         form: UserForm = UserForm(instance=user)

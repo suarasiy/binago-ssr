@@ -1,7 +1,7 @@
-from django.db.models import QuerySet, Count
-from django.db.models.fields.files import ImageFieldFile
-from typing import Union, List, Any, TypedDict
-from django.http import HttpResponse, HttpResponseRedirect, HttpResponsePermanentRedirect
+from __future__ import annotations
+
+from django.db.models import Count
+from typing import TYPE_CHECKING
 
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
@@ -15,35 +15,14 @@ from .models import Associations, AssociationsGroup, AssociationsApprovalRequest
 from .forms import AssociationForm, AssociationInviteForm
 
 from binago.utils import pages_backend
-from binago.context_interface import Context
 
-
-class ContextIndex(Context):
-    associations: Union[QuerySet, List[Associations] | List[AssociationsApprovalRequest]]
-    members: Any
-
-
-class ContextInvite(Context):
-    form: AssociationInviteForm
-
-
-class ContextEdit(Context):
-    form: AssociationForm
-
-
-class ContextIndexApproval(Context):
-    associations: Union[QuerySet, List[Associations] | List[AssociationsApprovalRequest]]
-
-
-class Powerheader(TypedDict):
-    banner: ImageFieldFile
-
-
-class ContextProfile(Context):
-    association: Union[QuerySet, Associations]
-    powerheader: Powerheader
-    events: Any
-    members: Any
+if TYPE_CHECKING:
+    from django.http import HttpResponse, HttpResponseRedirect, HttpResponsePermanentRedirect
+    from django.db.models import QuerySet
+    from django.db.models.query import ValuesQuerySet
+    from .context import (
+        ContextIndex, ContextInvite, ContextEdit, ContextIndexApproval, ContextProfile
+    )
 
 
 @login_required
@@ -57,7 +36,8 @@ def index(request) -> HttpResponse:
 def index_data(request) -> HttpResponse:
     template: str = pages_backend('associations/index.html')
     associations: Associations = Associations.objects.get(user=request.user)
-    members: Any = associations.associationsgroup_set.filter(is_approved=True).exclude(user=associations.user)
+    members: QuerySet[AssociationsGroup] = associations.associationsgroup_set.filter(
+        is_approved=True).exclude(user=associations.user)
     context: ContextIndex = {
         'title': 'Associations',
         'breadcrumb': {
@@ -81,7 +61,7 @@ def index_data(request) -> HttpResponse:
 @require_http_methods(['GET'])
 def index_data_approval(request) -> HttpResponse:
     template: str = pages_backend('associations/approval.html')
-    associations = AssociationsApprovalRequest.objects.filter(is_approved=None)
+    associations: QuerySet[AssociationsApprovalRequest] = AssociationsApprovalRequest.objects.filter(is_approved=None)
     context: ContextIndexApproval = {
         'title': 'Associations',
         'breadcrumb': {
@@ -110,10 +90,10 @@ def index_data_approval(request) -> HttpResponse:
 def profile(request) -> HttpResponse:
     template: str = pages_backend('associations/profile.html')
     association: Associations = Associations.objects.get(user=request.user)
-    events = association.events_set.all()
-    event_categories = association.events_set.values(
+    events: QuerySet[Events] = association.events_set.all()
+    event_categories: ValuesQuerySet = association.events_set.values(
         'category', 'category__category').annotate(total=Count('category')).order_by()
-    members = association.associationsgroup_set.filter(is_approved=True)
+    members: QuerySet[AssociationsGroup] = association.associationsgroup_set.filter(is_approved=True)
     context: ContextProfile = {
         'title': 'Associations Profile',
         'breadcrumb': {
@@ -141,16 +121,16 @@ def profile(request) -> HttpResponse:
 @login_required
 @require_http_methods(['GET', 'POST'])
 def edit_profile(request) -> HttpResponse | HttpResponseRedirect | HttpResponsePermanentRedirect:
-    association = get_object_or_404(Associations, user=request.user)
+    association: Associations = get_object_or_404(Associations, user=request.user)
     if request.method == "POST":
-        form = AssociationForm(request.POST, request.FILES, instance=association)
+        form: AssociationForm = AssociationForm(request.POST, request.FILES, instance=association)
         if form.is_valid():
             form.save()
 
             messages.success(request, 'Association success edited.')
             return redirect('associations-profile')
     else:
-        form = AssociationForm(instance=association)
+        form: AssociationForm = AssociationForm(instance=association)
 
     template: str = pages_backend('associations/edit.html')
     context: ContextEdit = {
@@ -200,14 +180,16 @@ def approval_reject(request, id) -> HttpResponseRedirect | HttpResponsePermanent
 
 @login_required
 @require_http_methods(['GET', 'POST'])
-def invite(request) -> HttpResponse:
+def invite(request) -> HttpResponse | HttpResponseRedirect | HttpResponsePermanentRedirect:
     if request.method == "POST":
         form: AssociationInviteForm = AssociationInviteForm(request.POST)
-        association = Associations.objects.filter(user=request.user)
+        association: QuerySet[Associations] = Associations.objects.filter(user=request.user)
         if form.is_valid():
-            user = User.objects.filter(email=form.cleaned_data.get('email'))
+            user: QuerySet[User] = User.objects.filter(email=form.cleaned_data.get('email'))
             if user.exists() and association.exists():
-                invitation, created = AssociationsGroup.objects.get_or_create(
+                _: AssociationsGroup
+                created: bool
+                _, created = AssociationsGroup.objects.get_or_create(
                     user=user.first(),
                     association=association.first()
                 )

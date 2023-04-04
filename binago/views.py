@@ -1,7 +1,8 @@
-from .utils import pages_testing, pages_backend, pages_frontend
-from .context_interface import Context
+from __future__ import annotations
+from typing import TYPE_CHECKING
 
-from django.http import HttpResponse, HttpResponseRedirect, HttpResponsePermanentRedirect
+from .utils import pages_testing, pages_backend, pages_frontend
+
 from django.urls import reverse
 from django.shortcuts import render, redirect
 from django.views.decorators.http import require_http_methods
@@ -9,14 +10,12 @@ from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 
 from authentication.models import User
-from Associations.models import Associations
 
-from django.db.models import QuerySet
-from typing import Union
-
-
-class SettingsContext(Context):
-    powerheader: Union[QuerySet, User]
+if TYPE_CHECKING:
+    from django.http import HttpResponse, HttpResponseRedirect, HttpResponsePermanentRedirect
+    from .context import (
+        SettingsContext
+    )
 
 
 @login_required
@@ -55,7 +54,7 @@ def settings_profile(request) -> HttpResponse:
 @require_http_methods(['GET'])
 def signin(request) -> HttpResponse:
     template: str = pages_frontend('authentication/login.html')
-    context = {}
+    context: dict = {}
     return render(request, template, context)
 
 

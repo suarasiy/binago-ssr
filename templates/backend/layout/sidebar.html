@@ -145,9 +145,14 @@
       </div>
       <div id="menu-settings" class="nav__sub__menu nav__sub__menu">
         <a href="{% url 'settings' %}" class="link {% active_link 'settings' 'link--active' %}">Profile</a>
-        <form action="{% url 'signout' %}" method="post">
+        <form action="{% url 'logout' %}" method="post">
           {% csrf_token %}
-          <button type="submit" class="link" tabindex="-1" onclick="return confirm(`Are you sure want to logout?`)">
+          <button
+            type="submit"
+            class="link w-full text-left"
+            tabindex="-1"
+            onclick="return confirm(`Are you sure want to logout?`)"
+          >
             Logout
           </button>
         </form>

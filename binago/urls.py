@@ -8,6 +8,8 @@ from .views import (
     dashboard, settings_profile, signout
 )
 
+from authentication.views import signin, register, verify_account, request_verify_account
+
 urlpatterns = [
     path('__reload__/', include('django_browser_reload.urls')),
     path('admin/', admin.site.urls),
@@ -24,7 +26,12 @@ urlpatterns = [
             ])),
         ])),
     ])),
-    path('signout', signout, name='signout')
+    # TODO: need to improve,
+    path('login/', signin, name='login'),
+    path('register/', register, name='register'),
+    path('account/request/verify/', request_verify_account, name='request-verify-account'),
+    path('account/verify/<uidb64>/<token>/', verify_account, name='verify-account'),
+    path('logout/', signout, name='logout')
 ]
 
 # media

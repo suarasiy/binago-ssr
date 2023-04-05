@@ -264,3 +264,17 @@ main .selectize-control .selectize-input.dropdown-active::before {
 main .selectize-control .selectize-input > input {
   @apply text-base;
 }
+
+/* FOR FRONTEND */
+
+.fr .input__field {
+  @apply rounded-lg border-none bg-zinc-50 py-5 px-8 font-dmSans text-sm font-semibold text-base-field outline-none transition-all duration-150 ease-out focus:bg-zinc-100 focus:ring-0;
+}
+
+.fr .report__error__icon {
+  @apply ml-3 flex flex-row items-center gap-2 text-red-500;
+}
+
+.fr .report__error__icon a {
+  @apply text-base-field underline underline-offset-1;
+}

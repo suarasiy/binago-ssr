@@ -1,0 +1,13 @@
+{% autoescape off %}
+<!--  -->
+Hi {{ user }}!
+<!--  -->
+Please verify your account by clicking verification url below:
+
+<!--  -->
+http://{{ domain }}{% url 'verify-account' uidb64=uid token=token %}
+
+<!--  -->
+Cheers!
+<!--  -->
+{% endautoescape %}

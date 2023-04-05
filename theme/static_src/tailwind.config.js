@@ -44,6 +44,12 @@ module.exports = {
   theme: {
     extend: {
       colors: {
+        base: {
+          bg: '#EFF3FF',
+          field: '#272D3D',
+          sub: '#788196',
+          smoke: '#F0F0F0',
+        },
         slate: {
           50: '#f8fafc',
           100: '#dee2e6',

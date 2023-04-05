@@ -62,4 +62,4 @@ def signin(request) -> HttpResponse:
 @require_http_methods(['POST'])
 def signout(request) -> HttpResponseRedirect | HttpResponsePermanentRedirect:
     logout(request)
-    return redirect('admin')
+    return redirect('login')  # TODO: change it later

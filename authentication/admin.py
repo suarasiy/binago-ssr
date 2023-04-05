@@ -8,7 +8,7 @@ from django.utils.safestring import mark_safe
 
 
 class UserAdmin(DefaultUserAdmin):
-    list_display = ('icon', 'username', 'first_name', 'last_name', 'email',
+    list_display = ('email', 'username', 'first_name', 'last_name',
                     'is_verified', 'is_staff', 'is_active', 'is_developer', 'updated_at')
     readonly_fields = ['avatar_preview']
     fieldsets = (
@@ -41,8 +41,11 @@ class UserAdmin(DefaultUserAdmin):
     )
     list_filter = ('is_superuser', 'is_staff', 'is_active', 'is_developer', 'created_at', 'updated_at',)
 
-    def icon(self, obj):
-        return mark_safe(f'<img src="{obj.avatar.url}" width="60" height="60" style="object-fit: cover; object-position: center; border-radius: 15px; margin-right: 5px;" />')
+    # def icon(self, obj):
+    #     if obj.avatar.url:
+    #         return mark_safe(f'<img src="{obj.avatar.url}" width="60" height="60" style="object-fit: cover; object-position: center; border-radius: 15px; margin-right: 5px;" />')
+    #     else:
+    #         return obj.username
 
 
 admin.site.register(User, UserAdmin)

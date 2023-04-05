@@ -1,0 +1,155 @@
+{% load static tailwind_tags %}
+<!-- -->
+{% load static %}
+
+<!-- -->
+{% load widget_tweaks %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    {% tailwind_css %}
+    <title>Login</title>
+  </head>
+  <body class="fr bg-base-bg relative h-auto min-h-screen w-full select-none">
+    <div class="absolute top-2/4 left-2/4 w-3/5 -translate-x-2/4 -translate-y-2/4">
+      <div
+        class="shadow-container1 relative z-[1] flex w-full flex-row items-center overflow-hidden rounded-2xl bg-white p-16"
+      >
+        <div class="relative z-[1] flex w-full max-w-[55%] flex-col gap-16 p-8">
+          <div class="flex flex-col gap-2">
+            <div class="text-base-field flex flex-row items-center gap-3">
+              <a
+                href=""
+                class="w-7 flex-shrink-0 outline-none transition-transform duration-100 ease-out hover:scale-105"
+                draggable="false"
+                tabindex="-1"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                  <path
+                    d="M12 2C6.477 2 2 6.477 2 12C2 17.523 6.477 22 12 22C17.523 22 22 17.523 22 12C22 6.477 17.523 2 12 2 z M 12 4C16.418 4 20 7.582 20 12C20 16.418 16.418 20 12 20C7.582 20 4 16.418 4 12C4 7.582 7.582 4 12 4 z M 11.292969 7.2929688L6.5859375 12L11.292969 16.707031L12.707031 15.292969L10.414062 13L17 13L17 11L10.414062 11L12.707031 8.7070312L11.292969 7.2929688 z"
+                    fill="currentColor"
+                  />
+                </svg>
+              </a>
+              <h1 class="font-poppins text-2xl font-bold uppercase">Sign in</h1>
+            </div>
+            <p class="text-base-sub font-poppins text-sm font-normal">Welcome back! Please fill the form to login.</p>
+          </div>
+          <form method="post" class="flex flex-col gap-16">
+            {% csrf_token %}
+            <div class="flex flex-col gap-5">
+              {% for message in messages %}
+              <!--  -->
+              {% if message.tags == "success" %}
+              <small class="font-poppins ml-3 text-xs font-medium text-green-500">{{ message }}</small>
+              {% endif %}
+              <!--  -->
+              {% if message.tags == "error" %}
+              <div class="report__error__icon">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" class="w-4 flex-shrink-0">
+                  <path
+                    d="M16 3C8.832031 3 3 8.832031 3 16C3 23.167969 8.832031 29 16 29C23.167969 29 29 23.167969 29 16C29 8.832031 23.167969 3 16 3 Z M 16 5C22.085938 5 27 9.914063 27 16C27 22.085938 22.085938 27 16 27C9.914063 27 5 22.085938 5 16C5 9.914063 9.914063 5 16 5 Z M 12.21875 10.78125L10.78125 12.21875L14.5625 16L10.78125 19.78125L12.21875 21.21875L16 17.4375L19.78125 21.21875L21.21875 19.78125L17.4375 16L21.21875 12.21875L19.78125 10.78125L16 14.5625Z"
+                    fill="currentColor"
+                  />
+                </svg>
+                <small class="font-poppins text-xs font-medium">{{ message }}</small>
+              </div>
+              {% endif %}
+              <!-- -->
+              {% endfor %}
+              <!--  -->
+              {% if form.non_field_errors %}
+              <div class="report__error__icon">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" class="w-4 flex-shrink-0">
+                  <path
+                    d="M16 3C8.832031 3 3 8.832031 3 16C3 23.167969 8.832031 29 16 29C23.167969 29 29 23.167969 29 16C29 8.832031 23.167969 3 16 3 Z M 16 5C22.085938 5 27 9.914063 27 16C27 22.085938 22.085938 27 16 27C9.914063 27 5 22.085938 5 16C5 9.914063 9.914063 5 16 5 Z M 12.21875 10.78125L10.78125 12.21875L14.5625 16L10.78125 19.78125L12.21875 21.21875L16 17.4375L19.78125 21.21875L21.21875 19.78125L17.4375 16L21.21875 12.21875L19.78125 10.78125L16 14.5625Z"
+                    fill="currentColor"
+                  />
+                </svg>
+                <small class="font-poppins text-xs font-medium">{{ form.non_field_errors }}</small>
+              </div>
+              {% endif %}
+              <!-- -->
+              <div class="flex flex-col gap-2">
+                {{ form.email|append_attr:"tabindex:1"|append_attr:"autofocus" }}
+                <!--  -->
+                {% for error in form.email.errors %}
+                <small class="font-poppins ml-3 text-xs font-medium text-red-500">{{ error }}</small>
+                {% endfor %}
+              </div>
+              <div class="flex flex-col gap-2">
+                {{ form.password|append_attr:"tabindex:2" }}
+                <!--  -->
+                {% for error in form.password.errors %}
+                <small class="font-poppins ml-3 text-xs font-medium text-red-500">{{ error }}</small>
+                {% endfor %}
+              </div>
+              <small class="font-poppins text-base-sub ml-3 text-xs"
+                >Didn't have account yet?
+                <a
+                  href="{% url 'register' %}"
+                  class="text-base-field focus:bg-base-field ml-1 mt-4 text-sm font-bold outline-none focus:bg-opacity-10"
+                  tabindex="3"
+                  >Register</a
+                ></small
+              >
+            </div>
+            <!-- form action -->
+            <div class="flex flex-col gap-3">
+              <button
+                tabindex="4"
+                type="submit"
+                class="font-montserrat bg-base-field cursor-pointer rounded-xl py-3 px-5 text-xs font-bold uppercase text-white transition-all duration-100 ease-out hover:bg-gray-900 focus:bg-gray-900 active:scale-[.98]"
+              >
+                Login
+              </button>
+              <button
+                disabled
+                tabindex="5"
+                class="font-montserrat bg-base-smoke text-base-field flex cursor-pointer flex-row items-center justify-center gap-3 rounded-xl py-3 px-5 text-xs font-bold transition-all duration-100 ease-out hover:bg-gray-100 focus:bg-gray-100 active:scale-[.98]"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" class="w-5 flex-shrink-0">
+                  <path
+                    fill="#FFC107"
+                    d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24c0,11.045,8.955,20,20,20c11.045,0,20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z"
+                  />
+                  <path
+                    fill="#FF3D00"
+                    d="M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C16.318,4,9.656,8.337,6.306,14.691z"
+                  />
+                  <path
+                    fill="#4CAF50"
+                    d="M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238C29.211,35.091,26.715,36,24,36c-5.202,0-9.619-3.317-11.283-7.946l-6.522,5.025C9.505,39.556,16.227,44,24,44z"
+                  />
+                  <path
+                    fill="#1976D2"
+                    d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24C44,22.659,43.862,21.35,43.611,20.083z"
+                  />
+                  <span>Auth with Google</span>
+                </svg>
+              </button>
+            </div>
+          </form>
+        </div>
+        <img
+          src="{% static 'web/assets/login_image.png' %}"
+          alt=""
+          srcset=""
+          class="absolute right-0 top-0 bottom-0 z-0 h-full w-2/5 object-cover object-left"
+          draggable="false"
+        />
+      </div>
+      <img
+        src="{% static 'web/assets/lowres-login_image.png' %}"
+        alt=""
+        srcset=""
+        class="absolute right-0 top-0 bottom-0 z-0 h-full w-2/5 object-cover object-left blur-[80px] contrast-75"
+        draggable="false"
+      />
+    </div>
+  </body>
+</html>

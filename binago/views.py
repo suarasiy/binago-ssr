@@ -10,6 +10,7 @@ from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 
 from authentication.models import User
+from Associations.query import user_registered_associations
 
 if TYPE_CHECKING:
     from django.http import HttpResponse, HttpResponseRedirect, HttpResponsePermanentRedirect
@@ -46,7 +47,8 @@ def settings_profile(request) -> HttpResponse:
             ]
         },
         'description': 'Maintain your profile appearance.',
-        'powerheader': user
+        'powerheader': user,
+        'registered_associations': user_registered_associations(request)
     }
     return render(request, template, context)
 

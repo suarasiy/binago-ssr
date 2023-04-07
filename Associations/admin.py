@@ -4,7 +4,7 @@ from .models import Associations, AssociationsGroup, AssociationsApprovalRequest
 
 @admin.register(Associations)
 class AssociationsAdmin(admin.ModelAdmin):
-    list_display = ('approval', 'user', 'name', 'slug', 'email', 'is_active', 'created_at', 'updated_at')
+    list_display = ('approval', 'name', 'slug', 'email', 'website', 'is_active', 'created_at', 'updated_at')
     prepopulated_fields = {
         'slug': ('name',)
     }
@@ -12,7 +12,7 @@ class AssociationsAdmin(admin.ModelAdmin):
 
 @admin.register(AssociationsGroup)
 class AssociationsGroupAdmin(admin.ModelAdmin):
-    list_display = ('association', 'user', 'is_approved', 'created_at', 'updated_at')
+    list_display = ('association', 'user', 'is_approved', 'is_manager', 'created_at', 'updated_at')
 
 
 @admin.register(AssociationsApprovalRequest)

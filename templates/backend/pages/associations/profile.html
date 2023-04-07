@@ -49,15 +49,29 @@
         {{ association.location }}
       </span>
       {% endif %}
+      <!--  -->
+      {% if association.website %}
+        <span class="font-poppins flex flex-row items-center gap-2 border-r border-slate-100 pr-8 text-xs text-blue-400">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-4 text-blue-400">
+            <path d="M12 2C6.4889971 2 2 6.4889971 2 12C2 17.511003 6.4889971 22 12 22C17.511003 22 22 17.511003 22 12C22 6.4889971 17.511003 2 12 2 z M 12 4C12.248287 4 12.520424 4.101637 12.867188 4.4316406C13.21395 4.7616443 13.590469 5.3148823 13.914062 6.0429688C14.160397 6.597221 14.361916 7.2736777 14.535156 8L9.4648438 8C9.6380839 7.2736777 9.839603 6.597221 10.085938 6.0429688C10.40953 5.3148823 10.786051 4.7616443 11.132812 4.4316406C11.479576 4.101637 11.751713 4 12 4 z M 8.4511719 4.8339844C8.3860389 4.9648882 8.3188424 5.0931515 8.2578125 5.2304688C7.8960963 6.04433 7.6153356 6.9862083 7.4042969 8L5.0722656 8C5.8587058 6.6371754 7.0348781 5.5343622 8.4511719 4.8339844 z M 15.548828 4.8339844C16.965122 5.5343622 18.141294 6.6371754 18.927734 8L16.595703 8C16.384665 6.9862083 16.103904 6.04433 15.742188 5.2304688C15.681158 5.0931515 15.613961 4.9648882 15.548828 4.8339844 z M 4.2617188 10L7.0976562 10C7.0362684 10.646881 7 11.313632 7 12C7 12.686368 7.0362684 13.353119 7.0976562 14L4.2617188 14C4.0975541 13.359788 4 12.692622 4 12C4 11.307378 4.0975541 10.640212 4.2617188 10 z M 9.1171875 10L14.882812 10C14.952424 10.642589 15 11.306624 15 12C15 12.693376 14.952424 13.357411 14.882812 14L9.1171875 14C9.0475758 13.357411 9 12.693376 9 12C9 11.306624 9.0475758 10.642589 9.1171875 10 z M 16.902344 10L19.738281 10C19.902446 10.640212 20 11.307378 20 12C20 12.692622 19.902446 13.359788 19.738281 14L16.902344 14C16.963732 13.353119 17 12.686368 17 12C17 11.313632 16.963732 10.646881 16.902344 10 z M 5.0722656 16L7.4042969 16C7.6153356 17.013792 7.8960963 17.95567 8.2578125 18.769531C8.3188424 18.906848 8.3860389 19.035112 8.4511719 19.166016C7.0348781 18.465638 5.8587058 17.362825 5.0722656 16 z M 9.4648438 16L14.535156 16C14.361916 16.726322 14.160397 17.402779 13.914062 17.957031C13.590469 18.685118 13.213949 19.238356 12.867188 19.568359C12.520425 19.898363 12.248287 20 12 20C11.751713 20 11.479576 19.898363 11.132812 19.568359C10.78605 19.238356 10.40953 18.685118 10.085938 17.957031C9.839603 17.402779 9.6380839 16.726322 9.4648438 16 z M 16.595703 16L18.927734 16C18.141294 17.362825 16.965122 18.465638 15.548828 19.166016C15.613961 19.035112 15.681158 18.906848 15.742188 18.769531C16.103904 17.95567 16.384665 17.013792 16.595703 16 z" fill="currentColor" />
+          </svg>
+        </svg>
+        {{ association.website|urlize }}
+      </span>
+      {% endif %}
     </div>
     {% endif %}
     <p class="render__content">{{ association.about|urlize|linebreaksbr }}</p>
-    <a
-      href="{% url 'associations-edit' %}"
-      class="font-mulish relative rounded-lg bg-green-500 bg-opacity-10 px-7 py-3 text-center text-sm font-semibold uppercase text-green-600 transition-all duration-150 ease-out hover:bg-opacity-20 active:scale-[.98]"
-    >
-      Edit Association Profile
-    </a>
+    <div class="grid grid-cols-2 gap-4">
+      <a href="{% url 'associations-edit' association.slug %}" class="px-5 py-4 text-sm font-bold font-poppins bg-gray-100 rounded-lg text-center hover:brightness-95 active:scale-[.98] transition-all duration-100 ease-out">Edit Association Profile</a>
+      <a href="{% url 'events-create' association.slug %}" class="px-5 py-4 text-sm text-sky-800 font-bold font-poppins bg-sky-200 rounded-lg text-center hover:brightness-95 active:scale-[.98] transition-all duration-100 ease-out">Create New Event</a>
+      <!--<a
+        href="{% url 'associations-edit' association.slug %}"
+        class="font-mulish relative rounded-lg bg-green-500 bg-opacity-10 px-7 py-3 text-center text-sm font-semibold uppercase text-green-600 transition-all duration-150 ease-out hover:bg-opacity-20 active:scale-[.98]"
+      >
+        Create New Event
+      </a>-->
+    </div>
     <hr class="mx-2 border-black border-opacity-5" />
     <div class="ml-3 flex flex-col gap-4">
       <span class="font-poppins text-xl">Events Catalog</span>
@@ -70,19 +84,35 @@
             class="w-auto min-w-[20px] rounded-lg bg-gray-200 px-2 py-1 text-center text-xs font-semibold transition-all duration-150 ease-out group-hover:bg-gray-50"
             >{{ x.total }}</small
           >
-          <small class="font-montserrat text-xs font-semibold">{{ x.category__category}}</small>
+          <small class="font-montserrat text-xs font-semibold">{{ x.events__category__category}}</small>
         </span>
         {% endfor %}
       </div>
-      <div class="grid grid-cols-4 gap-7">
+      <div class="grid grid-cols-4 gap-6">
         {% for event in events.all %}
-        <img
-          src="{% get_media_prefix %}{{ event.banner }}"
-          alt=""
-          srcset=""
-          class="aspect-2 rounded-xl object-cover object-center"
-          draggable="false"
-        />
+        <a href="" class="flex hover:scale-[1.03] bg-white flex-col gap-3 p-3 rounded-xl hover:bg-slate-600 hover:bg-opacity-10 transition-all duration-100 ease-out group">
+          <div class="relative">
+            <img
+              src="{% get_media_prefix %}{{ event.events__banner }}"
+              alt=""
+              srcset=""
+              class="relative aspect-2 rounded-xl object-cover object-center z-[1]"
+              draggable="false"
+            />
+            <!--<img
+              src="{% get_media_prefix %}{{ event.events__banner }}"
+              alt=""
+              srcset=""
+              class="absolute group-hover:mt-5 group-hover:opacity-30 opacity-0 inset-0 w-full h-full rounded-xl z-0 object-cover object-center group-hover:blur-xl transition-all ease-out duration-100"
+              draggable="false"
+            />-->
+          </div>
+          <strong class="relative z-[1] group-hover:text-black font-dmSans text-sm font-semibold text-slate-700 line-clamp-2 text-ellipsis transition-all duration-100 ease-out">{{ event.events__title }}</strong>
+          <div class="flex flex-row items-center gap-2">
+            <img src="{% get_media_prefix %}{{ event.user__avatar }}" alt="" srcset="" class="w-6 h-6 object-center object-cover rounded-full border border-gray-200">
+            <small class="font-poppins text-slate-400 text-xs font-medium">{{ event.user__first_name }} {{ event.user__last_name }}</small>
+          </div>
+        </a>
         {% endfor %}
       </div>
       <div class="flex flex-row justify-between">
@@ -128,13 +158,16 @@
         </div>
         <div class="font-poppins flex flex-row flex-wrap justify-between border-b border-gray-100 pb-3">
           <small class="text-sm font-light text-slate-400">Event(s)</small>
-          <strong class="text-sm font-semibold text-slate-700">{{ association.events_set.count }}</strong>
+          <strong class="text-sm font-semibold text-slate-700">{{ events.count }}</strong>
         </div>
         <div class="font-poppins flex flex-row flex-wrap justify-between border-b border-gray-100 pb-3">
           <small class="text-sm font-light text-slate-400">Last Event</small>
-          <strong class="line-clamp-2 text-sm font-semibold text-slate-700"
-            >{{ events.first|truncatechars:30 }} ({{ events.first.created_at|date:'M d, Y' }})</strong
-          >
+          <div class="flex flex-col gap-1 items-end">
+            <strong class="line-clamp-1 text-sm font-semibold text-slate-700">
+              {{ events.first.events__title|default_if_none:"-"|truncatechars:30 }}
+            </strong>
+            <small class="text-sm font-light text-slate-400">{{ events.first.events__schedule_end|date:'M d, Y'|default_if_none:"No" }}</small>
+          </div>
         </div>
         <div class="font-poppins flex flex-row flex-wrap justify-between border-b border-gray-100 pb-3">
           <small class="text-sm font-light text-slate-400">Location</small>
@@ -149,9 +182,12 @@
     <div class="font-poppins container flex flex-col gap-2">
       <p class="font-medium text-slate-900">Members Organizer</p>
       <div class="mt-4 flex flex-col gap-3">
-        <div class="font-poppins flex flex-row flex-wrap items-center gap-3 border-b border-gray-200 pb-3">
+        {% for member in members %}
+        <!-- -->
+        {% if member.is_manager %}
+        <div class="font-poppins flex flex-row flex-wrap items-center gap-3 pb-3">
           <img
-            src="{% get_media_prefix %}{{ association.user.avatar }}"
+            src="{% get_media_prefix %}{{ member.user.avatar }}"
             alt=""
             srcset=""
             class="h-8 w-8 rounded-full object-cover object-center ring-2 ring-yellow-500 ring-offset-2"
@@ -169,12 +205,17 @@
             />
           </svg>
           <strong class="line-clamp-1 text-sm font-semibold text-slate-700"
-            >{{ association.user.first_name }} {{ association.user.last_name }}</strong
+            >{{ member.user.first_name }} {{ member.user.last_name }}</strong
           >
         </div>
+        {% endif %}
+        <!-- -->
+        {% endfor %}
+        <!-- -->
         {% for member in members %}
         <!-- -->
-        {% if member.user != association.user %}
+        {% if not member.is_manager%}
+        <hr class="mb-2 border-gray-200" />
         <div class="font-poppins flex flex-row flex-wrap items-center gap-3 pb-3">
           <img
             src="{% get_media_prefix %}{{ member.user.avatar }}"

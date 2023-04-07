@@ -67,11 +67,22 @@ class AssociationForm(forms.ModelForm):
             }
         )
     )
+    website = forms.URLField(max_length=80, widget=forms.TextInput(
+        attrs={
+            'class': 'input__field',
+            'placeholder': 'Association Website URL (optional)',
+            'spellcheck': 'false',
+            'autocomplete': 'off',
+            'id': 'website'
+        }
+    )
+    )
 
     class Meta:
         model = Associations
-        fields = ['name', 'location', 'about',
-                  'email', 'phone', 'logo', 'banner']
+        fields = [
+            'name', 'location', 'about', 'email', 'phone', 'logo', 'banner', 'website'
+        ]
 
 
 class AssociationInviteForm(forms.Form):

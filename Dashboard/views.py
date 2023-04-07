@@ -27,6 +27,7 @@ from django.views.decorators.http import require_http_methods
 from binago.utils import pages_backend
 
 from Events.models import Events
+from Associations.query import user_registered_associations
 
 from datetime import datetime
 import pytz
@@ -76,6 +77,7 @@ def events(request) -> HttpResponse:
         },
         'description': 'Here is the summaries about the recent events over the month.',
         'timeline': json.dumps(events_collection),
-        'header': request.user.avatar
+        'header': request.user.avatar,
+        'registered_associations': user_registered_associations(request)
     }
     return render(request, template, context)

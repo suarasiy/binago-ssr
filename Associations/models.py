@@ -34,7 +34,7 @@ class AssociationsApprovalRequest(models.Model):
     def __str__(self) -> str:
         self.associations: Associations
         if hasattr(self, 'associations'):
-            return f"{self.associations.name} - {self.associations.user}"
+            return f"{self.associations.name}"
         return f"{self.is_approved} || {self.created_at} - {self.updated_at}"
 
     class Meta:
@@ -43,7 +43,6 @@ class AssociationsApprovalRequest(models.Model):
 
 class Associations(models.Model):
     approval = models.OneToOneField(AssociationsApprovalRequest, on_delete=SET_NULL, blank=True, null=True)
-    user = models.OneToOneField(User, on_delete=CASCADE)
     name = models.CharField(max_length=80, unique=True)
     slug = models.SlugField(max_length=120, unique=True)
     location = models.CharField(max_length=100)
@@ -51,6 +50,7 @@ class Associations(models.Model):
     email = models.EmailField(unique=True)
     phone = models.CharField(max_length=15)
     logo = models.ImageField(upload_to=logo_upload_handler)
+    website = models.URLField(max_length=80, default=None, blank=True, null=True)
     banner = models.ImageField(upload_to=banner_upload_handler)
     is_active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -74,6 +74,7 @@ class AssociationsGroup(models.Model):
     association = models.ForeignKey(Associations, on_delete=CASCADE)
     user = models.ForeignKey(User, on_delete=CASCADE)
     is_approved = models.BooleanField(default=None, blank=True, null=True)
+    is_manager = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

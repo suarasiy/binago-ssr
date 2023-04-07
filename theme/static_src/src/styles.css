@@ -74,6 +74,10 @@
     @apply py-2 hover:text-slate-700;
   }
 
+  .nav__sub__menu .link.dynamic {
+    @apply block text-ellipsis whitespace-nowrap;
+  }
+
   .nav__sub__menu .link.link--active {
     @apply font-medium text-slate-800;
   }
@@ -108,6 +112,10 @@
 
   main .container {
     @apply flex h-max flex-col gap-4 rounded-xl bg-white p-5 shadow-container3;
+  }
+
+  main .container__no__p {
+    @apply flex h-max flex-col gap-4 rounded-xl bg-white shadow-container3;
   }
 
   main .container__group {

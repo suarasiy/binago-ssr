@@ -11,3 +11,4 @@ if TYPE_CHECKING:
 
     class FormContext(_):
         forms: EventForm
+        slug: str

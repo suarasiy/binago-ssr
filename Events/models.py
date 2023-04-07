@@ -4,7 +4,7 @@ from django.db import models
 from django.db.models import SET_NULL, CASCADE
 from django.utils.text import slugify
 from authentication.models import User
-from Associations.models import Associations
+from Associations.models import Associations, AssociationsGroup
 
 
 class EventsCategories(models.Model):
@@ -31,7 +31,7 @@ def banner_events_upload_handler(instance, filename):
 
 
 class Events(models.Model):
-    association = models.ForeignKey(Associations, on_delete=CASCADE)
+    association_group = models.ForeignKey(AssociationsGroup, on_delete=models.SET_NULL, blank=True, null=True)
     title = models.CharField(max_length=200, db_index=True, unique=True)
     banner = models.ImageField(upload_to=banner_events_upload_handler, max_length=500)
     category = models.ForeignKey(EventsCategories, on_delete=SET_NULL, blank=True, null=True)
@@ -48,7 +48,7 @@ class Events(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def save(self, *args, **kwargs):
-        self.slug = slugify(self.title)
+        self.slug = slugify(self.title, allow_unicode=True)
         return super().save(*args, **kwargs)
 
     def __str__(self):

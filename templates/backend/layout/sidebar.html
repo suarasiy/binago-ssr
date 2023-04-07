@@ -4,7 +4,7 @@
 <!-- -->
 {% load active_link_tags %}
 
-<aside class="aside__navigation">
+<aside class="aside__navigation max-w-[255px]">
   <div class="flex h-full flex-col gap-8 overflow-y-scroll py-5 pr-5 pl-5" aria-role="aside-wrapper">
     <div class="self-center py-3">
       <img src="{% static 'web/logo.png' %}" alt="" srcset="" class="w-52 object-contain px-2" />
@@ -68,7 +68,7 @@
         </span>
       </div>
       <div id="menu-events" class="nav__sub__menu nav__sub__menu--hide">
-        <a href="{% url 'events' %}" class="link {% active_link 'events' 'link--active' %}">Data</a>
+        {% comment %} <a href="{% url 'events' %}" class="link {% active_link 'events' 'link--active' %}">Data</a> {% endcomment %}
         <!-- history event -->
         <a href="" class="link">Attended</a>
         <a href="" class="link">Summary</a>
@@ -93,9 +93,24 @@
         <a href="{% url 'associations-data' %}" class="link {% active_link 'associations-data' 'link--active' %}"
           >Data</a
         >
-        <a href="{% url 'associations-profile' %}" class="link {% active_link 'associations-profile' 'link--active' %}"
-          >Profile</a
-        >
+        <hr />
+        {% for member_of in registered_associations %}
+        <div class="flex flex-row items-center gap-2">
+          <img
+            src="{% get_media_prefix %}{{ member_of.association.logo }}"
+            alt=""
+            srcset=""
+            class="h-5 w-5 rounded-md object-cover object-center"
+            draggable="false"
+          />
+          <a
+            href="{% url 'associations-profile' member_of.association.slug %}"
+            class="line-clamp-2 dynamic link {% active_link 'associations-profile' 'link--active' slug=member_of.association.slug %} w-full"
+            >{{ member_of.association.name }}</a
+          >
+        </div>
+        {% endfor %}
+        <hr />
         <a href="" class="link">Summary</a>
       </div>
     </div>

@@ -48,12 +48,23 @@
     >
       <span class="font-poppins text-sm font-semibold">{{ user.username }}</span>
       <!-- example image: https://play-lh.googleusercontent.com/hYdIazwJBlPhmN74Yz3m_jU9nA6t02U7ZARfKunt6dauUAB6O3nLHp0v5ypisNt9OJk -->
+      {% if user.avatar %}
       <img
         src="{% get_media_prefix %}{{ user.avatar }}"
         alt=""
         srcset=""
         class="h-7 w-7 rounded-full border-2 border-white object-cover object-center"
+        draggable="false"
       />
+      {% else %}
+      <img
+        src="{% static 'web/assets/avatar_1.png' %}"
+        alt=""
+        srcset=""
+        class="h-7 w-7 rounded-full border-2 border-white object-cover object-center"
+        draggable="false"
+      />
+      {% endif %}
     </button>
   </div>
 </div>

@@ -12,6 +12,7 @@
       <div
         class="shadow-container3 group relative h-56 w-56 shrink-0 rounded-full bg-white p-3 transition-all duration-150 ease-out hover:scale-105"
       >
+        {% if powerheader.avatar %}
         <img
           src="{% get_media_prefix %}{{ powerheader.avatar }}"
           alt=""
@@ -19,6 +20,15 @@
           class="relative h-full w-full rounded-full object-cover object-center"
           draggable="false"
         />
+        {% else %}
+        <img
+          src="{% static 'web/assets/avatar_1.png' %}"
+          alt=""
+          srcset=""
+          class="relative h-full w-full rounded-full object-cover object-center"
+          draggable="false"
+        />
+        {% endif %}
       </div>
       <div class="mb-12 flex flex-col gap-10">
         <span
@@ -36,18 +46,20 @@
       </div>
     </div>
     <div class="mx-3 flex flex-row flex-wrap gap-3">
+      {% for member_of in powerheader.associationsgroup_set.all %}
       <a
-        href=""
+        href="{% url 'associations-profile' member_of.association.slug %}"
         class="font-dmSans flex flex-row items-center gap-2 rounded-xl border border-gray-200 bg-white px-3 py-2 text-xs font-semibold text-slate-800 transition-all duration-150 ease-out hover:scale-95 hover:bg-gray-200"
       >
         <img
-          src="{% get_media_prefix %}{{ powerheader.associations.logo }}"
-          alt="{{ powerheader.associations.slug }}"
+          src="{% get_media_prefix %}{{ member_of.association.logo }}"
+          alt="{{ member_of.association.slug }}"
           srcset=""
           class="h-5 w-5 rounded-md object-cover object-center"
         />
-        <span> {{ powerheader.associations }} </span>
+        <span> {{ member_of.association }} </span>
       </a>
+      {% endfor %}
       <!-- -->
       {% if powerheader.is_staff %}
       <span
@@ -168,16 +180,11 @@
     </div>
     {% endif %}
     <p class="render__content">{{ powerheader.about|linebreaksbr|urlize|default_if_none:"No description." }}</p>
-    <a
-      href="{% url 'settings-edit' %}"
-      class="font-mulish relative rounded-lg bg-green-500 bg-opacity-10 px-7 py-3 text-center text-sm font-semibold uppercase text-green-600 transition-all duration-150 ease-out hover:bg-opacity-20 active:scale-[.98]"
-    >
-      Edit Your Profile
-    </a>
+    <a href="{% url 'settings-edit' %}" class="px-5 py-4 text-sm font-bold font-poppins bg-gray-100 rounded-lg text-center hover:brightness-95 active:scale-[.98] transition-all duration-100 ease-out">Edit Your Profile</a>
     <hr class="mx-2 border-black border-opacity-5" />
   </div>
-  <div class="container col-span-2">
-    <div class="font-poppins flex flex-col gap-2">
+  <div class="col-span-2 flex flex-col gap-8">
+    <div class="font-poppins container flex flex-col gap-2">
       <p class="font-medium text-slate-900">User Stats</p>
       <div class="mt-4 flex flex-col gap-3">
         <div class="font-poppins flex flex-row flex-wrap justify-between border-b border-gray-100 pb-3">
@@ -197,6 +204,9 @@
           <strong class="text-sm font-semibold text-slate-700">{{ powerheader.last_login|timesince }} ago.</strong>
         </div>
       </div>
+    </div>
+    <div class="font-poppins container flex flex-col gap-2">
+      <p class="font-medium text-slate-900">Recent Points</p>
     </div>
   </div>
 </div>

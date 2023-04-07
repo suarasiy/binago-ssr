@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from django.db.models import Count
+from django.db.models import Count, F
 from typing import TYPE_CHECKING
 
 from django.shortcuts import render, redirect, get_object_or_404
@@ -13,15 +13,17 @@ from Events.models import Events
 from authentication.models import User
 from .models import Associations, AssociationsGroup, AssociationsApprovalRequest
 from .forms import AssociationForm, AssociationInviteForm
+from .query import user_registered_associations, get_association_by_slug
 
 from binago.utils import pages_backend
 
 if TYPE_CHECKING:
+    from typing import Union, List
     from django.http import HttpResponse, HttpResponseRedirect, HttpResponsePermanentRedirect
     from django.db.models import QuerySet
     from django.db.models.query import ValuesQuerySet
     from .context import (
-        ContextIndex, ContextInvite, ContextEdit, ContextIndexApproval, ContextProfile
+        ContextIndex, ContextInvite, ContextEdit, ContextIndexApproval, ContextProfile, ContextExplore
     )
 
 
@@ -30,14 +32,47 @@ if TYPE_CHECKING:
 def index(request) -> HttpResponse:
     ...
 
+@login_required
+@require_http_methods(['GET'])
+def explore(request, slug) -> HttpResponse:
+    template: str = pages_backend('associations/explore.html')
+    association: Associations = Associations.objects.get(slug=slug)
+    # events: ValuesQuerySet = AssociationsGroup.objects.filter(association=association).values('association__name', 'events__title', 'user__avatar', 'user__first_name', 'user__last_name', 'events__banner', 'events__schedule_start', 'events__schedule_end').annotate().order_by('-events__schedule_end')
+    events: QuerySet[Events] = Events.objects.filter(association_group__association=association)
+    members: QuerySet[AssociationsGroup] = AssociationsGroup.objects.filter(association=association)
+    context: ContextExplore = {
+        'title': 'Associations Explore',
+        'breadcrumb': {
+            'main': 'Associations',
+            'branch': [
+                {
+                    'name': 'Data',
+                    'reverse': reverse('associations-data'),
+                    'type': 'previous'
+                },
+                {
+                    'name': get_association_by_slug(slug).name,
+                    'reverse': reverse('associations-data-explore', kwargs={'slug': slug}),
+                    'type': 'current'
+                },
+            ]
+        },
+        'association': association,
+        'members': members,
+        'description': 'Exploring your association!',
+        'events': events,
+        'registered_associations': user_registered_associations(request)
+    }
+    return render(request, template, context)
+
 
 @login_required
 @require_http_methods(['GET'])
 def index_data(request) -> HttpResponse:
     template: str = pages_backend('associations/index.html')
-    associations: Associations = Associations.objects.get(user=request.user)
-    members: QuerySet[AssociationsGroup] = associations.associationsgroup_set.filter(
-        is_approved=True).exclude(user=associations.user)
+    # members: QuerySet[AssociationsGroup] = associations.associationsgroup_set.filter(
+    #     is_approved=True).exclude(user=associations.user)
+    associations_group: Union[QuerySet, List[AssociationsGroup]]  = AssociationsGroup.objects.filter(user=request.user)
     context: ContextIndex = {
         'title': 'Associations',
         'breadcrumb': {
@@ -52,7 +87,9 @@ def index_data(request) -> HttpResponse:
         },
         'description': 'Manage association members and activity.',
         'associations': Associations.objects.filter(approval__is_approved=True),
-        'members': members
+        'members': None,
+        'associations_group': associations_group,
+        'registered_associations': user_registered_associations(request)
     }
     return render(request, template, context)
 
@@ -80,19 +117,22 @@ def index_data_approval(request) -> HttpResponse:
             ]
         },
         'description': 'Associations approval requests.',
-        'associations': associations
+        'associations': associations,
+        'registered_associations': user_registered_associations(request)
     }
     return render(request, template, context)
 
 
 @login_required
 @require_http_methods(['GET'])
-def profile(request) -> HttpResponse:
+def profile(request, slug) -> HttpResponse:
     template: str = pages_backend('associations/profile.html')
-    association: Associations = Associations.objects.get(user=request.user)
-    events: QuerySet[Events] = association.events_set.all()
-    event_categories: ValuesQuerySet = association.events_set.values(
-        'category', 'category__category').annotate(total=Count('category')).order_by()
+    association: Associations = Associations.objects.get(slug=slug)
+    # events: Any = AssociationsGroup.objects.filter(association=association).prefetch_related('events_set')
+    events: ValuesQuerySet = AssociationsGroup.objects.filter(association=association).values('association__name', 'events__title', 'user__avatar', 'user__first_name', 'user__last_name', 'events__banner', 'events__schedule_start', 'events__schedule_end').annotate().order_by('-events__schedule_end')
+    # event_categories: ValuesQuerySet = events.values(
+    #     'category', 'category__category').annotate(total=Count('category')).order_by()
+    event_categories: ValuesQuerySet = AssociationsGroup.objects.filter(association=association).values('events__category__category').annotate(total=Count('events__category__category'))
     members: QuerySet[AssociationsGroup] = association.associationsgroup_set.filter(is_approved=True)
     context: ContextProfile = {
         'title': 'Associations Profile',
@@ -101,7 +141,7 @@ def profile(request) -> HttpResponse:
             'branch': [
                 {
                     'name': 'Profile',
-                    'reverse': reverse('associations-profile'),
+                    'reverse': reverse('associations-profile', kwargs={'slug': slug}),
                     'type': 'current'
                 }
             ]
@@ -113,22 +153,23 @@ def profile(request) -> HttpResponse:
         'events_category': event_categories,
         'powerheader': {
             'banner': association.banner
-        }
+        },
+        'registered_associations': user_registered_associations(request)
     }
     return render(request, template, context)
 
 
 @login_required
 @require_http_methods(['GET', 'POST'])
-def edit_profile(request) -> HttpResponse | HttpResponseRedirect | HttpResponsePermanentRedirect:
-    association: Associations = get_object_or_404(Associations, user=request.user)
+def edit_profile(request, slug) -> HttpResponse | HttpResponseRedirect | HttpResponsePermanentRedirect:
+    association: Associations = get_object_or_404(Associations, slug=slug)
     if request.method == "POST":
         form: AssociationForm = AssociationForm(request.POST, request.FILES, instance=association)
         if form.is_valid():
-            form.save()
+            association: Associations = form.save()
 
             messages.success(request, 'Association success edited.')
-            return redirect('associations-profile')
+            return redirect(reverse('associations-profile', kwargs={'slug': association.slug}))
     else:
         form: AssociationForm = AssociationForm(instance=association)
 
@@ -140,18 +181,20 @@ def edit_profile(request) -> HttpResponse | HttpResponseRedirect | HttpResponseP
             'branch': [
                 {
                     'name': 'Profile',
-                    'reverse': reverse('associations-profile'),
+                    'reverse': reverse('associations-profile', kwargs={'slug': slug}),
                     'type': 'previous'
                 },
                 {
                     'name': 'Edit',
-                    'reverse': reverse('associations-edit'),
+                    'reverse': reverse('associations-edit', kwargs={'slug': slug}),
                     'type': 'current'
                 },
             ]
         },
         'description': 'Update information about your association.',
-        'form': form
+        'form': form,
+        'registered_associations': user_registered_associations(request),
+        'slug': slug
     }
     return render(request, template, context)
 
@@ -180,7 +223,7 @@ def approval_reject(request, id) -> HttpResponseRedirect | HttpResponsePermanent
 
 @login_required
 @require_http_methods(['GET', 'POST'])
-def invite(request) -> HttpResponse | HttpResponseRedirect | HttpResponsePermanentRedirect:
+def invite(request, slug) -> HttpResponse | HttpResponseRedirect | HttpResponsePermanentRedirect:
     if request.method == "POST":
         form: AssociationInviteForm = AssociationInviteForm(request.POST)
         association: QuerySet[Associations] = Associations.objects.filter(user=request.user)
@@ -198,7 +241,7 @@ def invite(request) -> HttpResponse | HttpResponseRedirect | HttpResponsePermane
                 else:
                     messages.success(request, 'Already sent the invitation.')
 
-            return redirect('associations-data')
+            return redirect('associations-data-explore', kwargs={'slug': slug})
     else:
         form: AssociationInviteForm = AssociationInviteForm()
 
@@ -214,13 +257,20 @@ def invite(request) -> HttpResponse | HttpResponseRedirect | HttpResponsePermane
                     'type': 'previous'
                 },
                 {
+                    'name': get_association_by_slug(slug).name,
+                    'reverse': reverse('associations-data-explore', kwargs={'slug': slug}),
+                    'type': 'previous'
+                },
+                {
                     'name': 'Invite Member',
-                    'reverse': reverse('associations-data-invite'),
+                    'reverse': reverse('associations-data-invite', kwargs={'slug': slug}),
                     'type': 'current'
                 }
             ]
         },
         'description': 'Your association profile',
-        'form': form
+        'form': form,
+        'registered_associations': user_registered_associations(request),
+        'slug': slug
     }
     return render(request, template, context)

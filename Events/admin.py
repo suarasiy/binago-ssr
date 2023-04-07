@@ -3,7 +3,7 @@ from .models import Events, EventsCategories, EventsExtendedUrl
 
 
 class EventsAdmin(admin.ModelAdmin):
-    list_display = ('association', 'title', 'category', 'slug', 'price', 'is_published', 'updated_at')
+    list_display = ('association_group', 'title', 'category', 'slug', 'price', 'is_published', 'updated_at')
     prepopulated_fields = {
         'slug': ('title',)
     }

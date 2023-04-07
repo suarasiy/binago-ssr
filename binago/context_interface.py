@@ -1,7 +1,10 @@
-from typing import TypedDict, List, TYPE_CHECKING
+from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
+    from typing import TypedDict, List, Union
     from django.forms import ModelForm
+    from django.db.models import QuerySet
+    from Associations.models import AssociationsGroup
 
     class BreadcrumbBranch(TypedDict):
         name: str
@@ -16,3 +19,4 @@ if TYPE_CHECKING:
         title: str
         breadcrumb: Breadcrumb
         description: str
+        registered_associations: Union[QuerySet, List[AssociationsGroup]]

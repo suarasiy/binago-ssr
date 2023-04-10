@@ -6,8 +6,7 @@
 <!-- -->
 {% block content %}
 
-  <div class="grid grid-cols-4 select-none gap-8">
-
+<div class="grid select-none grid-cols-4 gap-8">
   <!-- Associations Events -->
   <div class="container col-span-4">
     <div class="flex flex-row justify-between">
@@ -264,7 +263,7 @@
                     src="{% get_media_prefix %}{{ member.user.avatar }}"
                     alt=""
                     srcset=""
-                    class="h-6 w-6 rounded-full border object-cover"
+                    class="h-8 w-8 rounded-full border object-cover"
                     draggable="false"
                   />
                   {{ member.user.first_name }} {{ member.user.last_name }}</a
@@ -329,7 +328,6 @@
       </div>
     </div>
   </div>
-
-  </div>
+</div>
 
 {% endblock content %}

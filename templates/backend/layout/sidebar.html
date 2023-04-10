@@ -133,15 +133,21 @@
     </div>
     <!-- MENU: USERS -->
     <div class="">
-      <div class="nav__menu" data-target-menu="menu-users">
+      <div class="nav__menu {% active_link 'users' 'nav__menu--active' %}" data-target-menu="menu-users">
         <img src="{% static 'backend/icons/menu_users.svg' %}" alt="" srcset="" class="w-6" draggable="false" />
         <span class="flex w-full flex-row justify-between">
           <p>Users</p>
-          <img src="{% static 'backend/icons/chevron.svg' %}" alt="" srcset="" class="indicator" draggable="false" />
+          <img
+            src="{% static 'backend/icons/chevron.svg' %}"
+            alt=""
+            srcset=""
+            class="indicator {% active_link 'users' 'indicator--active' %}"
+            draggable="false"
+          />
         </span>
       </div>
       <div id="menu-users" class="nav__sub__menu nav__sub__menu">
-        <a href="" class="link">Data</a>
+        <a href="{% url 'users-data' %}" class="link {% active_link 'users-data' 'link--active' %}">Data</a>
         <a href="" class="link">Summary</a>
       </div>
     </div>

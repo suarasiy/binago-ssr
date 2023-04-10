@@ -29,11 +29,11 @@ urlpatterns = [
         # path('organizers/', include('Organizers.urls')),
         path('associations/', include('Associations.urls')),
         path('events/', include('Events.urls')),
+        path('users/', include('authentication.urls')),
         path('settings/', include([
             # TODO: Need to improve
             path('profile/', include([
                 path('', settings_profile, name='settings'),
-                path('', include('authentication.urls')),
             ])),
         ])),
     ])),

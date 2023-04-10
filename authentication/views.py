@@ -4,6 +4,7 @@ from typing import TYPE_CHECKING
 from django.urls import reverse
 from django.contrib import messages
 from django.contrib.auth import login, authenticate
+from django.db.models import Q
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_http_methods
@@ -13,13 +14,59 @@ from .models import User
 from .forms import UserForm, LoginForm, RegisterForm
 from .utils import activate_email, verify
 
+from Associations.query import user_registered_associations
+from Associations.models import AssociationsGroup
+
 if TYPE_CHECKING:
-    from typing import Any, Union
+    from typing import Any, Union, Literal
+    from django.db.models import QuerySet
     from django.http import HttpResponse, HttpResponseRedirect, HttpResponsePermanentRedirect
     from .context import (
-        UserFormContext
+        UserFormContext, IndexContext, ProfileContext
     )
     from django.contrib.auth.models import AbstractBaseUser
+
+
+@login_required
+@require_http_methods(['GET'])
+def index(request) -> HttpResponse:
+    ...
+
+
+@login_required
+@require_http_methods(['GET'])
+def index_data(request) -> HttpResponse:
+    template: str = pages_backend('users/index.html')
+    users: QuerySet[User] = User.objects.all()
+    context: IndexContext = {
+        'title': 'Users data',
+        'breadcrumb': {
+            'main': 'Users',
+            'branch': [
+                {
+                    'name': 'Data',
+                    'reverse': '',
+                    'type': 'current'
+                }
+            ]
+        },
+        'users': users,
+        'description': 'List of registered users.',
+        'registered_associations': user_registered_associations(request)
+    }
+    return render(request, template, context)
+
+
+@login_required
+@require_http_methods(['POST'])
+def enable_disable_account(request, id) -> HttpResponseRedirect | HttpResponsePermanentRedirect:
+    user: User = get_object_or_404(User, id=id)
+    user.is_active = not user.is_active
+    user.save()
+
+    status: Literal['Activated', 'Disabled'] = "Activated" if user.is_active else "Disabled"
+    messages.success(request, f"User successfully {status}.")
+    return redirect('users-data')
 
 
 @require_http_methods(['GET', 'POST'])
@@ -124,6 +171,39 @@ def edit(request) -> HttpResponse | HttpResponseRedirect | HttpResponsePermanent
         },
         'description': 'Update profile information',
         'form': form,
-        'powerheader': user
+        'powerheader': user,
+        'registered_associations': user_registered_associations(request)
+    }
+    return render(request, template, context)
+
+
+@login_required
+@require_http_methods(['GET'])
+def profile(request, username) -> HttpResponse:
+    template: str = pages_backend('users/profile.html')
+    user: User = get_object_or_404(User, username=username)
+    group: QuerySet[AssociationsGroup] = AssociationsGroup.objects.filter(
+        Q(user=user), Q(association__approval__is_approved=True))
+    context: ProfileContext = {
+        'title': f'Profiles | {user.username}\'s profile',
+        'breadcrumb': {
+            'main': 'Users',
+            'branch': [
+                {
+                    'name': 'Data',
+                    'reverse': reverse('users-data'),
+                    'type': 'previous'
+                },
+                {
+                    'name': user.username,
+                    'reverse': reverse('users-profile', kwargs={'username': username}),
+                    'type': 'current'
+                }
+            ]
+        },
+        'description': 'Previewing profile.',
+        'registered_associations': user_registered_associations(request),
+        'powerheader': user,
+        'group': group
     }
     return render(request, template, context)

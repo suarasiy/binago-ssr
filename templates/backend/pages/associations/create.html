@@ -1,0 +1,167 @@
+{% extends 'backend/layout/master.html' %}
+
+<!-- -->
+{% load static %}
+
+<!-- -->
+{% block content %}
+
+<div class="grid select-none grid-cols-6">
+  <form action="" method="post" class="container col-span-4 col-start-2" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="flex flex-row justify-between">
+      <div class="font-poppins flex flex-col gap-1">
+        <p class="font-medium text-slate-900">Edit Association</p>
+        <small class="text-xs font-light text-slate-600">Update information association.</small>
+      </div>
+    </div>
+    <div class="container__group grid grid-cols-4 gap-6">
+      <div class="col-span-2 flex flex-col gap-2">
+        <label for="{{ form.name.id_for_label }}" class="cursor-pointer text-sm font-semibold text-slate-500"
+          >Association Name</label
+        >
+        {{ form.name }}
+      </div>
+      <div class="col col-span-2 flex flex-col gap-2">
+        <label for="{{ form.email.id_for_label }}" class="cursor-pointer text-sm font-semibold text-slate-500">
+          Email
+        </label>
+        {{ form.email }}
+      </div>
+      <div class="col col-span-2 flex flex-col gap-2">
+        <label for="{{ form.location.id_for_label }}" class="cursor-pointer text-sm font-semibold text-slate-500"
+          >Location</label
+        >
+        {{ form.location }}
+      </div>
+      <div class="col col-span-2 flex flex-col gap-2">
+        <label for="{{ form.phone.id_for_label }}" class="cursor-pointer text-sm font-semibold text-slate-500"
+          >Phone Number</label
+        >
+        {{ form.phone }}
+      </div>
+      <div class="col col-span-4 flex flex-col gap-2">
+        <label for="{{ form.about.id_for_label }}" class="cursor-pointer text-sm font-semibold text-slate-500">
+          About
+        </label>
+        {{ form.about }}
+      </div>
+      <div class="col col-span-4 flex flex-col gap-2">
+        <label for="{{ form.website.id_for_label }}" class="cursor-pointer text-sm font-semibold text-slate-500">
+          Website
+        </label>
+        {{ form.website }}
+      </div>
+      <div class="col-span-4 flex flex-col gap-2">
+        <label for="{{ form.logo.id_for_label }}" class="cursor-pointer text-sm font-semibold text-slate-500"
+          >Logo Image</label
+        >
+        <div class="grid grid-cols-3 gap-5">
+          <img
+            src="{% get_media_prefix %}{{ form.logo.value }}"
+            alt=""
+            id="preview_{{ form.logo.id_for_label }}"
+            class="aspect-1 h-40 cursor-pointer justify-self-center rounded-xl border border-slate-200 bg-white object-cover ring ring-transparent transition-all duration-150 ease-out hover:border-transparent hover:ring-blue-500 hover:ring-offset-1"
+          />
+          <div class="col-span-2 flex flex-col gap-2">
+            <label for="{{ form.logo.id_for_label }}" class="cursor-pointer text-sm font-semibold text-slate-500"
+              >Upload your logo</label
+            >
+            <div class="hidden">{{ form.logo }}</div>
+            <label
+              for="{{ form.logo.id_for_label }}"
+              class="relative flex min-w-0 flex-auto flex-grow-0 cursor-pointer flex-row items-center overflow-hidden rounded-xl border border-slate-200 bg-white bg-clip-padding text-xs ring ring-transparent ring-offset-0 transition-all duration-150 ease-out file:text-sm file:text-neutral-700 hover:ring-blue-500 hover:ring-offset-2 focus:text-neutral-700 focus:shadow-[0_0_0_1px] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1"
+            >
+              <span class="border-r border-slate-200 bg-neutral-100 px-4 py-3 text-sm">Choose File</span>
+              <span class="line-clamp-1 mx-4 my-3">Upload new logo to replace.</span>
+            </label>
+            <small class="text-xs font-light text-slate-600">Maximum image size is 5.0 Mb</small>
+          </div>
+        </div>
+      </div>
+      <div class="col-span-4 flex flex-col gap-2">
+        <label for="{{ form.logo.id_for_label }}" class="cursor-pointer text-sm font-semibold text-slate-500"
+          >Banner Image</label
+        >
+        <div class="grid grid-cols-2 gap-5">
+          <img
+            src="{% get_media_prefix %}{{ form.banner.value }}"
+            alt=""
+            id="preview_{{ form.banner.id_for_label }}"
+            class="h-40 w-full cursor-pointer rounded-xl border border-slate-200 bg-white object-cover ring ring-transparent transition-all duration-150 ease-out hover:border-transparent hover:ring-blue-500 hover:ring-offset-1"
+          />
+          <div class="flex flex-col gap-2">
+            <label for="{{ form.banner.id_for_label }}" class="cursor-pointer text-sm font-semibold text-slate-500"
+              >Upload your banner</label
+            >
+            <div class="hidden">{{ form.banner }}</div>
+            <label
+              for="{{ form.banner.id_for_label }}"
+              class="relative flex min-w-0 flex-auto flex-grow-0 cursor-pointer flex-row items-center overflow-hidden rounded-xl border border-slate-200 bg-white bg-clip-padding text-xs ring ring-transparent ring-offset-0 transition-all duration-150 ease-out file:text-sm file:text-neutral-700 hover:ring-blue-500 hover:ring-offset-2 focus:text-neutral-700 focus:shadow-[0_0_0_1px] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1"
+            >
+              <span class="border-r border-slate-200 bg-neutral-100 px-4 py-3 text-sm">Choose File</span>
+              <span class="line-clamp-1 mx-4 my-3">Upload new banner to replace.</span>
+            </label>
+            <small class="text-xs font-light text-slate-600">Maximum image size is 5.0 Mb</small>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="flex flex-row items-center gap-3">
+      <a
+        href="{% url 'associations-data' %}"
+        class="font-mulish relative rounded-lg border border-slate-100 bg-slate-500 bg-opacity-10 px-4 py-2 text-sm font-semibold uppercase text-slate-400 transition-all duration-150 ease-out hover:brightness-50"
+        >Cancel</a
+      >
+      <button
+        type="submit"
+        class="font-mulish relative rounded-lg border border-transparent bg-green-500 px-7 py-2 text-sm font-semibold uppercase text-white transition-all duration-150 ease-out hover:brightness-110"
+      >
+        Update
+      </button>
+    </div>
+  </form>
+</div>
+
+{% endblock content %}
+
+<!-- -->
+{% block js %}
+<script>
+  const inputImg1 = document.querySelector(`#{{ form.logo.id_for_label }}`);
+  const previewImg1 = document.querySelector(`#preview_{{ form.logo.id_for_label }}`);
+  const inputImg2 = document.querySelector(`#{{ form.banner.id_for_label }}`);
+  const previewImg2 = document.querySelector(`#preview_{{ form.banner.id_for_label }}`);
+
+  inputImg1.onchange = (event) => {
+    const [file] = inputImg1.files;
+    if (file) {
+      previewImg1.src = URL.createObjectURL(file);
+    }
+  };
+  inputImg2.onchange = (event) => {
+    const [file] = inputImg2.files;
+    if (file) {
+      previewImg2.src = URL.createObjectURL(file);
+    }
+  };
+
+  previewImg1.onclick = (e) => {
+    if (!previewImg1.style.objectFit) {
+      previewImg1.style.objectFit = 'contain';
+      return;
+    }
+    previewImg1.style.objectFit = '';
+    return;
+  };
+
+  previewImg2.onclick = (e) => {
+    if (!previewImg2.style.objectFit) {
+      previewImg2.style.objectFit = 'contain';
+      return;
+    }
+    previewImg2.style.objectFit = '';
+    return;
+  };
+</script>
+{% endblock js %}

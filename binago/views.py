@@ -1,9 +1,10 @@
 from __future__ import annotations
 from typing import TYPE_CHECKING
 
-from .utils import pages_testing, pages_backend, pages_frontend
+from .utils import pages_testing, pages_backend, pages_frontend, pages_handler
 
 from django.urls import reverse
+from django.http import HttpResponseNotFound
 from django.shortcuts import render, redirect
 from django.views.decorators.http import require_http_methods
 from django.contrib.auth import logout
@@ -65,3 +66,24 @@ def signin(request) -> HttpResponse:
 def signout(request) -> HttpResponseRedirect | HttpResponsePermanentRedirect:
     logout(request)
     return redirect('login')  # TODO: change it later
+
+
+# TODO: change before production
+def handle_403(request):
+    template = 'handler/403.html'
+    context = {}
+    return render(request, template, context)
+
+
+# TODO: change before production
+def handle_404(request):
+    template = 'handler/404.html'
+    context = {}
+    return render(request, template, context)
+
+
+# TODO: change before production
+def handle_500(request):
+    template = 'handler/500.html'
+    context = {}
+    return render(request, template, context)

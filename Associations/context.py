@@ -13,7 +13,9 @@ if TYPE_CHECKING:
         associations: Union[QuerySet, List[Associations] | List[AssociationsApprovalRequest]]
         associations_group: Union[QuerySet, List[AssociationsGroup]]
         members: Any
-    
+        approvals: QuerySet[AssociationsApprovalRequest]
+        associations_create_eligibility: bool
+
     class ContextExplore(Context):
         events: QuerySet[Events]
         association: Associations
@@ -27,6 +29,9 @@ if TYPE_CHECKING:
         form: AssociationForm
         slug: str
 
+    class ContextCreate(Context):
+        form: AssociationForm
+
     class ContextIndexApproval(Context):
         associations: Union[QuerySet, List[Associations] | List[AssociationsApprovalRequest]]
 
@@ -36,7 +41,7 @@ if TYPE_CHECKING:
     class ContextProfile(Context):
         association: Union[QuerySet, Associations]
         powerheader: Powerheader
-        events: ValuesQuerySet
+        events: QuerySet[Events]
         members: QuerySet[AssociationsGroup]
         events_category: ValuesQuerySet
         # events_category: ValuesQuerySet[Events, dict[str, Any]]

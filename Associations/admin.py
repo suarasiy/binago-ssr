@@ -17,7 +17,7 @@ class AssociationsGroupAdmin(admin.ModelAdmin):
 
 @admin.register(AssociationsApprovalRequest)
 class AssociationsApprovalRequestAdmin(admin.ModelAdmin):
-    list_display = ('association', 'is_approved', 'created_at', 'updated_at')
+    list_display = ('association', 'user', 'is_approved', 'created_at', 'updated_at')
 
     def association(self, obj):
         return obj.associations.name

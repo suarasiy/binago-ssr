@@ -93,7 +93,7 @@
         <a href="" class="flex hover:scale-[1.03] bg-white flex-col gap-3 p-3 rounded-xl hover:bg-slate-600 hover:bg-opacity-10 transition-all duration-100 ease-out group">
           <div class="relative">
             <img
-              src="{% get_media_prefix %}{{ event.events__banner }}"
+              src="{% get_media_prefix %}{{ event.banner }}"
               alt=""
               srcset=""
               class="relative aspect-2 rounded-xl object-cover object-center z-[1]"
@@ -107,10 +107,10 @@
               draggable="false"
             />-->
           </div>
-          <strong class="relative z-[1] group-hover:text-black font-dmSans text-sm font-semibold text-slate-700 line-clamp-2 text-ellipsis transition-all duration-100 ease-out">{{ event.events__title }}</strong>
+          <strong class="relative z-[1] group-hover:text-black font-dmSans text-sm font-semibold text-slate-700 line-clamp-2 text-ellipsis transition-all duration-100 ease-out">{{ event.title }}</strong>
           <div class="flex flex-row items-center gap-2">
-            <img src="{% get_media_prefix %}{{ event.user__avatar }}" alt="" srcset="" class="w-6 h-6 object-center object-cover rounded-full border border-gray-200">
-            <small class="font-poppins text-slate-400 text-xs font-medium">{{ event.user__first_name }} {{ event.user__last_name }}</small>
+            <img src="{% get_media_prefix %}{{ event.association_group.user.avatar }}" alt="" srcset="" class="w-6 h-6 object-center object-cover rounded-full border border-gray-200">
+            <small class="font-poppins text-slate-400 text-xs font-medium">{{ event.association_group.user.first_name }} {{ event.association_group.user.last_name }}</small>
           </div>
         </a>
         {% endfor %}
@@ -164,9 +164,9 @@
           <small class="text-sm font-light text-slate-400">Last Event</small>
           <div class="flex flex-col gap-1 items-end">
             <strong class="line-clamp-1 text-sm font-semibold text-slate-700">
-              {{ events.first.events__title|default_if_none:"-"|truncatechars:30 }}
+              {{ events.first.title|default:"-"|truncatechars:30 }}
             </strong>
-            <small class="text-sm font-light text-slate-400">{{ events.first.events__schedule_end|date:'M d, Y'|default_if_none:"No" }}</small>
+            <small class="text-sm font-light text-slate-400">{{ events.first.schedule_end|date:'M d, Y'|default_if_none:"No" }}</small>
           </div>
         </div>
         <div class="font-poppins flex flex-row flex-wrap justify-between border-b border-gray-100 pb-3">

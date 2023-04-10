@@ -12,3 +12,7 @@ def pages_frontend(filename) -> str:
 
 def pages_mail(filename) -> str:
     return f"mail/{filename}"
+
+
+def pages_handler(filename) -> str:
+    return f"handler/{filename}"

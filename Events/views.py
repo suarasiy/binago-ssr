@@ -11,6 +11,7 @@ from binago.utils import pages_backend
 from Associations.query import user_registered_associations, get_association_by_slug
 
 from Associations.models import AssociationsGroup
+from Associations.permissions import permission_association_is_approved, permission_member_specific_association
 
 from .models import Events
 from .forms import EventForm
@@ -75,12 +76,17 @@ def association_events(request, slug) -> HttpResponse:
     return render(request, template, context)
 
 # TODO: Need to improve further since this views is going to the association's urls
+
+
 @login_required
 @require_http_methods(['GET', 'POST'])
+@permission_association_is_approved
+@permission_member_specific_association
 def events_create(request, slug) -> HttpResponse | HttpResponseRedirect | HttpResponsePermanentRedirect:
     if request.method == "POST":
         form: EventForm = EventForm(request.POST, request.FILES)
-        group: AssociationsGroup = get_object_or_404(AssociationsGroup, user=request.user, association=get_association_by_slug(slug))
+        group: AssociationsGroup = get_object_or_404(
+            AssociationsGroup, user=request.user, association=get_association_by_slug(slug))
         if form.is_valid():
             event = form.save(commit=False)
             event.association_group = group
@@ -124,6 +130,8 @@ def events_create(request, slug) -> HttpResponse | HttpResponseRedirect | HttpRe
 
 @login_required
 @require_http_methods(['GET', 'POST'])
+@permission_association_is_approved
+@permission_member_specific_association
 def events_edit(request, slug, slug_event) -> HttpResponse | HttpResponseRedirect | HttpResponsePermanentRedirect:
     event: Events = get_object_or_404(Events, slug=slug_event)
 
@@ -172,6 +180,8 @@ def events_edit(request, slug, slug_event) -> HttpResponse | HttpResponseRedirec
 
 @login_required
 @require_http_methods(["POST"])
+@permission_association_is_approved
+@permission_member_specific_association
 def events_destroy(request, slug, slug_event) -> HttpResponseRedirect | HttpResponsePermanentRedirect:
     if request.method == "POST":
         event: Events = get_object_or_404(Events, slug=slug_event)

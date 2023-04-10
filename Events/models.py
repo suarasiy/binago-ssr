@@ -3,7 +3,6 @@ from uuid import uuid1
 from django.db import models
 from django.db.models import SET_NULL, CASCADE
 from django.utils.text import slugify
-from authentication.models import User
 from Associations.models import Associations, AssociationsGroup
 
 

@@ -1171,6 +1171,10 @@ main .widget.widget--active > strong.context + p.subcon{
   top: 0px;
 }
 
+.top-10{
+  top: 2.5rem;
+}
+
 .top-2{
   top: 0.5rem;
 }
@@ -1337,6 +1341,10 @@ main .widget.widget--active > strong.context + p.subcon{
   height: 1.25rem;
 }
 
+.h-52{
+  height: 13rem;
+}
+
 .h-56{
   height: 14rem;
 }
@@ -1437,6 +1445,10 @@ main .widget.widget--active > strong.context + p.subcon{
 
 .w-4{
   width: 1rem;
+}
+
+.w-40{
+  width: 10rem;
 }
 
 .w-44{
@@ -1691,6 +1703,10 @@ main .widget.widget--active > strong.context + p.subcon{
   gap: 0.5rem;
 }
 
+.gap-20{
+  gap: 5rem;
+}
+
 .gap-3{
   gap: 0.75rem;
 }
@@ -1815,10 +1831,6 @@ main .widget.widget--active > strong.context + p.subcon{
 
 .border-r{
   border-right-width: 1px;
-}
-
-.border-dashed{
-  border-style: dashed;
 }
 
 .border-none{
@@ -1978,6 +1990,11 @@ main .widget.widget--active > strong.context + p.subcon{
   background-color: rgb(168 184 216 / var(--tw-bg-opacity));
 }
 
+.bg-slate-50{
+  --tw-bg-opacity: 1;
+  background-color: rgb(248 250 252 / var(--tw-bg-opacity));
+}
+
 .bg-slate-500{
   --tw-bg-opacity: 1;
   background-color: rgb(103 116 142 / var(--tw-bg-opacity));
@@ -2002,9 +2019,19 @@ main .widget.widget--active > strong.context + p.subcon{
   background-color: rgb(250 250 250 / var(--tw-bg-opacity));
 }
 
-.bg-slate-50{
+.bg-green-100{
   --tw-bg-opacity: 1;
-  background-color: rgb(248 250 252 / var(--tw-bg-opacity));
+  background-color: rgb(220 252 231 / var(--tw-bg-opacity));
+}
+
+.bg-green-50{
+  --tw-bg-opacity: 1;
+  background-color: rgb(240 253 244 / var(--tw-bg-opacity));
+}
+
+.bg-red-50{
+  --tw-bg-opacity: 1;
+  background-color: rgb(254 242 242 / var(--tw-bg-opacity));
 }
 
 .bg-opacity-10{
@@ -2057,6 +2084,12 @@ main .widget.widget--active > strong.context + p.subcon{
   --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
 }
 
+.from-gray-600{
+  --tw-gradient-from: #6c757d;
+  --tw-gradient-to: rgb(108 117 125 / 0);
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+}
+
 .via-blue-500{
   --tw-gradient-to: rgb(94 114 228 / 0);
   --tw-gradient-stops: var(--tw-gradient-from), #5e72e4, var(--tw-gradient-to);
@@ -2084,6 +2117,14 @@ main .widget.widget--active > strong.context + p.subcon{
 
 .to-transparent{
   --tw-gradient-to: transparent;
+}
+
+.to-gray-500{
+  --tw-gradient-to: #adb5bd;
+}
+
+.to-gray-100{
+  --tw-gradient-to: #ebeff4;
 }
 
 .bg-clip-padding{
@@ -2120,6 +2161,10 @@ main .widget.widget--active > strong.context + p.subcon{
 
 .p-5{
   padding: 1.25rem;
+}
+
+.p-6{
+  padding: 1.5rem;
 }
 
 .p-8{
@@ -2488,6 +2533,21 @@ main .widget.widget--active > strong.context + p.subcon{
   color: rgb(251 177 64 / var(--tw-text-opacity));
 }
 
+.text-sky-600{
+  --tw-text-opacity: 1;
+  color: rgb(62 161 236 / var(--tw-text-opacity));
+}
+
+.text-green-400{
+  --tw-text-opacity: 1;
+  color: rgb(74 222 128 / var(--tw-text-opacity));
+}
+
+.text-red-400{
+  --tw-text-opacity: 1;
+  color: rgb(248 113 113 / var(--tw-text-opacity));
+}
+
 .text-opacity-50{
   --tw-text-opacity: 0.5;
 }
@@ -2514,6 +2574,10 @@ main .widget.widget--active > strong.context + p.subcon{
 
 .opacity-50{
   opacity: 0.5;
+}
+
+.opacity-60{
+  opacity: 0.6;
 }
 
 .opacity-70{
@@ -2583,6 +2647,11 @@ main .widget.widget--active > strong.context + p.subcon{
 
 .ring-offset-2{
   --tw-ring-offset-width: 2px;
+}
+
+.blur-3xl{
+  --tw-blur: blur(64px);
+  filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
 }
 
 .blur-\[80px\]{
@@ -3110,6 +3179,11 @@ main .selectize-control .selectize-input > input{
   background-color: rgb(98 117 148 / var(--tw-bg-opacity));
 }
 
+.hover\:bg-white:hover{
+  --tw-bg-opacity: 1;
+  background-color: rgb(255 255 255 / var(--tw-bg-opacity));
+}
+
 .hover\:bg-opacity-10:hover{
   --tw-bg-opacity: 0.1;
 }
@@ -3206,11 +3280,6 @@ main .selectize-control .selectize-input > input{
   filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
 }
 
-.hover\:brightness-100:hover{
-  --tw-brightness: brightness(1);
-  filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
-}
-
 .hover\:file\:bg-neutral-200::file-selector-button:hover{
   --tw-bg-opacity: 1;
   background-color: rgb(229 229 229 / var(--tw-bg-opacity));
@@ -3301,12 +3370,12 @@ main .selectize-control .selectize-input > input{
   color: rgb(0 0 0 / var(--tw-text-opacity));
 }
 
-.group:hover .group-hover\:opacity-30{
-  opacity: 0.3;
-}
-
 .group:hover .group-hover\:opacity-100{
   opacity: 1;
+}
+
+.group:hover .group-hover\:opacity-30{
+  opacity: 0.3;
 }
 
 .group:hover .group-hover\:blur-xl{

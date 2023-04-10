@@ -9,44 +9,186 @@
 <div class="grid select-none grid-cols-4 gap-8">
   <!-- Associations Members -->
   {% for associated in associations_group %}
-  <div class="container__no__p flex flex-col gap-4 items-center overflow-hidden">
-    <img src="{% get_media_prefix %}{{ associated.association.banner }}" alt="" srcset="" class="object-cover h-44 object-center w-full rounded-b-xl" draggable="false">
-    <div class="flex flex-col gap-8 -mt-24 items-center p-8">
-      <img src="{% get_media_prefix %}{{ associated.association.logo }}" alt="" srcset="" class="object-cover object-center w-24 h-24 rounded-xl border-4 border-white" draggable="false">
+  <div class="container__no__p flex flex-col items-center gap-4 overflow-hidden">
+    <img
+      src="{% get_media_prefix %}{{ associated.association.banner }}"
+      alt=""
+      srcset=""
+      class="h-44 w-full rounded-b-xl object-cover object-center"
+      draggable="false"
+    />
+    <div class="-mt-24 flex flex-col items-center gap-8 p-8">
+      <img
+        src="{% get_media_prefix %}{{ associated.association.logo }}"
+        alt=""
+        srcset=""
+        class="h-24 w-24 rounded-xl border-4 border-white object-cover object-center"
+        draggable="false"
+      />
       <span class="font-poppins font-bold text-slate-800">{{ associated.association.name }}</span>
-      <p class="line-clamp-4 text-ellipsis font-poppins text-slate-400 text-sm text-justify leading-6">{{ associated.association.about|linebreaksbr|truncatechars:200 }}</p>
-      <div class="grid grid-cols-2 gap-4 w-full">
-        <a href="{% url 'associations-data-explore' associated.association.slug %}" class="px-3 py-2 text-xs font-bold font-poppins bg-gray-50 rounded-lg text-center hover:bg-gray-200 transition-all duration-100 ease-out">Explore</a>
-        <a href="{% url 'associations-profile' associated.association.slug %}" class="px-3 py-2 text-xs font-bold font-poppins bg-gray-50 rounded-lg text-center hover:bg-gray-200 transition-all duration-100 ease-out">Profile</a>
+      <p class="line-clamp-4 font-poppins text-ellipsis text-justify text-sm leading-6 text-slate-400">
+        {{ associated.association.about|linebreaksbr|truncatechars:200 }}
+      </p>
+      <div class="grid w-full grid-cols-2 gap-4">
+        <a
+          href="{% url 'associations-data-explore' associated.association.slug %}"
+          class="font-poppins rounded-lg bg-gray-50 px-3 py-2 text-center text-xs font-bold transition-all duration-100 ease-out hover:bg-gray-200"
+          >Explore</a
+        >
+        <a
+          href="{% url 'associations-profile' associated.association.slug %}"
+          class="font-poppins rounded-lg bg-gray-50 px-3 py-2 text-center text-xs font-bold transition-all duration-100 ease-out hover:bg-gray-200"
+          >Profile</a
+        >
       </div>
-      <a href="{% url 'events-create' associated.association.slug %}" class="w-full justify-center hover:shadow-container3 relative top-0 flex h-fit gap-2 rounded-md bg-gradient-to-br from-blue-400 to-blue-500 px-4 py-3 text-sm font-semibold text-white transition-all duration-150 ease-out hover:-top-1 hover:brightness-110">
-        <svg
-        xmlns="http://www.w3.org/2000/svg"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke-width="2"
-        stroke="currentColor"
-        class="h-5 text-white"
+      <a
+        href="{% url 'events-create' associated.association.slug %}"
+        class="hover:shadow-container3 relative top-0 flex h-fit w-full justify-center gap-2 rounded-md bg-gradient-to-br from-blue-400 to-blue-500 px-4 py-3 text-sm font-semibold text-white transition-all duration-150 ease-out hover:-top-1 hover:brightness-110"
       >
-        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-      </svg>
-      <span>New Events</span>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="2"
+          stroke="currentColor"
+          class="h-5 text-white"
+        >
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+        </svg>
+        <span>New Events</span>
       </a>
     </div>
   </div>
   {% endfor %}
-  <a class="flex flex-col gap-4 rounded-xl group shadow-container3 h-full justify-center items-center overflow-hidden border-dashed border-2 border-slate-200 bg-slate-50 hover:brightness-105 transition-all duration-100 ease-out hover:border-none cursor-pointer">
-    <div class="flex flex-col gap-8 items-center p-8">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" class="w-24 h-24 text-slate-800">
-        <path d="M11.5 6C8.4802259 6 6 8.4802259 6 11.5L6 36.5C6 39.519774 8.4802259 42 11.5 42L36.5 42C39.519774 42 42 39.519774 42 36.5L42 11.5C42 8.4802259 39.519774 6 36.5 6L11.5 6 z M 11.5 9L36.5 9C37.898226 9 39 10.101774 39 11.5L39 36.5C39 37.898226 37.898226 39 36.5 39L11.5 39C10.101774 39 9 37.898226 9 36.5L9 11.5C9 10.101774 10.101774 9 11.5 9 z M 23.976562 13.978516 A 1.50015 1.50015 0 0 0 22.5 15.5L22.5 22.5L15.5 22.5 A 1.50015 1.50015 0 1 0 15.5 25.5L22.5 25.5L22.5 32.5 A 1.50015 1.50015 0 1 0 25.5 32.5L25.5 25.5L32.5 25.5 A 1.50015 1.50015 0 1 0 32.5 22.5L25.5 22.5L25.5 15.5 A 1.50015 1.50015 0 0 0 23.976562 13.978516 z" fill="#5B6376" />
+  <!-- -->
+  {% if associations_create_eligibility %}
+  <a
+    href="{% url 'associations-create' %}"
+    class="shadow-container3 group flex h-full cursor-pointer flex-col items-center justify-center gap-4 overflow-hidden rounded-xl bg-slate-50 transition-all duration-300 ease-out hover:border-none hover:bg-white"
+  >
+    <div class="flex flex-col items-center gap-8 p-8">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" class="h-24 w-24 text-slate-800">
+        <path
+          d="M11.5 6C8.4802259 6 6 8.4802259 6 11.5L6 36.5C6 39.519774 8.4802259 42 11.5 42L36.5 42C39.519774 42 42 39.519774 42 36.5L42 11.5C42 8.4802259 39.519774 6 36.5 6L11.5 6 z M 11.5 9L36.5 9C37.898226 9 39 10.101774 39 11.5L39 36.5C39 37.898226 37.898226 39 36.5 39L11.5 39C10.101774 39 9 37.898226 9 36.5L9 11.5C9 10.101774 10.101774 9 11.5 9 z M 23.976562 13.978516 A 1.50015 1.50015 0 0 0 22.5 15.5L22.5 22.5L15.5 22.5 A 1.50015 1.50015 0 1 0 15.5 25.5L22.5 25.5L22.5 32.5 A 1.50015 1.50015 0 1 0 25.5 32.5L25.5 25.5L32.5 25.5 A 1.50015 1.50015 0 1 0 32.5 22.5L25.5 22.5L25.5 15.5 A 1.50015 1.50015 0 0 0 23.976562 13.978516 z"
+          fill="#5B6376"
+        />
       </svg>
-      <span class="font-poppins font-bold text-slate-800 opacity-80 group-hover:opacity-100 transition-all duration-150 ease-out">Create Association</span>
-      <p class="line-clamp-4 text-ellipsis font-poppins text-slate-400 text-xs text-center leading-6 opacity-80 group-hover:opacity-100 transition-all duration-150 ease-out">
-        You can request an approval to make association and gain abilities such as create an events and even manage the members.
+      <span
+        class="font-poppins font-bold text-slate-800 opacity-80 transition-all duration-150 ease-out group-hover:opacity-100"
+        >Create Association</span
+      >
+      <p
+        class="line-clamp-4 font-poppins text-ellipsis text-center text-xs leading-6 text-slate-400 opacity-80 transition-all duration-150 ease-out group-hover:opacity-100"
+      >
+        You can request an approval to make association and gain abilities such as create an events and even manage the
+        members.
       </p>
     </div>
   </a>
+  {% endif %}
+  <!-- Associations Approval List -->
+  <div class="container col-span-4">
+    <div class="flex flex-row justify-between">
+      <div class="font-poppins flex flex-col gap-1">
+        <p class="font-medium text-slate-900">Associations Approval Requests</p>
+        <small class="text-xs font-light text-slate-600"
+          >Your approval waiting list showing in here. If your approval got rejected, you can create new one and provide
+          more information about your association.</small
+        >
+      </div>
+    </div>
+    <div class="wrapper__table">
+      <div class="container__table">
+        <table class="w-full items-center">
+          <thead>
+            <tr>
+              <th
+                class="font-dmSans whitespace-nowrap border-b border-b-gray-200 bg-transparent px-6 py-3 text-left text-xs font-semibold uppercase tracking-normal text-slate-400 opacity-70"
+              >
+                no
+              </th>
+              <th
+                class="font-dmSans whitespace-nowrap border-b border-b-gray-200 bg-transparent px-6 py-3 text-left text-xs font-semibold uppercase tracking-normal text-slate-400 opacity-70"
+              >
+                association
+              </th>
+              <th
+                class="font-dmSans whitespace-nowrap border-b border-b-gray-200 bg-transparent px-6 py-3 text-left text-xs font-semibold uppercase tracking-normal text-slate-400 opacity-70"
+              >
+                requested at
+              </th>
+              <th
+                class="font-dmSans whitespace-nowrap border-b border-b-gray-200 bg-transparent px-6 py-3 text-left text-xs font-semibold uppercase tracking-normal text-slate-400 opacity-70"
+              >
+                status
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for approval in approvals %}
+            <tr class="hover:bg-slate-500 hover:bg-opacity-5">
+              <td class="min-w-[80px] border-b border-b-gray-200 px-6 py-4">
+                <p class="font-inter text-sm text-slate-400">{{ forloop.counter }}</p>
+              </td>
+              <td class="font-jost min-w-[310px] border-b border-b-gray-200 px-6 py-4 text-left text-slate-800">
+                <div class="flex flex-row items-center gap-3">
+                  <img
+                    src="{% get_media_prefix %}{{ approval.associations.logo }}"
+                    alt="{{ approval.associations.slug }}"
+                    srcset=""
+                    class="h-8 w-8 rounded-lg object-cover object-center"
+                  />
+                  <p class="line-clamp-2 font-medium">{{ approval.associations.name }}</p>
+                </div>
+              </td>
+              <td
+                class="font-inter min-w-[15rem] border-b border-b-gray-200 px-6 py-4 text-sm font-medium text-slate-500"
+              >
+                <div class="flex flex-col gap-1">
+                  <span>{{ approval.created_at|date:'M d, Y' }}</span>
+                  <span class="text-sm">{{ approval.created_at|date:'h:m A' }}</span>
+                </div>
+              </td>
+              <td class="min-w-[150px] border-b border-b-gray-200 px-6 py-4">
+                <div class="font-quicksand flex flex-row items-center gap-2 text-sm font-semibold">
+                  {% if approval.is_approved == True %}
+                  <div
+                    class="relative flex flex-col gap-1 rounded-md bg-green-50 px-3 py-2 text-green-500 transition-all duration-150 ease-out"
+                  >
+                    <span>Accepted</span>
+                    <div class="flex flex-col text-xs text-green-400">
+                      <span>{{ approval.updated_at|date:'M d, Y' }}</span>
+                      <span>{{ approval.updated_at|date:'h:m A' }}</span>
+                    </div>
+                  </div>
+                  {% elif approval.is_approved == False %}
+                  <div
+                    class="relative rounded-md bg-red-50 px-3 py-2 text-red-500 transition-all duration-150 ease-out"
+                  >
+                    <span>Rejected</span>
+                    <div class="flex flex-col text-xs text-red-400">
+                      <span>{{ approval.updated_at|date:'M d, Y' }}</span>
+                      <span>{{ approval.updated_at|date:'h:m A' }}</span>
+                    </div>
+                  </div>
+                  {% else %}
+                  <span
+                    class="relative rounded-md bg-gray-50 px-3 py-2 text-slate-400 transition-all duration-150 ease-out"
+                  >
+                    Waiting
+                  </span>
+                  {% endif %}
+                </div>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
   <!-- Associations Data -->
+  {% if request.user.is_superuser or request.user.is_staff %}
   <div class="container col-span-4">
     <div class="flex flex-row justify-between">
       <div class="font-poppins flex flex-col gap-1">
@@ -272,6 +414,7 @@
       </div>
     </div>
   </div>
+  {% endif %}
 </div>
 
 {% endblock content %}

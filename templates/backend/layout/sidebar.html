@@ -68,7 +68,6 @@
         </span>
       </div>
       <div id="menu-events" class="nav__sub__menu nav__sub__menu--hide">
-        {% comment %} <a href="{% url 'events' %}" class="link {% active_link 'events' 'link--active' %}">Data</a> {% endcomment %}
         <!-- history event -->
         <a href="" class="link">Attended</a>
         <a href="" class="link">Summary</a>
@@ -93,8 +92,8 @@
         <a href="{% url 'associations-data' %}" class="link {% active_link 'associations-data' 'link--active' %}"
           >Data</a
         >
-        <hr />
         {% for member_of in registered_associations %}
+        <hr />
         <div class="flex flex-row items-center gap-2">
           <img
             src="{% get_media_prefix %}{{ member_of.association.logo }}"
@@ -109,8 +108,11 @@
             >{{ member_of.association.name }}</a
           >
         </div>
-        {% endfor %}
+        {% if forloop.last %}
         <hr />
+        {% endif %}
+        <!-- -->
+        {% endfor %}
         <a href="" class="link">Summary</a>
       </div>
     </div>

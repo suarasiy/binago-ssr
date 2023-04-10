@@ -1,0 +1,53 @@
+{% load static tailwind_tags %}
+
+<!-- -->
+{% load static %}
+
+<!-- -->
+{% load widget_tweaks %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    {% tailwind_css %}
+    <title>Binago | 404</title>
+  </head>
+  <body class="fr bg-base-bg relative h-auto min-h-screen w-full select-none">
+    <div
+      class="absolute top-2/4 left-2/4 flex w-fit -translate-x-2/4 -translate-y-2/4 flex-col items-center gap-20 p-6"
+    >
+      <div class="relative">
+        <img
+          src="{% static 'web/assets/ej_404.png' %}"
+          alt=""
+          srcset=""
+          class="relative z-[1] h-40 w-40 object-contain"
+        />
+        <img
+          src="{% static 'web/assets/ej_404.png' %}"
+          alt=""
+          srcset=""
+          class="absolute top-10 left-0 z-0 h-52 w-52 object-contain opacity-60 blur-3xl"
+        />
+      </div>
+      <div class="flex flex-col items-center gap-5">
+        <div class="relative flex flex-col items-center gap-1">
+          <span class="font-poppins text-base-field text-2xl font-bold uppercase">Whoops, resources not found!</span>
+        </div>
+        <small class="font-poppins text-base-sub text-sm font-medium"
+          >The pages that you're trying to access isn't available.</small
+        >
+      </div>
+      <button
+        tabindex="4"
+        type="submit"
+        class="font-montserrat bg-base-field cursor-pointer rounded-xl py-3 px-5 text-xs font-bold uppercase text-white transition-all duration-100 ease-out hover:bg-gray-900 focus:bg-gray-900 active:scale-[.98]"
+      >
+        Go back to homepage
+      </button>
+    </div>
+  </body>
+</html>

@@ -2,10 +2,11 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
+    from django.db.models import OneToOneField
     from Events.models import Events
 
 from django.db import models
-from django.db.models import CASCADE, SET_NULL, QuerySet
+from django.db.models import CASCADE, SET_NULL, QuerySet, RESTRICT
 from django.utils.text import slugify
 
 import pathlib
@@ -27,6 +28,7 @@ def banner_upload_handler(instance, filename) -> str:
 
 
 class AssociationsApprovalRequest(models.Model):
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
     is_approved = models.BooleanField(default=None, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -42,7 +44,7 @@ class AssociationsApprovalRequest(models.Model):
 
 
 class Associations(models.Model):
-    approval = models.OneToOneField(AssociationsApprovalRequest, on_delete=SET_NULL, blank=True, null=True)
+    approval = models.OneToOneField(AssociationsApprovalRequest, on_delete=RESTRICT)
     name = models.CharField(max_length=80, unique=True)
     slug = models.SlugField(max_length=120, unique=True)
     location = models.CharField(max_length=100)
@@ -56,6 +58,7 @@ class Associations(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    approval: OneToOneField[AssociationsApprovalRequest]
     associationsgroup_set: QuerySet[AssociationsGroup]
     events_set: QuerySet[Events]
 

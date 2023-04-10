@@ -4,13 +4,14 @@ from Events import views as events
 
 from .views import (
     index, index_data, index_data_approval, approval_accept, approval_reject, profile, invite,
-    edit_profile, explore
+    edit_profile, explore, create
 )
 
 urlpatterns = [
     path('', index, name='associations'),
     path('data/', include([
         path('', index_data, name='associations-data'),
+        path('create/', create, name='associations-create'),
         path('approval/', index_data_approval, name='associations-data-approval'),
         path('approval/accept/<int:id>/', approval_accept, name='associations-data-approval-accept'),
         path('approval/reject/<int:id>/', approval_reject, name='associations-data-approval-reject'),

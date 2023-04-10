@@ -52,7 +52,7 @@
               <td class="min-w-[80px] border-b border-b-gray-200 px-6 py-4">
                 <p class="font-inter text-sm text-slate-400">{{ forloop.counter }}</p>
               </td>
-              <td class="font-jost min-w-[310px] border-b border-b-gray-200 px-6 py-4 text-left text-slate-800">
+              <td class="font-jost min-w-[310px] border-b border-b-gray-200 px-6 py-4 text-left text-sky-600">
                 <div class="flex flex-row items-center gap-3">
                   <img
                     src="{% get_media_prefix %}{{ approval.associations.logo }}"
@@ -60,7 +60,9 @@
                     srcset=""
                     class="h-8 w-8 rounded-lg object-cover object-center"
                   />
-                  <p class="line-clamp-2 font-medium">{{ approval.associations.name }}</p>
+                  <a href="{% url 'associations-profile' approval.associations.slug %}" class="line-clamp-2 font-medium"
+                    >{{ approval.associations.name }}</a
+                  >
                 </div>
               </td>
               <td class="font-jost min-w-[18rem] border-b border-b-gray-200 px-6 py-4 text-left text-slate-800">
@@ -69,19 +71,22 @@
                   class="flex w-fit flex-row items-center gap-2 text-base font-medium text-blue-700 underline-offset-1 hover:text-blue-600 hover:underline"
                 >
                   <img
-                    src="{% get_media_prefix %}{{ approval.associations.user.avatar }}"
+                    src="{% get_media_prefix %}{{ approval.user.avatar }}"
                     alt=""
                     srcset=""
                     class="h-6 w-6 rounded-full border object-cover"
                     draggable="false"
                   />
-                  {{ approval.associations.user }}</a
+                  {{ approval.user }}</a
                 >
               </td>
               <td
                 class="font-inter min-w-[15rem] border-b border-b-gray-200 px-6 py-4 text-sm font-medium text-slate-500"
               >
-                {{ approval.updated_at|date:'M d, Y' }}
+                <div class="flex flex-col gap-1">
+                  <span>{{ approval.updated_at|date:'M d, Y' }}</span>
+                  <span class="text-sm">{{ approval.updated_at|date:'h:m A' }}</span>
+                </div>
               </td>
               <td class="min-w-[150px] border-b border-b-gray-200 px-6 py-4">
                 <div class="font-quicksand flex flex-row items-center gap-2 text-sm font-semibold">

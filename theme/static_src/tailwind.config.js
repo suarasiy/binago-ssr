@@ -46,6 +46,7 @@ module.exports = {
       colors: {
         base: {
           bg: '#EFF3FF',
+          depth: '#E3E8F8',
           field: '#272D3D',
           sub: '#788196',
           smoke: '#F0F0F0',

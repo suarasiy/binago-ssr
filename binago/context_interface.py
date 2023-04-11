@@ -20,3 +20,7 @@ if TYPE_CHECKING:
         breadcrumb: Breadcrumb
         description: str
         registered_associations: Union[QuerySet, List[AssociationsGroup]]
+
+    class ContextHomepage(TypedDict):
+        title: str
+        description: str

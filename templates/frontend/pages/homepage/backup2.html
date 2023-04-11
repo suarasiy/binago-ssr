@@ -1,0 +1,413 @@
+{% load static tailwind_tags %}
+
+<!-- -->
+{% load static %}
+
+<!-- -->
+{% load widget_tweaks %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    {% tailwind_css %}
+    <title>Binago Homepage</title>
+  </head>
+  <body class="fr bg-base-bg relative flex h-auto w-full select-none flex-col items-center">
+    <!-- <div class="mt-10 flex min-w-[82rem] max-w-[85rem] flex-col gap-5 border-yellow-500"> -->
+    <!-- <div class="mt-10 flex min-w-[82rem] max-w-screen-xl flex-col gap-5 border-yellow-500"> -->
+    <div class="mt-10 flex min-w-[82rem] max-w-screen-2xl flex-col gap-5 border-yellow-500">
+      <nav
+        class="bg-base-depth sticky top-0 z-10 flex flex-row items-center justify-between rounded-b-2xl bg-opacity-80 py-3 px-6 backdrop-blur-lg"
+      >
+        <img src="{% static 'web/logo.png' %}" alt="" srcset="" class="w-40 object-contain object-center" />
+        <a
+          href="{% url 'settings' %}"
+          class="flex flex-row items-center gap-3 rounded-xl py-3 px-4 hover:bg-slate-300 hover:bg-opacity-30"
+        >
+          <img
+            src="https://cdn.myanimelist.net/images/characters/11/382745.jpg"
+            alt=""
+            srcset=""
+            class="h-9 w-9 rounded-full object-cover object-center"
+            draggable="false"
+          />
+          <div class="flex flex-col">
+            <strong class="font-quicksand text-base-field text-base font-bold">Suara</strong>
+            <small class="font-quicksand text-xs font-medium text-sky-500">Penyelenggara</small>
+          </div>
+        </a>
+      </nav>
+      <div class="flex min-w-[82rem] flex-row gap-7 border-green-500">
+        <!-- left -->
+        <!-- TODO: need to improve -->
+        <nav
+          class="sticky top-24 flex h-[calc(100vh-12rem)] min-w-[15rem] shrink-0 flex-col justify-between border-r p-3"
+        >
+          <div class="flex flex-col">
+            <a
+              class="bg-base-depth group relative flex cursor-pointer flex-row items-center justify-end gap-2 rounded-l-lg py-3 pl-2 pr-4 transition-all duration-150 ease-out after:absolute after:right-0 after:h-full after:w-[2px] after:bg-slate-700 after:content-['']"
+            >
+              <span
+                class="font-quicksand text-base font-bold text-slate-900 transition-all duration-150 ease-out group-hover:mr-2"
+                >Upcoming</span
+              >
+              <svg xmlns="http://www.w3.org/2000/svg" x="0" y="0" viewBox="0 0 128 128" class="h-5 w-5 object-contain">
+                <rect width="104" height="97" x="17" y="22" fill="#fff" />
+                <rect width="104" height="23" x="17" y="19" fill="#fe4365" />
+                <path
+                  fill="#444b54"
+                  d="M121,122H17c-1.7,0-3-1.3-3-3V91c0-1.7,1.3-3,3-3s3,1.3,3,3v25h98V22c0-1.7,1.3-3,3-3s3,1.3,3,3v97 C124,120.7,122.7,122,121,122z"
+                />
+                <path
+                  fill="#444b54"
+                  d="M17,64c-1.7,0-3-1.3-3-3V22c0-1.7,1.3-3,3-3s3,1.3,3,3v39C20,62.7,18.7,64,17,64z"
+                />
+                <path
+                  fill="#444b54"
+                  d="M45,36c-9.4,0-17-7.6-17-17S35.6,2,45,2c4.5,0,8.7,1.8,11.6,5.1c1.1,1.2,1,3.1-0.2,4.2 c-1.2,1.1-3.1,1-4.2-0.2C50.3,9.1,47.9,8,45,8c-6.1,0-11,4.9-11,11s4.9,11,11,11c1.7,0,3,1.3,3,3S46.7,36,45,36z"
+                />
+                <path
+                  fill="#444b54"
+                  d="M51,94c-0.8,0-1.5-0.3-2.1-0.9c-1.2-1.2-1.2-3.1,0-4.2L61.8,76L48.9,63.1c-1.2-1.2-1.2-3.1,0-4.2 c1.2-1.2,3.1-1.2,4.2,0l15,15c1.2,1.2,1.2,3.1,0,4.2l-15,15C52.5,93.7,51.8,94,51,94z"
+                />
+                <path fill="#444b54" d="M65,79H17c-1.7,0-3-1.3-3-3s1.3-3,3-3h48c1.7,0,3,1.3,3,3S66.7,79,65,79z" />
+                <circle cx="5" cy="76" r="3" fill="#444b54" />
+                <path
+                  fill="#444b54"
+                  d="M93,36c-9.4,0-17-7.6-17-17S83.6,2,93,2c4.5,0,8.7,1.8,11.6,5.1c1.1,1.2,1,3.1-0.2,4.2 c-1.2,1.1-3.1,1-4.2-0.2C98.3,9.1,95.9,8,93,8c-6.1,0-11,4.9-11,11s4.9,11,11,11c1.7,0,3,1.3,3,3S94.7,36,93,36z"
+                />
+              </svg>
+            </a>
+            <a
+              class="group relative flex cursor-pointer flex-row items-center justify-end gap-2 rounded-l-lg bg-transparent py-3 pl-2 pr-4 transition-all duration-150 ease-out"
+            >
+              <span
+                class="font-quicksand text-base font-bold text-slate-900 transition-all duration-150 ease-out group-hover:mr-2"
+                >Today</span
+              >
+              <svg xmlns="http://www.w3.org/2000/svg" x="0" y="0" viewBox="0 0 128 128" class="h-5 w-5 object-contain">
+                <path
+                  fill="#71c2ff"
+                  d="M67.4,13.9l9.3-5.5c3.5-2,8-0.6,9.6,3.1l4.3,9.9c1,2.2,3.1,3.8,5.5,4l10.8,1c4,0.4,6.8,4.2,5.9,8.2 l-2.3,10.6c-0.5,2.4,0.3,4.9,2.1,6.5l8.1,7.2c3,2.7,3,7.4,0,10.1l-8.1,7.2c-1.8,1.6-2.6,4.1-2.1,6.5l2.3,10.6 c0.9,3.9-1.9,7.8-5.9,8.2l-10.8,1c-2.4,0.2-4.5,1.8-5.5,4l-4.3,9.9c-1.6,3.7-6.1,5.2-9.6,3.1l-9.3-5.5c-2.1-1.2-4.7-1.2-6.8,0 l-9.3,5.5c-3.5,2-8,0.6-9.6-3.1l-4.3-9.9c-1-2.2-3.1-3.8-5.5-4l-10.8-1c-4-0.4-6.8-4.2-5.9-8.2l2.3-10.6c0.5-2.4-0.3-4.9-2.1-6.5 L7.2,69c-3-2.7-3-7.4,0-10.1l8.1-7.2c1.8-1.6,2.6-4.1,2.1-6.5l-2.3-10.6c-0.9-3.9,1.9-7.8,5.9-8.2l10.8-1c2.4-0.2,4.5-1.8,5.5-4 l4.3-9.9c1.6-3.7,6.1-5.2,9.6-3.1l9.3,5.5C62.7,15.2,65.3,15.2,67.4,13.9z"
+                />
+                <path
+                  fill="#444b54"
+                  d="M15.1,37.7c-1.4,0-2.6-1-2.9-2.4c-0.6-2.7,0-5.6,1.6-7.8c1.6-2.3,4.2-3.7,6.9-4l5-0.5c1.6-0.2,3.1,1,3.3,2.7 c0.2,1.6-1,3.1-2.7,3.3l-5,0.5c-1.1,0.1-2,0.6-2.7,1.5C18,31.9,17.8,33,18,34c0.4,1.6-0.7,3.2-2.3,3.6 C15.5,37.7,15.3,37.7,15.1,37.7z"
+                />
+                <path
+                  fill="#f2b630"
+                  d="M114.8,62.3C114.8,62.3,114.8,62.3,114.8,62.3L114.8,62.3z M106.1,35.5L106.1,35.5L106.1,35.5z"
+                />
+                <circle cx="64" cy="64" r="34" fill="#fff" />
+                <path
+                  fill="#71c2ff"
+                  d="M59.4,43.4c-1.4,0-2.7-1-2.9-2.4c-0.3-1.6,0.7-3.2,2.4-3.5c1.7-0.3,3.4-0.5,5.2-0.5c1.7,0,3,1.3,3,3 s-1.3,3-3,3c-1.3,0-2.7,0.1-4,0.4C59.8,43.4,59.6,43.4,59.4,43.4z"
+                />
+                <path
+                  fill="#71c2ff"
+                  d="M47,84c-0.8,0-1.5-0.3-2.1-0.9C39.8,78,37,71.2,37,64c0-5.3,1.5-10.5,4.5-14.9c0.9-1.4,2.8-1.8,4.2-0.8 c1.4,0.9,1.8,2.8,0.8,4.2C44.2,55.9,43,59.9,43,64c0,5.6,2.2,10.9,6.2,14.8c1.2,1.2,1.2,3.1,0,4.2C48.6,83.7,47.8,84,47,84z"
+                />
+                <path
+                  fill="#444b54"
+                  d="M41.7,119.5c-1.2,0-2.3-0.7-2.8-1.8l-4.3-9.9c-0.5-1.2-1.7-2.1-3.1-2.2l-10.8-1c-2.8-0.3-5.3-1.7-6.9-4 c-1.6-2.3-2.2-5.1-1.6-7.8l2.3-10.6c0.3-1.3-0.2-2.7-1.2-3.6l-8.1-7.2c-2.1-1.8-3.3-4.5-3.3-7.3s1.2-5.4,3.3-7.3l8.1-7.2 c1-0.9,1.5-2.3,1.2-3.6c-0.4-1.6,0.7-3.2,2.3-3.6c1.6-0.4,3.2,0.7,3.6,2.3c0.8,3.4-0.4,7-3,9.4l-8.1,7.2 c-0.8,0.7-1.3,1.7-1.3,2.8s0.4,2.1,1.3,2.8l8.1,7.2c2.6,2.3,3.8,5.9,3,9.4L18,94c-0.2,1.1,0,2.1,0.6,3c0.6,0.9,1.6,1.4,2.7,1.5 l10.8,1c3.5,0.3,6.6,2.6,8,5.8l4.3,9.9c0.7,1.5,0,3.3-1.6,3.9C42.5,119.4,42.1,119.5,41.7,119.5z"
+                />
+                <path
+                  fill="#444b54"
+                  d="M80.2,123.5c-1.7,0-3.4-0.5-4.9-1.3l-9.3-5.5c-1.2-0.7-2.6-0.7-3.8,0l-9.3,5.5c-1.4,0.8-3.3,0.4-4.1-1.1 c-0.8-1.4-0.4-3.3,1.1-4.1l9.3-5.5c3-1.8,6.8-1.8,9.9,0l9.3,5.5c0.9,0.5,2,0.7,3,0.3c1-0.3,1.8-1.1,2.3-2.1l4.3-9.9 c0.7-1.5,2.4-2.2,3.9-1.6c1.5,0.7,2.2,2.4,1.6,3.9l-4.3,9.9c-1.1,2.6-3.3,4.5-5.9,5.4C82.2,123.3,81.2,123.5,80.2,123.5z"
+                />
+                <path
+                  fill="#444b54"
+                  d="M107,104.5c-1.5,0-2.8-1.2-3-2.7c-0.2-1.6,1-3.1,2.7-3.3c1.1-0.1,2-0.6,2.7-1.5c0.6-0.9,0.9-1.9,0.6-3 l-2.3-10.6c-0.8-3.4,0.4-7,3-9.4l8.1-7.2c0.8-0.7,1.3-1.7,1.3-2.8s-0.4-2.1-1.3-2.8l-8.1-7.2c-2.6-2.3-3.8-5.9-3-9.4L110,34 c0.2-1.1,0-2.1-0.6-3c-0.6-0.9-1.6-1.4-2.7-1.5c-1.6-0.2-2.9-1.6-2.7-3.3c0.2-1.6,1.6-2.9,3.3-2.7c2.8,0.3,5.3,1.7,6.9,4 c1.6,2.3,2.2,5.1,1.6,7.8l-2.3,10.6c-0.3,1.3,0.2,2.7,1.2,3.6l8.1,7.2c2.1,1.8,3.3,4.5,3.3,7.3s-1.2,5.4-3.3,7.3l-8.1,7.2 c-1,0.9-1.5,2.3-1.2,3.6l2.3,10.6c0.6,2.7,0,5.6-1.6,7.8c-1.6,2.3-4.2,3.7-6.9,4C107.2,104.5,107.1,104.5,107,104.5z"
+                />
+                <path
+                  fill="#444b54"
+                  d="M90.7,24.5c-1.2,0-2.3-0.7-2.8-1.8l-4.3-9.9c-0.4-1-1.2-1.7-2.3-2.1c-1-0.3-2.1-0.2-3,0.3l-9.3,5.5 c-3,1.8-6.8,1.8-9.9,0L49.7,11c-0.9-0.5-2-0.7-3-0.3c-1,0.3-1.8,1.1-2.3,2.1c-0.7,1.5-2.4,2.2-3.9,1.6c-1.5-0.7-2.2-2.4-1.6-3.9 C40,7.8,42.2,5.8,44.8,5c2.6-0.9,5.5-0.5,7.9,0.9l9.3,5.5c1.2,0.7,2.6,0.7,3.8,0l9.3-5.5c2.4-1.4,5.3-1.7,7.9-0.9 s4.8,2.8,5.9,5.4l4.3,9.9c0.7,1.5,0,3.3-1.6,3.9C91.5,24.4,91.1,24.5,90.7,24.5z"
+                />
+                <path
+                  fill="#71c2ff"
+                  d="M124,127c-0.8,0-1.5-0.3-2.1-0.9l-10.6-10.5c-1.2-1.2-1.2-3.1,0-4.2s3.1-1.2,4.2,0l10.6,10.5 c1.2,1.2,1.2,3.1,0,4.2C125.5,126.7,124.8,127,124,127z"
+                />
+                <path
+                  fill="#71c2ff"
+                  d="M116,15c-0.8,0-1.5-0.3-2.1-0.9c-1.2-1.2-1.2-3.1,0-4.2l8-8c1.2-1.2,3.1-1.2,4.2,0c1.2,1.2,1.2,3.1,0,4.2 l-8,8C117.5,14.7,116.8,15,116,15z"
+                />
+                <path
+                  fill="#71c2ff"
+                  d="M13.3,16.3c-0.8,0-1.5-0.3-2.1-0.9L1.9,6.1c-1.2-1.2-1.2-3.1,0-4.2C3,0.7,5,0.7,6.1,1.9l9.3,9.3 c1.2,1.2,1.2,3.1,0,4.2C14.9,16,14.1,16.3,13.3,16.3z"
+                />
+                <circle cx="24" cy="4" r="3" fill="#71c2ff" />
+              </svg>
+            </a>
+            <a
+              class="group relative flex cursor-pointer flex-row items-center justify-end gap-2 rounded-l-lg bg-transparent py-3 pl-2 pr-4 transition-all duration-150 ease-out"
+            >
+              <span
+                class="font-quicksand text-base font-bold text-slate-900 transition-all duration-150 ease-out group-hover:mr-2"
+                >Past</span
+              >
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" class="h-5 w-5 object-contain">
+                <path
+                  fill="#c3dbea"
+                  d="M66.9,58.6v9.9c0,2.8,2.3,5.1,5.1,5.1h0c2.8,0,5.1-2.3,5.1-5.1V43.1c0-4.8,3.8-9,8.6-9.1c4.9-0.1,9,3.9,9,8.8v36.7c0,2.8,2.3,5.1,5.1,5.1h0c2.8,0,5.1-2.3,5.1-5.1v-9.9c0-3.9,3.1-7,7-7h0c3.9,0,7,3.1,7,7v10.6c0,8.1-6.6,14.7-14.7,14.7h-9.5V114H77.2V83.9h-9.5c-8.1,0-14.7-6.6-14.7-14.7l0-10.6c0-3.9,3.1-7,7-7h0C63.8,51.6,66.9,54.7,66.9,58.6z"
+                />
+                <path
+                  fill="#41ceb3"
+                  d="M82,38.5V52c0,3.9-3.1,7-7,7h0c-3.9,0-7-3.1-7-7l0-29.6c0-6.6-5.2-12.3-11.8-12.4C49.5,9.9,44,15.3,44,22v45c0,3.9-3.1,7-7,7h0c-3.9,0-7-3.1-7-7V53.5c0-5.2-4.3-9.5-9.5-9.5h0c-5.2,0-9.5,4.3-9.5,9.5V68c0,11,9,20,20,20h13v26h24V73h13c11,0,20-9,20-20V38.5c0-5.2-4.3-9.5-9.5-9.5h0C86.3,29,82,33.3,82,38.5z"
+                />
+                <path
+                  fill="#11967d"
+                  d="M93,45v8c0,5.5-4.5,10-10,10H68V33c0-2.8-2.2-5-5-5h0c-2.8,0-5,2.2-5,5v69.5c0,1.9-1.6,3.5-3.5,3.5h0c-1.9,0-3.5,1.6-3.5,3.5v1c0,1.9,1.6,3.5,3.5,3.5H68V73h21c6.6,0,12-5.4,12-12V45c0-2.2-1.8-4-4-4h0C94.8,41,93,42.8,93,45z"
+                />
+                <path
+                  fill="none"
+                  stroke="#444b54"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="6"
+                  d="M37,74L37,74c-3.9,0-7-3.1-7-7V53.5c0-5.2-4.3-9.5-9.5-9.5h0c-5.2,0-9.5,4.3-9.5,9.5V68c0,11,9,20,20,20h13v26h24V73h13c11,0,20-9,20-20l0-14.8c0-5.1-4.1-9.2-9.2-9.2h-0.2c-5.3,0-9.5,4.2-9.5,9.5c0,4.4,0,9.5,0,13.5c0,3.9-3.1,7-7,7h0"
+                />
+                <path
+                  fill="none"
+                  stroke="#444b54"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="6"
+                  d="M68 52l0-29.6c0-6.6-5.2-12.3-11.8-12.4C49.5 9.9 44 15.3 44 22v45M24 114L94 114"
+                />
+                <path fill="#444b54" d="M109.5 111A3 3 0 1 0 109.5 117A3 3 0 1 0 109.5 111Z" />
+                <path
+                  fill="none"
+                  stroke="#444b54"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="6"
+                  d="M13.5 47L11 44.5 13.5 47zM101 45L105 45M71.3 89.3L68.3 89.3M65.7 13.5l2.5-2.5L65.7 13.5z"
+                />
+              </svg>
+            </a>
+            <hr class="border-base-depth" />
+            <a
+              class="group relative flex cursor-pointer flex-row items-center justify-end gap-2 rounded-l-lg bg-transparent py-3 pl-2 pr-4 transition-all duration-150 ease-out"
+            >
+              <span
+                class="font-quicksand text-base font-bold text-slate-900 transition-all duration-150 ease-out group-hover:mr-2"
+                >{{ request.user.username }}</span
+              >
+              <img
+                src="{% get_media_prefix %}{{ request.user.avatar }}"
+                alt=""
+                srcset=""
+                class="h-5 w-5 rounded-full object-cover object-center"
+              />
+            </a>
+          </div>
+          <div class="flex flex-col gap-4">
+            <hr class="border-base-depth" />
+            <div class="flex flex-col items-end gap-4">
+              <div class="flex flex-row flex-wrap gap-3">
+                <a href="#" class="text-base-sub text-xs font-medium underline">Privacy & Policy</a>
+                <a href="#" class="text-base-sub text-xs font-medium underline">Tentang Kami</a>
+                <a href="#" class="text-base-sub text-xs font-medium underline">Kontak</a>
+              </div>
+              <div class="flex flex-col flex-wrap items-end gap-1">
+                <span class="text-base-sub text-xs">East Kalimantan, Samarinda City, 75123</span>
+                <span class="text-base-sub text-xs">Indonesia</span>
+              </div>
+            </div>
+            <hr class="border-base-depth" />
+            <span class="text-base-sub text-right text-xs">&copy; Binago Staff & Development</span>
+          </div>
+        </nav>
+        <!-- end left -->
+        <!-- main -->
+        <main
+          class="before:bg-base-depth after:bg-base-depth relative w-full py-3 px-7 before:absolute before:top-0 before:left-0 before:h-full before:w-[1px] before:content-[''] after:absolute after:top-0 after:right-0 after:h-full after:w-[1px] after:content-['']"
+        >
+          <div class="flex flex-col gap-10">
+            <div class="flex flex-row items-center gap-4">
+              <input
+                type="search"
+                name=""
+                id=""
+                class="font-poppins text-base-field w-full rounded-full border-2 border-slate-300 bg-transparent px-6 py-3 text-sm outline-none ring-0 placeholder:text-slate-300 focus:border-blue-500 focus:ring-transparent focus:placeholder:text-blue-500"
+                placeholder="Search by title..."
+              />
+              <button class="font-poppins rounded-full bg-blue-500 px-10 py-3 text-sm font-semibold text-white">
+                Search
+              </button>
+            </div>
+            <div class="flex flex-col gap-3">
+              <span class="text-base-field font-quicksand text-sm font-semibold">Events Categories Filter</span>
+              <div class="flex flex-row flex-wrap items-center gap-3">
+                <button class="font-poppins rounded-full bg-blue-500 px-5 py-2 text-xs font-semibold text-white">
+                  None
+                </button>
+                <button class="font-poppins bg-base-depth text-base-field rounded-full px-5 py-2 text-xs font-semibold">
+                  Business Analyst
+                </button>
+                <button class="font-poppins bg-base-depth text-base-field rounded-full px-5 py-2 text-xs font-semibold">
+                  Data Analyst
+                </button>
+              </div>
+            </div>
+            <div class="flex flex-col gap-3">
+              <span class="text-base-field font-quicksand text-sm font-semibold">Recent Events</span>
+              <div class="grid grid-cols-3 gap-8">
+                {% for event in events %}
+                <div class="shadow-container1 flex flex-col gap-4 overflow-hidden rounded-2xl bg-white">
+                  <div class="relative z-0 h-48 shrink-0">
+                    <img
+                      src="{% get_media_prefix %}{{ event.banner }}"
+                      alt=""
+                      srcset=""
+                      class="h-full w-full border-b-4 border-sky-600 border-opacity-20 object-cover object-center"
+                      draggable="false"
+                    />
+                    <span
+                      class="bg-base-field font-quicksand absolute right-0 -translate-y-2/4 rounded-l-lg p-3 text-xs font-semibold text-white"
+                      >7 jam tersisa</span
+                    >
+                  </div>
+                  <div class="flex h-full flex-col gap-5 py-4 px-5">
+                    <div class="flex flex-row flex-wrap items-center gap-2">
+                      <span class="bg-base-field font-dmSans rounded-lg py-1 px-2 text-xs font-semibold text-white"
+                        >GRATIS</span
+                      >
+                      <span class="bg-base-field font-dmSans rounded-lg py-1 px-2 text-xs font-semibold text-white"
+                        >MASIH TERBUKA</span
+                      >
+                      <span class="bg-base-field font-dmSans rounded-lg py-1 px-2 text-xs font-semibold text-white"
+                        >IT</span
+                      >
+                    </div>
+                    <div class="flex h-full flex-col gap-1">
+                      <p class="font-montserrat text-base-field break line-clamp-2 text-ellipsis text-lg font-bold">
+                        {{ event.title }}
+                      </p>
+                      <div class="flex-warp flex flex-row items-center gap-2">
+                        <span class="font-dmSans text-xs font-semibold text-blue-500"
+                          >{{ event.association_group.association.name }}</span
+                        >
+                      </div>
+                    </div>
+                    <hr />
+                    <div class="flex flex-col gap-2">
+                      <div class="flex flex-row flex-wrap gap-3">
+                        <div class="flex flex-row items-center gap-1">
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="h-4 w-4 text-slate-800">
+                            <path
+                              d="M5 0L5 4L7 4L7 0 Z M 17 0L17 4L19 4L19 0 Z M 1 3C0.398438 3 0 3.398438 0 4L0 7C0 7.601563 0.398438 8 1 8L1 24L23 24L23 8C23.601563 8 24 7.601563 24 7L24 4C24 3.398438 23.601563 3 23 3L20 3L20 5L16 5L16 3L8 3L8 5L4 5L4 3 Z M 3 8L21 8L21 22L3 22 Z M 5 10L5 12L7 12L7 10 Z M 9 10L9 12L11 12L11 10 Z M 13 10L13 12L15 12L15 10 Z M 17 10L17 12L19 12L19 10 Z M 12 13L12 17L16 17L16 13 Z M 5 14L5 16L7 16L7 14 Z M 9 14L9 16L11 16L11 14 Z M 17 14L17 16L19 16L19 14 Z M 5 18L5 20L7 20L7 18 Z M 9 18L9 20L11 20L11 18 Z M 13 18L13 20L15 20L15 18 Z M 17 18L17 20L19 20L19 18Z"
+                              fill="currentColor"
+                            />
+                          </svg>
+                          {% if event.schedule_start|date:'n' == event.schedule_end|date:'n' %}
+                          <span class="font-poppins mt-1 text-xs font-medium text-slate-800">
+                            {{ event.schedule_end|date:'M d, Y' }}
+                          </span>
+                          {% else %}
+                          <span class="font-poppins mt-1 text-xs font-medium text-slate-800">
+                            {{ event.schedule_start|date:'M d, Y' }} - {{ event.schedule_end|date:'M d, Y' }}
+                          </span>
+                          {% endif %}
+                        </div>
+                        <div class="flex flex-row items-center gap-1">
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="h-4 w-4 text-slate-800">
+                            <path
+                              d="M12 0C5.371094 0 0 5.371094 0 12C0 18.628906 5.371094 24 12 24C18.628906 24 24 18.628906 24 12C24 5.371094 18.628906 0 12 0 Z M 12 2C17.523438 2 22 6.476563 22 12C22 17.523438 17.523438 22 12 22C6.476563 22 2 17.523438 2 12C2 6.476563 6.476563 2 12 2 Z M 10.9375 3.875L10.5 12.0625L10.59375 12.9375L16.75 18.375L17.71875 17.375L12.625 11.96875L12.1875 3.875Z"
+                              fill="currentColor"
+                            />
+                          </svg>
+                          <span class="font-poppins mt-1 text-xs font-medium text-slate-800">
+                            {{ event.schedule_start|date:'h:i A' }}-{{ event.schedule_end|date:'h:i A' }}
+                          </span>
+                        </div>
+                      </div>
+                      <div class="flex flex-row flex-wrap gap-3">
+                        <div class="flex flex-row items-center gap-1">
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="h-4 w-4 text-blue-500">
+                            <path
+                              d="M10.59375 3C9.957031 3 9.324219 3.269531 8.875 3.71875L5.59375 7L1.3125 7C0.585938 7 0 7.585938 0 8.3125L0 18.6875C0 19.414063 0.585938 20 1.3125 20L3.78125 20L3.0625 21.4375C2.933594 21.695313 3.117188 22 3.40625 22L5.65625 22C5.871094 22 6.0625 21.878906 6.15625 21.6875L7 20L10 20L10.71875 21.4375C10.890625 21.777344 11.242188 22 11.625 22L16.09375 22C16.601563 22 17 21.601563 17 21.09375L17 8.3125C17 8.277344 17.003906 8.25 17 8.21875C17.007813 8.144531 17.007813 8.074219 17 8L17 5.21875C17 4 16 3 14.78125 3 Z M 18 4L18 7L21.5 7C22.039063 7.007813 22.542969 6.722656 22.816406 6.257813C23.089844 5.789063 23.089844 5.210938 22.816406 4.742188C22.542969 4.277344 22.039063 3.992188 21.5 4 Z M 10.59375 5L14.78125 5C14.921875 5 15 5.078125 15 5.21875L15 7L8.40625 7L10.28125 5.125C10.355469 5.050781 10.488281 5 10.59375 5 Z M 22 9C21.03125 9 20 11 19 11L18 11L18 16L19 16C20 16 20.984375 18 22 18L24 18L24 9 Z M 3 10L8 10L8 14L3 14Z"
+                              fill="currentColor"
+                            />
+                          </svg>
+                          <span class="font-poppins mt-1 text-xs font-medium text-slate-800">Zoom</span>
+                        </div>
+                        <div class="flex flex-row items-center gap-1">
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="h-4 w-4 text-green-500">
+                            <path
+                              d="M12,2C6.477,2,2,6.477,2,12c0,5.523,4.477,10,10,10s10-4.477,10-10C22,6.477,17.523,2,12,2z M17.707,9.707l-7,7 C10.512,16.902,10.256,17,10,17s-0.512-0.098-0.707-0.293l-3-3c-0.391-0.391-0.391-1.023,0-1.414s1.023-0.391,1.414,0L10,14.586 l6.293-6.293c0.391-0.391,1.023-0.391,1.414,0S18.098,9.316,17.707,9.707z"
+                              fill="currentColor"
+                            />
+                          </svg>
+                          <span class="font-poppins mt-1 text-xs font-medium text-slate-800">Sertifikat</span>
+                        </div>
+                        <div class="flex flex-row items-center gap-1">
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="h-4 w-4 text-green-500">
+                            <path
+                              d="M12,2C6.477,2,2,6.477,2,12c0,5.523,4.477,10,10,10s10-4.477,10-10C22,6.477,17.523,2,12,2z M17.707,9.707l-7,7 C10.512,16.902,10.256,17,10,17s-0.512-0.098-0.707-0.293l-3-3c-0.391-0.391-0.391-1.023,0-1.414s1.023-0.391,1.414,0L10,14.586 l6.293-6.293c0.391-0.391,1.023-0.391,1.414,0S18.098,9.316,17.707,9.707z"
+                              fill="currentColor"
+                            />
+                          </svg>
+                          <span class="font-poppins mt-1 text-xs font-medium text-slate-800">Poin</span>
+                        </div>
+                      </div>
+                    </div>
+                    <hr />
+                    <button
+                      class="font-poppins rounded-xl bg-blue-500 bg-opacity-10 px-4 py-3 text-sm font-semibold uppercase text-blue-500 transition-all duration-150 ease-out hover:bg-opacity-100 hover:text-white"
+                    >
+                      REGISTER
+                    </button>
+                  </div>
+                </div>
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+        </main>
+        <!-- end main -->
+        <!-- right -->
+        <aside class="sticky top-24 flex h-fit min-w-[15rem] flex-col gap-7 p-3">
+          <div class="flex shrink-0 flex-col gap-4">
+            <span class="text-base-field font-quicksand font-semibold">Fragment Information</span>
+            <hr class="border-base-depth" />
+            <div class="flex flex-col gap-2">
+              <div class="text-base-field flex flex-row items-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" class="h-4 w-4 object-contain">
+                  <path
+                    d="M24 4A10 10 0 1024 24 10 10 0 1024 4zM36.021 28H11.979C9.785 28 8 29.785 8 31.979V33.5c0 3.312 1.885 6.176 5.307 8.063C16.154 43.135 19.952 44 24 44c7.706 0 16-3.286 16-10.5v-1.521C40 29.785 38.215 28 36.021 28z"
+                    fill="currentColor"
+                  />
+                </svg>
+                <span class="text-sm font-medium">5,591 registered users</span>
+              </div>
+              <div class="text-base-field flex flex-row items-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" class="h-4 w-4 object-contain">
+                  <path
+                    d="M24 4A10 10 0 1024 24 10 10 0 1024 4zM36.021 28H11.979C9.785 28 8 29.785 8 31.979V33.5c0 3.312 1.885 6.176 5.307 8.063C16.154 43.135 19.952 44 24 44c7.706 0 16-3.286 16-10.5v-1.521C40 29.785 38.215 28 36.021 28z"
+                    fill="currentColor"
+                  />
+                </svg>
+                <span class="text-sm font-medium">55 registered associations</span>
+              </div>
+              <div class="text-base-field flex flex-row items-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" class="h-4 w-4 object-contain">
+                  <path
+                    d="M24 4A10 10 0 1024 24 10 10 0 1024 4zM36.021 28H11.979C9.785 28 8 29.785 8 31.979V33.5c0 3.312 1.885 6.176 5.307 8.063C16.154 43.135 19.952 44 24 44c7.706 0 16-3.286 16-10.5v-1.521C40 29.785 38.215 28 36.021 28z"
+                    fill="currentColor"
+                  />
+                </svg>
+                <span class="text-sm font-medium">851 registered events</span>
+              </div>
+            </div>
+            <span>ads</span>
+          </div>
+        </aside>
+        <!-- end right -->
+      </div>
+    </div>
+  </body>
+</html>

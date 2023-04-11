@@ -8,9 +8,7 @@ from django.conf.urls import handler404, handler403, handler500
 from django.conf.urls.static import static
 from django.conf import settings
 
-from .views import (
-    dashboard, settings_profile, signout, handle_403, handle_404, handle_500
-)
+from . import views
 
 from authentication.views import signin, register, verify_account, request_verify_account
 
@@ -20,10 +18,12 @@ if TYPE_CHECKING:
 
 urlpatterns = [
     path('__reload__/', include('django_browser_reload.urls')),
+    path('', views.homepage, name='homepage'),
+    path('event/<slug>/', views.event_detail, name='homepage-event-detail'),
     path('admin/', admin.site.urls),
-    path('404/', handle_404),
-    path('403/', handle_403),
-    path('500/', handle_500),
+    path('404/', views.handle_404),
+    path('403/', views.handle_403),
+    path('500/', views.handle_500),
     path('dashboard/', include([
         path('overview/', include('Dashboard.urls')),
         # path('organizers/', include('Organizers.urls')),
@@ -33,7 +33,8 @@ urlpatterns = [
         path('settings/', include([
             # TODO: Need to improve
             path('profile/', include([
-                path('', settings_profile, name='settings'),
+                # TODO: Change it later
+                path('', views.settings_profile, name='settings'),
             ])),
         ])),
     ])),
@@ -42,7 +43,7 @@ urlpatterns = [
     path('register/', register, name='register'),
     path('account/request/verify/', request_verify_account, name='request-verify-account'),
     path('account/verify/<uidb64>/<token>/', verify_account, name='verify-account'),
-    path('logout/', signout, name='logout')
+    path('logout/', views.signout, name='logout')
 ]
 
 # handler403 = handle_403

@@ -5,7 +5,7 @@ from .utils import pages_testing, pages_backend, pages_frontend, pages_handler
 
 from django.urls import reverse
 from django.http import HttpResponseNotFound
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.http import require_http_methods
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
@@ -13,11 +13,35 @@ from django.contrib.auth.decorators import login_required
 from authentication.models import User
 from Associations.query import user_registered_associations
 
+from Events.models import Events
+
 if TYPE_CHECKING:
     from django.http import HttpResponse, HttpResponseRedirect, HttpResponsePermanentRedirect
     from .context import (
-        SettingsContext
+        SettingsContext, HomepageContext, EventDetailContext
     )
+
+
+@require_http_methods(['GET'])
+def homepage(request) -> HttpResponse:
+    template: str = pages_frontend('homepage/index.html')
+    context: HomepageContext = {
+        'title': 'Binago homepage',
+        'description': 'Explore the events.',
+        'events': Events.objects.all().order_by('-schedule_start')
+    }
+    return render(request, template, context)
+
+
+@require_http_methods(['GET'])
+def event_detail(request, slug) -> HttpResponse:
+    template: str = pages_frontend('homepage/event_detail.html')
+    context: EventDetailContext = {
+        'title': 'Binago Events Detail',
+        'description': 'Detail the events.',
+        'event': get_object_or_404(Events, slug=slug)
+    }
+    return render(request, template, context)
 
 
 @login_required

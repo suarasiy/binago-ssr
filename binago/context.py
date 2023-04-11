@@ -3,7 +3,14 @@ from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from django.db.models import QuerySet
     from authentication.models import User
-    from .context_interface import Context
+    from Events.models import Events
+    from .context_interface import Context, ContextHomepage
+
+    class HomepageContext(ContextHomepage):
+        events: QuerySet[Events]
+
+    class EventDetailContext(ContextHomepage):
+        event: Events
 
     class SettingsContext(Context):
         powerheader: User

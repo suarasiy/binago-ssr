@@ -33,15 +33,18 @@
   </div>
   <!-- [Control TOP-RIGHT navigation] -->
   <div class="flex h-fit flex-row items-center gap-4">
-    <button
+    <a
+      href="{% url 'users-notification' %}"
       class="relative rounded-xl bg-black bg-opacity-10 px-4 py-3 transition-all duration-300 ease-out hover:bg-opacity-20 hover:shadow-sm"
       tabindex="-1"
     >
-      <div class="font-poppins absolute top-2 left-2 h-5 w-5 rounded-full bg-red-500 text-center text-xs text-white">
+      <div
+        class="font-poppins absolute top-2 left-2 h-5 w-5 flex-shrink-0 rounded-full bg-red-500 text-center text-xs text-white"
+      >
         <span class="absolute top-2/4 left-2/4 -translate-y-2/4 -translate-x-2/4">5</span>
       </div>
       <img src="{% static 'backend/icons/notifications.svg' %}" alt="" srcset="" class="w-7" />
-    </button>
+    </a>
     <button
       class="flex flex-row items-center gap-3 rounded-xl bg-black bg-opacity-10 px-4 py-3 transition-all duration-300 ease-out hover:bg-opacity-20 hover:shadow-sm"
       tabindex="-1"

@@ -10,6 +10,8 @@ from authentication.models import User
 from Associations.models import Associations, AssociationsGroup, AssociationsApprovalRequest
 from django.db.models import Q
 
+from authentication.permissions import manager_bypass
+
 if TYPE_CHECKING:
     from typing import Any, Literal
     from django.db.models import QuerySet
@@ -23,23 +25,6 @@ def require_association(view) -> None:
     @wraps
     def _view(request, *args, **kwargs) -> None:
         ...
-
-
-def manager_bypass(request) -> Literal[True] | PermissionDenied:
-    user: User = get_object_or_404(User, id=request.user.id)
-    if user.is_superuser or user.is_staff:
-        return True
-    raise PermissionDenied
-
-
-def permission_staff_only(view):
-    @wraps(view)
-    def _view(request, *args, **kwargs) -> HttpResponse | HttpResponseRedirect | HttpResponsePermanentRedirect:
-        user: User = get_object_or_404(User, id=request.user.id)
-        if not user.is_staff or not user.is_superuser:
-            raise PermissionDenied
-        return view(request, *args, **kwargs)
-    return _view
 
 
 def permission_association_manager_only(view):

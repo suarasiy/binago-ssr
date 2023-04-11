@@ -13,6 +13,7 @@ from binago.utils import pages_backend, pages_frontend
 from .models import User
 from .forms import UserForm, LoginForm, RegisterForm
 from .utils import activate_email, verify
+from .permissions import permission_staff_only
 
 from Associations.query import user_registered_associations
 from Associations.models import AssociationsGroup
@@ -35,6 +36,7 @@ def index(request) -> HttpResponse:
 
 @login_required
 @require_http_methods(['GET'])
+@permission_staff_only
 def index_data(request) -> HttpResponse:
     template: str = pages_backend('users/index.html')
     users: QuerySet[User] = User.objects.all()
@@ -59,6 +61,7 @@ def index_data(request) -> HttpResponse:
 
 @login_required
 @require_http_methods(['POST'])
+@permission_staff_only
 def enable_disable_account(request, id) -> HttpResponseRedirect | HttpResponsePermanentRedirect:
     user: User = get_object_or_404(User, id=id)
     user.is_active = not user.is_active

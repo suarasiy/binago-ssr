@@ -1,0 +1,420 @@
+{% extends 'backend/layout/master.html' %}
+
+<!-- -->
+{% load static %}
+
+<!-- -->
+{% block content %}
+
+<div class="grid select-none grid-cols-6">
+  <div class="container col-span-4 col-start-2">
+    <div class="flex flex-row justify-between">
+      <div class="font-poppins flex flex-col gap-2">
+        <div class="flex flex-row items-center gap-3">
+          <p class="font-medium text-slate-900">Notifications</p>
+          <span class="font-quicksand rounded-lg bg-blue-500 px-2 py-1 text-xs font-semibold text-white">5</span>
+        </div>
+        <small class="text-xs font-light text-slate-600">Your notifications will appear here</small>
+      </div>
+    </div>
+    <div class="flex flex-col gap-4">
+      <hr />
+      <div class="flex flex-row gap-7 rounded-2xl p-3 hover:bg-slate-300 hover:bg-opacity-20">
+        <img
+          src="https://i.pinimg.com/originals/69/a4/b5/69a4b5acf219fbb844687c186302b456.jpg"
+          alt=""
+          srcset=""
+          class="h-11 w-11 shrink-0 rounded-full object-cover object-center"
+          draggable="false"
+        />
+        <div class="flex w-full flex-col gap-2">
+          <p class="font-quicksand text-lg font-semibold text-slate-900">
+            New attendee "<span class="font-bold text-blue-500">How to get his attention with your smile :)</span>"
+          </p>
+          <span class="text-sm text-slate-600"
+            ><strong class="text-slate-800">Watanabe Akari</strong> has registered into your event!</span
+          >
+          <small class="font-poppins text-xs text-slate-400">Apr 7, 23. || 02:14 PM</small>
+        </div>
+        <img
+          src="https://i.pinimg.com/originals/69/a4/b5/69a4b5acf219fbb844687c186302b456.jpg"
+          alt=""
+          srcset=""
+          class="h-28 w-56 rounded-xl object-cover object-center"
+          draggable="false"
+        />
+      </div>
+      <hr />
+      <div class="flex flex-row gap-7 rounded-2xl p-3 hover:bg-slate-300 hover:bg-opacity-20">
+        <img
+          src="https://cdn.myanimelist.net/images/characters/8/476767.jpg"
+          alt=""
+          srcset=""
+          class="h-11 w-11 shrink-0 rounded-full object-cover object-center"
+          draggable="false"
+        />
+        <div class="flex w-full flex-col gap-2">
+          <p class="font-quicksand text-lg font-semibold text-slate-900">
+            Invitation for associations <span class="font-bold text-blue-500">ANS Anzu Studio (Rails)</span>
+          </p>
+          <span class="text-sm text-slate-600"
+            ><strong class="text-slate-800">Watanabe Akari</strong> has invited you to join the association.</span
+          >
+          <small class="font-poppins text-xs text-slate-400">Apr 7, 23. || 02:14 PM</small>
+          <div class="mt-3 flex flex-row items-center gap-3">
+            <button
+              class="font-poppins rounded-xl bg-blue-500 px-4 py-[10px] text-xs font-semibold uppercase text-white transition-all duration-100 ease-out hover:brightness-110 active:scale-95"
+            >
+              accept
+            </button>
+            <button
+              class="font-poppins rounded-xl bg-blue-500 bg-opacity-10 px-4 py-[10px] text-xs font-semibold uppercase text-blue-500 transition-all duration-100 ease-out hover:brightness-90 active:scale-95"
+            >
+              decline
+            </button>
+          </div>
+        </div>
+        <div class="relative">
+          <img
+            src="https://cdn.myanimelist.net/images/characters/8/476767.jpg"
+            alt=""
+            srcset=""
+            class="h-28 w-56 rounded-xl object-cover object-center"
+            draggable="false"
+          />
+          <img
+            src="https://cdn.myanimelist.net/images/characters/8/476767.jpg"
+            alt=""
+            srcset=""
+            class="absolute bottom-0 left-0 -ml-1 -mb-1 h-12 w-12 rounded-full border-4 border-white object-cover object-center"
+            draggable="false"
+          />
+        </div>
+      </div>
+      <hr />
+      <div class="flex flex-row gap-7 rounded-2xl p-3 hover:bg-slate-300 hover:bg-opacity-20">
+        <img
+          src="https://cdn.myanimelist.net/images/characters/8/476767.jpg"
+          alt=""
+          srcset=""
+          class="h-11 w-11 shrink-0 rounded-full object-cover object-center"
+          draggable="false"
+        />
+        <div class="flex w-full flex-col gap-2">
+          <p class="font-quicksand text-lg font-semibold text-slate-900">
+            New Review for "<span class="font-bold text-blue-500">VMware Security from Zero Trust</span>"
+          </p>
+          <span class="text-sm text-slate-600"
+            ><strong class="text-slate-800">Watanabe Akari</strong> giving a review.</span
+          >
+          <small class="font-poppins text-xs text-slate-400">Apr 7, 23. || 02:14 PM</small>
+        </div>
+        <img
+          src="https://cdn.myanimelist.net/images/characters/8/476767.jpg"
+          alt=""
+          srcset=""
+          class="h-28 w-56 rounded-xl object-cover object-center"
+          draggable="false"
+        />
+      </div>
+      <hr />
+      <div class="flex flex-row gap-7 rounded-2xl p-3 hover:bg-slate-300 hover:bg-opacity-20">
+        <img
+          src="{% static 'web/assets/binago_system.png' %}"
+          alt=""
+          srcset=""
+          class="h-11 w-11 shrink-0 rounded-full object-cover object-center"
+          draggable="false"
+        />
+        <div class="flex w-full flex-col gap-2">
+          <p class="font-quicksand text-lg font-semibold text-slate-900">
+            Payment <span class="font-bold text-green-500">success</span> for "<span class="font-bold text-blue-500"
+              >VMware Security from Zero Trust</span
+            >"
+          </p>
+          <span class="text-sm text-slate-600"
+            ><strong class="rounded-lg bg-slate-100 bg-opacity-60 px-2 py-1 text-slate-800">Binago System</strong> event
+            payment.</span
+          >
+          <small class="font-poppins text-xs text-slate-400">Apr 7, 23. || 02:14 PM</small>
+          <div class="mt-3 flex flex-row items-center gap-3">
+            <button
+              class="font-poppins rounded-xl bg-green-500 px-4 py-[10px] text-xs font-semibold uppercase text-white transition-all duration-100 ease-out hover:brightness-110 active:scale-95"
+            >
+              check detail
+            </button>
+          </div>
+        </div>
+      </div>
+      <hr />
+      <div class="flex flex-row gap-7 rounded-2xl p-3 hover:bg-slate-300 hover:bg-opacity-20">
+        <img
+          src="{% static 'web/assets/binago_system.png' %}"
+          alt=""
+          srcset=""
+          class="h-11 w-11 shrink-0 rounded-full object-cover object-center"
+          draggable="false"
+        />
+        <div class="flex w-full flex-col gap-2">
+          <p class="font-quicksand text-lg font-semibold text-slate-900">
+            Payment <span class="font-bold text-red-500">canceled</span> for "<span class="font-bold text-blue-500"
+              >VMware Security from Zero Trust</span
+            >"
+          </p>
+          <span class="text-sm text-slate-600"
+            ><strong class="rounded-lg bg-slate-100 bg-opacity-60 px-2 py-1 text-slate-800">Binago System</strong> event
+            payment.</span
+          >
+          <small class="font-poppins text-xs text-slate-400">Apr 7, 23. || 02:14 PM</small>
+          <div class="mt-3 flex flex-row items-center gap-3">
+            <button
+              class="font-poppins rounded-xl bg-blue-500 bg-opacity-10 px-4 py-[10px] text-xs font-semibold uppercase text-blue-500 transition-all duration-100 ease-out hover:brightness-110 active:scale-95"
+            >
+              check detail
+            </button>
+          </div>
+        </div>
+      </div>
+      <hr />
+      <div class="flex flex-row gap-7 rounded-2xl p-3 hover:bg-slate-300 hover:bg-opacity-20">
+        <img
+          src="{% static 'web/assets/binago_system.png' %}"
+          alt=""
+          srcset=""
+          class="h-11 w-11 shrink-0 rounded-full object-cover object-center"
+          draggable="false"
+        />
+        <div class="flex w-full flex-col gap-2">
+          <p class="font-quicksand text-lg font-semibold text-slate-900">
+            Invoice created for "<span class="font-bold text-blue-500">VMware Security from Zero Trust</span>"
+          </p>
+          <span class="text-sm text-slate-600"
+            ><strong class="rounded-lg bg-slate-100 bg-opacity-60 px-2 py-1 text-slate-800">Binago System</strong> event
+            payment.</span
+          >
+          <small class="font-poppins text-xs text-slate-400">Apr 7, 23. || 02:14 PM</small>
+          <div class="mt-3 flex flex-row items-center gap-3">
+            <button
+              class="font-poppins rounded-xl bg-blue-500 px-4 py-[10px] text-xs font-semibold uppercase text-white transition-all duration-100 ease-out hover:brightness-110 active:scale-95"
+            >
+              check detail
+            </button>
+          </div>
+        </div>
+      </div>
+      <hr />
+      <div class="flex flex-row gap-7 rounded-2xl p-3 hover:bg-slate-300 hover:bg-opacity-20">
+        <img
+          src="https://cdn.myanimelist.net/images/characters/8/476767.jpg"
+          alt=""
+          srcset=""
+          class="h-11 w-11 shrink-0 rounded-full object-cover object-center"
+          draggable="false"
+        />
+        <div class="flex w-full flex-col gap-2">
+          <p class="font-quicksand text-lg font-semibold text-slate-900">
+            You're now the managers of <span class="font-bold text-blue-500">ANS Anzu Studio (Rails)</span>
+          </p>
+          <span class="text-sm text-slate-600"
+            ><strong class="text-slate-800">Sidiq Indrajati Yusuf</strong> set you as the manager permissions.</span
+          >
+          <small class="font-poppins text-xs text-slate-400">Apr 7, 23. || 02:14 PM</small>
+        </div>
+        <div class="relative">
+          <img
+            src="https://cdn.myanimelist.net/images/characters/8/476767.jpg"
+            alt=""
+            srcset=""
+            class="h-28 w-56 rounded-xl object-cover object-center"
+            draggable="false"
+          />
+          <img
+            src="https://cdn.myanimelist.net/images/characters/8/476767.jpg"
+            alt=""
+            srcset=""
+            class="absolute bottom-0 left-0 -ml-1 -mb-1 h-12 w-12 rounded-full border-4 border-white object-cover object-center"
+            draggable="false"
+          />
+        </div>
+      </div>
+      <hr />
+      <div class="flex flex-row gap-7 rounded-2xl p-3 hover:bg-slate-300 hover:bg-opacity-20">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          class="h-11 w-11 shrink-0 object-contain text-red-500"
+        >
+          <path
+            d="M12,2C6.477,2,2,6.477,2,12c0,5.523,4.477,10,10,10s10-4.477,10-10C22,6.477,17.523,2,12,2z M17.162,11.287l-1.565,1.521c-0.236,0.229-0.344,0.56-0.289,0.885l0.365,2.152c0.139,0.817-0.72,1.439-1.453,1.052l-1.93-1.019c-0.291-0.154-0.639-0.154-0.931-0.002l-1.933,1.012c-0.734,0.384-1.591-0.24-1.449-1.057l0.373-2.15c0.056-0.324-0.051-0.656-0.286-0.886l-1.56-1.526C5.91,10.689,6.24,9.681,7.06,9.564l2.16-0.31c0.326-0.047,0.608-0.251,0.754-0.546l0.969-1.955c0.368-0.743,1.428-0.741,1.794,0.003l0.962,1.959c0.145,0.295,0.426,0.5,0.752,0.548L16.61,9.58C17.43,9.701,17.756,10.709,17.162,11.287z"
+            fill="currentColor"
+          />
+          <path
+            d="M14.451,9.263L16.61,9.58c0.82,0.121,1.146,1.129,0.551,1.707l-1.565,1.521c-0.236,0.229-0.344,0.56-0.289,0.885l0.365,2.152c0.139,0.817-0.72,1.439-1.453,1.052l-1.93-1.019c-0.291-0.154-0.639-0.154-0.931-0.002l-1.933,1.012c-0.734,0.384-1.591-0.24-1.449-1.057l0.373-2.15c0.056-0.324-0.051-0.655-0.286-0.886l-1.56-1.526C5.91,10.689,6.24,9.681,7.06,9.564l2.16-0.31c0.326-0.047,0.608-0.251,0.754-0.546l0.969-1.955c0.368-0.743,1.428-0.741,1.793,0.003l0.962,1.959C13.844,9.01,14.126,9.215,14.451,9.263z"
+            opacity=".35"
+            fill="currentColor"
+          />
+        </svg>
+        <div class="flex w-full flex-col gap-2">
+          <p class="font-quicksand text-lg font-semibold text-slate-900">
+            (+8) Point received for successfully attending "<span class="font-bold text-blue-500"
+              >VMware Security from Zero Trust</span
+            >"
+          </p>
+          <span class="text-sm text-slate-600"
+            ><strong class="rounded-lg bg-slate-100 bg-opacity-60 px-2 py-1 text-slate-800">Binago System</strong> point
+            was added to your account.</span
+          >
+          <small class="font-poppins text-xs text-slate-400">Apr 7, 23. || 02:14 PM</small>
+        </div>
+      </div>
+      <hr />
+      <div class="flex flex-row gap-7 rounded-2xl p-3 hover:bg-slate-300 hover:bg-opacity-20">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          class="h-11 w-11 shrink-0 object-contain text-yellow-500"
+        >
+          <path
+            d="M23,17.5c0-1.209-0.859-2.218-2-2.45V14V6c0-1.657-1.343-3-3-3H6C4.343,3,3,4.343,3,6v12c0,1.657,1.343,3,3,3h15v-1.05C22.141,19.718,23,18.709,23,17.5z"
+            opacity=".35"
+            fill="currentColor"
+          />
+          <path
+            d="M18,19v4c0,0.369,0.203,0.708,0.528,0.882c0.324,0.174,0.719,0.154,1.026-0.05l0.945-0.63l0.945,0.63C21.613,23.944,21.806,24,22,24c0.162,0,0.324-0.039,0.472-0.118C22.797,23.708,23,23.369,23,23v-4H18z"
+            fill="currentColor"
+          />
+          <path
+            d="M16,14H8c-0.552,0-1-0.448-1-1v0c0-0.552,0.448-1,1-1h8c0.552,0,1,0.448,1,1v0C17,13.552,16.552,14,16,14z"
+            fill="currentColor"
+          />
+          <path
+            d="M14,18H8c-0.552,0-1-0.448-1-1v0c0-0.552,0.448-1,1-1h6c0.552,0,1,0.448,1,1v0C15,17.552,14.552,18,14,18z"
+            fill="currentColor"
+          />
+          <path
+            d="M15.5,7c-0.386,0-6.614,0-7,0C7.672,7,7,7.672,7,8.5S7.672,10,8.5,10c0.386,0,6.614,0,7,0c0.828,0,1.5-0.672,1.5-1.5S16.328,7,15.5,7z"
+            fill="currentColor"
+          />
+          <path
+            d="M20.5,14c-1.933,0-3.5,1.567-3.5,3.5s1.567,3.5,3.5,3.5s3.5-1.567,3.5-3.5S22.433,14,20.5,14z M20.5,19c-0.828,0-1.5-0.672-1.5-1.5s0.672-1.5,1.5-1.5s1.5,0.672,1.5,1.5S21.328,19,20.5,19z"
+            fill="currentColor"
+          />
+        </svg>
+        <div class="flex w-full flex-col gap-2">
+          <p class="font-quicksand text-lg font-semibold text-slate-900">
+            Certificate received for attending "<span class="font-bold text-blue-500"
+              >VMware Security from Zero Trust</span
+            >"
+          </p>
+          <span class="text-sm text-slate-600"
+            ><strong class="rounded-lg bg-slate-100 bg-opacity-60 px-2 py-1 text-slate-800">Binago System</strong>
+            certificate was added to your account.</span
+          >
+          <small class="font-poppins text-xs text-slate-400">Apr 7, 23. || 02:14 PM</small>
+        </div>
+      </div>
+      <hr />
+      <div class="flex flex-row gap-7 rounded-2xl p-3 hover:bg-slate-300 hover:bg-opacity-20">
+        <img
+          src="{% static 'web/assets/binago_system.png' %}"
+          alt=""
+          srcset=""
+          class="h-11 w-11 shrink-0 rounded-full object-cover object-center"
+          draggable="false"
+        />
+        <div class="flex w-full flex-col gap-2">
+          <p class="font-quicksand text-lg font-semibold text-slate-900">
+            The event "<span class="font-bold text-blue-500">VMware Security from Zero Trust</span>" will begin
+            tomorrow!
+          </p>
+          <span class="text-sm text-slate-600"
+            ><strong class="rounded-lg bg-slate-100 bg-opacity-60 px-2 py-1 text-slate-800">Binago System</strong> event
+            reminder.</span
+          >
+          <small class="font-poppins text-xs text-slate-400">Apr 7, 23. || 02:14 PM</small>
+          <div class="mt-3 flex flex-row items-center gap-3">
+            <button
+              class="font-poppins rounded-xl bg-blue-500 bg-opacity-10 px-4 py-[10px] text-xs font-semibold uppercase text-blue-500 transition-all duration-100 ease-out hover:brightness-110 active:scale-95"
+            >
+              check detail
+            </button>
+          </div>
+        </div>
+      </div>
+      <hr />
+      <div class="flex flex-row gap-7 rounded-2xl p-3 hover:bg-slate-300 hover:bg-opacity-20">
+        <img
+          src="{% static 'web/assets/binago_system.png' %}"
+          alt=""
+          srcset=""
+          class="h-11 w-11 shrink-0 rounded-full object-cover object-center"
+          draggable="false"
+        />
+        <div class="flex w-full flex-col gap-2">
+          <p class="font-quicksand text-lg font-semibold text-slate-900">
+            The event has started! "<span class="font-bold text-blue-500">VMware Security from Zero Trust</span>"
+          </p>
+          <span class="text-sm text-slate-600"
+            ><strong class="rounded-lg bg-slate-100 bg-opacity-60 px-2 py-1 text-slate-800">Binago System</strong> event
+            reminder.</span
+          >
+          <small class="font-poppins text-xs text-slate-400">Apr 7, 23. || 02:14 PM</small>
+          <div class="mt-3 flex flex-row items-center gap-3">
+            <button
+              class="font-poppins rounded-xl bg-blue-500 px-4 py-[10px] text-xs font-semibold uppercase text-white transition-all duration-100 ease-out hover:brightness-110 active:scale-95"
+            >
+              join
+            </button>
+          </div>
+        </div>
+        <img
+          src="https://cdn.myanimelist.net/images/characters/8/476767.jpg"
+          alt=""
+          srcset=""
+          class="h-28 w-56 rounded-xl object-cover object-center"
+          draggable="false"
+        />
+      </div>
+      <hr />
+      <div class="flex flex-row gap-7 rounded-2xl p-3 hover:bg-slate-300 hover:bg-opacity-20">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          class="h-11 w-11 shrink-0 object-contain text-sky-500"
+        >
+          <path
+            d="M14,10c-0.256,0-0.512-0.098-0.707-0.293c-0.391-0.391-0.391-1.023,0-1.414L14,7.586C14.378,7.208,14.88,7,15.414,7H16c0-1.103,0.897-2,2-2V4c0-1.103,0.897-2,2-2h1c0.552,0,1,0.447,1,1s-0.448,1-1,1h-1v1c0,1.103-0.897,2-2,2c0,1.103-0.897,2-2,2h-0.586l-0.707,0.707C14.512,9.902,14.256,10,14,10z"
+            fill="currentColor"
+          />
+          <path
+            d="M14.695,16.305l-7-7c-0.391-0.391-1.023-0.391-1.414,0c-0.34,0.34-0.366,0.856-0.113,1.244l-3.073,8.428c-0.438,1.201,0.727,2.366,1.928,1.928l8.429-3.073c0.165,0.108,0.347,0.18,0.537,0.18c0.256,0,0.512-0.098,0.707-0.293C15.085,17.329,15.085,16.696,14.695,16.305z"
+            opacity=".35"
+            fill="currentColor"
+          />
+          <circle cx="17.5" cy="20.5" r="1.5" fill="currentColor" />
+          <circle cx="21.5" cy="9.5" r="1.5" fill="currentColor" />
+          <circle cx="3.5" cy="7.5" r="1.5" fill="currentColor" />
+          <circle cx="14.5" cy="2.5" r="1.5" fill="currentColor" />
+          <path
+            d="M6.499,2C5.671,2,5,2.672,5,3.5C5,4.328,5.672,5,6.5,5h0.789C8.234,5,9,5.766,9,6.711V8c0,0.552,0.448,1,1,1h0c0.552,0,1-0.448,1-1V6c0-2.209-1.791-4-4-4H6.499z"
+            fill="currentColor"
+          />
+          <path
+            d="M22,16.501C22,17.329,21.328,18,20.5,18c-0.828,0-1.5-0.672-1.5-1.5v-0.789C19,14.766,18.234,14,17.289,14H16c-0.552,0-1-0.448-1-1v0c0-0.552,0.448-1,1-1h2c2.209,0,4,1.791,4,4V16.501z"
+            fill="currentColor"
+          />
+        </svg>
+        <div class="flex w-full flex-col gap-2">
+          <p class="font-quicksand text-lg font-semibold text-slate-900">Welcome to the binago!</p>
+          <span class="text-sm text-slate-600"
+            ><strong class="rounded-lg bg-slate-100 bg-opacity-60 px-2 py-1 text-slate-800">Binago System</strong> your
+            account successfully created.</span
+          >
+          <small class="font-poppins text-xs text-slate-400">Apr 7, 23. || 02:14 PM</small>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}

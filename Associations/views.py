@@ -11,10 +11,11 @@ from django.views.decorators.http import require_http_methods
 
 from Events.models import Events
 from authentication.models import User
+from authentication.permissions import permission_staff_only
 from .models import Associations, AssociationsGroup, AssociationsApprovalRequest
 from .forms import AssociationForm, AssociationInviteForm
 from .query import user_registered_associations, get_association_by_slug
-from .permissions import permission_staff_only, permission_member_specific_association, permission_association_is_approved, permission_association_manager_only, permission_association_create_eligibility
+from .permissions import permission_member_specific_association, permission_association_is_approved, permission_association_manager_only, permission_association_create_eligibility
 
 from binago.utils import pages_backend
 

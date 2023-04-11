@@ -132,6 +132,7 @@
       </div>
     </div>
     <!-- MENU: USERS -->
+    {% if user.is_superuser or user.is_staff %}
     <div class="">
       <div class="nav__menu {% active_link 'users' 'nav__menu--active' %}" data-target-menu="menu-users">
         <img src="{% static 'backend/icons/menu_users.svg' %}" alt="" srcset="" class="w-6" draggable="false" />
@@ -151,6 +152,7 @@
         <a href="" class="link">Summary</a>
       </div>
     </div>
+    {% endif %}
     <!-- MENU: SETTINGS -->
     <div class="">
       <div class="nav__menu {% active_link 'settings' 'nav__menu--active' %}" data-target-menu="menu-settings">

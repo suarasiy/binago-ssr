@@ -17,5 +17,6 @@ urlpatterns = [
         path('profile/', include([
             path('edit/', edit, name='settings-edit'),
         ]))
-    ]))
+    ])),
+    path('notification/', include('NotificationHandler.urls'))
 ]

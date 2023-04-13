@@ -5,10 +5,12 @@ if TYPE_CHECKING:
     from binago.context_interface import Context as _
     from .models import Events
     from .forms import EventForm
+    from django.forms import Form
 
     class IndexContext(_):
         events: Union[QuerySet, List[Events]]
 
     class FormContext(_):
         forms: EventForm
+        forms_coverage: Form
         slug: str

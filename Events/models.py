@@ -71,3 +71,20 @@ class EventsExtendedUrl(models.Model):
     class Meta:
         verbose_name_plural = 'Events Extended url'
         ordering = ['-updated_at']
+
+
+class EventsCoverage(models.Model):
+    event = models.ForeignKey(Events, on_delete=CASCADE)
+    coverage = models.CharField(max_length=80)
+    slug = models.SlugField(max_length=150)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.coverage, allow_unicode=True)
+        return super().save(*args, **kwargs)
+
+    class Meta:
+        verbose_name_plural = 'Events Coverage Outline'
+        constraints = [
+            models.UniqueConstraint(fields=['event', 'coverage'], name='unique_event_coverage')
+        ]

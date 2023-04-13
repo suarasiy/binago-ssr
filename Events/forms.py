@@ -103,6 +103,9 @@ class EventForm(forms.ModelForm):
 
 class EventEditForm(EventForm):
 
+    schedule_start = None
+    schedule_end = None
+
     def clean_schedule_start(self):
         ...
 
@@ -116,3 +119,10 @@ class EventEditForm(EventForm):
         model = Events
         fields = ['title', 'banner', 'category', 'price', 'description', 'max_audience',
                   'url_stream', 'url_homepage']
+
+
+class EventsCoverageForm(forms.Form):
+    coverage = forms.CharField(widget=forms.TextInput(
+        attrs={'class': 'input__field', 'placeholder': 'Add topics that covered... *separate with ||',
+               'spellcheck': 'false', 'id': 'coverage', 'autocomplete': 'off'}
+    ))

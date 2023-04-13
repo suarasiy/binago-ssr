@@ -148,6 +148,28 @@
       </div>
       <div class="col-span-3 flex flex-col gap-2">
         <div class="flex flex-row items-center gap-2">
+          <label
+            for="{{ forms_coverage.coverage.id_for_label }}"
+            class="cursor-pointer text-sm font-semibold text-slate-500"
+            >Event Coverage</label
+          >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="currentColor"
+            class="w-4 cursor-pointer text-slate-500 outline-none transition-all duration-150 ease-out hover:scale-110 hover:text-slate-700"
+            data-tippy-content="Events coverage. Separate with double Vertical Bars (||)."
+          >
+            <path
+              d="M12,2C6.48,2,2,6.48,2,12s4.48,10,10,10s10-4.48,10-10S17.52,2,12,2z M12.5,19h-1c-0.276,0-0.5-0.224-0.5-0.5v-1 c0-0.276,0.224-0.5,0.5-0.5h1c0.276,0,0.5,0.224,0.5,0.5v1C13,18.776,12.776,19,12.5,19z M15.07,11.25l-0.9,0.92 C13.45,12.9,13,13.5,13,15h-2v-0.5c0-1.1,0.45-2.1,1.17-2.83l1.24-1.26c0.457-0.444,0.685-1.102,0.553-1.803 c-0.135-0.717-0.688-1.327-1.389-1.526c-1.106-0.314-2.137,0.319-2.466,1.272C9.98,8.724,9.668,9,9.275,9H8.984 C8.403,9,7.997,8.436,8.159,7.878c0.429-1.472,1.681-2.593,3.225-2.831c1.524-0.235,2.969,0.549,3.873,1.799 C16.437,8.478,16.089,10.231,15.07,11.25z"
+            />
+          </svg>
+        </div>
+        {{ forms_coverage.coverage }}
+      </div>
+      <!--
+      <div class="col-span-3 flex flex-col gap-2">
+        <div class="flex flex-row items-center gap-2">
           <label class="cursor-pointer text-sm font-semibold text-slate-500">Event Schedules</label>
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -165,11 +187,6 @@
           <div class="flex flex-col gap-2">
             <label class="text-xs font-light text-slate-600">Event Start</label>
             {{ forms.schedule_start }}
-            <!--<input
-              id="schedule-start"
-              placeholder="Schedule to start"
-              class="flatpickr rounded-xl border border-slate-200 bg-white px-4 py-3 outline-none ring-0 transition-all duration-150 ease-out focus:border-transparent focus:ring-2 focus:ring-blue-500 focus:ring-offset-1"
-            />-->
             <hr />
             {% for error in forms.schedule_start.errors %}
             <p>{{ error }}</p>
@@ -179,11 +196,6 @@
           <div class="flex flex-col gap-2">
             <label class="text-xs font-light text-slate-600">Event End</label>
             {{ forms.schedule_end }}
-            <!--<input
-              id="schedule-end"
-              placeholder="Schedule to end"
-              class="flatpickr rounded-xl border border-slate-200 bg-white px-4 py-3 outline-none ring-0 transition-all duration-150 ease-out focus:border-transparent focus:ring-2 focus:ring-blue-500 focus:ring-offset-1"
-            />-->
             {% for error in forms.schedule_end.errors %}
             <p>{{ error }}</p>
             {% endfor %}
@@ -191,6 +203,7 @@
         </div>
         <small class="text-xs font-light text-slate-600">Make sure you're inputing the right schedule.</small>
       </div>
+      -->
       <div class="col-span-3 flex flex-col gap-2">
         <div class="flex flex-row items-center gap-2">
           <label for="url-stream" class="cursor-pointer text-sm font-semibold text-slate-500">URL Stream</label>

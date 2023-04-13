@@ -23,17 +23,17 @@
         <img src="{% static 'web/logo.png' %}" alt="" srcset="" class="w-40 object-contain object-center" />
         <a
           href="{% url 'settings' %}"
-          class="flex flex-row items-center gap-3 rounded-xl py-3 px-4 hover:bg-slate-300 hover:bg-opacity-30"
+          class="flex flex-row items-center gap-3 rounded-xl py-3 px-4 transition-all duration-150 ease-out hover:bg-slate-300 hover:bg-opacity-30 hover:ring-4 hover:ring-slate-300 hover:ring-opacity-30"
         >
           <img
-            src="https://cdn.myanimelist.net/images/characters/11/382745.jpg"
+            src="{% get_media_prefix %}{{ request.user.avatar }}"
             alt=""
             srcset=""
-            class="h-9 w-9 rounded-full object-cover object-center"
+            class="h-9 w-9 shrink-0 rounded-full object-cover object-center"
             draggable="false"
           />
           <div class="flex flex-col">
-            <strong class="font-quicksand text-base-field text-base font-bold">Context Galaxy</strong>
+            <strong class="font-quicksand text-base-field text-base font-bold">{{ request.user.username }}</strong>
             <small class="font-quicksand text-xs font-medium text-sky-500">Developer & Owner</small>
           </div>
         </a>

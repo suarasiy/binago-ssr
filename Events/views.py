@@ -13,8 +13,9 @@ from Associations.query import user_registered_associations, get_association_by_
 from Associations.models import AssociationsGroup
 from Associations.permissions import permission_association_is_approved, permission_member_specific_association
 
-from .models import Events
-from .forms import EventForm
+from .models import Events, EventsCoverage
+from .forms import EventForm, EventEditForm, EventsCoverageForm
+from .utils import list_no_whitespace
 if TYPE_CHECKING:
     from django.db.models import QuerySet
     from django.http import HttpResponse, HttpResponseRedirect, HttpResponsePermanentRedirect
@@ -85,17 +86,29 @@ def association_events(request, slug) -> HttpResponse:
 def events_create(request, slug) -> HttpResponse | HttpResponseRedirect | HttpResponsePermanentRedirect:
     if request.method == "POST":
         form: EventForm = EventForm(request.POST, request.FILES)
+        form_coverage: EventsCoverageForm = EventsCoverageForm(request.POST)
         group: AssociationsGroup = get_object_or_404(
             AssociationsGroup, user=request.user, association=get_association_by_slug(slug))
-        if form.is_valid():
+        if form.is_valid() and form_coverage.is_valid():
             event = form.save(commit=False)
             event.association_group = group
             event.save()
+
+            coverage_list_cleaned: List[str] = list_no_whitespace(
+                form_coverage.cleaned_data.get('coverage').split("||"))
+            coverage_list_object: List[EventsCoverage] = []
+            for coverage in coverage_list_cleaned:
+                coverage_list_object.append(EventsCoverage(
+                    event=event,
+                    coverage=coverage
+                ))
+            EventsCoverage.objects.bulk_create(coverage_list_object)
 
             messages.success(request, 'Event successfully created.')
             return redirect(reverse('associations-data-explore', kwargs={'slug': slug}))
     else:
         form: EventForm = EventForm()
+        form_coverage: EventsCoverageForm = EventsCoverageForm()
 
     template: str = pages_backend('events/create.html')
     context: FormContext = {
@@ -123,7 +136,8 @@ def events_create(request, slug) -> HttpResponse | HttpResponseRedirect | HttpRe
         'description': 'One of many gateway to opening knowledge...',
         'forms': form,
         'registered_associations': user_registered_associations(request),
-        'slug': slug
+        'slug': slug,
+        'forms_coverage': form_coverage
     }
     return render(request, template, context)
 
@@ -134,17 +148,34 @@ def events_create(request, slug) -> HttpResponse | HttpResponseRedirect | HttpRe
 @permission_member_specific_association
 def events_edit(request, slug, slug_event) -> HttpResponse | HttpResponseRedirect | HttpResponsePermanentRedirect:
     event: Events = get_object_or_404(Events, slug=slug_event)
+    event_coverage: QuerySet[EventsCoverage] = EventsCoverage.objects.filter(event=event)
 
     if request.method == "POST":
-        form: EventForm = EventForm(request.POST, request.FILES, instance=event)
-        if form.is_valid():
+        form: EventEditForm = EventEditForm(request.POST, request.FILES, instance=event)
+        form_coverage: EventsCoverageForm = EventsCoverageForm(request.POST)
+        # TODO: need to check it again later, afraid occurring some bug
+        if form.is_valid() and form_coverage.is_valid():
             form.save()
+            EventsCoverage.objects.filter(event=event).delete()
+
+            coverage_list_cleaned: List[str] = list_no_whitespace(
+                form_coverage.cleaned_data.get('coverage').split("||"))
+            coverage_list_object: List[EventsCoverage] = []
+            for coverage in coverage_list_cleaned:
+                coverage_list_object.append(EventsCoverage(
+                    event=event,
+                    coverage=coverage
+                ))
+            EventsCoverage.objects.bulk_create(coverage_list_object)
 
             messages.success(request, 'Event successfully created.')
             return redirect(reverse('associations-data-explore', kwargs={'slug': slug}))
 
     else:
-        form: EventForm = EventForm(instance=event)
+        form: EventEditForm = EventEditForm(instance=event)
+        form_coverage: EventsCoverageForm = EventsCoverageForm(data={
+            'coverage': " || ".join([obj.coverage for obj in event_coverage])
+        })
 
     template: str = pages_backend('events/edit.html')
     context: FormContext = {
@@ -172,7 +203,8 @@ def events_edit(request, slug, slug_event) -> HttpResponse | HttpResponseRedirec
         'description': 'One of many gateway to opening knowledge...',
         'forms': form,
         'registered_associations': user_registered_associations(request),
-        'slug': slug
+        'slug': slug,
+        'forms_coverage': form_coverage
     }
 
     return render(request, template, context)

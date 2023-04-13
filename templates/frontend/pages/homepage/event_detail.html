@@ -15,6 +15,24 @@
     draggable="false"
   />
   <!--  -->
+  <div class="flex flex-row items-center gap-5 px-3">
+    <span class="font-poppins text-xs font-medium text-slate-800">Updated at {{ event.updated_at|date:'M d, Y' }}</span>
+    <a
+      href=""
+      class="flex flex-row items-center gap-2 rounded-xl px-4 py-2 transition-all duration-150 ease-out hover:bg-slate-500 hover:bg-opacity-10 hover:ring-4 hover:ring-slate-500 hover:ring-opacity-10"
+    >
+      <img
+        src="{% get_media_prefix %}{{ event.association_group.user.avatar }}"
+        alt=""
+        srcset=""
+        class="h-6 w-6 shrink-0 rounded-full object-cover object-center"
+        draggable="false"
+      />
+      <span class="font-poppins text-xs font-medium text-slate-800"
+        >Created by {{ event.association_group.user.first_name }} {{ event.association_group.user.last_name }}</span
+      >
+    </a>
+  </div>
   <div class="flex flex-col gap-3 px-3">
     <div class="border-base-depth flex flex-row flex-wrap gap-3 border-y py-4">
       <!--  -->
@@ -58,9 +76,9 @@
     </div>
   </div>
   <!--  -->
-  <div class="flex flex-col gap-3 px-3">
+  <div class="flex flex-col gap-10 px-3">
     <h1 class="font-quicksand text-base-field text-xl font-bold">{{ event.title }}</h1>
-    <p class="font-poppins text-sm font-normal text-slate-600">{{ event.description }}</p>
+    <p class="font-poppins text-sm font-normal text-slate-600">{{ event.description|linebreaksbr }}</p>
   </div>
   <div class="flex flex-row flex-wrap gap-3 px-3">
     <div class="flex flex-row items-center gap-1">
@@ -92,29 +110,49 @@
     </div>
   </div>
   <!--  -->
-  <div class="flex flex-col gap-4 px-3">
-    <div class="border-base-depth flex flex-row items-center gap-3 border-y py-5">
-      <img
-        src="{% get_media_prefix %}{{ event.association_group.association.logo }}"
-        alt=""
-        srcset=""
-        class="h-14 w-14 rounded-xl object-cover object-center"
-        draggable="false"
-      />
-      <div class="flex flex-col gap-1">
-        <span class="font-quicksand text-base-field text-sm font-bold"
-          >{{ event.association_group.association.name }}</span
+  <div class="flex flex-col gap-3 rounded-xl border border-slate-300 p-5">
+    <span class="font-quicksand text-lg font-bold text-slate-700">What you'll learn</span>
+    <hr class="border-base-depth" />
+    <ul class="grid grid-cols-4 gap-4">
+      {% for coverage in event.eventscoverage_set.all %}
+      <li class="flex flex-row items-baseline gap-2 pt-3">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          class="relative top-1 h-4 w-4 shrink-0 text-green-500"
         >
-        <!-- TODO: fix it later -->
-        <span class="font-quicksand text-xs font-bold text-slate-600">0 events</span>
-      </div>
-    </div>
-    <button
-      class="font-poppins w-full rounded-xl bg-blue-500 bg-opacity-10 px-4 py-3 text-sm font-semibold uppercase text-blue-500 transition-all duration-150 ease-out hover:bg-opacity-100 hover:text-white"
-    >
-      REGISTER
-    </button>
+          <path
+            d="M12,2C6.477,2,2,6.477,2,12c0,5.523,4.477,10,10,10s10-4.477,10-10C22,6.477,17.523,2,12,2z M17.707,9.707l-7,7 C10.512,16.902,10.256,17,10,17s-0.512-0.098-0.707-0.293l-3-3c-0.391-0.391-0.391-1.023,0-1.414s1.023-0.391,1.414,0L10,14.586 l6.293-6.293c0.391-0.391,1.023-0.391,1.414,0S18.098,9.316,17.707,9.707z"
+            fill="currentColor"
+          />
+        </svg>
+        <p class="font-poppins text-sm font-normal text-slate-700">{{ coverage.coverage }}</p>
+      </li>
+      {% endfor %}
+    </ul>
   </div>
+  <!--  -->
+  <div class="border-base-depth flex flex-row items-center gap-3 border-y px-3 py-5">
+    <img
+      src="{% get_media_prefix %}{{ event.association_group.association.logo }}"
+      alt=""
+      srcset=""
+      class="h-14 w-14 shrink-0 rounded-xl object-cover object-center"
+      draggable="false"
+    />
+    <div class="flex flex-col gap-1">
+      <span class="font-quicksand text-base-field text-sm font-bold"
+        >{{ event.association_group.association.name }}</span
+      >
+      <!-- TODO: fix it later -->
+      <span class="font-quicksand text-xs font-bold text-slate-600">0 events</span>
+    </div>
+  </div>
+  <button
+    class="font-poppins bg-base-bg sticky bottom-5 z-[1] mx-3 w-fit self-end rounded-xl px-12 py-3 text-sm font-semibold uppercase text-blue-500 ring ring-blue-500 transition-all duration-150 ease-out hover:bg-blue-500 hover:text-white hover:ring-0"
+  >
+    REGISTER
+  </button>
 </div>
 
 {% endblock content %}

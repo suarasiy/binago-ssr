@@ -16,7 +16,7 @@ from django.contrib.auth.decorators import login_required
 from authentication.models import User
 from Associations.query import user_registered_associations
 
-from Events.permissions import check_eligibility_register, permission_check_eligibility_register
+from Events.permissions import check_eligibility_register, check_eligibility_user_register, check_eligibility_schedule_register, permission_check_user_eligibility, permission_check_schedule_eligibility
 from Events.models import Events, EventsUserRegistered
 from Invoices.models import InvoiceUserEventRegistered
 
@@ -32,8 +32,14 @@ if TYPE_CHECKING:
 def homepage(request) -> HttpResponse:
     template: str = pages_frontend('homepage/index.html')
     events: QuerySet[Events] = Events.objects.all().order_by('-schedule_start')
-    for event in events:
-        event.eligibility = check_eligibility_register(request, event.slug)
+    if request.user.is_authenticated:
+        for event in events:
+            event.user_eligibility = check_eligibility_user_register(request, event.slug)
+            event.schedule_eligibility = check_eligibility_schedule_register(request, event.slug)
+    else:
+        for event in events:
+            event.user_eligibility = check_eligibility_user_register(request, event.slug)
+            event.schedule_eligibility = check_eligibility_schedule_register(request, event.slug)
 
     context: HomepageContext = {
         'title': 'Binago homepage',
@@ -57,18 +63,20 @@ def event_detail(request, slug) -> HttpResponse:
 
 
 @require_http_methods(['GET', 'POST'])
-@permission_check_eligibility_register
+@permission_check_user_eligibility
+@permission_check_schedule_eligibility
 def event_register(request, slug) -> HttpResponse | HttpResponseRedirect | HttpResponsePermanentRedirect:
     event: Events = get_object_or_404(Events, slug=slug)
     # TODO: need to enhance this later
-    # register_eligibility: bool = False if EventsUserRegistered.objects.filter(user=request.user, event=event).exists() else True
     register_eligibility: bool = check_eligibility_register(request, slug)
     if request.method == "POST":
-        register_event: EventsUserRegistered = EventsUserRegistered.objects.create(
+        register_event: EventsUserRegistered
+        _: bool
+        register_event, _ = EventsUserRegistered.objects.get_or_create(
             event=event,
             user=request.user,
         )
-        invoice_register_event: InvoiceUserEventRegistered = InvoiceUserEventRegistered.objects.create(
+        InvoiceUserEventRegistered.objects.create(
             event_registered=register_event,
             price=event.price,
             discount=0,

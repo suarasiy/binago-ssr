@@ -106,6 +106,9 @@ class EventsUserRegistered(models.Model):
 
     invoiceusereventregistered_set: QuerySet[InvoiceUserEventRegistered]
 
+    def __str__(self):
+        return f'{self.user.username} - {self.event.title}'
+
     class Meta:
         verbose_name_plural: str = 'Events User Registered'
         constraints = [

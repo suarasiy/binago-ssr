@@ -35,7 +35,7 @@ import json
 
 
 def get_calendar_color(start: datetime, end: datetime) -> Literal['calendar-red', 'calendar-blue', 'calendar-green']:
-    now: datetime = datetime.today().replace(tzinfo=pytz.UTC)
+    now: datetime = timezone.localtime(datetime.today().replace(tzinfo=pytz.UTC))
     start = timezone.localtime(start)
     end = timezone.localtime(end)
     if end.date() < now.date():
@@ -51,8 +51,8 @@ def events(request) -> HttpResponse:
     events: QuerySet[Events] = Events.objects.all()
     events_collection: list[CustomEventCollectionRender] = []
     for event in events:
-        event_start: datetime = event.schedule_start.replace(tzinfo=pytz.UTC)
-        event_end: datetime = event.schedule_end.replace(tzinfo=pytz.UTC)
+        event_start: datetime = timezone.localtime(event.schedule_start.replace(tzinfo=pytz.UTC))
+        event_end: datetime = timezone.localtime(event.schedule_end.replace(tzinfo=pytz.UTC))
 
         events_collection.append({
             'title': event.title,

@@ -143,7 +143,9 @@
                 />
               </svg>
             </a>
-            {% if event.eligibility %}
+            {% if event.schedule_eligibility %}
+            <!--  -->
+            {% if event.user_eligibility %}
             <a
               href="{% url 'homepage-event-register' event.slug %}"
               class="font-poppins w-full rounded-xl bg-blue-500 bg-opacity-10 px-4 py-3 text-center text-sm font-semibold uppercase text-blue-500 transition-all duration-150 ease-out hover:bg-opacity-100 hover:text-white"
@@ -152,6 +154,16 @@
             </a>
             {% else %}
             <span class="font-quicksand font-bold capitalize text-green-500">Registered</span>
+            {% endif %}
+            <!--  -->
+            {% else %}
+            <!--  -->
+            {% if event.user_eligibility %}
+            <span class="font-quicksand font-bold capitalize text-rose-500">Event Ended</span>
+            {% else %}
+            <span class="font-quicksand text-sm font-bold capitalize text-sky-500">Event Ended And Registered</span>
+            {% endif %}
+            <!--  -->
             {% endif %}
           </div>
         </div>

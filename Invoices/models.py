@@ -36,5 +36,8 @@ class InvoiceUserEventRegistered(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    def __str__(self) -> str:
+        return f'{self.event_registered.user.username} - {self.event_registered.event.title}'
+
     class Meta:
         verbose_name_plural: str = 'Invoice for User Event Registered'

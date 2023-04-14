@@ -1,9 +1,17 @@
+from __future__ import annotations
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from django.db.models import QuerySet
+    from Invoices.models import InvoiceUserEventRegistered
+
 import pathlib
 from uuid import uuid1
 from django.db import models
 from django.db.models import SET_NULL, CASCADE
 from django.utils.text import slugify
 from Associations.models import Associations, AssociationsGroup
+from authentication.models import User
 
 
 class EventsCategories(models.Model):
@@ -88,3 +96,27 @@ class EventsCoverage(models.Model):
         constraints = [
             models.UniqueConstraint(fields=['event', 'coverage'], name='unique_event_coverage')
         ]
+
+
+class EventsUserRegistered(models.Model):
+    event = models.ForeignKey(Events, on_delete=CASCADE)
+    user = models.ForeignKey(User, on_delete=CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    invoiceusereventregistered_set: QuerySet[InvoiceUserEventRegistered]
+
+    class Meta:
+        verbose_name_plural: str = 'Events User Registered'
+        constraints = [
+            models.UniqueConstraint(fields=['event', 'user'], name='unique_user_registered')
+        ]
+
+
+class EventsAttendee(models.Model):
+    user_registered = models.OneToOneField(EventsUserRegistered, on_delete=CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name_plural: str = 'Events User Attendee'

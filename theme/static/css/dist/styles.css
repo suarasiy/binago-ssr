@@ -2321,10 +2321,6 @@ main .widget.widget--active > strong.context + p.subcon{
   padding: 0.75rem;
 }
 
-.p-4{
-  padding: 1rem;
-}
-
 .p-5{
   padding: 1.25rem;
 }
@@ -2415,6 +2411,11 @@ main .widget.widget--active > strong.context + p.subcon{
 .py-6{
   padding-top: 1.5rem;
   padding-bottom: 1.5rem;
+}
+
+.py-7{
+  padding-top: 1.75rem;
+  padding-bottom: 1.75rem;
 }
 
 .py-8{
@@ -2590,6 +2591,10 @@ main .widget.widget--active > strong.context + p.subcon{
 
 .uppercase{
   text-transform: uppercase;
+}
+
+.capitalize{
+  text-transform: capitalize;
 }
 
 .leading-6{
@@ -3738,6 +3743,16 @@ main .selectize-control .selectize-input > input{
 .focus\:placeholder\:text-blue-500:focus::placeholder{
   --tw-text-opacity: 1;
   color: rgb(94 114 228 / var(--tw-text-opacity));
+}
+
+.focus\:placeholder\:text-slate-400:focus::-moz-placeholder{
+  --tw-text-opacity: 1;
+  color: rgb(131 146 171 / var(--tw-text-opacity));
+}
+
+.focus\:placeholder\:text-slate-400:focus::placeholder{
+  --tw-text-opacity: 1;
+  color: rgb(131 146 171 / var(--tw-text-opacity));
 }
 
 .active\:scale-95:active{

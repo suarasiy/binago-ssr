@@ -20,6 +20,7 @@ urlpatterns = [
     path('__reload__/', include('django_browser_reload.urls')),
     path('', views.homepage, name='homepage'),
     path('event/<slug>/', views.event_detail, name='homepage-event-detail'),
+    path('event/<slug>/register/', views.event_register, name='homepage-event-register'),
     path('admin/', admin.site.urls),
     path('404/', views.handle_404),
     path('403/', views.handle_403),

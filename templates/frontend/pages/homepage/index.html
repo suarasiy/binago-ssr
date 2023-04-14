@@ -143,11 +143,16 @@
                 />
               </svg>
             </a>
-            <button
-              class="font-poppins w-full rounded-xl bg-blue-500 bg-opacity-10 px-4 py-3 text-sm font-semibold uppercase text-blue-500 transition-all duration-150 ease-out hover:bg-opacity-100 hover:text-white"
+            {% if event.eligibility %}
+            <a
+              href="{% url 'homepage-event-register' event.slug %}"
+              class="font-poppins w-full rounded-xl bg-blue-500 bg-opacity-10 px-4 py-3 text-center text-sm font-semibold uppercase text-blue-500 transition-all duration-150 ease-out hover:bg-opacity-100 hover:text-white"
             >
               REGISTER
-            </button>
+            </a>
+            {% else %}
+            <span class="font-quicksand font-bold capitalize text-green-500">Registered</span>
+            {% endif %}
           </div>
         </div>
       </div>

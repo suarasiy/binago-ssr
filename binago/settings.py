@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     'Events',
     'Dashboard',
     'NotificationHandler',
+    'Invoices',
     'active_link',
     'tailwind',
     'theme',

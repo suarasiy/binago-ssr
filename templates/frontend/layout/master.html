@@ -20,7 +20,18 @@
       <nav
         class="bg-base-depth sticky top-0 z-10 flex flex-row items-center justify-between rounded-b-2xl bg-opacity-80 py-3 px-6 backdrop-blur-lg"
       >
-        <img src="{% static 'web/logo.png' %}" alt="" srcset="" class="w-40 object-contain object-center" />
+        <a
+          href="{% url 'homepage' %}"
+          class="w-40 flex-shrink-0 rounded-xl py-3 px-4 transition-all duration-150 ease-out hover:bg-slate-300 hover:bg-opacity-30 hover:ring-4 hover:ring-slate-300 hover:ring-opacity-30"
+        >
+          <img
+            src="{% static 'web/logo.png' %}"
+            alt=""
+            srcset=""
+            class="w-40 object-contain object-center"
+            draggable="false"
+          />
+        </a>
         <a
           href="{% url 'settings' %}"
           class="flex flex-row items-center gap-3 rounded-xl py-3 px-4 transition-all duration-150 ease-out hover:bg-slate-300 hover:bg-opacity-30 hover:ring-4 hover:ring-slate-300 hover:ring-opacity-30"

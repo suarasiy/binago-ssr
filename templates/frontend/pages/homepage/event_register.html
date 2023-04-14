@@ -1,0 +1,67 @@
+{% extends 'frontend/layout/master.html' %}
+
+<!-- -->
+{% load static %}
+
+<!-- -->
+{% block content %}
+
+<div class="flex select-none flex-col gap-8">
+  <div class="grid grid-cols-2 gap-6">
+    <img src="{% get_media_prefix %}{{ event.banner }}" alt="" srcset="" class="w-full flex-shrink-0 rounded-xl" />
+    <div class="flex flex-col gap-3">
+      <h1 class="font-quicksand text-base-field text-lg font-bold">{{ event.title }}</h1>
+      <p class="font-quicksand text-base-sub text-sm font-medium">{{ event.description|linebreaksbr }}</p>
+    </div>
+  </div>
+  <hr class="border-base-depth" />
+  <div class="border-base-depth flex flex-col gap-4 rounded-xl border px-8 py-7">
+    <div class="flex flex-row justify-between gap-2">
+      <span class="font-quicksand text-base font-medium text-slate-800">Register Fee</span>
+      <span class="font-quicksand text-lg font-bold text-slate-900">Rp 0</span>
+    </div>
+    <div class="flex flex-row justify-between gap-2">
+      <span class="font-quicksand text-base font-medium text-slate-800">Discount (0%)</span>
+      <span class="font-quicksand text-lg font-bold text-slate-900">Rp 0</span>
+    </div>
+  </div>
+  <div class="flex flex-row justify-between gap-2 px-8">
+    <span class="font-quicksand text-base font-bold text-slate-800">Total</span>
+    <span class="font-quicksand text-lg font-bold text-slate-900">Rp 0</span>
+  </div>
+  <hr class="border-base-depth" />
+  <div class="flex flex-row items-center gap-4">
+    <input
+      type="text"
+      name=""
+      id=""
+      class="font-poppins text-base-field bg-base-depth w-full rounded-lg border-none border-transparent px-8 py-5 text-sm font-bold uppercase outline-none ring-0 ring-transparent transition-all duration-150 ease-out placeholder:text-slate-300 hover:brightness-95 focus:ring-transparent focus:placeholder:text-slate-400"
+      placeholder="Coupon Code Entry"
+    />
+    <button
+      class="font-poppins hover:shadow-container1 rounded-lg bg-blue-500 px-10 py-5 text-sm font-semibold text-white transition-all duration-150 ease-out hover:scale-95"
+    >
+      Apply
+    </button>
+  </div>
+  <hr class="border-base-depth" />
+  <div class="sticky bottom-5 z-[1] flex flex-row items-center gap-5">
+    <a
+      href="{% url 'homepage-event-detail' event.slug %}"
+      class="font-poppins hover:shadow-container1 w-fit rounded-xl bg-blue-500 bg-opacity-10 px-12 py-3 text-center text-sm font-semibold uppercase text-blue-500 transition-all duration-150 ease-out hover:bg-opacity-20"
+    >
+      DETAIL
+    </a>
+    <form method="post" class="w-full">
+      {% csrf_token %}
+      <button
+        type="submit"
+        class="font-poppins hover:shadow-container1 w-full rounded-xl bg-blue-500 px-12 py-3 text-center text-sm font-semibold uppercase text-white transition-all duration-150 ease-out"
+      >
+        REGISTER
+      </button>
+    </form>
+  </div>
+</div>
+
+{% endblock content %}

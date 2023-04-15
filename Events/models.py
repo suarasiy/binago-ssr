@@ -13,6 +13,8 @@ from django.utils.text import slugify
 from Associations.models import Associations, AssociationsGroup
 from authentication.models import User
 
+from .utils import compress_image
+
 
 class EventsCategories(models.Model):
     category = models.CharField(max_length=80, db_index=True, unique=True)
@@ -37,10 +39,18 @@ def banner_events_upload_handler(instance, filename):
     return f"events/banner/{instance.slug}_{fname}{fpath.suffix}"
 
 
+def banner_lazy_events_upload_handler(instance, filename):
+    fpath = pathlib.Path(filename)
+    fname = str(uuid1())
+    return f"events/banner/lazy/{instance.slug}_{fname}{fpath.suffix}"
+
+
 class Events(models.Model):
     association_group = models.ForeignKey(AssociationsGroup, on_delete=models.SET_NULL, blank=True, null=True)
     title = models.CharField(max_length=200, db_index=True, unique=True)
     banner = models.ImageField(upload_to=banner_events_upload_handler, max_length=500)
+    banner_lazy = models.ImageField(upload_to=banner_lazy_events_upload_handler,
+                                    max_length=500, default=None, blank=True, null=True)
     category = models.ForeignKey(EventsCategories, on_delete=SET_NULL, blank=True, null=True)
     slug = models.SlugField(max_length=200, unique=True)
     price = models.PositiveIntegerField()
@@ -56,6 +66,7 @@ class Events(models.Model):
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.title, allow_unicode=True)
+        self.banner_lazy = compress_image(self.banner)
         return super().save(*args, **kwargs)
 
     def __str__(self):

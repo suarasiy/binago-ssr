@@ -18,9 +18,21 @@ if TYPE_CHECKING:
 
 urlpatterns = [
     path('__reload__/', include('django_browser_reload.urls')),
-    path('', views.homepage, name='homepage'),
-    path('event/<slug>/', views.event_detail, name='homepage-event-detail'),
-    path('event/<slug>/register/', views.event_register, name='homepage-event-register'),
+    path('', views.index, name='homepage'),
+    path('timeline/', views.timeline, name='homepage-timeline'),
+    path('upcoming/', include([
+        path('', views.homepage, name='homepage-event-upcoming'),
+    ])),
+    path('event/', include([
+        path('', views.index, name='homepage-event'),
+        path('<slug>/', include([
+            path('', views.event_detail, name='homepage-event-detail'),
+            path('register/', views.event_register, name='homepage-event-register'),
+        ])),
+    ])),
+    path('past/', include([
+        path('', views.homepage_past, name='homepage-event-past'),
+    ])),
     path('admin/', admin.site.urls),
     path('404/', views.handle_404),
     path('403/', views.handle_403),

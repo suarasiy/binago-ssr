@@ -8,6 +8,7 @@ if TYPE_CHECKING:
 
     class HomepageContext(ContextHomepage):
         events: QuerySet[Events]
+        categories: list
 
     class EventDetailContext(ContextHomepage):
         event: Events

@@ -286,3 +286,27 @@ main .selectize-control .selectize-input > input {
 .fr .report__error__icon a {
   @apply text-base-field underline underline-offset-1;
 }
+
+.fr .navside {
+  @apply relative flex flex-row items-center justify-end gap-2 rounded-l-lg bg-transparent py-3 pl-2 pr-4 transition-all duration-150 ease-out;
+}
+
+.fr .navside.navside--active {
+  @apply bg-base-depth ease-out after:absolute after:right-0 after:h-full after:w-[2px] after:bg-slate-700 after:content-[''];
+}
+
+.fr .container__group {
+  @apply rounded-xl border border-slate-container bg-slate-container bg-opacity-10 p-5 font-dmSans text-slate-900;
+}
+
+.fr .event_grid {
+  @apply relative grid grid-cols-3 gap-8;
+}
+
+.fr .event_grid .event_card {
+  @apply relative flex flex-col gap-4 overflow-hidden rounded-2xl bg-white shadow-container1 transition-all duration-150 ease-out;
+}
+
+.fr .image__blur {
+  @apply animate-pulse blur-xl;
+}

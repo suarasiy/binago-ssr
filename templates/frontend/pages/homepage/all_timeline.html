@@ -1,0 +1,69 @@
+{% extends 'frontend/layout/master.html' %}
+
+<!-- -->
+{% load static %}
+
+<!-- -->
+{% block content %}
+<div class="flex flex-col gap-8">
+  <div class="flex flex-col gap-3">
+    <h1 class="font-quicksand text-xl font-bold text-slate-800">Monthly Registered Event Schedules</h1>
+    <p class="font-poppins text-base-sub text-sm font-normal">
+      You can change the view of timelines calendar by list, monthly, weekly, or daily.
+    </p>
+  </div>
+  <hr class="border-base-depth" />
+  <div class="container__group flex flex-col gap-3">
+    <div id="calendar" class="calendar"></div>
+    <div class="flex flex-row items-center gap-5">
+      <div class="flex flex-row items-center gap-2">
+        <div class="h-2 w-2 rounded-sm bg-orange-500"></div>
+        <span class="font-poppins text-sm font-medium text-slate-700">Previous Events</span>
+      </div>
+      <div class="flex flex-row items-center gap-2">
+        <div class="h-2 w-2 rounded-sm bg-sky-500"></div>
+        <span class="font-poppins text-sm font-medium text-slate-700">Today Events</span>
+      </div>
+      <div class="flex flex-row items-center gap-2">
+        <div class="h-2 w-2 rounded-sm bg-green-500"></div>
+        <span class="font-poppins text-sm font-medium text-slate-700">Upcoming Events</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<input type="hidden" value="{{ timeline }}" id="timeline" />
+{% endblock content %}
+
+<!--  -->
+
+{% block js %}
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.5/index.global.min.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const timeline = document.querySelector('#timeline').value;
+    var calendarEl = document.getElementById('calendar');
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+      initialView: 'listMonth',
+      headerToolbar: {
+        left: 'prev,next today',
+        center: 'title',
+        right: 'listMonth,dayGridMonth,timeGridWeek,timeGridDay',
+      },
+      showNonCurrentDates: false,
+      selectable: true,
+      nowIndicator: true,
+      events: JSON.parse(timeline),
+      eventDidMount: (info) => {
+        if (info.event.extendedProps.customRender) {
+          info.el.classList.add('calendar__event');
+        }
+        if (info.event.extendedProps.customRender && info.event.extendedProps.colorStyle) {
+          info.el.classList.add(info.event.extendedProps.colorStyle);
+        }
+      },
+    });
+    calendar.render();
+  });
+</script>
+{% endblock %}

@@ -1,17 +1,32 @@
 from __future__ import annotations
 from typing import TYPE_CHECKING
 
+if TYPE_CHECKING:
+    from typing import TypedDict, Literal
+    from datetime import datetime
+
+    CustomEventCollectionRender = TypedDict(
+        '_', {
+            'title': str,
+            'start': str,
+            'end': str,
+            'customRender': bool,
+            'colorStyle': Literal['calendar-red', 'calendar-blue', 'calendar-green'],
+        }
+    )
+
 from .utils import pages_testing, pages_backend, pages_frontend, pages_handler
 
 from django.contrib import messages
 
 from django.urls import reverse
-from django.utils import dateformat
+from django.utils import dateformat, timezone
 from django.http import HttpResponseNotFound
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.http import require_http_methods
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
+from datetime import datetime
 
 from authentication.models import User
 from Associations.query import user_registered_associations
@@ -19,6 +34,9 @@ from Associations.query import user_registered_associations
 from Events.permissions import check_eligibility_register, check_eligibility_user_register, check_eligibility_schedule_register, permission_check_user_eligibility, permission_check_schedule_eligibility
 from Events.models import Events, EventsUserRegistered
 from Invoices.models import InvoiceUserEventRegistered
+
+import json
+import pytz
 
 if TYPE_CHECKING:
     from django.db.models import QuerySet
@@ -28,10 +46,26 @@ if TYPE_CHECKING:
     )
 
 
+def get_calendar_color(start: datetime, end: datetime) -> Literal['calendar-red', 'calendar-blue', 'calendar-green']:
+    now: datetime = timezone.localtime(datetime.today().replace(tzinfo=pytz.UTC))
+    start = timezone.localtime(start)
+    end = timezone.localtime(end)
+    if end.date() < now.date():
+        return 'calendar-red'
+    if start.date() == now.date() or end.date() == now.date():
+        return 'calendar-blue'
+    return 'calendar-green'
+
+
+def index(request) -> HttpResponseRedirect | HttpResponsePermanentRedirect:
+    return redirect(reverse('homepage-event-upcoming'))
+
+
 @require_http_methods(['GET'])
 def homepage(request) -> HttpResponse:
     template: str = pages_frontend('homepage/index.html')
-    events: QuerySet[Events] = Events.objects.all().order_by('-schedule_start')
+    now: datetime = timezone.localtime(timezone.now())
+    events: QuerySet[Events] = Events.objects.filter(schedule_start__gte=now).order_by('-schedule_start')
     if request.user.is_authenticated:
         for event in events:
             event.user_eligibility = check_eligibility_user_register(request, event.slug)
@@ -41,10 +75,58 @@ def homepage(request) -> HttpResponse:
             event.user_eligibility = check_eligibility_user_register(request, event.slug)
             event.schedule_eligibility = check_eligibility_schedule_register(request, event.slug)
 
+    _: list = ['Business', 'Illustration', 'UI/UX Design', 'Web Development', 'Data Science', 'Big Data', 'Frontend Development', 'Backend Development',
+               'Network Security', 'Developer Operations', 'Origami', 'Handcraft', 'Language', 'Rest API']
+
     context: HomepageContext = {
         'title': 'Binago homepage',
         'description': 'Explore the events.',
         'events': events,
+        'categories': _
+    }
+    return render(request, template, context)
+
+
+@require_http_methods(['GET'])
+def homepage_past(request) -> HttpResponse:
+    template: str = pages_frontend('homepage/index_past.html')
+    now: datetime = timezone.localtime(timezone.now())
+    events: QuerySet[Events] = Events.objects.filter(schedule_start__lte=now).order_by('-schedule_start')
+    for event in events:
+        event.user_eligibility = check_eligibility_user_register(request, event.slug)
+        event.schedule_eligibility = False
+
+    _: list = ['Business', 'Illustration', 'UI/UX Design', 'Web Development', 'Data Science', 'Big Data', 'Frontend Development', 'Backend Development',
+               'Network Security', 'Developer Operations', 'Origami', 'Handcraft', 'Language', 'Rest API']
+
+    context: HomepageContext = {
+        'title': 'Binago Past Events',
+        'description': 'Explore events archive.',
+        'events': events,
+        'categories': _
+    }
+    return render(request, template, context)
+
+
+@require_http_methods(['GET'])
+def timeline(request) -> HttpResponse:
+    template: str = pages_frontend('homepage/all_timeline.html')
+    now_month: int = timezone.localtime(timezone.now()).month
+    events: QuerySet[Events] = Events.objects.filter(schedule_start__month=now_month)
+    timelines: list[CustomEventCollectionRender] = []
+
+    for event in events:
+        timelines.append({
+            'title': event.title,
+            'start': str(event.schedule_start),
+            'end': str(event.schedule_end),
+            'customRender': True,
+            'colorStyle': get_calendar_color(event.schedule_start, event.schedule_end)
+        })
+
+    context = {
+        'timeline': json.dumps(timelines),
+        'today': timezone.localtime(timezone.now())
     }
     return render(request, template, context)
 

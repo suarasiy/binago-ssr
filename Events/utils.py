@@ -4,16 +4,26 @@ from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from typing import List
 
-from .models import Events, EventsUserRegistered
 from django.shortcuts import get_object_or_404
 from django.db.models import Q
+from django.core.files.uploadedfile import InMemoryUploadedFile
+
+from PIL import Image
+from io import BytesIO
 
 
 def list_no_whitespace(n) -> List:
     return [x.strip() for x in n if x.strip()]
 
 
-# def check_eligibility_register(request, slug: str) -> bool:
-#     event: Events = get_object_or_404(request, slug=slug)
-#     register_sheets: EventsUserRegistered = get_object_or_404(EventsUserRegistered, user=request.user, event=event)
-#     return False if register_sheets.invoiceusereventregistered_set.filter(Q(status='WAITING') | Q(status='SUCCESS')).exists() else True
+def compress_image(request_image) -> InMemoryUploadedFile:
+    with Image.open(request_image) as image:
+        image = image.convert('RGB')
+        bytes_io = BytesIO()
+        image.save(bytes_io, format='JPEG', quality=3)
+
+        image_compressed = InMemoryUploadedFile(
+            bytes_io, None, 'compressed.jpeg', 'image/jpeg', bytes_io.tell(), None
+        )
+
+    return image_compressed

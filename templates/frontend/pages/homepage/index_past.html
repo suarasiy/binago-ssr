@@ -47,15 +47,12 @@
           />
           <span
             class="bg-base-field font-quicksand absolute right-0 -translate-y-2/4 rounded-l-lg px-3 py-2 text-xs font-semibold text-white"
-            >in {{ event.schedule_start|timeuntil }}</span
+            >{{ event.schedule_end|timesince }} ago</span
           >
         </div>
         <div class="flex h-full flex-col gap-5 py-4 px-5">
           <div class="flex flex-row flex-wrap items-center gap-2">
             <span class="bg-base-field font-dmSans rounded-lg py-1 px-2 text-xs font-semibold text-white">GRATIS</span>
-            <span class="bg-base-field font-dmSans rounded-lg py-1 px-2 text-xs font-semibold text-white"
-              >MASIH TERBUKA</span
-            >
             <span class="bg-base-field font-dmSans rounded-lg py-1 px-2 text-xs font-semibold text-white">IT</span>
           </div>
           <div class="flex h-full flex-col gap-1">

@@ -47,6 +47,7 @@ module.exports = {
         base: {
           bg: '#EFF3FF',
           depth: '#E3E8F8',
+          pressure: '#D7DDF4',
           field: '#272D3D',
           sub: '#788196',
           smoke: '#F0F0F0',

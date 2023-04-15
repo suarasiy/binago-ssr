@@ -16,13 +16,14 @@
     <title>Binago Homepage</title>
   </head>
   <body class="fr bg-base-bg relative flex h-auto w-full select-none flex-col items-center">
-    <div class="mt-10 flex min-w-[82rem] max-w-screen-2xl flex-col gap-5 border-yellow-500">
+    <div class="mt-10 flex min-w-[1536px] max-w-screen-2xl flex-col gap-5 border-yellow-500">
       <nav
         class="bg-base-depth sticky top-0 z-10 flex flex-row items-center justify-between rounded-b-2xl bg-opacity-80 py-3 px-6 backdrop-blur-lg"
       >
         <a
           href="{% url 'homepage' %}"
-          class="w-40 flex-shrink-0 rounded-xl py-3 px-4 transition-all duration-150 ease-out hover:bg-slate-300 hover:bg-opacity-30 hover:ring-4 hover:ring-slate-300 hover:ring-opacity-30"
+          class="w-40 flex-shrink-0 rounded-xl py-3 px-4 outline-none transition-all duration-150 ease-out hover:bg-slate-300 hover:bg-opacity-30 hover:ring-4 hover:ring-slate-300 hover:ring-opacity-30"
+          tabindex="-1"
         >
           <img
             src="{% static 'web/logo.png' %}"
@@ -34,7 +35,8 @@
         </a>
         <a
           href="{% url 'settings' %}"
-          class="flex flex-row items-center gap-3 rounded-xl py-3 px-4 transition-all duration-150 ease-out hover:bg-slate-300 hover:bg-opacity-30 hover:ring-4 hover:ring-slate-300 hover:ring-opacity-30"
+          class="flex flex-row items-center gap-3 rounded-xl py-3 px-4 outline-none transition-all duration-150 ease-out hover:bg-slate-300 hover:bg-opacity-30 hover:ring-4 hover:ring-slate-300 hover:ring-opacity-30"
+          tabindex="-1"
         >
           <img
             src="{% get_media_prefix %}{{ request.user.avatar }}"
@@ -66,5 +68,8 @@
         <!-- end right -->
       </div>
     </div>
+    {% block js%}
+    <!-- -->
+    {% endblock %}
   </body>
 </html>

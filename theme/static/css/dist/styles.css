@@ -1305,6 +1305,10 @@ main .widget.widget--active > strong.context + p.subcon{
   margin-top: 2.5rem;
 }
 
+.mt-12{
+  margin-top: 3rem;
+}
+
 .mt-2{
   margin-top: 0.5rem;
 }
@@ -1495,6 +1499,10 @@ main .widget.widget--active > strong.context + p.subcon{
   width: 4rem;
 }
 
+.w-2{
+  width: 0.5rem;
+}
+
 .w-2\/5{
   width: 40%;
 }
@@ -1598,6 +1606,10 @@ main .widget.widget--active > strong.context + p.subcon{
 
 .min-w-\[150px\]{
   min-width: 150px;
+}
+
+.min-w-\[1536px\]{
+  min-width: 1536px;
 }
 
 .min-w-\[15rem\]{
@@ -1723,6 +1735,16 @@ main .widget.widget--active > strong.context + p.subcon{
 
 .transform{
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+
+@keyframes pulse{
+  50%{
+    opacity: .5;
+  }
+}
+
+.animate-pulse{
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 
 .cursor-pointer{
@@ -1905,6 +1927,10 @@ main .widget.widget--active > strong.context + p.subcon{
   border-radius: 0.375rem;
 }
 
+.rounded-sm{
+  border-radius: 0.125rem;
+}
+
 .rounded-xl{
   border-radius: 0.75rem;
 }
@@ -2078,6 +2104,11 @@ main .widget.widget--active > strong.context + p.subcon{
   background-color: rgb(0 0 0 / var(--tw-bg-opacity));
 }
 
+.bg-blue-100{
+  --tw-bg-opacity: 1;
+  background-color: rgb(219 234 254 / var(--tw-bg-opacity));
+}
+
 .bg-blue-400{
   --tw-bg-opacity: 1;
   background-color: rgb(96 165 250 / var(--tw-bg-opacity));
@@ -2128,6 +2159,11 @@ main .widget.widget--active > strong.context + p.subcon{
   background-color: rgb(245 245 245 / var(--tw-bg-opacity));
 }
 
+.bg-orange-500{
+  --tw-bg-opacity: 1;
+  background-color: rgb(251 99 64 / var(--tw-bg-opacity));
+}
+
 .bg-red-50{
   --tw-bg-opacity: 1;
   background-color: rgb(254 242 242 / var(--tw-bg-opacity));
@@ -2146,6 +2182,11 @@ main .widget.widget--active > strong.context + p.subcon{
 .bg-sky-200{
   --tw-bg-opacity: 1;
   background-color: rgb(186 230 253 / var(--tw-bg-opacity));
+}
+
+.bg-sky-500{
+  --tw-bg-opacity: 1;
+  background-color: rgb(14 165 233 / var(--tw-bg-opacity));
 }
 
 .bg-slate-100{
@@ -2190,11 +2231,6 @@ main .widget.widget--active > strong.context + p.subcon{
 .bg-zinc-50{
   --tw-bg-opacity: 1;
   background-color: rgb(250 250 250 / var(--tw-bg-opacity));
-}
-
-.bg-blue-100{
-  --tw-bg-opacity: 1;
-  background-color: rgb(219 234 254 / var(--tw-bg-opacity));
 }
 
 .bg-opacity-10{
@@ -2330,6 +2366,10 @@ main .widget.widget--active > strong.context + p.subcon{
   padding: 0.75rem;
 }
 
+.p-4{
+  padding: 1rem;
+}
+
 .p-5{
   padding: 1.25rem;
 }
@@ -2440,6 +2480,10 @@ main .widget.widget--active > strong.context + p.subcon{
 .py-\[2px\]{
   padding-top: 2px;
   padding-bottom: 2px;
+}
+
+.pb-10{
+  padding-bottom: 2.5rem;
 }
 
 .pb-12{
@@ -3262,6 +3306,93 @@ main .selectize-control .selectize-input > input{
   text-underline-offset: 1px;
 }
 
+.fr .navside{
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  border-top-left-radius: 0.5rem;
+  border-bottom-left-radius: 0.5rem;
+  background-color: transparent;
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+  padding-left: 0.5rem;
+  padding-right: 1rem;
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+  transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
+}
+
+.fr .navside.navside--active{
+  --tw-bg-opacity: 1;
+  background-color: rgb(227 232 248 / var(--tw-bg-opacity));
+  transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
+}
+
+.fr .navside.navside--active::after{
+  position: absolute;
+  right: 0px;
+  height: 100%;
+  width: 2px;
+  --tw-bg-opacity: 1;
+  background-color: rgb(52 71 103 / var(--tw-bg-opacity));
+  --tw-content: '';
+  content: var(--tw-content);
+}
+
+.fr .container__group{
+  border-radius: 0.75rem;
+  border-width: 1px;
+  --tw-border-opacity: 1;
+  border-color: rgb(217 224 242 / var(--tw-border-opacity));
+  background-color: rgb(217 224 242 / var(--tw-bg-opacity));
+  --tw-bg-opacity: 0.1;
+  padding: 1.25rem;
+  font-family: "DM Sans", Poppins, Inter, "Sans Serif";
+  --tw-text-opacity: 1;
+  color: rgb(5 17 57 / var(--tw-text-opacity));
+}
+
+.fr .event_grid{
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 2rem;
+}
+
+.fr .event_grid .event_card{
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  overflow: hidden;
+  border-radius: 1rem;
+  --tw-bg-opacity: 1;
+  background-color: rgb(255 255 255 / var(--tw-bg-opacity));
+  --tw-shadow: 0px 14px 19px -8px #00000005, 0px 14px 34px -20px #0000000f;
+  --tw-shadow-colored: 0px 14px 19px -8px var(--tw-shadow-color), 0px 14px 34px -20px var(--tw-shadow-color);
+  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+  transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
+}
+
+@keyframes pulse{
+  50%{
+    opacity: .5;
+  }
+}
+
+.fr .image__blur{
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  --tw-blur: blur(24px);
+  filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
+}
+
 .file\:overflow-hidden::file-selector-button{
   overflow: hidden;
 }
@@ -3466,9 +3597,19 @@ main .selectize-control .selectize-input > input{
   border-color: transparent;
 }
 
+.hover\:bg-base-pressure:hover{
+  --tw-bg-opacity: 1;
+  background-color: rgb(215 221 244 / var(--tw-bg-opacity));
+}
+
 .hover\:bg-black:hover{
   --tw-bg-opacity: 1;
   background-color: rgb(0 0 0 / var(--tw-bg-opacity));
+}
+
+.hover\:bg-blue-200:hover{
+  --tw-bg-opacity: 1;
+  background-color: rgb(191 219 254 / var(--tw-bg-opacity));
 }
 
 .hover\:bg-blue-500:hover{
@@ -3509,11 +3650,6 @@ main .selectize-control .selectize-input > input{
 .hover\:bg-white:hover{
   --tw-bg-opacity: 1;
   background-color: rgb(255 255 255 / var(--tw-bg-opacity));
-}
-
-.hover\:bg-blue-200:hover{
-  --tw-bg-opacity: 1;
-  background-color: rgb(191 219 254 / var(--tw-bg-opacity));
 }
 
 .hover\:bg-opacity-10:hover{

@@ -1,12 +1,15 @@
 {% load static %}
 
+<!-- -->
+{% load active_link_tags %}
+
 <nav
   class="border-base-depth sticky top-24 flex h-[calc(100vh-12rem)] min-w-[15rem] shrink-0 flex-col justify-between border-r py-3 pl-3"
 >
   <div class="flex flex-col">
     <a
-      href="#"
-      class="group relative flex flex-row items-center justify-end gap-2 rounded-l-lg bg-transparent py-3 pl-2 pr-4 transition-all duration-150 ease-out"
+      href="{% url 'homepage-timeline' %}"
+      class="navside {% active_link 'homepage-timeline' 'navside--active' strict=True %} group"
     >
       <span
         class="font-quicksand text-base font-bold text-slate-900 transition-all duration-150 ease-out group-hover:mr-2"
@@ -34,8 +37,8 @@
       </svg>
     </a>
     <a
-      href="{% url 'homepage' %}"
-      class="bg-base-depth group relative flex flex-row items-center justify-end gap-2 rounded-l-lg py-3 pl-2 pr-4 transition-all duration-150 ease-out after:absolute after:right-0 after:h-full after:w-[2px] after:bg-slate-700 after:content-['']"
+      href="{% url 'homepage-event-upcoming' %}"
+      class="navside {% active_link 'homepage-event-upcoming' 'navside--active' %} group"
     >
       <span
         class="font-quicksand text-base font-bold text-slate-900 transition-all duration-150 ease-out group-hover:mr-2"
@@ -65,10 +68,7 @@
         />
       </svg>
     </a>
-    <a
-      href="#"
-      class="group relative flex flex-row items-center justify-end gap-2 rounded-l-lg bg-transparent py-3 pl-2 pr-4 transition-all duration-150 ease-out"
-    >
+    <a href="#" class="navside group">
       <span
         class="font-quicksand text-base font-bold text-slate-900 transition-all duration-150 ease-out group-hover:mr-2"
         >Today</span
@@ -127,8 +127,8 @@
       </svg>
     </a>
     <a
-      href="#"
-      class="group relative flex flex-row items-center justify-end gap-2 rounded-l-lg bg-transparent py-3 pl-2 pr-4 transition-all duration-150 ease-out"
+      href="{% url 'homepage-event-past' %}"
+      class="navside {% active_link 'homepage-event-past' 'navside--active' %} group"
     >
       <span
         class="font-quicksand text-base font-bold text-slate-900 transition-all duration-150 ease-out group-hover:mr-2"
@@ -176,10 +176,7 @@
     </a>
     <hr class="border-base-depth" />
     <!-- TODO: change it later -->
-    <a
-      href="{% url 'settings' %}"
-      class="group relative flex flex-row items-center justify-end gap-2 rounded-l-lg bg-transparent py-3 pl-2 pr-4 transition-all duration-150 ease-out"
-    >
+    <a href="{% url 'settings' %}" class="navside group">
       <span
         class="font-quicksand text-base font-bold text-slate-900 transition-all duration-150 ease-out group-hover:mr-2"
         >{{ request.user.username }}</span

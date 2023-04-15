@@ -23,7 +23,16 @@
 
   /* preserve class utils */
   .calendar .calendar__event {
-    @apply rounded-lg border-none px-2 py-1 font-openSans text-sm font-semibold text-white;
+    @apply rounded-lg border-none px-2 py-1 font-openSans text-sm font-semibold text-white transition-all duration-150 ease-out;
+  }
+  .calendar .calendar__event td {
+    @apply transition-all duration-150 ease-out;
+  }
+  .calendar .calendar__event:hover td {
+    @apply bg-base-darker;
+  }
+  .calendar .calendar__event:hover {
+    @apply brightness-95;
   }
   .calendar .calendar__event.calendar-orange {
     @apply bg-gradient-to-tl from-orange-500 to-yellow-500;

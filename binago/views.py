@@ -12,6 +12,7 @@ if TYPE_CHECKING:
             'end': str,
             'customRender': bool,
             'colorStyle': Literal['calendar-red', 'calendar-blue', 'calendar-green'],
+            'url': str
         }
     )
 
@@ -24,6 +25,7 @@ from django.utils import dateformat, timezone
 from django.http import HttpResponseNotFound
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.http import require_http_methods
+from django.core.paginator import Paginator
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 from datetime import datetime
@@ -47,9 +49,9 @@ if TYPE_CHECKING:
 
 
 def get_calendar_color(start: datetime, end: datetime) -> Literal['calendar-red', 'calendar-blue', 'calendar-green']:
-    now: datetime = timezone.localtime(datetime.today().replace(tzinfo=pytz.UTC))
-    start = timezone.localtime(start)
-    end = timezone.localtime(end)
+    now: datetime = timezone.localtime(timezone.now().replace(tzinfo=pytz.UTC))
+    start = timezone.localtime(start.replace(tzinfo=pytz.UTC))
+    end = timezone.localtime(end.replace(tzinfo=pytz.UTC))
     if end.date() < now.date():
         return 'calendar-red'
     if start.date() == now.date() or end.date() == now.date():
@@ -61,51 +63,99 @@ def index(request) -> HttpResponseRedirect | HttpResponsePermanentRedirect:
     return redirect(reverse('homepage-event-upcoming'))
 
 
+def stub_homepage_events(request, events: QuerySet[Events], max_item_per_page: int, _type: Literal['UPCOMING', 'TODAY', 'PAST']) -> HomepageContext:
+    page: int = int(request.GET.get('page', 1))
+    now: datetime = timezone.localtime(timezone.now())
+    for event in events:
+        event.user_eligibility = check_eligibility_user_register(request, event.slug)
+        if timezone.localtime(event.schedule_end.replace(tzinfo=pytz.UTC)) < now:
+            event.schedule_eligibility = False
+        else:
+            event.schedule_eligibility = check_eligibility_schedule_register(request, event.slug)
+
+    _: list = ['Business', 'Illustration', 'UI/UX Design', 'Web Development', 'Data Science', 'Big Data', 'Frontend Development', 'Backend Development',
+               'Network Security', 'Developer Operations', 'Origami', 'Handcraft', 'Language', 'Rest API']
+
+    cluster_events = Paginator(events, max_item_per_page)
+    return {
+        'title': 'Binago Past Events',
+        'description': 'Explore events archive.',
+        'events': cluster_events.page(page),
+        'categories': _,
+        'has_next': page + 1 if cluster_events.page(page).has_next() else False,
+        'has_previous': page - 1 if cluster_events.page(page).has_previous() else False,
+        'type': _type
+    }
+
+
 @require_http_methods(['GET'])
 def homepage(request) -> HttpResponse:
     template: str = pages_frontend('homepage/index.html')
     now: datetime = timezone.localtime(timezone.now())
     events: QuerySet[Events] = Events.objects.filter(schedule_start__gte=now).order_by('-schedule_start')
-    if request.user.is_authenticated:
-        for event in events:
-            event.user_eligibility = check_eligibility_user_register(request, event.slug)
-            event.schedule_eligibility = check_eligibility_schedule_register(request, event.slug)
-    else:
-        for event in events:
-            event.user_eligibility = check_eligibility_user_register(request, event.slug)
-            event.schedule_eligibility = check_eligibility_schedule_register(request, event.slug)
 
-    _: list = ['Business', 'Illustration', 'UI/UX Design', 'Web Development', 'Data Science', 'Big Data', 'Frontend Development', 'Backend Development',
-               'Network Security', 'Developer Operations', 'Origami', 'Handcraft', 'Language', 'Rest API']
-
-    context: HomepageContext = {
-        'title': 'Binago homepage',
-        'description': 'Explore the events.',
-        'events': events,
-        'categories': _
-    }
+    context: HomepageContext = stub_homepage_events(request, events, 6, 'UPCOMING')
+    context['title'] = 'Binago Homepage | Upcoming'
+    context['description'] = 'Explore the upcoming events.'
     return render(request, template, context)
+
+    # page: int = request.GET.get('page', 1)
+
+    # for event in events:
+    #     event.user_eligibility = check_eligibility_user_register(request, event.slug)
+    #     event.schedule_eligibility = check_eligibility_schedule_register(request, event.slug)
+
+    # _: list = ['Business', 'Illustration', 'UI/UX Design', 'Web Development', 'Data Science', 'Big Data', 'Frontend Development', 'Backend Development',
+    #            'Network Security', 'Developer Operations', 'Origami', 'Handcraft', 'Language', 'Rest API']
+
+    # cluster_events = Paginator(events, 6)
+
+    # context: HomepageContext = {
+    #     'title': 'Binago homepage',
+    #     'description': 'Explore the events.',
+    #     'events': cluster_events.page(page),
+    #     'categories': _,
+    #     'has_next': page + 1 if cluster_events.page(page).has_next() else False,
+    #     'has_previous': page - 1 if cluster_events.page(page).has_previous() else False,
+    # }
+    # return render(request, template, context)
 
 
 @require_http_methods(['GET'])
 def homepage_past(request) -> HttpResponse:
-    template: str = pages_frontend('homepage/index_past.html')
+    template: str = pages_frontend('homepage/index.html')
     now: datetime = timezone.localtime(timezone.now())
     events: QuerySet[Events] = Events.objects.filter(schedule_start__lte=now).order_by('-schedule_start')
-    for event in events:
-        event.user_eligibility = check_eligibility_user_register(request, event.slug)
-        event.schedule_eligibility = False
-
-    _: list = ['Business', 'Illustration', 'UI/UX Design', 'Web Development', 'Data Science', 'Big Data', 'Frontend Development', 'Backend Development',
-               'Network Security', 'Developer Operations', 'Origami', 'Handcraft', 'Language', 'Rest API']
-
-    context: HomepageContext = {
-        'title': 'Binago Past Events',
-        'description': 'Explore events archive.',
-        'events': events,
-        'categories': _
-    }
+    context: HomepageContext = stub_homepage_events(request, events, 6, 'PAST')
+    context['title'] = 'Binago Homepage | Past'
+    context['description'] = 'Explore the archived events.'
     return render(request, template, context)
+
+    # page: int = int(request.GET.get('page', 1))
+    # template: str = pages_frontend('homepage/index_past.html')
+    # now: datetime = timezone.localtime(timezone.now())
+    # events: QuerySet[Events] = Events.objects.filter(schedule_start__lte=now).order_by('-schedule_start')
+    # for event in events:
+    #     event.user_eligibility = check_eligibility_user_register(request, event.slug)
+    #     event.schedule_eligibility = False
+
+    # _: list = ['Business', 'Illustration', 'UI/UX Design', 'Web Development', 'Data Science', 'Big Data', 'Frontend Development', 'Backend Development',
+    #            'Network Security', 'Developer Operations', 'Origami', 'Handcraft', 'Language', 'Rest API']
+
+    # cluster_events = Paginator(events, 6)
+
+    # context: HomepageContext = {
+    #     'title': 'Binago Past Events',
+    #     'description': 'Explore events archive.',
+    #     'events': cluster_events.page(page),
+    #     'categories': _,
+    #     'has_next': page + 1 if cluster_events.page(page).has_next() else False,
+    #     'has_previous': page - 1 if cluster_events.page(page).has_previous() else False,
+    # }
+    # return render(request, template, context)
+
+# @require_http_methods(['GET'])
+# def homepage_today(request) -> HttpResponse:
 
 
 @require_http_methods(['GET'])
@@ -118,10 +168,11 @@ def timeline(request) -> HttpResponse:
     for event in events:
         timelines.append({
             'title': event.title,
-            'start': str(event.schedule_start),
-            'end': str(event.schedule_end),
+            'start': str(timezone.localtime(event.schedule_start.replace(tzinfo=pytz.UTC))),
+            'end': str(timezone.localtime(event.schedule_end.replace(tzinfo=pytz.UTC))),
             'customRender': True,
-            'colorStyle': get_calendar_color(event.schedule_start, event.schedule_end)
+            'colorStyle': get_calendar_color(event.schedule_start, event.schedule_end),
+            'url': reverse('homepage-event-detail', kwargs={'slug': event.slug})
         })
 
     context = {
@@ -144,6 +195,7 @@ def event_detail(request, slug) -> HttpResponse:
     return render(request, template, context)
 
 
+@login_required
 @require_http_methods(['GET', 'POST'])
 @permission_check_user_eligibility
 @permission_check_schedule_eligibility
@@ -225,7 +277,7 @@ def signin(request) -> HttpResponse:
 @require_http_methods(['POST'])
 def signout(request) -> HttpResponseRedirect | HttpResponsePermanentRedirect:
     logout(request)
-    return redirect('login')  # TODO: change it later
+    return redirect(reverse('homepage'))
 
 
 # TODO: change before production

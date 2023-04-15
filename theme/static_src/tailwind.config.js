@@ -49,6 +49,7 @@ module.exports = {
           depth: '#E3E8F8',
           pressure: '#D7DDF4',
           field: '#272D3D',
+          darker: '#2C3E50',
           sub: '#788196',
           smoke: '#F0F0F0',
         },

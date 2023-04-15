@@ -176,6 +176,7 @@
     </a>
     <hr class="border-base-depth" />
     <!-- TODO: change it later -->
+    {% if user.is_authenticated %}
     <a href="{% url 'settings' %}" class="navside group">
       <span
         class="font-quicksand text-base font-bold text-slate-900 transition-all duration-150 ease-out group-hover:mr-2"
@@ -185,9 +186,32 @@
         src="{% get_media_prefix %}{{ request.user.avatar }}"
         alt=""
         srcset=""
-        class="h-5 w-5 rounded-full object-cover object-center"
+        class="h-5 w-5 shrink-0 rounded-full object-cover object-center"
       />
     </a>
+    {% else %}
+    <a href="{% url 'login' %}?next={{ request.get_full_path }}" class="navside group">
+      <span
+        class="font-quicksand text-base font-bold text-slate-900 transition-all duration-150 ease-out group-hover:mr-2"
+        >Login or Register</span
+      >
+      <svg xmlns="http://www.w3.org/2000/svg" x="0" y="0" viewBox="0 0 128 128" class="h-5 w-5 shrink-0 object-contain">
+        <circle cx="64" cy="64" r="60" fill="#fff" />
+        <path
+          fill="#71c2ff"
+          d="M114.5,99.41c-0.56,0-1.12-0.15-1.62-0.48c-1.39-0.9-1.8-2.75-0.9-4.15C117.88,85.61,121,74.96,121,64 c0-31.43-25.57-57-57-57S7,32.57,7,64c0,10.86,3.07,21.43,8.87,30.55c0.89,1.4,0.48,3.25-0.92,4.14 c-1.4,0.89-3.25,0.48-4.14-0.92C4.39,87.69,1,76.01,1,64C1,29.26,29.26,1,64,1s63,28.26,63,63c0,12.12-3.45,23.89-9.98,34.03 C116.45,98.93,115.48,99.41,114.5,99.41z"
+        />
+        <path
+          fill="#444b54"
+          d="M64,127c-15.68,0-30.7-5.79-42.3-16.32c-1.23-1.11-1.32-3.01-0.21-4.24l0.29-0.32 c0.03-0.04,0.07-0.07,0.1-0.11c23.22-23.23,61.02-23.23,84.24,0c0.09,0.09,0.17,0.18,0.24,0.27c0.05,0.05,0.1,0.1,0.15,0.15 c1.11,1.23,1.02,3.12-0.21,4.24C94.7,121.21,79.68,127,64,127z M28.16,108.33C38.28,116.52,50.89,121,64,121 s25.72-4.48,35.84-12.67C79.53,90.02,48.47,90.02,28.16,108.33z"
+        />
+        <path
+          fill="#444b54"
+          d="M64,77c-12.68,0-23-10.32-23-23s10.32-23,23-23s23,10.32,23,23S76.68,77,64,77z M64,37 c-9.37,0-17,7.63-17,17s7.63,17,17,17s17-7.63,17-17S73.37,37,64,37z"
+        />
+      </svg>
+    </a>
+    {% endif %}
   </div>
   <div class="flex flex-col gap-4">
     <hr class="border-base-depth" />

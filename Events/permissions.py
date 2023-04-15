@@ -24,6 +24,9 @@ def check_eligibility_schedule_register(request, slug: str) -> bool:
 
 
 def check_eligibility_user_register(request, slug: str) -> bool:
+    # TODO: may be better if refactor this
+    if not request.user.is_authenticated:
+        return True
     event: Events = get_object_or_404(Events, slug=slug)
     try:
         register_sheets: EventsUserRegistered = EventsUserRegistered.objects.get(user=request.user, event=event)

@@ -32,7 +32,6 @@
   </div>
 </div>
 
-<input type="hidden" value="{{ timeline }}" id="timeline" />
 {% endblock content %}
 
 <!--  -->
@@ -41,7 +40,7 @@
 <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.5/index.global.min.js"></script>
 <script>
   document.addEventListener('DOMContentLoaded', function () {
-    const timeline = document.querySelector('#timeline').value;
+    const data = '{{ timeline|escapejs }}';
     var calendarEl = document.getElementById('calendar');
     var calendar = new FullCalendar.Calendar(calendarEl, {
       initialView: 'listMonth',
@@ -53,7 +52,7 @@
       showNonCurrentDates: false,
       selectable: true,
       nowIndicator: true,
-      events: JSON.parse(timeline),
+      events: JSON.parse(data),
       eventDidMount: (info) => {
         if (info.event.extendedProps.customRender) {
           info.el.classList.add('calendar__event');

@@ -68,7 +68,10 @@
         />
       </svg>
     </a>
-    <a href="#" class="navside group">
+    <a
+      href="{% url 'homepage-event-today' %}"
+      class="navside {% active_link 'homepage-event-today' 'navside--active' %} group"
+    >
       <span
         class="font-quicksand text-base font-bold text-slate-900 transition-all duration-150 ease-out group-hover:mr-2"
         >Today</span

@@ -20,15 +20,18 @@ urlpatterns = [
     path('__reload__/', include('django_browser_reload.urls')),
     path('', views.index, name='homepage'),
     path('timeline/', views.timeline, name='homepage-timeline'),
-    path('upcoming/', include([
-        path('', views.homepage, name='homepage-event-upcoming'),
-    ])),
     path('event/', include([
         path('', views.index, name='homepage-event'),
         path('<slug>/', include([
             path('', views.event_detail, name='homepage-event-detail'),
             path('register/', views.event_register, name='homepage-event-register'),
         ])),
+    ])),
+    path('upcoming/', include([
+        path('', views.homepage, name='homepage-event-upcoming'),
+    ])),
+    path('today/', include([
+        path('', views.homepage_today, name='homepage-event-today'),
     ])),
     path('past/', include([
         path('', views.homepage_past, name='homepage-event-past'),

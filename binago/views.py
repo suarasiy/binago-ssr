@@ -16,7 +16,7 @@ if TYPE_CHECKING:
         }
     )
 
-from .utils import pages_testing, pages_backend, pages_frontend, pages_handler
+from .utils import timezone_now, pages_testing, pages_backend, pages_frontend, pages_handler
 
 from django.contrib import messages
 
@@ -95,30 +95,9 @@ def homepage(request) -> HttpResponse:
     events: QuerySet[Events] = Events.objects.filter(schedule_start__gte=now).order_by('-schedule_start')
 
     context: HomepageContext = stub_homepage_events(request, events, 6, 'UPCOMING')
-    context['title'] = 'Binago Homepage | Upcoming'
+    context['title'] = 'Binago Homepage | Upcoming Events'
     context['description'] = 'Explore the upcoming events.'
     return render(request, template, context)
-
-    # page: int = request.GET.get('page', 1)
-
-    # for event in events:
-    #     event.user_eligibility = check_eligibility_user_register(request, event.slug)
-    #     event.schedule_eligibility = check_eligibility_schedule_register(request, event.slug)
-
-    # _: list = ['Business', 'Illustration', 'UI/UX Design', 'Web Development', 'Data Science', 'Big Data', 'Frontend Development', 'Backend Development',
-    #            'Network Security', 'Developer Operations', 'Origami', 'Handcraft', 'Language', 'Rest API']
-
-    # cluster_events = Paginator(events, 6)
-
-    # context: HomepageContext = {
-    #     'title': 'Binago homepage',
-    #     'description': 'Explore the events.',
-    #     'events': cluster_events.page(page),
-    #     'categories': _,
-    #     'has_next': page + 1 if cluster_events.page(page).has_next() else False,
-    #     'has_previous': page - 1 if cluster_events.page(page).has_previous() else False,
-    # }
-    # return render(request, template, context)
 
 
 @require_http_methods(['GET'])
@@ -127,35 +106,19 @@ def homepage_past(request) -> HttpResponse:
     now: datetime = timezone.localtime(timezone.now())
     events: QuerySet[Events] = Events.objects.filter(schedule_start__lte=now).order_by('-schedule_start')
     context: HomepageContext = stub_homepage_events(request, events, 6, 'PAST')
-    context['title'] = 'Binago Homepage | Past'
+    context['title'] = 'Binago Homepage | Past Events'
     context['description'] = 'Explore the archived events.'
     return render(request, template, context)
 
-    # page: int = int(request.GET.get('page', 1))
-    # template: str = pages_frontend('homepage/index_past.html')
-    # now: datetime = timezone.localtime(timezone.now())
-    # events: QuerySet[Events] = Events.objects.filter(schedule_start__lte=now).order_by('-schedule_start')
-    # for event in events:
-    #     event.user_eligibility = check_eligibility_user_register(request, event.slug)
-    #     event.schedule_eligibility = False
 
-    # _: list = ['Business', 'Illustration', 'UI/UX Design', 'Web Development', 'Data Science', 'Big Data', 'Frontend Development', 'Backend Development',
-    #            'Network Security', 'Developer Operations', 'Origami', 'Handcraft', 'Language', 'Rest API']
-
-    # cluster_events = Paginator(events, 6)
-
-    # context: HomepageContext = {
-    #     'title': 'Binago Past Events',
-    #     'description': 'Explore events archive.',
-    #     'events': cluster_events.page(page),
-    #     'categories': _,
-    #     'has_next': page + 1 if cluster_events.page(page).has_next() else False,
-    #     'has_previous': page - 1 if cluster_events.page(page).has_previous() else False,
-    # }
-    # return render(request, template, context)
-
-# @require_http_methods(['GET'])
-# def homepage_today(request) -> HttpResponse:
+@require_http_methods(['GET'])
+def homepage_today(request) -> HttpResponse:
+    template: str = pages_frontend('homepage/index.html')
+    events: QuerySet[Events] = Events.objects.filter(schedule_start__day=timezone_now().day)
+    context: HomepageContext = stub_homepage_events(request, events, 6, 'TODAY')
+    context['title'] = 'Binago Homepage | Today Events'
+    context['description'] = 'Explore today events.'
+    return render(request, template, context)
 
 
 @require_http_methods(['GET'])

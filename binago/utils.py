@@ -1,3 +1,16 @@
+from __future__ import annotations
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from datetime import datetime
+
+from django.utils import timezone
+
+
+def timezone_now() -> datetime:
+    return timezone.localtime(timezone.now())
+
+
 def pages_testing(filename) -> str:
     return f"testing/pages/{filename}"
 

@@ -1,6 +1,7 @@
 from typing import Union, TYPE_CHECKING
 
 if TYPE_CHECKING:
+    from django.core.paginator import Page
     from Associations.models import AssociationsGroup
     from django.db.models import QuerySet
     from binago.context_interface import Context
@@ -12,7 +13,7 @@ if TYPE_CHECKING:
         powerheader: Union[QuerySet, User]
 
     class IndexContext(Context):
-        users: QuerySet[User]
+        users: Page
 
     class ProfileContext(Context):
         powerheader: User

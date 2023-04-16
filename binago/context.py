@@ -25,6 +25,7 @@ if TYPE_CHECKING:
     class EventDetailContext(ContextHomepage):
         event: Events
         register_eligibility: bool
+        total_events: int
 
     class SettingsContext(Context):
         powerheader: User

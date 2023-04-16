@@ -183,6 +183,12 @@ def profile(request, slug) -> HttpResponse:
     event_categories: ValuesQuerySet = AssociationsGroup.objects.filter(association=association).values(
         'events__category__category').annotate(total=Count('events__category__category'))
     members: QuerySet[AssociationsGroup] = association.associationsgroup_set.filter(is_approved=True)
+
+    c_page: int = request.GET.get('catalogs_page', 1)
+    cluster_events = Paginator(events, 12)
+
+    has_member: bool = members.filter(is_manager=False, is_approved=True).exists()
+
     context: ContextProfile = {
         'title': 'Associations Profile',
         'breadcrumb': {
@@ -197,13 +203,14 @@ def profile(request, slug) -> HttpResponse:
         },
         'description': 'Your association profile',
         'association': association,
-        'events': events,
+        'events': cluster_events.get_page(c_page),
         'members': members,
         'events_category': event_categories,
         'powerheader': {
             'banner': association.banner
         },
-        'registered_associations': user_registered_associations(request)
+        'registered_associations': user_registered_associations(request),
+        'has_member': has_member
     }
     return render(request, template, context)
 

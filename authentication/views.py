@@ -4,6 +4,7 @@ from typing import TYPE_CHECKING
 from django.urls import reverse
 from django.contrib import messages
 from django.contrib.auth import login, authenticate
+from django.core.paginator import Paginator
 from django.db.models import Q
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
@@ -40,6 +41,8 @@ def index(request) -> HttpResponse:
 def index_data(request) -> HttpResponse:
     template: str = pages_backend('users/index.html')
     users: QuerySet[User] = User.objects.all()
+    cluster_users = Paginator(users, 10)
+    page: int = request.GET.get('page', 1)
     context: IndexContext = {
         'title': 'Users data',
         'breadcrumb': {
@@ -52,7 +55,7 @@ def index_data(request) -> HttpResponse:
                 }
             ]
         },
-        'users': users,
+        'users': cluster_users.get_page(page),
         'description': 'List of registered users.',
         'registered_associations': user_registered_associations(request)
     }

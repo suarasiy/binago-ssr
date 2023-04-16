@@ -45,7 +45,8 @@ if TYPE_CHECKING:
     class ContextProfile(Context):
         association: Union[QuerySet, Associations]
         powerheader: Powerheader
-        events: QuerySet[Events]
+        events: Page
         members: QuerySet[AssociationsGroup]
         events_category: ValuesQuerySet
+        has_member: bool
         # events_category: ValuesQuerySet[Events, dict[str, Any]]

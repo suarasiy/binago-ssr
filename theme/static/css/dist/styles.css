@@ -3276,6 +3276,41 @@ main .selectize-control .selectize-input > input{
   line-height: 1.5rem;
 }
 
+main .paginate__item{
+  position: relative;
+  height: 2.5rem;
+  width: 2.5rem;
+  border-radius: 0.5rem;
+  border-width: 1px;
+  --tw-border-opacity: 1;
+  border-color: rgb(168 184 216 / var(--tw-border-opacity));
+  font-family: Poppins, Mulish, "Sans Serif";
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-weight: 600;
+  --tw-text-opacity: 1;
+  color: rgb(168 184 216 / var(--tw-text-opacity));
+}
+
+main .paginate__item:hover{
+  --tw-border-opacity: 1;
+  border-color: rgb(131 146 171 / var(--tw-border-opacity));
+  --tw-text-opacity: 1;
+  color: rgb(131 146 171 / var(--tw-text-opacity));
+}
+
+main .paginate__item.paginate__item--active{
+  border-style: none;
+  --tw-bg-opacity: 1;
+  background-color: rgb(94 114 228 / var(--tw-bg-opacity));
+  --tw-text-opacity: 1;
+  color: rgb(255 255 255 / var(--tw-text-opacity));
+}
+
+main .paginate__item.paginate__item--active:hover{
+  --tw-bg-opacity: 0.8;
+}
+
 /* FOR FRONTEND */
 
 .fr .input__field{

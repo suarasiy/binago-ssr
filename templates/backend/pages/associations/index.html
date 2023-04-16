@@ -185,6 +185,25 @@
           </tbody>
         </table>
       </div>
+      <div class="flex flex-row justify-between">
+        <span class="flex flex-row items-center gap-1">
+          <p class="text-sm text-slate-600">
+            Showing <strong>{{ approvals.start_index }}</strong> to <strong>{{ approvals.end_index }}</strong> of
+            <strong>{{ approvals.paginator.count }}</strong> entries.
+          </p>
+        </span>
+        <div class="flex flex-row items-center gap-2">
+          {% for paginate in approvals.paginator.page_range %}
+          <a
+            href="?o_pages={{ paginate }}"
+            class="paginate__item {% if paginate == approvals.number %}paginate__item--active{% endif %}"
+            tabindex="-1"
+          >
+            <p class="absolute top-2/4 left-2/4 -translate-x-2/4 -translate-y-2/4">{{ paginate }}</p>
+          </a>
+          {% endfor %}
+        </div>
+      </div>
     </div>
   </div>
   <!-- Associations Data -->
@@ -389,28 +408,20 @@
     <div class="flex flex-row justify-between">
       <span class="flex flex-row items-center gap-1">
         <p class="text-sm text-slate-600">
-          Showing <strong>1</strong> to <strong>3</strong> of <strong>100</strong> entries.
+          Showing <strong>{{ associations.start_index }}</strong> to <strong>{{ associations.end_index }}</strong> of
+          <strong>{{ associations.paginator.count }}</strong> entries.
         </p>
       </span>
       <div class="flex flex-row items-center gap-2">
-        <button
-          class="font-poppins relative h-10 w-10 rounded-lg bg-blue-500 text-sm font-semibold text-white hover:bg-opacity-80"
+        {% for paginate in associations.paginator.page_range %}
+        <a
+          href="?a_pages={{ paginate }}"
+          class="paginate__item {% if paginate == associations.number %}paginate__item--active{% endif %}"
           tabindex="-1"
         >
-          <p class="absolute top-2/4 left-2/4 -translate-x-2/4 -translate-y-2/4">1</p>
-        </button>
-        <button
-          class="font-poppins relative h-10 w-10 rounded-lg border border-slate-300 text-sm font-semibold text-slate-300 hover:border-slate-400 hover:text-slate-400"
-          tabindex="-1"
-        >
-          <p class="absolute top-2/4 left-2/4 -translate-x-2/4 -translate-y-2/4">2</p>
-        </button>
-        <button
-          class="font-poppins relative h-10 w-10 rounded-lg border border-slate-300 text-sm font-semibold text-slate-300 hover:border-slate-400 hover:text-slate-400"
-          tabindex="-1"
-        >
-          <p class="absolute top-2/4 left-2/4 -translate-x-2/4 -translate-y-2/4">3</p>
-        </button>
+          <p class="absolute top-2/4 left-2/4 -translate-x-2/4 -translate-y-2/4">{{ paginate }}</p>
+        </a>
+        {% endfor %}
       </div>
     </div>
   </div>

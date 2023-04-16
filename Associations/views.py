@@ -3,9 +3,19 @@ from __future__ import annotations
 from django.db.models import Count, F, Q
 from typing import TYPE_CHECKING
 
+if TYPE_CHECKING:
+    from typing import Union, List, Literal
+    from django.http import HttpResponse, HttpResponseRedirect, HttpResponsePermanentRedirect
+    from django.db.models import QuerySet
+    from django.db.models.query import ValuesQuerySet
+    from .context import (
+        ContextIndex, ContextInvite, ContextEdit, ContextIndexApproval, ContextProfile, ContextExplore, ContextCreate
+    )
+
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.urls import reverse
+from django.core.paginator import Paginator
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_http_methods
 
@@ -18,15 +28,6 @@ from .query import user_registered_associations, get_association_by_slug
 from .permissions import permission_member_specific_association, permission_association_is_approved, permission_association_manager_only, permission_association_create_eligibility
 
 from binago.utils import pages_backend
-
-if TYPE_CHECKING:
-    from typing import Union, List
-    from django.http import HttpResponse, HttpResponseRedirect, HttpResponsePermanentRedirect
-    from django.db.models import QuerySet
-    from django.db.models.query import ValuesQuerySet
-    from .context import (
-        ContextIndex, ContextInvite, ContextEdit, ContextIndexApproval, ContextProfile, ContextExplore, ContextCreate
-    )
 
 
 @login_required
@@ -45,6 +46,24 @@ def explore(request, slug) -> HttpResponse:
     # events: ValuesQuerySet = AssociationsGroup.objects.filter(association=association).values('association__name', 'events__title', 'user__avatar', 'user__first_name', 'user__last_name', 'events__banner', 'events__schedule_start', 'events__schedule_end').annotate().order_by('-events__schedule_end')
     events: QuerySet[Events] = Events.objects.filter(association_group__association=association)
     members: QuerySet[AssociationsGroup] = AssociationsGroup.objects.filter(association=association)
+
+    cluster_events = Paginator(events, 10)
+    cluster_members = Paginator(members, 10)
+
+    events_page: int = request.GET.get('events_page', 1)
+    members_page: int = request.GET.get('members_page', 1)
+
+    # TODO: need to improve later
+    qe: str | Literal[False] = request.GET.get('events_page', False)
+    build_qe: str = ''
+    if qe:
+        build_qe = f'&events_page={qe}'
+
+    em: str | Literal[False] = request.GET.get('members_page', False)
+    build_em: str = ''
+    if em:
+        build_em = f'&members_page={em}'
+
     context: ContextExplore = {
         'title': 'Associations Explore',
         'breadcrumb': {
@@ -63,10 +82,12 @@ def explore(request, slug) -> HttpResponse:
             ]
         },
         'association': association,
-        'members': members,
+        'members': cluster_members.get_page(members_page),
         'description': 'Exploring your association!',
-        'events': events,
-        'registered_associations': user_registered_associations(request)
+        'events': cluster_events.get_page(events_page),
+        'registered_associations': user_registered_associations(request),
+        'q_events': build_qe,
+        'q_members': build_em
     }
     return render(request, template, context)
 
@@ -75,15 +96,23 @@ def explore(request, slug) -> HttpResponse:
 @require_http_methods(['GET'])
 def index_data(request) -> HttpResponse:
     template: str = pages_backend('associations/index.html')
-    # members: QuerySet[AssociationsGroup] = associations.associationsgroup_set.filter(
-    #     is_approved=True).exclude(user=associations.user)
+
     approvals: QuerySet[AssociationsApprovalRequest] = AssociationsApprovalRequest.objects.filter(
         Q(user=request.user)).order_by('-updated_at')
+
+    cluster_approvals = Paginator(approvals, 10)
+    approval_pages: int = request.GET.get('o_pages', 1)
 
     # PURPOSES: If the user have a 'waiting' list on associations approval requests,
     # ... user can't create another association until approval got an answer.
     associations_create_eligibility: bool = False if AssociationsApprovalRequest.objects.filter(
         Q(is_approved=None), Q(user=request.user)).exists() else True
+
+    associations: QuerySet[Associations] = Associations.objects.filter(approval__is_approved=True)
+
+    cluster_associations = Paginator(associations, 10)
+    associations_page: int = request.GET.get('a_pages', 1)
+
     context: ContextIndex = {
         'title': 'Associations',
         'breadcrumb': {
@@ -97,11 +126,11 @@ def index_data(request) -> HttpResponse:
             ]
         },
         'description': 'Manage association members and activity.',
-        'associations': Associations.objects.filter(approval__is_approved=True),
+        'associations': cluster_associations.get_page(associations_page),
         'members': None,
         'associations_group': user_registered_associations(request),
         'registered_associations': user_registered_associations(request),
-        'approvals': approvals,
+        'approvals': cluster_approvals.get_page(approval_pages),
         'associations_create_eligibility': associations_create_eligibility
     }
     return render(request, template, context)
@@ -113,6 +142,8 @@ def index_data(request) -> HttpResponse:
 def index_data_approval(request) -> HttpResponse:
     template: str = pages_backend('associations/approval.html')
     associations: QuerySet[AssociationsApprovalRequest] = AssociationsApprovalRequest.objects.filter(is_approved=None)
+    page: int = request.GET.get('page', 1)
+    cluster_associations = Paginator(associations, 10)
     context: ContextIndexApproval = {
         'title': 'Associations',
         'breadcrumb': {
@@ -131,7 +162,7 @@ def index_data_approval(request) -> HttpResponse:
             ]
         },
         'description': 'Associations approval requests.',
-        'associations': associations,
+        'associations': cluster_associations.get_page(page),
         'registered_associations': user_registered_associations(request)
     }
     return render(request, template, context)

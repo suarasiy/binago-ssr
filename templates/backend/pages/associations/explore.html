@@ -201,28 +201,20 @@
     <div class="flex flex-row justify-between">
       <span class="flex flex-row items-center gap-1">
         <p class="text-sm text-slate-600">
-          Showing <strong>1</strong> to <strong>3</strong> of <strong>100</strong> entries.
+          Showing <strong>{{ events.start_index }}</strong> to <strong>{{ events.end_index }}</strong> of
+          <strong>{{ events.paginator.count }}</strong> entries.
         </p>
       </span>
       <div class="flex flex-row items-center gap-2">
-        <button
-          class="font-poppins relative h-10 w-10 rounded-lg bg-blue-500 text-sm font-semibold text-white hover:bg-opacity-80"
+        {% for paginate in events.paginator.page_range %}
+        <a
+          href="?events_page={{ paginate }}{{ q_members }}"
+          class="paginate__item {% if paginate == events.number %}paginate__item--active{% endif %}"
           tabindex="-1"
         >
-          <p class="absolute top-2/4 left-2/4 -translate-x-2/4 -translate-y-2/4">1</p>
-        </button>
-        <button
-          class="font-poppins relative h-10 w-10 rounded-lg border border-slate-300 text-sm font-semibold text-slate-300 hover:border-slate-400 hover:text-slate-400"
-          tabindex="-1"
-        >
-          <p class="absolute top-2/4 left-2/4 -translate-x-2/4 -translate-y-2/4">2</p>
-        </button>
-        <button
-          class="font-poppins relative h-10 w-10 rounded-lg border border-slate-300 text-sm font-semibold text-slate-300 hover:border-slate-400 hover:text-slate-400"
-          tabindex="-1"
-        >
-          <p class="absolute top-2/4 left-2/4 -translate-x-2/4 -translate-y-2/4">3</p>
-        </button>
+          <p class="absolute top-2/4 left-2/4 -translate-x-2/4 -translate-y-2/4">{{ paginate }}</p>
+        </a>
+        {% endfor %}
       </div>
     </div>
   </div>
@@ -289,20 +281,33 @@
               <td class="min-w-[80px] border-b border-b-gray-200 px-6 py-4">
                 <p class="font-inter text-sm text-slate-400">{{ forloop.counter }}</p>
               </td>
-              <td class="font-jost min-w-[310px] border-b border-b-gray-200 px-6 py-4 text-left text-slate-800">
+              <td class="font-jost min-w-[310px] border-b border-b-gray-200 px-6 py-4 text-left text-sky-600">
                 <a
-                  href=""
-                  class="flex w-fit flex-row items-center gap-2 text-base font-medium text-blue-700 underline-offset-1 hover:text-blue-600 hover:underline"
+                  href="{% url 'users-profile' member.user.username %}"
+                  class="flex w-fit flex-row items-center gap-3 rounded-xl px-2 py-1 transition-all duration-150 ease-out hover:bg-slate-500 hover:bg-opacity-10 hover:ring-4 hover:ring-slate-500 hover:ring-opacity-10 active:scale-95"
                 >
+                  {% if user.avatar %}
                   <img
                     src="{% get_media_prefix %}{{ member.user.avatar }}"
-                    alt=""
+                    alt="{{ member.user.username }}"
                     srcset=""
-                    class="h-8 w-8 rounded-full border object-cover"
+                    class="h-8 w-8 rounded-full object-cover object-center"
                     draggable="false"
                   />
-                  {{ member.user.first_name }} {{ member.user.last_name }}</a
-                >
+                  {% else %}
+                  <img
+                    src="{% static 'web/assets/avatar_1.png' %}"
+                    alt="{{ member.user.username }}"
+                    srcset=""
+                    class="h-8 w-8 rounded-full object-cover object-center"
+                    draggable="false"
+                  />
+                  {% endif %}
+                  <div class="flex flex-col gap-1">
+                    <p class="line-clamp-2 font-medium">{{ member.user.username }}</p>
+                    <span class="text-xs">{{ member.user.last_name }}, {{ member.user.first_name }}</span>
+                  </div>
+                </a>
               </td>
               <td class="font-jost min-w-[26rem] border-b border-b-gray-200 px-6 py-4 text-left text-slate-800">
                 <div class="grid grid-cols-2 items-center gap-2">
@@ -338,28 +343,20 @@
     <div class="flex flex-row justify-between">
       <span class="flex flex-row items-center gap-1">
         <p class="text-sm text-slate-600">
-          Showing <strong>1</strong> to <strong>3</strong> of <strong>100</strong> entries.
+          Showing <strong>{{ members.start_index }}</strong> to <strong>{{ members.end_index }}</strong> of
+          <strong>{{ members.paginator.count }}</strong> entries.
         </p>
       </span>
       <div class="flex flex-row items-center gap-2">
-        <button
-          class="font-poppins relative h-10 w-10 rounded-lg bg-blue-500 text-sm font-semibold text-white hover:bg-opacity-80"
+        {% for paginate in members.paginator.page_range %}
+        <a
+          href="?members_page={{ paginate }}{{ q_events }}"
+          class="paginate__item {% if paginate == members.number %}paginate__item--active{% endif %}"
           tabindex="-1"
         >
-          <p class="absolute top-2/4 left-2/4 -translate-x-2/4 -translate-y-2/4">1</p>
-        </button>
-        <button
-          class="font-poppins relative h-10 w-10 rounded-lg border border-slate-300 text-sm font-semibold text-slate-300 hover:border-slate-400 hover:text-slate-400"
-          tabindex="-1"
-        >
-          <p class="absolute top-2/4 left-2/4 -translate-x-2/4 -translate-y-2/4">2</p>
-        </button>
-        <button
-          class="font-poppins relative h-10 w-10 rounded-lg border border-slate-300 text-sm font-semibold text-slate-300 hover:border-slate-400 hover:text-slate-400"
-          tabindex="-1"
-        >
-          <p class="absolute top-2/4 left-2/4 -translate-x-2/4 -translate-y-2/4">3</p>
-        </button>
+          <p class="absolute top-2/4 left-2/4 -translate-x-2/4 -translate-y-2/4">{{ paginate }}</p>
+        </a>
+        {% endfor %}
       </div>
     </div>
   </div>

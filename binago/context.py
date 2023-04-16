@@ -2,6 +2,7 @@ from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     from typing import Any, TypedDict, Union, Literal
+    from django.core.paginator import Page
     from django.db.models import QuerySet
     from authentication.models import User
     from Events.models import Events, EventsCategories
@@ -17,7 +18,7 @@ if TYPE_CHECKING:
 
     class HomepageContext(ContextHomepage, NavigatePaginator):
         # events: QuerySet[Events]
-        events: Any
+        events: Page
         categories: QuerySet[EventsCategories]
         type: Literal['UPCOMING', 'TODAY', 'PAST']
 

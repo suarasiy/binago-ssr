@@ -282,6 +282,14 @@ main .selectize-control .selectize-input > input {
   @apply text-base;
 }
 
+main .paginate__item {
+  @apply relative h-10 w-10 rounded-lg border border-slate-300 font-poppins text-sm font-semibold text-slate-300 hover:border-slate-400 hover:text-slate-400;
+}
+
+main .paginate__item.paginate__item--active {
+  @apply border-none bg-blue-500 text-white hover:bg-opacity-80;
+}
+
 /* FOR FRONTEND */
 
 .fr .input__field {

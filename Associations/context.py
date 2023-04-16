@@ -1,8 +1,10 @@
 from typing import Union, List, Any, TypedDict, TYPE_CHECKING
 if TYPE_CHECKING:
     from binago.context_interface import Context
+    from django.core.paginator import Page
     from Events.models import Events
     from django.db.models import QuerySet
+    from django.core.paginator import Page
     from django.db.models.query import ValuesQuerySet
     from django.db.models.fields.files import ImageFieldFile
     from .models import Associations, AssociationsApprovalRequest, AssociationsGroup
@@ -10,16 +12,18 @@ if TYPE_CHECKING:
     from django.db.models.query import ValuesQuerySet
 
     class ContextIndex(Context):
-        associations: Union[QuerySet, List[Associations] | List[AssociationsApprovalRequest]]
+        associations: Page
         associations_group: Union[QuerySet, List[AssociationsGroup]]
         members: Any
-        approvals: QuerySet[AssociationsApprovalRequest]
+        approvals: Page
         associations_create_eligibility: bool
 
     class ContextExplore(Context):
-        events: QuerySet[Events]
+        events: Page
         association: Associations
-        members: Union[QuerySet, List[AssociationsGroup]]
+        members: Page
+        q_events: str
+        q_members: str
 
     class ContextInvite(Context):
         slug: str
@@ -33,7 +37,7 @@ if TYPE_CHECKING:
         form: AssociationForm
 
     class ContextIndexApproval(Context):
-        associations: Union[QuerySet, List[Associations] | List[AssociationsApprovalRequest]]
+        associations: Page
 
     class Powerheader(TypedDict):
         banner: ImageFieldFile

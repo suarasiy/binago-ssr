@@ -34,7 +34,7 @@ from authentication.models import User
 from Associations.query import user_registered_associations
 
 from Events.permissions import check_eligibility_register, check_eligibility_user_register, check_eligibility_schedule_register, permission_check_user_eligibility, permission_check_schedule_eligibility
-from Events.models import Events, EventsUserRegistered
+from Events.models import Events, EventsUserRegistered, EventsCategories
 from Invoices.models import InvoiceUserEventRegistered
 
 import json
@@ -73,26 +73,30 @@ def stub_homepage_events(request, events: QuerySet[Events], max_item_per_page: i
         else:
             event.schedule_eligibility = check_eligibility_schedule_register(request, event.slug)
 
-    _: list = ['Business', 'Illustration', 'UI/UX Design', 'Web Development', 'Data Science', 'Big Data', 'Frontend Development', 'Backend Development',
-               'Network Security', 'Developer Operations', 'Origami', 'Handcraft', 'Language', 'Rest API']
+    _: QuerySet[EventsCategories] = EventsCategories.objects.all().order_by('category')
 
     cluster_events = Paginator(events, max_item_per_page)
     return {
         'title': 'Binago Past Events',
         'description': 'Explore events archive.',
-        'events': cluster_events.page(page),
+        'events': cluster_events.get_page(page),
         'categories': _,
-        'has_next': page + 1 if cluster_events.page(page).has_next() else False,
-        'has_previous': page - 1 if cluster_events.page(page).has_previous() else False,
-        'type': _type
+        'has_next': page + 1 if cluster_events.get_page(page).has_next() else False,
+        'has_previous': page - 1 if cluster_events.get_page(page).has_previous() else False,
+        'type': _type,
     }
 
 
 @require_http_methods(['GET'])
-def homepage(request) -> HttpResponse:
+def homepage(request, *args, **kwargs) -> HttpResponse:
     template: str = pages_frontend('homepage/index.html')
     now: datetime = timezone.localtime(timezone.now())
-    events: QuerySet[Events] = Events.objects.filter(schedule_start__gte=now).order_by('-schedule_start')
+    category: str | Literal[False] = kwargs.get('category', False)
+    if category:
+        events: QuerySet[Events] = Events.objects.filter(
+            schedule_start__gte=now, category__slug=category).order_by('-schedule_start')
+    else:
+        events: QuerySet[Events] = Events.objects.filter(schedule_start__gte=now).order_by('-schedule_start')
 
     context: HomepageContext = stub_homepage_events(request, events, 6, 'UPCOMING')
     context['title'] = 'Binago Homepage | Upcoming Events'
@@ -100,25 +104,50 @@ def homepage(request) -> HttpResponse:
     return render(request, template, context)
 
 
+def homepage_category(request, category) -> HttpResponse:
+    return homepage(request, category=category)
+
+
 @require_http_methods(['GET'])
-def homepage_past(request) -> HttpResponse:
+def homepage_past(request, *args, **kwargs) -> HttpResponse:
     template: str = pages_frontend('homepage/index.html')
-    now: datetime = timezone.localtime(timezone.now())
-    events: QuerySet[Events] = Events.objects.filter(schedule_start__lte=now).order_by('-schedule_start')
+    now: datetime = timezone_now()
+    category: str | Literal[False] = kwargs.get('category', False)
+    if category:
+        events: QuerySet[Events] = Events.objects.filter(
+            schedule_start__lte=now, category__slug=category).order_by('-schedule_start')
+    else:
+        events: QuerySet[Events] = Events.objects.filter(schedule_start__lte=now).order_by('-schedule_start')
+
     context: HomepageContext = stub_homepage_events(request, events, 6, 'PAST')
     context['title'] = 'Binago Homepage | Past Events'
     context['description'] = 'Explore the archived events.'
     return render(request, template, context)
 
 
+def homepage_past_category(request, category) -> HttpResponse:
+    return homepage_past(request, category=category)
+
+
 @require_http_methods(['GET'])
-def homepage_today(request) -> HttpResponse:
+def homepage_today(request, *args, **kwargs) -> HttpResponse:
     template: str = pages_frontend('homepage/index.html')
-    events: QuerySet[Events] = Events.objects.filter(schedule_start__day=timezone_now().day)
+    category: str | Literal[False] = kwargs.get('category', False)
+    if category:
+        events: QuerySet[Events] = Events.objects.filter(
+            schedule_start__day=timezone_now().day, category__slug=category).order_by('-schedule_start')
+    else:
+        events: QuerySet[Events] = Events.objects.filter(
+            schedule_start__day=timezone_now().day).order_by('-schedule_start')
+
     context: HomepageContext = stub_homepage_events(request, events, 6, 'TODAY')
     context['title'] = 'Binago Homepage | Today Events'
     context['description'] = 'Explore today events.'
     return render(request, template, context)
+
+
+def homepage_today_category(request, category) -> HttpResponse:
+    return homepage_today(request, category=category)
 
 
 @require_http_methods(['GET'])

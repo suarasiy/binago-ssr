@@ -29,12 +29,15 @@ urlpatterns = [
     ])),
     path('upcoming/', include([
         path('', views.homepage, name='homepage-event-upcoming'),
+        path('<category>/', views.homepage_category, name='homepage-event-upcoming-category'),
     ])),
     path('today/', include([
         path('', views.homepage_today, name='homepage-event-today'),
+        path('<category>/', views.homepage_today_category, name='homepage-event-today-category'),
     ])),
     path('past/', include([
         path('', views.homepage_past, name='homepage-event-past'),
+        path('<category>/', views.homepage_past_category, name='homepage-event-past-category'),
     ])),
     path('admin/', admin.site.urls),
     path('404/', views.handle_404),

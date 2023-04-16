@@ -1,7 +1,10 @@
 from __future__ import annotations
 from typing import TYPE_CHECKING
 
+from django.urls import reverse
+
 if TYPE_CHECKING:
+    from typing import Literal
     from datetime import datetime
 
 from django.utils import timezone
@@ -29,3 +32,15 @@ def pages_mail(filename) -> str:
 
 def pages_handler(filename) -> str:
     return f"handler/{filename}"
+
+
+# def homepage_typefilter_reverse(_type: Literal['TODAY', 'UPCOMING', 'PAST'], category: str | Literal[False]) -> str | Literal[False]:
+#     if not category:
+#         return False
+#     if _type == 'TODAY':
+#         return reverse('homepage-event-today-category', kwargs={'category': category})
+#     if _type == 'UPCOMING':
+#         return reverse('homepage-event-upcoming-category', kwargs={'category': category})
+#     if _type == 'PAST':
+#         return reverse('homepage-event-past-category', kwargs={'category': category})
+#     return False

@@ -319,3 +319,11 @@ main .selectize-control .selectize-input > input {
 .fr .image__blur {
   @apply animate-pulse blur-xl;
 }
+
+.fr .arr_cta {
+  @apply rounded-full bg-base-depth px-5 py-2 font-poppins text-xs font-semibold text-base-field transition-all duration-150 ease-out hover:bg-base-pressure;
+}
+
+.fr .arr_cta.arr_cta--active {
+  @apply bg-blue-500 text-xs text-white;
+}

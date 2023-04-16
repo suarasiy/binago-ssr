@@ -61,6 +61,11 @@
               <th
                 class="font-dmSans whitespace-nowrap border-b border-b-gray-200 bg-transparent px-6 py-3 text-left text-xs font-semibold uppercase tracking-normal text-slate-400 opacity-70"
               >
+                created by
+              </th>
+              <th
+                class="font-dmSans whitespace-nowrap border-b border-b-gray-200 bg-transparent px-6 py-3 text-left text-xs font-semibold uppercase tracking-normal text-slate-400 opacity-70"
+              >
                 updated at
               </th>
               <th
@@ -114,6 +119,36 @@
                     {{ event.schedule_start|date:'h:i A' }} - {{ event.schedule_end|date:'h:i A (e)' }}
                   </p>
                 </div>
+              </td>
+              <td class="font-jost min-w-[310px] border-b border-b-gray-200 px-6 py-4 text-left text-sky-600">
+                <a
+                  href="{% url 'users-profile' event.association_group.user.username %}"
+                  class="flex w-fit flex-row items-center gap-3 rounded-xl px-2 py-1 transition-all duration-150 ease-out hover:bg-slate-500 hover:bg-opacity-10 hover:ring-4 hover:ring-slate-500 hover:ring-opacity-10 active:scale-95"
+                >
+                  {% if user.avatar %}
+                  <img
+                    src="{% get_media_prefix %}{{ event.association_group.user.avatar }}"
+                    alt="{{ event.association_group.user.username }}"
+                    srcset=""
+                    class="h-8 w-8 rounded-full object-cover object-center"
+                    draggable="false"
+                  />
+                  {% else %}
+                  <img
+                    src="{% static 'web/assets/avatar_1.png' %}"
+                    alt="{{ event.association_group.user.username }}"
+                    srcset=""
+                    class="h-8 w-8 rounded-full object-cover object-center"
+                    draggable="false"
+                  />
+                  {% endif %}
+                  <div class="flex flex-col gap-1">
+                    <p class="line-clamp-2 font-medium">{{ event.association_group.user.username }}</p>
+                    <span class="text-xs"
+                      >{{ event.association_group.user.last_name }}, {{ event.association_group.user.first_name }}</span
+                    >
+                  </div>
+                </a>
               </td>
               <td
                 class="font-inter min-w-[190px] border-b border-b-gray-200 px-6 py-4 text-sm font-medium text-slate-500"

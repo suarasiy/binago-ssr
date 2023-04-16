@@ -2733,6 +2733,11 @@ main .widget.widget--active > strong.context + p.subcon{
   color: rgb(23 173 55 / var(--tw-text-opacity));
 }
 
+.text-pink-500{
+  --tw-text-opacity: 1;
+  color: rgb(255 0 128 / var(--tw-text-opacity));
+}
+
 .text-red-400{
   --tw-text-opacity: 1;
   color: rgb(248 113 113 / var(--tw-text-opacity));
@@ -3406,6 +3411,40 @@ main .selectize-control .selectize-input > input{
   animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
   --tw-blur: blur(24px);
   filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
+}
+
+.fr .arr_cta{
+  border-radius: 9999px;
+  --tw-bg-opacity: 1;
+  background-color: rgb(227 232 248 / var(--tw-bg-opacity));
+  padding-left: 1.25rem;
+  padding-right: 1.25rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  font-family: Poppins, Mulish, "Sans Serif";
+  font-size: 0.75rem;
+  line-height: 1rem;
+  font-weight: 600;
+  --tw-text-opacity: 1;
+  color: rgb(39 45 61 / var(--tw-text-opacity));
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+  transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
+}
+
+.fr .arr_cta:hover{
+  --tw-bg-opacity: 1;
+  background-color: rgb(215 221 244 / var(--tw-bg-opacity));
+}
+
+.fr .arr_cta.arr_cta--active{
+  --tw-bg-opacity: 1;
+  background-color: rgb(94 114 228 / var(--tw-bg-opacity));
+  font-size: 0.75rem;
+  line-height: 1rem;
+  --tw-text-opacity: 1;
+  color: rgb(255 255 255 / var(--tw-text-opacity));
 }
 
 .file\:overflow-hidden::file-selector-button{

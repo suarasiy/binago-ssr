@@ -64,6 +64,9 @@ class Events(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    user_eligibility: bool
+    schedule_eligibility: bool
+
     def save(self, *args, **kwargs):
         self.slug = slugify(self.title, allow_unicode=True)
         self.banner_lazy = compress_image(self.banner)

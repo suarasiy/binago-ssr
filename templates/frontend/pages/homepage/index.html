@@ -134,7 +134,7 @@
                     fill="currentColor"
                   />
                 </svg>
-                {% if event.schedule_start|date:'n' == event.schedule_end|date:'n' %}
+                {% if event.schedule_start|date:'d' == event.schedule_end|date:'d' %}
                 <span class="font-poppins mt-1 text-xs font-medium text-slate-800">
                   {{ event.schedule_end|date:'M d, Y' }}
                 </span>

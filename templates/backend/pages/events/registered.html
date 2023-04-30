@@ -1,0 +1,152 @@
+{% extends 'backend/layout/master.html' %}
+
+<!-- -->
+{% load static %}
+
+<!-- -->
+{% block content %}
+
+<div class="select-none grid grid-cols-4">
+  <div class="container col-span-4">
+    <div class="flex flex-row justify-between">
+      <div class="font-poppins flex flex-col gap-1">
+        <p class="font-medium text-slate-900">Registered Events List</p>
+        <small class="text-xs font-light text-slate-600">Here is list of registered events. This contains events that already paid and not. To attend the events, please complete the payment if required.</small>
+      </div>
+    </div>
+    <div class="wrapper__table">
+      <div class="container__table">
+        <table class="w-full items-center">
+          <thead>
+            <tr>
+              <th
+                class="font-dmSans whitespace-nowrap border-b border-b-gray-200 bg-transparent px-6 py-3 text-left text-xs font-semibold uppercase tracking-normal text-slate-400 opacity-70"
+              >
+                no
+              </th>
+              <th
+                class="font-dmSans whitespace-nowrap border-b border-b-gray-200 bg-transparent px-6 py-3 text-left text-xs font-semibold uppercase tracking-normal text-slate-400 opacity-70"
+              >
+                Event
+              </th>
+              <th
+                class="font-dmSans whitespace-nowrap border-b border-b-gray-200 bg-transparent px-6 py-3 text-left text-xs font-semibold uppercase tracking-normal text-slate-400 opacity-70"
+              >
+                schedule
+              </th>
+              <th
+                class="font-dmSans text-right whitespace-nowrap border-b border-b-gray-200 bg-transparent px-6 py-3 text-xs font-semibold uppercase tracking-normal text-slate-400 opacity-70"
+              >
+                invoice info
+              </th>
+              <th
+                class="font-dmSans whitespace-nowrap border-b border-b-gray-200 bg-transparent px-6 py-3 text-left text-xs font-semibold uppercase tracking-normal text-slate-400 opacity-70"
+              >
+                registered at
+              </th>
+              <th
+                class="font-dmSans whitespace-nowrap border-b border-b-gray-200 bg-transparent px-6 py-3 text-left text-xs font-semibold uppercase tracking-normal text-slate-400 opacity-70"
+              >
+                action
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for registered in registered_events %}
+            <tr class="hover:bg-slate-500 hover:bg-opacity-5">
+              <td class="min-w-[80px] border-b border-b-gray-200 px-6 py-4">
+                <p class="font-inter text-sm text-slate-400">{{ forloop.counter }}</p>
+              </td>
+              <td
+                class="min-w-[450px] place-items-center content-center items-center justify-center border-b border-b-gray-200 px-6 py-4"
+              >
+                <a href="{% url 'homepage-event-detail' registered.event.slug %}" class="flex flex-row items-center gap-5 rounded-xl px-2 py-1 transition-all duration-150 ease-out hover:bg-slate-500 hover:bg-opacity-10 hover:ring-4 hover:ring-slate-500 hover:ring-opacity-10 active:scale-95">
+                  <img
+                    src="{% get_media_prefix %}{{ registered.event.banner }}"
+                    alt="{{ registered.event.slug }}"
+                    srcset=""
+                    class="shadow-container1 h-20 w-36 rounded-xl object-cover object-center"
+                    draggable="false"
+                  />
+                  <p class="font-jost text-sky-800 line-clamp-2">{{ registered.event.title }}</p>
+                </a>
+              </td>
+              <td class="min-w-[290px] border-b border-b-gray-200 px-6 py-4">
+                <div class="flex flex-col gap-1">
+                  <div class="flex flex-row items-center gap-2">
+                    {% if registered.event.schedule_start|date:'M j, Y' == registered.event.schedule_end|date:'M j, Y' %}
+                    <span class="text-sm font-medium text-slate-800 font-poppins">{{ registered.event.schedule_start|date:'M j, Y' }}</span>
+                    {% else %}
+                    <span class="text-sm font-medium text-slate-800 font-poppins">{{ registered.event.schedule_start|date:'M j, Y' }}</span>
+                    <span class="text-sm font-medium text-slate-800 font-poppins">{{ registered.event.schedule_end|date:'M j, Y' }}</span>
+                    {% endif %}
+                  </div>
+                  <p class="font-inter text-sm font-medium text-slate-400">
+                    {{ registered.event.schedule_start|date:'h:i A' }} - {{ registered.event.schedule_end|date:'h:i A (e)' }}
+                  </p>
+                </div>
+              </td>
+              <td class="min-w-[250px] border-b border-b-gray-200 px-6 py-4 text-xs font-medium text-slate-500">
+                <div class="flex flex-col items-end gap-1">
+                  <strong class="font-poppins text-lg font-bold text-slate-800">Rp 80,000</strong>
+                  <div class="flex flex-row items-center gap-2 flex-wrap">
+                    <span class="rounded-md bg-gray-200 px-2 py-1 text-xs font-semibold font-poppins uppercase w-fit text-gray-500">
+                      {{ registered.invoiceusereventregistered_set.count }} INVOICE
+                    </span>
+                    <!-- TODO: fix it later -->
+                    {% if registered.status_paid == "PAID" %}
+                    <span class="rounded-md bg-green-200 px-2 py-1 text-xs font-semibold font-poppins uppercase w-fit text-green-500">PAID SUCCESS</span>
+                    {% elif registered.status_paid == "WAITING" %}
+                    <span class="rounded-md bg-gray-200 px-2 py-1 text-xs font-semibold font-poppins uppercase w-fit text-gray-500">WAITING</span>
+                    {% elif registered.status_paid == "FAILED" %}
+                    <span class="rounded-md bg-rose-200 px-2 py-1 text-xs font-semibold font-poppins uppercase w-fit text-rose-500">PAID FAILED</span>
+                    {% endif %}
+                  </div>
+                </div>
+              </td>
+              <td class="font-inter min-w-[190px] border-b border-b-gray-200 px-6 py-4 text-sm font-medium text-slate-500">
+                {{ registered.created_at|timesince }} ago.
+              </td>
+              <td class="min-w-[250px] border-b border-b-gray-200 px-6 py-4">
+                <div class="font-quicksand flex flex-row items-center gap-2 text-sm font-semibold">
+                  <a
+                    href="{% url 'events-registered-resources' registered.id %}"
+                    class="text-center hover:shadow-container1 relative rounded-md bg-green-500 px-3 py-2 text-white transition-all duration-150 ease-out hover:scale-95 hover:brightness-110">
+                    Access Resources
+                  </a>
+                  <a
+                    href=""
+                    class="text-center hover:shadow-container1 relative rounded-md bg-gradient-to-b from-sky-600 to-sky-500 px-3 py-2 text-white transition-all duration-150 ease-out hover:scale-95 hover:brightness-110">
+                    Invoice Detail
+                  </a>
+                </div>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="flex flex-row justify-between">
+      <span class="flex flex-row items-center gap-1">
+        <p class="text-sm text-slate-600">
+          Showing <strong>{{ registered_events.start_index }}</strong> to <strong>{{ registered_events.end_index }}</strong> of
+          <strong>{{ registered_events.paginator.count }}</strong> entries.
+        </p>
+      </span>
+      <div class="flex flex-row items-center gap-2">
+        {% for paginate in registered_events.paginator.page_range %}
+        <a
+          href="?page={{ paginate }}"
+          class="paginate__item {% if paginate == registered_events.number %}paginate__item--active{% endif %}"
+          tabindex="-1"
+        >
+          <p class="absolute top-2/4 left-2/4 -translate-x-2/4 -translate-y-2/4">{{ paginate }}</p>
+        </a>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}

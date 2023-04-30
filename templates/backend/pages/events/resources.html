@@ -1,0 +1,81 @@
+{% extends 'backend/layout/master.html' %}
+
+<!-- -->
+{% load static %}
+
+<!-- -->
+{% block content %}
+
+<div class="grid select-none grid-cols-8 gap-8">
+  <div class="container__no__p col-span-5">
+    <img src="{% get_media_prefix %}{{ event.banner }}" alt="" class="h-auto w-full rounded-xl" draggable="false" />
+    <div class="flex flex-col gap-8 p-8">
+      <div class="flex flex-col gap-5">
+        <h1 class="font-poppins text-lg font-semibold text-slate-900">{{ event.title }}</h1>
+        <p class="font-poppins text-sm text-slate-600">{{ event.description|urlize|linebreaksbr }}</p>
+      </div>
+      <hr />
+      <div class="flex flex-row items-center gap-3">
+        <a
+          href="{% url 'events-registered' %}"
+          class="font-mulish relative rounded-lg border border-slate-100 bg-slate-500 bg-opacity-10 px-4 py-2 text-sm font-semibold uppercase text-slate-400 transition-all duration-150 ease-out hover:brightness-50"
+          >Back</a
+        >
+      </div>
+    </div>
+  </div>
+  <div class="container__no__gap col-span-3 gap-8">
+    <div class="flex flex-row justify-between">
+      <div class="font-poppins flex flex-col gap-1">
+        <p class="font-medium text-slate-900">Link Stream & Resources</p>
+        <small class="text-xs font-light text-slate-600">Please check after the schedule just about to begin. Sometimes the link could be changes.</small>
+      </div>
+    </div>
+    <div class="container__group flex flex-col gap-5">
+      <div class="flex flex-col gap-4">
+        <div class="flex flex-col gap-1">
+          <strong>Available stream link</strong>
+          <small class="font-poppins text-xs text-slate-500">You're not attended yet.</small>
+        </div>
+        <hr />
+      </div>
+      <div class="grid grid-cols-2 gap-3">
+        <a href="" class="rounded-lg bg-gradient-to-r from-blue-500 to-blue-800 px-5 py-3 text-white font-poppins uppercase text-sm h-fit transition-all duration-150 ease-out hover:brightness-110 hover:shadow-container1">via <strong>zoom</strong></a>
+        <a href="" class="rounded-lg bg-gradient-to-r from-blue-500 to-blue-800 px-5 py-3 text-white font-poppins uppercase text-sm h-fit transition-all duration-150 ease-out hover:brightness-110 hover:shadow-container1">via <strong>youtube</strong></a>
+        <a href="" class="rounded-lg bg-gradient-to-r from-blue-500 to-blue-800 px-5 py-3 text-white font-poppins uppercase text-sm h-fit transition-all duration-150 ease-out hover:brightness-110 hover:shadow-container1">via <strong>streamless</strong></a>
+        <a href="" class="rounded-lg bg-gradient-to-r from-blue-500 to-blue-800 px-5 py-3 text-white font-poppins uppercase text-sm h-fit transition-all duration-150 ease-out hover:brightness-110 hover:shadow-container1">via <strong>google meeting</strong></a>
+      </div>
+    </div>
+    <div class="flex flex-col gap-3">
+      <small class="font-poppins text-xs font-light text-slate-600">Additionally you can download the resources after the event ended. (if it provided)</small>
+      <div class="container__group flex flex-col gap-5">
+        <div class="flex flex-col gap-4">
+          <strong>Available resources</strong>
+          <hr />
+        </div>
+        <div class="flex flex-col gap-3">
+          <button
+            class="grid grid-cols-3 items-center gap-3 rounded-xl px-4 py-2 transition-all duration-150 ease-out hover:bg-slate-500 hover:bg-opacity-10 hover:ring-4 hover:ring-slate-500 hover:ring-opacity-10"
+          >
+            <span class="col-span-2 flex flex-row items-center gap-3">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="h-4 w-4 text-slate-800">
+                <path
+                  d="M5 0L5 4L7 4L7 0 Z M 17 0L17 4L19 4L19 0 Z M 1 3C0.398438 3 0 3.398438 0 4L0 7C0 7.601563 0.398438 8 1 8L1 24L23 24L23 8C23.601563 8 24 7.601563 24 7L24 4C24 3.398438 23.601563 3 23 3L20 3L20 5L16 5L16 3L8 3L8 5L4 5L4 3 Z M 3 8L21 8L21 22L3 22 Z M 5 10L5 12L7 12L7 10 Z M 9 10L9 12L11 12L11 10 Z M 13 10L13 12L15 12L15 10 Z M 17 10L17 12L19 12L19 10 Z M 12 13L12 17L16 17L16 13 Z M 5 14L5 16L7 16L7 14 Z M 9 14L9 16L11 16L11 14 Z M 17 14L17 16L19 16L19 14 Z M 5 18L5 20L7 20L7 18 Z M 9 18L9 20L11 20L11 18 Z M 13 18L13 20L15 20L15 18 Z M 17 18L17 20L19 20L19 18Z"
+                  fill="currentColor"
+                />
+              </svg>
+              <span class="font-quicksand line-clamp-1 text-ellipsis break-all text-left text-sm font-medium"
+                >Events full resources.docx</span
+              >
+            </span>
+            <span class="font-poppins line-clamp-1 text-ellipsis break-all text-left text-sm text-slate-400"
+              >61.55Kb</span
+            >
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}

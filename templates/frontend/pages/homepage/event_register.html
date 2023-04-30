@@ -18,7 +18,11 @@
   <div class="border-base-depth flex flex-col gap-4 rounded-xl border px-8 py-7">
     <div class="flex flex-row justify-between gap-2">
       <span class="font-quicksand text-base font-medium text-slate-800">Register Fee</span>
-      <span class="font-quicksand text-lg font-bold text-slate-900">Rp 0</span>
+      {% if event.price == 0 %}
+      <span class="font-quicksand text-lg font-bold text-slate-900">FREE</span>
+      {% else %}
+      <span class="font-quicksand text-lg font-bold text-slate-900">Rp {{ event.price }}</span>
+      {% endif %}
     </div>
     <div class="flex flex-row justify-between gap-2">
       <span class="font-quicksand text-base font-medium text-slate-800">Discount (0%)</span>
@@ -27,7 +31,11 @@
   </div>
   <div class="flex flex-row justify-between gap-2 px-8">
     <span class="font-quicksand text-base font-bold text-slate-800">Total</span>
+    {% if event.price == 0 %}
+    <span class="font-quicksand text-lg font-bold text-slate-900">FREE</span>
+    {% else %}
     <span class="font-quicksand text-lg font-bold text-slate-900">Rp 0</span>
+    {% endif %}
   </div>
   <hr class="border-base-depth" />
   <div class="flex flex-row items-center gap-4">

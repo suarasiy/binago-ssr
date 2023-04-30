@@ -44,7 +44,7 @@ if TYPE_CHECKING:
     from django.db.models import QuerySet
     from django.http import HttpResponse, HttpResponseRedirect, HttpResponsePermanentRedirect
     from .context import (
-        SettingsContext, HomepageContext, EventDetailContext
+        SettingsContext, HomepageContext, EventDetailContext, EventRegisterContext
     )
 
 
@@ -135,10 +135,10 @@ def homepage_today(request, *args, **kwargs) -> HttpResponse:
     category: str | Literal[False] = kwargs.get('category', False)
     if category:
         events: QuerySet[Events] = Events.objects.filter(
-            schedule_start__day=timezone_now().day, category__slug=category).order_by('-schedule_start')
+            schedule_start__month=timezone_now().month, schedule_start__day=timezone_now().day, category__slug=category).order_by('-schedule_start')
     else:
         events: QuerySet[Events] = Events.objects.filter(
-            schedule_start__day=timezone_now().day).order_by('-schedule_start')
+            schedule_start__month=timezone_now().month, schedule_start__day=timezone_now().day).order_by('-schedule_start')
 
     context: HomepageContext = stub_homepage_events(request, events, 6, 'TODAY')
     context['title'] = 'Binago Homepage | Today Events'
@@ -178,14 +178,17 @@ def timeline(request) -> HttpResponse:
 def event_detail(request, slug) -> HttpResponse:
     template: str = pages_frontend('homepage/event_detail.html')
     register_eligibility: bool = check_eligibility_register(request, slug)
-    event_associated = Events.objects.get(slug=slug).association_group.association
-    count_events = Events.objects.filter(association_group__association=event_associated)
+    event: Events = get_object_or_404(Events, slug=slug)
+    # TODO: typechecking need to fix
+    event_associated = Events.objects.get(slug=slug).association_group.association # type: ignore
+    count_events: QuerySet[Events] | None = Events.objects.filter(association_group__association=event_associated)
     context: EventDetailContext = {
         'title': 'Binago Events Detail',
         'description': 'Detail the events.',
-        'event': get_object_or_404(Events, slug=slug),
+        'event': event,
         'register_eligibility': register_eligibility,
-        'total_events': count_events.count()
+        'total_events': count_events.count(),
+        'event_ended': True if event.schedule_end < timezone_now() else False
     }
     return render(request, template, context)
 
@@ -218,7 +221,7 @@ def event_register(request, slug) -> HttpResponse | HttpResponseRedirect | HttpR
     else:
         pass
     template: str = pages_frontend('homepage/event_register.html')
-    context: EventDetailContext = {
+    context: EventRegisterContext = {
         'title': 'Binago Events Register',
         'description': 'Register the events.',
         'event': event,

@@ -123,6 +123,17 @@ class EventsUserRegistered(models.Model):
     def __str__(self):
         return f'{self.user.username} - {self.event.title}'
 
+    def status_paid(self):
+        def _(status):
+            return self.invoiceusereventregistered_set.filter(status=status).order_by('-updated_at').first()
+        # NOTE: Procedural hierarchy
+        if _("SUCCESS"):
+            return "PAID"
+        if _("WAITING"):
+            return "WAITING"
+        if _("FAILED"):
+            return "FAILED"
+
     class Meta:
         verbose_name_plural: str = 'Events User Registered'
         constraints = [

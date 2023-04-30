@@ -3,6 +3,7 @@ from typing import TYPE_CHECKING
 
 from django.urls import reverse
 from django.shortcuts import render, redirect, get_object_or_404
+from django.core.paginator import Paginator
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_http_methods
@@ -12,15 +13,16 @@ from Associations.query import user_registered_associations, get_association_by_
 
 from Associations.models import AssociationsGroup
 from Associations.permissions import permission_association_is_approved, permission_member_specific_association
+from .permissions import permission_check_user_registered_into_event
 
-from .models import Events, EventsCoverage
+from .models import Events, EventsCoverage, EventsUserRegistered
 from .forms import EventForm, EventEditForm, EventsCoverageForm
 from .utils import list_no_whitespace
 if TYPE_CHECKING:
     from django.db.models import QuerySet
     from django.http import HttpResponse, HttpResponseRedirect, HttpResponsePermanentRedirect
     from .context import (
-        IndexContext, FormContext
+        IndexContext, FormContext, IndexRegisteredEventsContext, IndexEventResourceContext
     )
     from typing import Union, List
 
@@ -47,6 +49,65 @@ def index(request) -> HttpResponse:
         'registered_associations': user_registered_associations(request)
     }
     return render(request, template_name, context)
+
+
+@login_required
+@require_http_methods(['GET'])
+def index_registered(request) -> HttpResponse | HttpResponseRedirect | HttpResponsePermanentRedirect:
+    template: str = pages_backend('events/registered.html')
+    registered_events: QuerySet[EventsUserRegistered] = EventsUserRegistered.objects.filter(
+        user=request.user).order_by('-event__schedule_start')
+
+    cluster_registered_events = Paginator(registered_events, 10)
+    page: int = request.GET.get('page', 1)
+
+    context: IndexRegisteredEventsContext = {
+        'title': 'Events',
+        'breadcrumb': {
+            'main': 'Events',
+            'branch': [
+                {
+                    'name': 'Data',
+                    'reverse': reverse('events-registered'),  # TODO: fill
+                    'type': 'current'
+                }
+            ]
+        },
+        'description': 'Registered events.',
+        'registered_events': cluster_registered_events.get_page(page),
+        'registered_associations': user_registered_associations(request)
+    }
+    return render(request, template, context)
+
+
+@login_required
+@require_http_methods(['GET'])
+@permission_check_user_registered_into_event
+def event_resources(request, ticket_id) -> HttpResponse:
+    ticket: EventsUserRegistered = get_object_or_404(EventsUserRegistered, user=request.user, id=ticket_id)
+    template: str = pages_backend('events/resources.html')
+    context: IndexEventResourceContext = {
+        'title': 'Events Resources',
+        'breadcrumb': {
+            'main': 'Events',
+            'branch': [
+                {
+                    'name': 'Data',
+                    'reverse': reverse('events-registered'),
+                    'type': 'previous'
+                },
+                {
+                    'name': ticket.event.title,
+                    'reverse': reverse('events-registered-resources', kwargs={'ticket_id': ticket_id}),
+                    'type': 'current'
+                }
+            ]
+        },
+        'description': 'Events resources.',
+        'event': ticket.event,
+        'registered_associations': user_registered_associations(request)
+    }
+    return render(request, template, context)
 
 
 @login_required

@@ -59,3 +59,12 @@ def permission_check_user_eligibility(view):
             raise PermissionDenied
         return view(request, *args, **kwargs)
     return _view
+
+
+def permission_check_user_registered_into_event(view):
+    @wraps(view)
+    def _view(request, *args, **kwargs) -> HttpResponse | HttpResponseRedirect | HttpResponsePermanentRedirect:
+        if not EventsUserRegistered.objects.filter(id=kwargs.get('ticket_id', ''), user=request.user).exists():
+            raise PermissionDenied
+        return view(request, *args, **kwargs)
+    return _view

@@ -60,7 +60,7 @@
             {% for user in users %}
             <tr class="hover:bg-slate-500 hover:bg-opacity-5">
               <td class="min-w-[80px] border-b border-b-gray-200 px-6 py-4">
-                <p class="font-inter text-sm text-slate-400">{{ forloop.counter }}</p>
+                <p class="font-inter text-sm text-slate-400">{{ forloop.counter0|add:users.start_index }}</p>
               </td>
               <td class="font-jost min-w-[310px] border-b border-b-gray-200 px-6 py-4 text-left text-sky-600">
                 <a

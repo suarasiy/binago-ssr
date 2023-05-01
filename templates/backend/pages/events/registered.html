@@ -58,7 +58,7 @@
             {% for registered in registered_events %}
             <tr class="hover:bg-slate-500 hover:bg-opacity-5">
               <td class="min-w-[80px] border-b border-b-gray-200 px-6 py-4">
-                <p class="font-inter text-sm text-slate-400">{{ forloop.counter }}</p>
+                <p class="font-inter text-sm text-slate-400">{{ forloop.counter0|add:registered_events.start_index }}</p>
               </td>
               <td
                 class="min-w-[450px] place-items-center content-center items-center justify-center border-b border-b-gray-200 px-6 py-4"

@@ -15,6 +15,7 @@ from django.shortcuts import get_object_or_404
 from functools import wraps
 
 from .models import Events, EventsUserRegistered
+from Invoices.models import InvoiceUserEventRegistered
 
 
 def check_eligibility_schedule_register(request, slug: str) -> bool:
@@ -64,7 +65,11 @@ def permission_check_user_eligibility(view):
 def permission_check_user_registered_into_event(view):
     @wraps(view)
     def _view(request, *args, **kwargs) -> HttpResponse | HttpResponseRedirect | HttpResponsePermanentRedirect:
-        if not EventsUserRegistered.objects.filter(id=kwargs.get('ticket_id', ''), user=request.user).exists():
+        try:
+            ticket: EventsUserRegistered = EventsUserRegistered.objects.get(id=kwargs.get('ticket_id', ''))
+            if not InvoiceUserEventRegistered.objects.filter(event_registered=ticket, status='SUCCESS').exists():
+                raise PermissionDenied
+        except EventsUserRegistered.DoesNotExist:
             raise PermissionDenied
         return view(request, *args, **kwargs)
     return _view

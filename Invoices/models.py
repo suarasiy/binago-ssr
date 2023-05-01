@@ -30,11 +30,20 @@ class InvoiceUserEventRegistered(models.Model):
         SUCCESS = "SUCCESS", ("Success")
         FAILED = "FAILED", ("Failed")
     event_registered = models.ForeignKey(EventsUserRegistered, on_delete=models.CASCADE)
-    price = models.DecimalField(max_digits=6, decimal_places=2)
+    price = models.PositiveIntegerField()
     discount = models.PositiveIntegerField(default=0)
     status = models.TextField(choices=StatusType.choices, default=StatusType.WAITING)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    def status_paid(self):
+        # NOTE: Procedural hierarchy
+        if self.status == "SUCCESS":
+            return "PAID"
+        if self.status == "WAITING":
+            return "WAITING"
+        if self.status == "FAILED":
+            return "FAILED"
 
     def __str__(self) -> str:
         return f'{self.event_registered.user.username} - {self.event_registered.event.title}'

@@ -180,7 +180,7 @@ def event_detail(request, slug) -> HttpResponse:
     register_eligibility: bool = check_eligibility_register(request, slug)
     event: Events = get_object_or_404(Events, slug=slug)
     # TODO: typechecking need to fix
-    event_associated = Events.objects.get(slug=slug).association_group.association # type: ignore
+    event_associated = Events.objects.get(slug=slug).association_group.association  # type: ignore
     count_events: QuerySet[Events] | None = Events.objects.filter(association_group__association=event_associated)
     context: EventDetailContext = {
         'title': 'Binago Events Detail',
@@ -208,12 +208,15 @@ def event_register(request, slug) -> HttpResponse | HttpResponseRedirect | HttpR
             event=event,
             user=request.user,
         )
-        InvoiceUserEventRegistered.objects.create(
+        new_invoice = InvoiceUserEventRegistered.objects.create(
             event_registered=register_event,
             price=event.price,
             discount=0,
-            status='SUCCESS'
         )
+        if event.price == 0:
+            new_invoice.status = 'SUCCESS'
+            new_invoice.save()
+
         schedule_start: str = dateformat.format(event.schedule_start, 'M d, Y h:i A')
         messages.success(
             request, f'Congratulations! You\'re registered to the event {event.title}. Please attend through follows the schedule {schedule_start}. For more information you can check dashboard page.')

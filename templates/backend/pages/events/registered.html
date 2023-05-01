@@ -1,6 +1,9 @@
 {% extends 'backend/layout/master.html' %}
 
 <!-- -->
+{% load humanize %}
+
+<!-- -->
 {% load static %}
 
 <!-- -->
@@ -86,9 +89,13 @@
                   </p>
                 </div>
               </td>
-              <td class="min-w-[250px] border-b border-b-gray-200 px-6 py-4 text-xs font-medium text-slate-500">
-                <div class="flex flex-col items-end gap-1">
-                  <strong class="font-poppins text-lg font-bold text-slate-800">Rp 80,000</strong>
+              <td class="min-w-[260px] border-b border-b-gray-200 px-6 py-4 text-xs font-medium text-slate-500">
+                <a href="" class="flex flex-col items-end gap-1 rounded-xl p-2 border border-dashed border-slate-300 transition-all duration-150 ease-out hover:bg-slate-300 hover:bg-opacity-10 hover:ring-4 hover:ring-slate-500 hover:ring-opacity-10 active:scale-95">
+                  {% if registered.invoiceusereventregistered_set.last.price == 0 %}
+                    <strong class="font-poppins text-lg font-bold text-slate-800">FREE</strong>
+                  {% else %}
+                    <strong class="font-poppins text-lg font-bold text-slate-800">Rp {{ registered.invoiceusereventregistered_set.last.price|intcomma }}</strong>
+                  {% endif %}
                   <div class="flex flex-row items-center gap-2 flex-wrap">
                     <span class="rounded-md bg-gray-200 px-2 py-1 text-xs font-semibold font-poppins uppercase w-fit text-gray-500">
                       {{ registered.invoiceusereventregistered_set.count }} INVOICE
@@ -102,7 +109,7 @@
                     <span class="rounded-md bg-rose-200 px-2 py-1 text-xs font-semibold font-poppins uppercase w-fit text-rose-500">PAID FAILED</span>
                     {% endif %}
                   </div>
-                </div>
+                </a>
               </td>
               <td class="font-inter min-w-[190px] border-b border-b-gray-200 px-6 py-4 text-sm font-medium text-slate-500">
                 {{ registered.created_at|timesince }} ago.

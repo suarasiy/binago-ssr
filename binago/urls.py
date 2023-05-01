@@ -49,6 +49,7 @@ urlpatterns = [
         path('associations/', include('Associations.urls')),
         path('events/', include('Events.urls')),
         path('users/', include('authentication.urls')),
+        path('invoices/', include('Invoices.urls')),
         path('settings/', include([
             # TODO: Need to improve
             path('profile/', include([

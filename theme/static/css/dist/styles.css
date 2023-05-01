@@ -1663,6 +1663,10 @@ main .widget.widget--active > strong.context + p.subcon{
   min-width: 16rem;
 }
 
+.min-w-\[180px\]{
+  min-width: 180px;
+}
+
 .min-w-\[18rem\]{
   min-width: 18rem;
 }
@@ -1673,6 +1677,10 @@ main .widget.widget--active > strong.context + p.subcon{
 
 .min-w-\[20px\]{
   min-width: 20px;
+}
+
+.min-w-\[210px\]{
+  min-width: 210px;
 }
 
 .min-w-\[250px\]{
@@ -1714,6 +1722,10 @@ main .widget.widget--active > strong.context + p.subcon{
 .min-w-max{
   min-width: -moz-max-content;
   min-width: max-content;
+}
+
+.min-w-\[260px\]{
+  min-width: 260px;
 }
 
 .max-w-\[105px\]{
@@ -2041,6 +2053,10 @@ main .widget.widget--active > strong.context + p.subcon{
 
 .border-r{
   border-right-width: 1px;
+}
+
+.border-dashed{
+  border-style: dashed;
 }
 
 .border-none{
@@ -2449,6 +2465,10 @@ main .widget.widget--active > strong.context + p.subcon{
 
 .p-8{
   padding: 2rem;
+}
+
+.p-1{
+  padding: 0.25rem;
 }
 
 .px-1{

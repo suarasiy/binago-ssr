@@ -2,8 +2,9 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
+    from typing import Literal
     from django.db.models import QuerySet
-    from Invoices.models import InvoiceUserEventRegistered
+    from Invoices.models import InvoiceUserEventRegistered, InvoiceEventPost
 
 import pathlib
 from uuid import uuid1
@@ -58,6 +59,7 @@ class Events(models.Model):
     schedule_start = models.DateTimeField()
     schedule_end = models.DateTimeField()
     max_audience = models.PositiveIntegerField()
+    url_name = models.CharField(max_length=50)
     url_stream = models.TextField()
     url_homepage = models.TextField(blank=True, null=True)
     is_published = models.BooleanField(default=False)
@@ -66,6 +68,8 @@ class Events(models.Model):
 
     user_eligibility: bool
     schedule_eligibility: bool
+    invoiceeventpost_set: QuerySet[InvoiceEventPost]
+    event_extended_url: QuerySet[EventsExtendedUrl]
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.title, allow_unicode=True)
@@ -75,24 +79,43 @@ class Events(models.Model):
     def __str__(self):
         return self.title
 
+    def status_paid(self):
+        def _(status):
+            return self.invoiceeventpost_set.filter(status=status).order_by('-updated_at').first()
+        # NOTE: Procedural hierarchy
+        if _("SUCCESS"):
+            return "PAID"
+        if _("WAITING"):
+            return "WAITING"
+        if _("FAILED"):
+            return "FAILED"
+
+    def count_url(self) -> int:
+        base_url: Literal[1, 0] = 1 if self.url_stream else 0
+        return base_url + self.event_extended_url.all().count()
+
     class Meta:
         verbose_name_plural = 'Events'
         ordering = ['-created_at']
 
 
 class EventsExtendedUrl(models.Model):
-    event = models.ForeignKey(Events, on_delete=CASCADE)
-    url = models.TextField(unique=True)
-    url_title = models.CharField(max_length=50, db_index=True)
+    event = models.ForeignKey(Events, on_delete=CASCADE, related_name='event_extended_url')
+    name = models.CharField(max_length=50, db_index=True)
+    url = models.TextField()
+    is_attended = models.BooleanField(default=None, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f"{self.url_title} of event {self.event.title}"
+        return f"{self.name} of event {self.event.title}"
 
     class Meta:
         verbose_name_plural = 'Events Extended url'
         ordering = ['-updated_at']
+        constraints = [
+            models.UniqueConstraint(fields=['event', 'name', 'url'], name='unique_event_url')
+        ]
 
 
 class EventsCoverage(models.Model):

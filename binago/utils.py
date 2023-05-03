@@ -1,7 +1,13 @@
 from __future__ import annotations
 from typing import TYPE_CHECKING
+if TYPE_CHECKING:
+    from .context import QueryFragmentInfoContext
 
 from django.urls import reverse
+
+from authentication.query import count_verified_users
+from Associations.query import count_verified_associations
+from Events.query import count_verified_events
 
 if TYPE_CHECKING:
     from typing import Literal
@@ -33,6 +39,13 @@ def pages_mail(filename) -> str:
 def pages_handler(filename) -> str:
     return f"handler/{filename}"
 
+
+def fragment_info() -> QueryFragmentInfoContext:
+    return {
+        'registered_users': count_verified_users(),
+        'registered_associations': count_verified_associations(),
+        'registered_events': count_verified_events()
+    }
 
 # def homepage_typefilter_reverse(_type: Literal['TODAY', 'UPCOMING', 'PAST'], category: str | Literal[False]) -> str | Literal[False]:
 #     if not category:

@@ -1,6 +1,8 @@
 from django import forms
 from .models import Associations, AssociationsGroup
 
+from Events.models import EventsExtendedUrl
+
 
 class AssociationForm(forms.ModelForm):
     name = forms.CharField(max_length=80, widget=forms.TextInput(
@@ -95,3 +97,31 @@ class AssociationInviteForm(forms.Form):
             'autocomplete': 'off'
         }
     ))
+
+
+class EventStreamUrlForm(forms.ModelForm):
+    name = forms.CharField(max_length=50, widget=forms.TextInput(
+        attrs={
+            'class': 'input__field',
+            'placeholder': 'Provider Name',
+            'spellcheck': 'false',
+            'autocomplete': 'off',
+            'id': 'name',
+            'tabindex': '1',
+            'autofocus': 'true'
+        }
+    ))
+    url = forms.URLField(widget=forms.TextInput(
+        attrs={
+            'class': 'input__field',
+            'placeholder': 'URL Stream',
+            'spellcheck': 'false',
+            'autocomplete': 'off',
+            'id': 'url',
+            'tabindex': '2'
+        }
+    ))
+
+    class Meta:
+        model = EventsExtendedUrl
+        fields = ['name', 'url']

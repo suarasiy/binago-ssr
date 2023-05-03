@@ -9,7 +9,8 @@ if TYPE_CHECKING:
     from django.db.models import QuerySet
     from django.db.models.query import ValuesQuerySet
     from .context import (
-        ContextIndex, ContextInvite, ContextEdit, ContextIndexApproval, ContextProfile, ContextExplore, ContextCreate
+        ContextIndex, ContextInvite, ContextEdit, ContextIndexApproval, ContextProfile, ContextExplore, ContextCreate, IndexEventResourceContext,
+        StreamFormContext
     )
 
 from django.shortcuts import render, redirect, get_object_or_404
@@ -19,11 +20,11 @@ from django.core.paginator import Paginator
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_http_methods
 
-from Events.models import Events
+from Events.models import Events, EventsExtendedUrl
 from authentication.models import User
 from authentication.permissions import permission_staff_only
 from .models import Associations, AssociationsGroup, AssociationsApprovalRequest
-from .forms import AssociationForm, AssociationInviteForm
+from .forms import AssociationForm, AssociationInviteForm, EventStreamUrlForm
 from .query import user_registered_associations, get_association_by_slug
 from .permissions import permission_member_specific_association, permission_association_is_approved, permission_association_manager_only, permission_association_create_eligibility
 
@@ -88,6 +89,111 @@ def explore(request, slug) -> HttpResponse:
         'registered_associations': user_registered_associations(request),
         'q_events': build_qe,
         'q_members': build_em
+    }
+    return render(request, template, context)
+
+
+@login_required
+@require_http_methods(['GET', 'POST'])
+def event_new_stream(request, slug, slug_event) -> HttpResponse:
+    event: Events = get_object_or_404(Events, slug=slug_event)
+    association: Associations = get_object_or_404(Associations, slug=slug)
+    registered_urls: QuerySet[EventsExtendedUrl] = EventsExtendedUrl.objects.filter(event=event).order_by('-updated_at')
+    if request.method == "POST":
+        form: EventStreamUrlForm = EventStreamUrlForm(request.POST)
+        if form.is_valid():
+            obj_stream = form.save(commit=False)
+            obj_stream.event = event
+            obj_stream.save()
+
+            messages.success(request, f'New url stream added for {event.title}')
+            return redirect(reverse('events-new-stream', kwargs={'slug': slug, 'slug_event': slug_event}))
+    else:
+        form: EventStreamUrlForm = EventStreamUrlForm()
+    template: str = pages_backend('associations/stream_link.html')
+    context: StreamFormContext = {
+        'title': 'Extend Url Strem',
+        'breadcrumb': {
+            'main': 'Associations',
+            'branch': [
+                {
+                    'name': 'Data',
+                    'reverse': reverse('associations-data'),
+                    'type': 'previous'
+                },
+                {
+                    'name': get_association_by_slug(slug).name,
+                    'reverse': reverse('associations-data-explore', kwargs={'slug': slug}),
+                    'type': 'previous'
+                },
+                {
+                    'name': event.title,
+                    'reverse': reverse('events-edit', kwargs={'slug': slug, 'slug_event': slug_event}),
+                    'type': 'previous'
+                },
+                {
+                    'name': 'Stream Link',
+                    'reverse': request.get_full_path(),
+                    'type': 'current'
+                }
+            ]
+        },
+        'description': 'Manage url stream for the event.',
+        'association': association,
+        'registered_urls': registered_urls,
+        'form': form,
+        'event': event,
+        'registered_associations': user_registered_associations(request),
+    }
+    return render(request, template, context)
+
+
+@login_required
+@require_http_methods(['POST'])
+def event_stream_destroy(request, id_stream, *args, **kwargs) -> HttpResponseRedirect | HttpResponsePermanentRedirect:
+    stream_url: EventsExtendedUrl = get_object_or_404(EventsExtendedUrl, id=id_stream)
+    stream_url.delete()
+    messages.success(request, f'Stream link through {stream_url.name} successfully deleted.')
+    return redirect(reverse('events-new-stream', kwargs={'slug': kwargs.get('slug', ''), 'slug_event': kwargs.get('slug_event', '')}))
+
+
+@login_required
+@require_http_methods(['GET'])
+def event_preview_resources(request, slug, slug_event) -> HttpResponse:
+    event: Events = get_object_or_404(Events, slug=slug_event)
+    association: Associations = get_object_or_404(Associations, slug=slug)
+    template: str = pages_backend('associations/preview_resources.html')
+    context: IndexEventResourceContext = {
+        'title': 'Events Resources | Preview Mode',
+        'breadcrumb': {
+            'main': 'Associations',
+            'branch': [
+                {
+                    'name': 'Data',
+                    'reverse': reverse('associations-data'),
+                    'type': 'previous'
+                },
+                {
+                    'name': get_association_by_slug(slug).name,
+                    'reverse': reverse('associations-data-explore', kwargs={'slug': slug}),
+                    'type': 'previous'
+                },
+                {
+                    'name': event.title,
+                    'reverse': reverse('events-edit', kwargs={'slug': slug, 'slug_event': slug_event}),
+                    'type': 'previous'
+                },
+                {
+                    'name': 'Preview',
+                    'reverse': reverse('associations-event-preview', kwargs={'slug': slug, 'slug_event': slug_event}),
+                    'type': 'current'
+                }
+            ]
+        },
+        'description': 'Preview event resources.',
+        'event': event,
+        'association': association,
+        'registered_associations': user_registered_associations(request)
     }
     return render(request, template, context)
 

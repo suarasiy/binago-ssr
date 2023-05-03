@@ -14,3 +14,7 @@ def user_registered_associations(request) -> QuerySet[AssociationsGroup]:
 
 def get_association_by_slug(slug) -> Associations:
     return get_object_or_404(Associations, slug=slug)
+
+
+def count_verified_associations() -> int:
+    return Associations.objects.filter(approval__is_approved=True).count()

@@ -1159,6 +1159,10 @@ main .widget.widget--active > strong.context + p.subcon{
   --tw-text-opacity: 0.6;
 }
 
+.visible{
+  visibility: visible;
+}
+
 .static{
   position: static;
 }
@@ -1334,6 +1338,10 @@ main .widget.widget--active > strong.context + p.subcon{
 
 .ml-3{
   margin-left: 0.75rem;
+}
+
+.mr-2{
+  margin-right: 0.5rem;
 }
 
 .mr-4{
@@ -1691,6 +1699,10 @@ main .widget.widget--active > strong.context + p.subcon{
   min-width: 25rem;
 }
 
+.min-w-\[260px\]{
+  min-width: 260px;
+}
+
 .min-w-\[26rem\]{
   min-width: 26rem;
 }
@@ -1711,6 +1723,10 @@ main .widget.widget--active > strong.context + p.subcon{
   min-width: 450px;
 }
 
+.min-w-\[500px\]{
+  min-width: 500px;
+}
+
 .min-w-\[80px\]{
   min-width: 80px;
 }
@@ -1722,10 +1738,6 @@ main .widget.widget--active > strong.context + p.subcon{
 .min-w-max{
   min-width: -moz-max-content;
   min-width: max-content;
-}
-
-.min-w-\[260px\]{
-  min-width: 260px;
 }
 
 .max-w-\[105px\]{
@@ -1804,6 +1816,10 @@ main .widget.widget--active > strong.context + p.subcon{
   -webkit-user-select: none;
      -moz-user-select: none;
           user-select: none;
+}
+
+.grid-cols-1{
+  grid-template-columns: repeat(1, minmax(0, 1fr));
 }
 
 .grid-cols-2{
@@ -2308,6 +2324,10 @@ main .widget.widget--active > strong.context + p.subcon{
   --tw-bg-opacity: 0.1;
 }
 
+.bg-opacity-20{
+  --tw-bg-opacity: 0.2;
+}
+
 .bg-opacity-60{
   --tw-bg-opacity: 0.6;
 }
@@ -2467,10 +2487,6 @@ main .widget.widget--active > strong.context + p.subcon{
   padding: 2rem;
 }
 
-.p-1{
-  padding: 0.25rem;
-}
-
 .px-1{
   padding-left: 0.25rem;
   padding-right: 0.25rem;
@@ -2601,6 +2617,10 @@ main .widget.widget--active > strong.context + p.subcon{
 
 .pl-5{
   padding-left: 1.25rem;
+}
+
+.pr-2{
+  padding-right: 0.5rem;
 }
 
 .pr-3{
@@ -2779,6 +2799,11 @@ main .widget.widget--active > strong.context + p.subcon{
 .text-blue-700{
   --tw-text-opacity: 1;
   color: rgb(17 113 239 / var(--tw-text-opacity));
+}
+
+.text-blue-800{
+  --tw-text-opacity: 1;
+  color: rgb(52 78 134 / var(--tw-text-opacity));
 }
 
 .text-emerald-500{

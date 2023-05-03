@@ -5,6 +5,7 @@ if TYPE_CHECKING:
     from django.forms import ModelForm
     from django.db.models import QuerySet
     from Associations.models import AssociationsGroup
+    from .context import QueryFragmentInfoContext
 
     class BreadcrumbBranch(TypedDict):
         name: str
@@ -24,3 +25,4 @@ if TYPE_CHECKING:
     class ContextHomepage(TypedDict):
         title: str
         description: str
+        fragment: QueryFragmentInfoContext

@@ -7,6 +7,7 @@ if TYPE_CHECKING:
     from .models import Events
     from .forms import EventForm
     from django.forms import Form
+    from Associations.models import Associations
 
     class IndexContext(_):
         events: Union[QuerySet, List[Events]]

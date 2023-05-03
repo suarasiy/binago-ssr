@@ -2,14 +2,15 @@ from typing import Union, List, Any, TypedDict, TYPE_CHECKING
 if TYPE_CHECKING:
     from binago.context_interface import Context
     from django.core.paginator import Page
-    from Events.models import Events
+    from Events.models import Events, EventsExtendedUrl
     from django.db.models import QuerySet
     from django.core.paginator import Page
     from django.db.models.query import ValuesQuerySet
     from django.db.models.fields.files import ImageFieldFile
     from .models import Associations, AssociationsApprovalRequest, AssociationsGroup
-    from .forms import AssociationForm, AssociationInviteForm
+    from .forms import AssociationForm, AssociationInviteForm, EventStreamUrlForm
     from django.db.models.query import ValuesQuerySet
+    from Events.context import IndexEventResourceContext as IERC
 
     class ContextIndex(Context):
         associations: Page
@@ -35,6 +36,15 @@ if TYPE_CHECKING:
 
     class ContextCreate(Context):
         form: AssociationForm
+
+    class IndexEventResourceContext(IERC):
+        association: Associations
+
+    class StreamFormContext(Context):
+        association: Associations
+        form: EventStreamUrlForm
+        event: Events
+        registered_urls: QuerySet[EventsExtendedUrl]
 
     class ContextIndexApproval(Context):
         associations: Page

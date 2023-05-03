@@ -106,7 +106,7 @@
       <div class="grid grid-cols-4 gap-6">
         {% for event in events %}
         <a
-          href=""
+          href="{% url 'associations-event-preview' association.slug event.slug %}"
           class="group flex flex-col gap-3 rounded-xl bg-white p-3 transition-all duration-100 ease-out hover:scale-[1.03] hover:bg-slate-600 hover:bg-opacity-10"
         >
         <div class="flex flex-col gap-3 h-full">

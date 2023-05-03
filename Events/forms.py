@@ -46,6 +46,15 @@ class EventForm(forms.ModelForm):
         attrs={'class': 'input__field', 'placeholder': 'Schedule to start',
                'id': 'schedule-end', 'type': 'datetime-local'}
     ))
+    url_name = forms.CharField(max_length=50, widget=forms.TextInput(
+        attrs={
+            'class': 'input__field',
+            'placeholder': 'Provider Name',
+            'spellcheck': 'false',
+            'autocomplete': 'off',
+            'id': 'url_name'
+        }
+    ))
     url_stream = forms.URLField(max_length=500, widget=forms.TextInput(
         attrs={'class': 'input__field', 'placeholder': 'Put your url stream',
                'spellcheck': 'false', 'id': 'url-stream', 'autocomplete': 'off'}
@@ -98,7 +107,7 @@ class EventForm(forms.ModelForm):
     class Meta:
         model = Events
         fields = ['title', 'banner', 'category', 'price', 'description', 'max_audience',
-                  'schedule_start', 'schedule_end', 'url_stream', 'url_homepage']
+                  'schedule_start', 'schedule_end', 'url_name', 'url_stream', 'url_homepage']
 
 
 class EventEditForm(EventForm):
@@ -118,7 +127,7 @@ class EventEditForm(EventForm):
     class Meta:
         model = Events
         fields = ['title', 'banner', 'category', 'price', 'description', 'max_audience',
-                  'url_stream', 'url_homepage']
+                  'url_name', 'url_stream', 'url_homepage']
 
 
 class EventsCoverageForm(forms.Form):

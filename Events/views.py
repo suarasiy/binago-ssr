@@ -13,11 +13,12 @@ from Associations.query import user_registered_associations, get_association_by_
 
 from Associations.models import AssociationsGroup
 from Associations.permissions import permission_association_is_approved, permission_member_specific_association
+from Invoices.models import InvoiceEventPost
 from .permissions import permission_check_user_registered_into_event
 
 from .models import Events, EventsCoverage, EventsUserRegistered
 from .forms import EventForm, EventEditForm, EventsCoverageForm
-from .utils import list_no_whitespace
+from .utils import list_no_whitespace, calculate_event_price
 if TYPE_CHECKING:
     from django.db.models import QuerySet
     from django.http import HttpResponse, HttpResponseRedirect, HttpResponsePermanentRedirect
@@ -154,6 +155,14 @@ def events_create(request, slug) -> HttpResponse | HttpResponseRedirect | HttpRe
             event = form.save(commit=False)
             event.association_group = group
             event.save()
+
+            # create invoice
+            # TODO: improve later, in-development
+            InvoiceEventPost.objects.create(
+                event=event,
+                price=calculate_event_price(event.price),
+                discount=0,
+            )
 
             coverage_list_cleaned: List[str] = list_no_whitespace(
                 form_coverage.cleaned_data.get('coverage').split("||"))

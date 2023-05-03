@@ -3,7 +3,8 @@ from .models import Events, EventsCategories, EventsExtendedUrl, EventsUserRegis
 
 
 class EventsAdmin(admin.ModelAdmin):
-    list_display = ('association_group', 'title', 'category', 'slug', 'price', 'is_published', 'updated_at')
+    list_display = ('association_group', 'title', 'category', 'slug', 'price',
+                    'url_name', 'url_stream', 'is_published', 'updated_at')
     prepopulated_fields = {
         'slug': ('title',)
     }
@@ -24,6 +25,11 @@ class EventsUserRegisteredAdmin(admin.ModelAdmin):
 @admin.register(EventsAttendee)
 class EventsAttendeeAdmin(admin.ModelAdmin):
     list_display = ('user_registered', 'created_at', 'updated_at')
+
+
+@admin.register(EventsExtendedUrl)
+class EventsExtendedUrlAdmin(admin.ModelAdmin):
+    list_display = ('event', 'name', 'url', 'is_attended', 'created_at', 'updated_at')
 
 
 admin.site.register(Events, EventsAdmin)

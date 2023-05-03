@@ -16,7 +16,7 @@ if TYPE_CHECKING:
         }
     )
 
-from .utils import timezone_now, pages_testing, pages_backend, pages_frontend, pages_handler
+from .utils import timezone_now, pages_testing, pages_backend, pages_frontend, pages_handler, fragment_info
 
 from django.contrib import messages
 
@@ -84,6 +84,7 @@ def stub_homepage_events(request, events: QuerySet[Events], max_item_per_page: i
         'has_next': page + 1 if cluster_events.get_page(page).has_next() else False,
         'has_previous': page - 1 if cluster_events.get_page(page).has_previous() else False,
         'type': _type,
+        'fragment': fragment_info()
     }
 
 
@@ -188,7 +189,8 @@ def event_detail(request, slug) -> HttpResponse:
         'event': event,
         'register_eligibility': register_eligibility,
         'total_events': count_events.count(),
-        'event_ended': True if event.schedule_end < timezone_now() else False
+        'event_ended': True if event.schedule_end < timezone_now() else False,
+        'fragment': fragment_info()
     }
     return render(request, template, context)
 
@@ -228,7 +230,8 @@ def event_register(request, slug) -> HttpResponse | HttpResponseRedirect | HttpR
         'title': 'Binago Events Register',
         'description': 'Register the events.',
         'event': event,
-        'register_eligibility': register_eligibility
+        'register_eligibility': register_eligibility,
+        'fragment': fragment_info()
     }
     return render(request, template, context)
 

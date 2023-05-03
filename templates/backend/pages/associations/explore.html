@@ -1,6 +1,9 @@
 {% extends 'backend/layout/master.html' %}
 
 <!-- -->
+{% load humanize %}
+
+<!-- -->
 {% load static %}
 
 <!-- -->
@@ -46,12 +49,7 @@
               <th
                 class="font-dmSans whitespace-nowrap border-b border-b-gray-200 bg-transparent px-6 py-3 text-left text-xs font-semibold uppercase tracking-normal text-slate-400 opacity-70"
               >
-                thumbnail
-              </th>
-              <th
-                class="font-dmSans whitespace-nowrap border-b border-b-gray-200 bg-transparent px-6 py-3 text-left text-xs font-semibold uppercase tracking-normal text-slate-400 opacity-70"
-              >
-                title
+                event
               </th>
               <th
                 class="font-dmSans whitespace-nowrap border-b border-b-gray-200 bg-transparent px-6 py-3 text-left text-xs font-semibold uppercase tracking-normal text-slate-400 opacity-70"
@@ -92,18 +90,18 @@
                 <p class="font-inter text-sm text-slate-400">{{ forloop.counter }}</p>
               </td>
               <td
-                class="min-w-[15rem] place-items-center content-center items-center justify-center border-b border-b-gray-200 px-6 py-4"
+                class="min-w-[450px] place-items-center content-center items-center justify-center border-b border-b-gray-200 px-6 py-4"
               >
-                <img
-                  src="{% get_media_prefix %}{{ event.banner }}"
-                  alt="{{ event.slug }}"
-                  srcset=""
-                  class="shadow-container1 h-20 w-36 rounded-xl object-cover object-center"
-                  draggable="false"
-                />
-              </td>
-              <td class="font-jost min-w-[310px] border-b border-b-gray-200 px-6 py-4 text-left text-slate-800">
-                <p class="line-clamp-2">{{ event.title }}</p>
+                <a href="{% url 'homepage-event-detail' event.slug %}" class="flex flex-row items-center gap-5 rounded-xl px-2 py-1 transition-all duration-150 ease-out hover:bg-slate-500 hover:bg-opacity-10 hover:ring-4 hover:ring-slate-500 hover:ring-opacity-10 active:scale-95">
+                  <img
+                    src="{% get_media_prefix %}{{ event.banner }}"
+                    alt="{{ event.slug }}"
+                    srcset=""
+                    class="shadow-container1 h-20 w-36 rounded-xl object-cover object-center"
+                    draggable="false"
+                  />
+                  <p class="font-jost text-sky-800 line-clamp-2">{{ event.title }}</p>
+                </a>
               </td>
               <td class="min-w-[290px] border-b border-b-gray-200 px-6 py-4">
                 <div class="flex flex-col gap-1">
@@ -155,11 +153,27 @@
               >
                 {{ event.updated_at|date:'d F Y'}}
               </td>
-              <td class="min-w-[280px] border-b border-b-gray-200 px-6 py-4 text-xs font-medium text-slate-500">
-                <ul>
-                  <li>Sidiq Indrajati Yusuf</li>
-                  <li>Terry Andersen</li>
-                </ul>
+              <td class="min-w-[260px] border-b border-b-gray-200 px-6 py-4 text-xs font-medium text-slate-500">
+                <a href="" class="flex flex-col items-end gap-1 rounded-xl p-2 border border-dashed border-slate-300 transition-all duration-150 ease-out hover:bg-slate-300 hover:bg-opacity-10 hover:ring-4 hover:ring-slate-500 hover:ring-opacity-10 active:scale-95">
+                  {% if event.invoiceeventpost_set.last.price == 0 %}
+                    <strong class="font-poppins text-lg font-bold text-slate-800">FREE</strong>
+                  {% else %}
+                    <strong class="font-poppins text-lg font-bold text-slate-800">Rp {{ event.invoiceeventpost_set.last.price|intcomma }}</strong>
+                  {% endif %}
+                  <div class="flex flex-row items-center gap-2 flex-wrap">
+                    <span class="rounded-md bg-gray-200 px-2 py-1 text-xs font-semibold font-poppins uppercase w-fit text-gray-500">
+                      {{ event.invoiceeventpost_set.count }} INVOICE
+                    </span>
+                    <!-- TODO: fix it later -->
+                    {% if event.status_paid == "PAID" %}
+                    <span class="rounded-md bg-green-200 px-2 py-1 text-xs font-semibold font-poppins uppercase w-fit text-green-500">PAID SUCCESS</span>
+                    {% elif event.status_paid == "WAITING" %}
+                    <span class="rounded-md bg-gray-200 px-2 py-1 text-xs font-semibold font-poppins uppercase w-fit text-gray-500">WAITING</span>
+                    {% elif event.status_paid == "FAILED" %}
+                    <span class="rounded-md bg-rose-200 px-2 py-1 text-xs font-semibold font-poppins uppercase w-fit text-rose-500">PAID FAILED</span>
+                    {% endif %}
+                  </div>
+                </a>
               </td>
               <td class="min-w-[250px] border-b border-b-gray-200 px-6 py-4 text-xs font-medium text-slate-500">
                 {% if event.is_published %}
@@ -168,10 +182,10 @@
                 <span class="rounded-md bg-rose-200 px-2 py-1 text-xs uppercase text-rose-500">Not Published</span>
                 {% endif %}
               </td>
-              <td class="min-w-[150px] border-b border-b-gray-200 px-6 py-4">
+              <td class="min-w-[500px] border-b border-b-gray-200 px-6 py-4">
                 <div class="font-quicksand flex flex-row items-center gap-2 text-sm font-semibold">
                   <a
-                    href=""
+                    href="{% url 'associations-event-preview' association.slug event.slug %}"
                     class="hover:shadow-container1 relative rounded-md bg-emerald-500 bg-opacity-10 px-3 py-2 text-emerald-600 transition-all duration-150 ease-out hover:scale-95 hover:brightness-75"
                     >Preview</a
                   >
@@ -179,6 +193,11 @@
                     href="{% url 'events-edit' association.slug event.slug %}"
                     class="hover:shadow-container1 relative rounded-md bg-gradient-to-b from-sky-600 to-sky-500 px-3 py-2 text-white transition-all duration-150 ease-out hover:scale-95 hover:brightness-110"
                     >Edit</a
+                  >
+                  <a
+                    href="{% url 'events-new-stream' association.slug event.slug %}"
+                    class="hover:shadow-container1 relative rounded-md bg-gradient-to-b from-sky-600 to-sky-500 px-3 py-2 text-white transition-all duration-150 ease-out hover:scale-95 hover:brightness-110"
+                    >New Stream Link</a
                   >
                   <form action="{% url 'events-destroy' association.slug event.slug %}" method="post">
                     {% csrf_token %}

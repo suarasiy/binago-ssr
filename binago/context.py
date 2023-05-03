@@ -34,3 +34,8 @@ if TYPE_CHECKING:
 
     class SettingsContext(Context):
         powerheader: User
+
+    class QueryFragmentInfoContext(TypedDict):
+        registered_users: int
+        registered_associations: int
+        registered_events: int

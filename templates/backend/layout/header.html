@@ -15,7 +15,7 @@
       <a
         href="{{ branch.reverse }}"
         class="path__previous rounded-md px-2 py-1 transition-colors duration-150 ease-out hover:bg-black hover:bg-opacity-10"
-        >{{ branch.name }}</a
+        >{{ branch.name|truncatechars:"30" }}</a
       >
       {% else %}
       <span class="path">/</span>

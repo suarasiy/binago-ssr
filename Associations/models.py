@@ -83,6 +83,7 @@ class AssociationsGroup(models.Model):
 
     class Meta:
         verbose_name_plural: str = 'Associations Group'
+        ordering = ['-created_at']
         constraints = [
             models.UniqueConstraint(fields=['association', 'user'], name='unique_user_association')
         ]

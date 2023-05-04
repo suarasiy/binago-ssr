@@ -1,6 +1,9 @@
 {% load active_link_tags %}
 <!-- -->
 
-<a href="{{ reverse }}" class="arr_cta {% active_link reverse_name 'arr_cta--active' category=category.slug %}">
-  {{ category.category }}
+<a href="{{ reverse }}" class="arr_cta {% active_link reverse_name 'arr_cta--active' category=category.slug %} flex flex-row items-center gap-2">
+  <span>{{ category.category }}</span>
+  {% if not count_type.count == 0 %}
+  <span class="badge">{{ count_type.count }}</span>
+  {% endif %}
 </a>

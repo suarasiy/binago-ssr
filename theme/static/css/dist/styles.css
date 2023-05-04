@@ -3595,6 +3595,29 @@ main .paginate__item.paginate__item--active:hover{
   color: rgb(255 255 255 / var(--tw-text-opacity));
 }
 
+.fr .arr_cta .badge{
+  border-radius: 9999px;
+  background-color: rgb(44 62 80 / var(--tw-bg-opacity));
+  --tw-bg-opacity: 0.2;
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+  font-family: Quicksand, Mulish, Poppins, "Sans Serif";
+  font-size: 0.75rem;
+  line-height: 1rem;
+  font-weight: 700;
+  --tw-text-opacity: 1;
+  color: rgb(39 45 61 / var(--tw-text-opacity));
+}
+
+.fr .arr_cta.arr_cta--active .badge{
+  background-color: rgb(255 255 255 / var(--tw-bg-opacity));
+  --tw-bg-opacity: 0.2;
+  --tw-text-opacity: 1;
+  color: rgb(255 255 255 / var(--tw-text-opacity));
+}
+
 .file\:overflow-hidden::file-selector-button{
   overflow: hidden;
 }
@@ -3922,6 +3945,10 @@ main .paginate__item.paginate__item--active:hover{
   text-decoration-line: underline;
 }
 
+.hover\:opacity-100:hover{
+  opacity: 1;
+}
+
 .hover\:shadow-container1:hover{
   --tw-shadow: 0px 14px 19px -8px #00000005, 0px 14px 34px -20px #0000000f;
   --tw-shadow-colored: 0px 14px 19px -8px var(--tw-shadow-color), 0px 14px 34px -20px var(--tw-shadow-color);
@@ -3981,6 +4008,11 @@ main .paginate__item.paginate__item--active:hover{
 
 .hover\:ring-offset-2:hover{
   --tw-ring-offset-width: 2px;
+}
+
+.hover\:blur-none:hover{
+  --tw-blur: blur(0);
+  filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
 }
 
 .hover\:brightness-105:hover{

@@ -25,7 +25,7 @@ if TYPE_CHECKING:
     class EventDetailContext(ContextHomepage):
         event: Events
         register_eligibility: bool
-        total_events: int
+        association_events: Page
         event_ended: bool
         total_registrant: int
 

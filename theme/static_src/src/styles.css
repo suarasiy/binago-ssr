@@ -339,3 +339,11 @@ main .paginate__item.paginate__item--active {
 .fr .arr_cta.arr_cta--active {
   @apply bg-blue-500 text-xs text-white;
 }
+
+.fr .arr_cta .badge {
+  @apply rounded-full bg-base-darker bg-opacity-20 px-3 py-1 font-quicksand text-xs font-bold text-base-field;
+}
+
+.fr .arr_cta.arr_cta--active .badge {
+  @apply bg-white bg-opacity-20 text-white;
+}

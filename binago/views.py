@@ -17,7 +17,8 @@ if TYPE_CHECKING:
         }
     )
 
-from .utils import timezone_now, pages_testing, pages_backend, pages_frontend, pages_handler, fragment_info
+from .utils import timezone_now, pages_testing, pages_backend, pages_frontend, pages_handler
+from .query import fragment_info
 
 from django.contrib import messages
 
@@ -185,14 +186,16 @@ def event_detail(request, slug) -> HttpResponse:
     event: Events = get_object_or_404(Events, slug=slug)
     # TODO: typechecking need to fix
     event_associated = Events.objects.get(slug=slug).association_group.association  # type: ignore
-    count_events: QuerySet[Events] | None = Events.objects.filter(association_group__association=event_associated)
+    association_events: QuerySet[Events] = Events.objects.filter(
+        association_group__association=event_associated).order_by('-schedule_start').exclude(id=event.id)
     count_registrant: QuerySet[EventsUserRegistered] = EventsUserRegistered.objects.filter(event=event)
+    cluster_association_events = Paginator(association_events, 3)
     context: EventDetailContext = {
         'title': 'Binago Events Detail',
         'description': 'Detail the events.',
         'event': event,
         'register_eligibility': register_eligibility,
-        'total_events': count_events.count(),
+        'association_events': cluster_association_events.get_page(1),
         'event_ended': True if event.schedule_end < timezone_now() else False,
         'fragment': fragment_info(),
         'total_registrant': count_registrant.count()

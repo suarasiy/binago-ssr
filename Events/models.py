@@ -3,6 +3,7 @@ from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     from typing import Literal
+    from datetime import datetime
     from django.db.models import QuerySet
     from Invoices.models import InvoiceUserEventRegistered, InvoiceEventPost
 
@@ -15,6 +16,18 @@ from Associations.models import Associations, AssociationsGroup
 from authentication.models import User
 
 from .utils import compress_image
+from binago.utils import timezone_now
+from django.utils import timezone
+
+
+def builder_count_category_by_schedule_type(_type: Literal['UPCOMING', 'PAST', 'TODAY'], events: QuerySet[Events]) -> QuerySet[Events] | Literal[False]:
+    if _type == 'UPCOMING':
+        return events.filter(schedule_start__gte=timezone_now())
+    if _type == 'PAST':
+        return events.filter(schedule_start__lte=timezone_now())
+    if _type == 'TODAY':
+        return events.filter(schedule_start__month=timezone_now().month, schedule_start__day=timezone_now().day)
+    return False
 
 
 class EventsCategories(models.Model):
@@ -22,6 +35,17 @@ class EventsCategories(models.Model):
     slug = models.SlugField(unique=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    events_set: QuerySet[Events]
+
+    def get_upcoming_categories(self) -> QuerySet[Events] | Literal[False]:
+        return builder_count_category_by_schedule_type('UPCOMING', self.events_set)
+
+    def get_today_categories(self) -> QuerySet[Events] | Literal[False]:
+        return builder_count_category_by_schedule_type('TODAY', self.events_set)
+
+    def get_past_categories(self) -> QuerySet[Events] | Literal[False]:
+        return builder_count_category_by_schedule_type('PAST', self.events_set)
 
     def __str__(self):
         return self.category
@@ -47,6 +71,7 @@ def banner_lazy_events_upload_handler(instance, filename):
 
 
 class Events(models.Model):
+    id: models.BigIntegerField
     association_group = models.ForeignKey(AssociationsGroup, on_delete=models.SET_NULL, blank=True, null=True)
     title = models.CharField(max_length=200, db_index=True, unique=True)
     banner = models.ImageField(upload_to=banner_events_upload_handler, max_length=500)
@@ -90,6 +115,15 @@ class Events(models.Model):
             return "WAITING"
         if _("FAILED"):
             return "FAILED"
+
+    def event_schedule_type(self) -> Literal['TODAY', 'UPCOMING', 'PAST'] | None:
+        start: datetime = timezone.localtime(self.schedule_start)
+        if start.month == timezone_now().month and start.day == timezone_now().day:
+            return "TODAY"
+        if start > timezone_now():
+            return "UPCOMING"
+        if start < timezone_now():
+            return "PAST"
 
     def count_url(self) -> int:
         base_url: Literal[1, 0] = 1 if self.url_stream else 0

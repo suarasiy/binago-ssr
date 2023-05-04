@@ -27,6 +27,7 @@ if TYPE_CHECKING:
         register_eligibility: bool
         total_events: int
         event_ended: bool
+        total_registrant: int
 
     class EventRegisterContext(ContextHomepage):
         event: Events

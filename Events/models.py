@@ -68,6 +68,7 @@ class Events(models.Model):
 
     user_eligibility: bool
     schedule_eligibility: bool
+    seat_eligibility: bool
     invoiceeventpost_set: QuerySet[InvoiceEventPost]
     event_extended_url: QuerySet[EventsExtendedUrl]
 

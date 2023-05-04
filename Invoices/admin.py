@@ -10,4 +10,4 @@ class InvoiceEventPostAdmin(admin.ModelAdmin):
 
 @admin.register(InvoiceUserEventRegistered)
 class InvoiceUserEventRegisteredAdmin(admin.ModelAdmin):
-    list_display = ('event_registered', 'price', 'discount', 'status', 'created_at', 'updated_at')
+    list_display = ('event_registered', 'price', 'discount', 'status', 'expired_at', 'created_at', 'updated_at')

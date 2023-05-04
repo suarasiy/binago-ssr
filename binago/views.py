@@ -4,6 +4,7 @@ from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from typing import TypedDict, Literal
     from datetime import datetime
+    from authentication.context import ProfileContext
 
     CustomEventCollectionRender = TypedDict(
         '_', {
@@ -32,8 +33,9 @@ from datetime import datetime
 
 from authentication.models import User
 from Associations.query import user_registered_associations
+from Associations.models import AssociationsGroup
 
-from Events.permissions import check_eligibility_register, check_eligibility_user_register, check_eligibility_schedule_register, permission_check_user_eligibility, permission_check_schedule_eligibility
+from Events.permissions import check_eligibility_register, check_eligibility_user_register, check_eligibility_schedule_register, check_eligibility_seat, permission_check_user_eligibility, permission_check_schedule_eligibility, permission_check_seat_eligibility
 from Events.models import Events, EventsUserRegistered, EventsCategories
 from Invoices.models import InvoiceUserEventRegistered
 
@@ -72,6 +74,7 @@ def stub_homepage_events(request, events: QuerySet[Events], max_item_per_page: i
             event.schedule_eligibility = False
         else:
             event.schedule_eligibility = check_eligibility_schedule_register(request, event.slug)
+        event.seat_eligibility = check_eligibility_seat(request, event.slug)
 
     _: QuerySet[EventsCategories] = EventsCategories.objects.all().order_by('category')
 
@@ -183,6 +186,7 @@ def event_detail(request, slug) -> HttpResponse:
     # TODO: typechecking need to fix
     event_associated = Events.objects.get(slug=slug).association_group.association  # type: ignore
     count_events: QuerySet[Events] | None = Events.objects.filter(association_group__association=event_associated)
+    count_registrant: QuerySet[EventsUserRegistered] = EventsUserRegistered.objects.filter(event=event)
     context: EventDetailContext = {
         'title': 'Binago Events Detail',
         'description': 'Detail the events.',
@@ -190,7 +194,8 @@ def event_detail(request, slug) -> HttpResponse:
         'register_eligibility': register_eligibility,
         'total_events': count_events.count(),
         'event_ended': True if event.schedule_end < timezone_now() else False,
-        'fragment': fragment_info()
+        'fragment': fragment_info(),
+        'total_registrant': count_registrant.count()
     }
     return render(request, template, context)
 
@@ -199,6 +204,7 @@ def event_detail(request, slug) -> HttpResponse:
 @require_http_methods(['GET', 'POST'])
 @permission_check_user_eligibility
 @permission_check_schedule_eligibility
+@permission_check_seat_eligibility
 def event_register(request, slug) -> HttpResponse | HttpResponseRedirect | HttpResponsePermanentRedirect:
     event: Events = get_object_or_404(Events, slug=slug)
     # TODO: need to enhance this later
@@ -251,7 +257,9 @@ def dashboard(request) -> HttpResponse:
 def settings_profile(request) -> HttpResponse:
     template: str = pages_backend('settings/profile.html')
     user: User = User.objects.get(id=request.user.id)
-    context: SettingsContext = {
+    group: QuerySet[AssociationsGroup] = AssociationsGroup.objects.filter(
+        user=user, association__approval__is_approved=True)
+    context: ProfileContext = {
         'title': 'Settings',
         'breadcrumb': {
             'main': 'Settings',
@@ -265,7 +273,8 @@ def settings_profile(request) -> HttpResponse:
         },
         'description': 'Maintain your profile appearance.',
         'powerheader': user,
-        'registered_associations': user_registered_associations(request)
+        'group': group,
+        'registered_associations': user_registered_associations(request),
     }
     return render(request, template, context)
 

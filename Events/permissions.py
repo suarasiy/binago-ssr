@@ -5,6 +5,7 @@ if TYPE_CHECKING:
     from django.http import HttpResponse, HttpResponseRedirect, HttpResponsePermanentRedirect
     from typing import Type, Literal
     from datetime import datetime
+    from django.db.models import QuerySet
 
 import pytz
 
@@ -14,6 +15,7 @@ from django.core.exceptions import PermissionDenied
 from django.shortcuts import get_object_or_404
 from functools import wraps
 
+from Events.models import EventsUserRegistered
 from .models import Events, EventsUserRegistered
 from Invoices.models import InvoiceUserEventRegistered
 
@@ -36,10 +38,21 @@ def check_eligibility_user_register(request, slug: str) -> bool:
         return True
 
 
+def check_eligibility_seat(request, slug: str) -> bool:
+    event: Events = get_object_or_404(Events, slug=slug)
+    # TODO: need to fix later
+    check_seat: QuerySet[EventsUserRegistered] = EventsUserRegistered.objects.filter(event=event)
+    if check_seat.count() >= event.max_audience:
+        return False
+    return True
+
+
 def check_eligibility_register(request, slug: str) -> bool:
     if not check_eligibility_user_register(request, slug):
         return False
     if not check_eligibility_schedule_register(request, slug):
+        return False
+    if not check_eligibility_seat(request, slug):
         return False
     return True
 
@@ -57,6 +70,15 @@ def permission_check_user_eligibility(view):
     @wraps(view)
     def _view(request, *args, **kwargs) -> HttpResponse | HttpResponseRedirect | HttpResponsePermanentRedirect:
         if not check_eligibility_user_register(request, kwargs.get('slug', '')):
+            raise PermissionDenied
+        return view(request, *args, **kwargs)
+    return _view
+
+
+def permission_check_seat_eligibility(view):
+    @wraps(view)
+    def _view(request, *args, **kwargs) -> HttpResponse | HttpResponseRedirect | HttpResponsePermanentRedirect:
+        if not check_eligibility_seat(request, kwargs.get('slug', '')):
             raise PermissionDenied
         return view(request, *args, **kwargs)
     return _view

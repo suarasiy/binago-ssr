@@ -6,6 +6,8 @@ if TYPE_CHECKING:
 
 from django.db import models
 from Events.models import Events, EventsUserRegistered
+from django.utils import timezone
+from datetime import timedelta
 
 
 class InvoiceEventPost(models.Model):
@@ -43,6 +45,7 @@ class InvoiceUserEventRegistered(models.Model):
     price = models.PositiveIntegerField()
     discount = models.PositiveIntegerField(default=0)
     status = models.TextField(choices=StatusType.choices, default=StatusType.WAITING)
+    expired_at = models.DateTimeField(default=timezone.now() + timedelta(hours=2))
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

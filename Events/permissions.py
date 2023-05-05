@@ -95,3 +95,13 @@ def permission_check_user_registered_into_event(view):
             raise PermissionDenied
         return view(request, *args, **kwargs)
     return _view
+
+
+def permission_check_event_is_published(view):
+    @wraps(view)
+    def _view(request, *args, **kwargs) -> HttpResponse | HttpResponseRedirect | HttpResponsePermanentRedirect:
+        event: Events = get_object_or_404(Events, slug=kwargs.get('slug', ''))
+        if not event.is_published:
+            raise PermissionDenied
+        return view(request, *args, **kwargs)
+    return _view

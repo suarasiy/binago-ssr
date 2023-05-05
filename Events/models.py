@@ -21,12 +21,13 @@ from django.utils import timezone
 
 
 def builder_count_category_by_schedule_type(_type: Literal['UPCOMING', 'PAST', 'TODAY'], events: QuerySet[Events]) -> QuerySet[Events] | Literal[False]:
+    published_only_events: QuerySet[Events] = events.filter(is_published=True)
     if _type == 'UPCOMING':
-        return events.filter(schedule_start__gte=timezone_now())
+        return published_only_events.filter(schedule_start__gte=timezone_now())
     if _type == 'PAST':
-        return events.filter(schedule_start__lte=timezone_now())
+        return published_only_events.filter(schedule_start__lte=timezone_now())
     if _type == 'TODAY':
-        return events.filter(schedule_start__month=timezone_now().month, schedule_start__day=timezone_now().day)
+        return published_only_events.filter(schedule_start__month=timezone_now().month, schedule_start__day=timezone_now().day)
     return False
 
 

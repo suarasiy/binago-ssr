@@ -36,7 +36,7 @@ from authentication.models import User
 from Associations.query import user_registered_associations
 from Associations.models import AssociationsGroup
 
-from Events.permissions import check_eligibility_register, check_eligibility_user_register, check_eligibility_schedule_register, check_eligibility_seat, permission_check_user_eligibility, permission_check_schedule_eligibility, permission_check_seat_eligibility
+from Events.permissions import check_eligibility_register, check_eligibility_user_register, check_eligibility_schedule_register, check_eligibility_seat, permission_check_user_eligibility, permission_check_schedule_eligibility, permission_check_seat_eligibility, permission_check_event_is_published
 from Events.models import Events, EventsUserRegistered, EventsCategories
 from Invoices.models import InvoiceUserEventRegistered
 
@@ -79,7 +79,8 @@ def stub_homepage_events(request, events: QuerySet[Events], max_item_per_page: i
 
     _: QuerySet[EventsCategories] = EventsCategories.objects.all().order_by('category')
 
-    cluster_events = Paginator(events, max_item_per_page)
+    published_only_events: QuerySet[Events] = events.filter(is_published=True)
+    cluster_events = Paginator(published_only_events, max_item_per_page)
     return {
         'title': 'Binago Past Events',
         'description': 'Explore events archive.',
@@ -158,8 +159,8 @@ def homepage_today_category(request, category) -> HttpResponse:
 @require_http_methods(['GET'])
 def timeline(request) -> HttpResponse:
     template: str = pages_frontend('homepage/all_timeline.html')
-    now_month: int = timezone.localtime(timezone.now()).month
-    events: QuerySet[Events] = Events.objects.filter(schedule_start__month=now_month)
+    events: QuerySet[Events] = Events.objects.filter(
+        schedule_start__month=timezone_now().month, schedule_start__year=timezone_now().year, is_published=True)
     timelines: list[CustomEventCollectionRender] = []
 
     for event in events:
@@ -180,6 +181,7 @@ def timeline(request) -> HttpResponse:
 
 
 @require_http_methods(['GET'])
+@permission_check_event_is_published
 def event_detail(request, slug) -> HttpResponse:
     template: str = pages_frontend('homepage/event_detail.html')
     register_eligibility: bool = check_eligibility_register(request, slug)
@@ -187,7 +189,7 @@ def event_detail(request, slug) -> HttpResponse:
     # TODO: typechecking need to fix
     event_associated = Events.objects.get(slug=slug).association_group.association  # type: ignore
     association_events: QuerySet[Events] = Events.objects.filter(
-        association_group__association=event_associated).order_by('-schedule_start').exclude(id=event.id)
+        association_group__association=event_associated, is_published=True).order_by('-schedule_start').exclude(id=event.id)
     count_registrant: QuerySet[EventsUserRegistered] = EventsUserRegistered.objects.filter(event=event)
     cluster_association_events = Paginator(association_events, 3)
     context: EventDetailContext = {
@@ -205,6 +207,7 @@ def event_detail(request, slug) -> HttpResponse:
 
 @login_required
 @require_http_methods(['GET', 'POST'])
+@permission_check_event_is_published
 @permission_check_user_eligibility
 @permission_check_schedule_eligibility
 @permission_check_seat_eligibility

@@ -118,11 +118,16 @@
               class="aspect-2 relative z-[1] rounded-xl object-cover object-center"
               draggable="false"
             />
+            {% if event.is_published %}
+              <span class="absolute top-1 left-1 px-2 py-1 bg-green-500 z-[2] rounded-lg text-white font-medium text-xs font-poppins">Published</span>
+            {% else %}
+              <span class="absolute top-1 left-1 px-2 py-1 bg-blue-500 z-[2] rounded-lg text-white font-medium text-xs font-poppins">Unpublished</span>
+            {% endif %}
           </div>
           <strong
-            class="font-dmSans line-clamp-2 relative z-[1] text-ellipsis text-sm font-semibold text-slate-700 transition-all duration-100 ease-out group-hover:text-black"
-            >{{ event.title }}</strong
-          >
+            class="font-dmSans line-clamp-2 relative z-[1] text-ellipsis text-sm font-semibold text-slate-700 transition-all duration-100 ease-out group-hover:text-black">
+            {{ event.title }}
+          </strong>
         </div>
         <hr class="border-black border-x-2 border-opacity-5" />
           <div class="flex flex-row items-center gap-2">

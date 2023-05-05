@@ -65,27 +65,34 @@
     {% endif %}
     <p class="render__content">{{ association.about|urlize|linebreaksbr }}</p>
     <div class="grid grid-cols-3 gap-4">
-      <a
-        href="{% url 'associations-edit' association.slug %}"
-        class="font-poppins rounded-lg bg-gray-100 px-5 py-4 text-center text-sm font-bold transition-all duration-100 ease-out hover:brightness-95 active:scale-[.98]"
-        >Edit Association Profile</a
-      >
-      <a
-        href="{% url 'events-create' association.slug %}"
-        class="font-poppins rounded-lg bg-sky-200 px-5 py-4 text-center text-sm font-bold text-sky-800 transition-all duration-100 ease-out hover:brightness-95 active:scale-[.98]"
-        >Create New Event</a
-      >
-      <a
-        href="{% url 'associations-data-explore' association.slug %}"
-        class="font-poppins rounded-lg bg-violet-200 px-5 py-4 text-center text-sm font-bold text-violet-800 transition-all duration-100 ease-out hover:brightness-95 active:scale-[.98]"
-        >Explore Data</a
-      >
-      <!--<a
-        href="{% url 'associations-edit' association.slug %}"
-        class="font-mulish relative rounded-lg bg-green-500 bg-opacity-10 px-7 py-3 text-center text-sm font-semibold uppercase text-green-600 transition-all duration-150 ease-out hover:bg-opacity-20 active:scale-[.98]"
-      >
-        Create New Event
-      </a>-->
+      {% if request.user.is_manager_bypass %}
+        <a
+          href="{% url 'associations-edit' association.slug %}"
+          class="font-poppins rounded-lg bg-gray-100 px-5 py-4 text-center text-sm font-bold transition-all duration-100 ease-out hover:brightness-95 active:scale-[.98]"
+          >Edit Association Profile</a
+        >
+        <a
+          href="{% url 'events-create' association.slug %}"
+          class="font-poppins rounded-lg bg-sky-200 px-5 py-4 text-center text-sm font-bold text-sky-800 transition-all duration-100 ease-out hover:brightness-95 active:scale-[.98]"
+          >Create New Event</a
+        >
+        <a
+          href="{% url 'associations-data-explore' association.slug %}"
+          class="font-poppins rounded-lg bg-violet-200 px-5 py-4 text-center text-sm font-bold text-violet-800 transition-all duration-100 ease-out hover:brightness-95 active:scale-[.98]"
+          >Explore Data</a
+        >
+      {% else %}
+        <a
+          href="{% url 'events-create' association.slug %}"
+          class="col-span-2 font-poppins rounded-lg bg-sky-200 px-5 py-4 text-center text-sm font-bold text-sky-800 transition-all duration-100 ease-out hover:brightness-95 active:scale-[.98]"
+          >Create New Event</a
+        >
+        <a
+          href="{% url 'associations-data-explore' association.slug %}"
+          class="font-poppins rounded-lg bg-violet-200 px-5 py-4 text-center text-sm font-bold text-violet-800 transition-all duration-100 ease-out hover:brightness-95 active:scale-[.98]"
+          >Explore Data</a
+        >
+      {% endif %}
     </div>
     <hr class="mx-2 border-black border-opacity-5" />
     <div class="ml-3 flex flex-col gap-4">

@@ -74,6 +74,11 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     objects = UserManager()
 
+    def is_manager_bypass(self) -> bool:
+        if self.is_superuser or self.is_staff:
+            return True
+        return False
+
     def avatar_preview(self):
         return mark_safe(
             f"""

@@ -15,6 +15,8 @@ from django.core.exceptions import PermissionDenied
 from django.shortcuts import get_object_or_404
 from functools import wraps
 
+from authentication.permissions import manager_bypass
+from authentication.models import User
 from Events.models import EventsUserRegistered
 from .models import Events, EventsUserRegistered
 from Invoices.models import InvoiceUserEventRegistered
@@ -53,6 +55,14 @@ def check_eligibility_register(request, slug: str) -> bool:
     if not check_eligibility_schedule_register(request, slug):
         return False
     if not check_eligibility_seat(request, slug):
+        return False
+    return True
+
+
+def check_event_creator_only(request, slug_event) -> bool:
+    event: Events = get_object_or_404(Events, slug=slug_event)
+    # TODO: [typehint] problem with None since event.association_group allowed to be null
+    if not event.association_group.user == request.user:  # type: ignore
         return False
     return True
 
@@ -102,6 +112,26 @@ def permission_check_event_is_published(view):
     def _view(request, *args, **kwargs) -> HttpResponse | HttpResponseRedirect | HttpResponsePermanentRedirect:
         event: Events = get_object_or_404(Events, slug=kwargs.get('slug', ''))
         if not event.is_published:
+            raise PermissionDenied
+        return view(request, *args, **kwargs)
+    return _view
+
+
+def permission_check_event_creator_only(view):
+    @wraps(view)
+    def _view(request, *args, **kwargs) -> HttpResponse | HttpResponseRedirect | HttpResponsePermanentRedirect | PermissionDenied:
+        if not check_event_creator_only(request, kwargs.get('slug_event', '')):
+            raise PermissionDenied
+        return view(request, *args, **kwargs)
+    return _view
+
+
+def permission_check_event_creator_only_manager_bypass(view):
+    @wraps(view)
+    def _view(request, *args, **kwargs) -> HttpResponse | HttpResponseRedirect | HttpResponsePermanentRedirect:
+        if manager_bypass(request):
+            return view(request, *args, **kwargs)
+        if not check_event_creator_only(request, kwargs.get('slug_event', '')):
             raise PermissionDenied
         return view(request, *args, **kwargs)
     return _view

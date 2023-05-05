@@ -21,6 +21,7 @@ from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_http_methods
 
 from Events.models import Events, EventsExtendedUrl
+from Events.permissions import permission_check_event_creator_only
 from authentication.models import User
 from authentication.permissions import permission_staff_only
 from .models import Associations, AssociationsGroup, AssociationsApprovalRequest
@@ -46,12 +47,16 @@ def explore(request, slug) -> HttpResponse:
     association: Associations = Associations.objects.get(slug=slug)
     # events: ValuesQuerySet = AssociationsGroup.objects.filter(association=association).values('association__name', 'events__title', 'user__avatar', 'user__first_name', 'user__last_name', 'events__banner', 'events__schedule_start', 'events__schedule_end').annotate().order_by('-events__schedule_end')
     events: QuerySet[Events] = Events.objects.filter(association_group__association=association)
+    events_owned: QuerySet[Events] = events.filter(association_group__user=request.user)
+    events_other: QuerySet[Events] = events.exclude(association_group__user=request.user)
     members: QuerySet[AssociationsGroup] = AssociationsGroup.objects.filter(association=association)
 
-    cluster_events = Paginator(events, 10)
-    cluster_members = Paginator(members, 10)
+    cluster_events = Paginator(events_owned, 5)
+    cluster_other_events = Paginator(events_other, 5)
+    cluster_members = Paginator(members, 5)
 
     events_page: int = request.GET.get('events_page', 1)
+    events_other_page: int = request.GET.get('events_other_page', 1)
     members_page: int = request.GET.get('members_page', 1)
 
     # TODO: need to improve later
@@ -64,6 +69,11 @@ def explore(request, slug) -> HttpResponse:
     build_em: str = ''
     if em:
         build_em = f'&members_page={em}'
+
+    eop: str | Literal[False] = request.GET.get('events_other_page', False)
+    build_eop = ''
+    if eop:
+        build_eop = f'&events_other_page={eop}'
 
     context: ContextExplore = {
         'title': 'Associations Explore',
@@ -86,15 +96,18 @@ def explore(request, slug) -> HttpResponse:
         'members': cluster_members.get_page(members_page),
         'description': 'Exploring your association!',
         'events': cluster_events.get_page(events_page),
+        'events_other': cluster_other_events.get_page(events_other_page),
         'registered_associations': user_registered_associations(request),
         'q_events': build_qe,
-        'q_members': build_em
+        'q_members': build_em,
+        'q_events_other': build_eop
     }
     return render(request, template, context)
 
 
 @login_required
 @require_http_methods(['GET', 'POST'])
+@permission_check_event_creator_only
 def event_new_stream(request, slug, slug_event) -> HttpResponse:
     event: Events = get_object_or_404(Events, slug=slug_event)
     association: Associations = get_object_or_404(Associations, slug=slug)
@@ -150,6 +163,7 @@ def event_new_stream(request, slug, slug_event) -> HttpResponse:
 
 @login_required
 @require_http_methods(['POST'])
+@permission_check_event_creator_only
 def event_stream_destroy(request, id_stream, *args, **kwargs) -> HttpResponseRedirect | HttpResponsePermanentRedirect:
     stream_url: EventsExtendedUrl = get_object_or_404(EventsExtendedUrl, id=id_stream)
     stream_url.delete()
@@ -280,11 +294,6 @@ def index_data_approval(request) -> HttpResponse:
 def profile(request, slug) -> HttpResponse:
     template: str = pages_backend('associations/profile.html')
     association: Associations = Associations.objects.get(slug=slug)
-    # events: Any = AssociationsGroup.objects.filter(association=association).prefetch_related('events_set')
-    # events: ValuesQuerySet = AssociationsGroup.objects.filter(association=association).values('association__name', 'events__title', 'user__avatar',
-    #                                                                                           'user__first_name', 'user__last_name', 'events__banner', 'events__schedule_start', 'events__schedule_end').annotate().order_by('-events__schedule_end')
-    # event_categories: ValuesQuerySet = events.values(
-    #     'category', 'category__category').annotate(total=Count('category')).order_by()
     events: QuerySet[Events] = Events.objects.filter(association_group__association=association)
     event_categories: ValuesQuerySet = AssociationsGroup.objects.filter(association=association).values(
         'events__category__category').annotate(total=Count('events__category__category'))

@@ -42,7 +42,7 @@ def permission_member_specific_association(view):
     @wraps(view)
     def _view(request, *args, **kwargs) -> HttpResponse | HttpResponseRedirect | HttpResponsePermanentRedirect:
         user: User = get_object_or_404(User, id=request.user.id)
-        association: Associations = get_object_or_404(Associations, slug=kwargs.get('slug'))
+        association: Associations = get_object_or_404(Associations, slug=kwargs.get('slug', ''))
         group: QuerySet[AssociationsGroup] = AssociationsGroup.objects.filter(user=user, association=association)
         if not group.exists():
             raise PermissionDenied
@@ -55,7 +55,7 @@ def permission_association_is_approved(view):
     def _view(request, *args, **kwargs) -> HttpResponse | HttpResponseRedirect | HttpResponsePermanentRedirect:
         if manager_bypass(request):
             return view(request, *args, **kwargs)
-        association: Associations = get_object_or_404(Associations, slug=kwargs.get('slug'))
+        association: Associations = get_object_or_404(Associations, slug=kwargs.get('slug', ''))
         if not association.approval.is_approved:
             raise PermissionDenied
         return view(request, *args, **kwargs)

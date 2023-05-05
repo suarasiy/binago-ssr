@@ -2,6 +2,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
+    from typing import Literal
     from django.db.models import OneToOneField
     from Events.models import Events
 
@@ -62,6 +63,13 @@ class Associations(models.Model):
     associationsgroup_set: QuerySet[AssociationsGroup]
     events_set: QuerySet[Events]
 
+    def get_manager(self) -> list[User] | Literal[False]:
+        group: QuerySet[AssociationsGroup] | None = self.associationsgroup_set.filter(is_manager=True)
+        if group.exists():
+            return [x.user for x in group]
+        return False
+        # return group if group else False
+
     def save(self, *args, **kwargs) -> None:
         self.slug = slugify(self.name)
         return super().save(*args, **kwargs)
@@ -80,6 +88,8 @@ class AssociationsGroup(models.Model):
     is_manager = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    user: models.ForeignKey[User]
 
     class Meta:
         verbose_name_plural: str = 'Associations Group'

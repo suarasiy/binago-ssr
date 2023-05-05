@@ -13,11 +13,11 @@ if TYPE_CHECKING:
     from django.http import HttpResponse, HttpResponseRedirect, HttpResponsePermanentRedirect
 
 
-def manager_bypass(request) -> Literal[True] | PermissionDenied:
+def manager_bypass(request) -> bool:
     user: User = get_object_or_404(User, id=request.user.id)
     if user.is_superuser or user.is_staff:
         return True
-    raise PermissionDenied
+    return False
 
 
 def permission_staff_only(view):

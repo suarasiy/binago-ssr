@@ -14,7 +14,7 @@ from Associations.query import user_registered_associations, get_association_by_
 from Associations.models import AssociationsGroup
 from Associations.permissions import permission_association_is_approved, permission_member_specific_association
 from Invoices.models import InvoiceEventPost
-from .permissions import permission_check_user_registered_into_event
+from .permissions import permission_check_user_registered_into_event, permission_check_event_creator_only_manager_bypass
 
 from .models import Events, EventsCoverage, EventsUserRegistered
 from .forms import EventForm, EventEditForm, EventsCoverageForm
@@ -216,6 +216,7 @@ def events_create(request, slug) -> HttpResponse | HttpResponseRedirect | HttpRe
 @require_http_methods(['GET', 'POST'])
 @permission_association_is_approved
 @permission_member_specific_association
+@permission_check_event_creator_only_manager_bypass
 def events_edit(request, slug, slug_event) -> HttpResponse | HttpResponseRedirect | HttpResponsePermanentRedirect:
     event: Events = get_object_or_404(Events, slug=slug_event)
     event_coverage: QuerySet[EventsCoverage] = EventsCoverage.objects.filter(event=event)
@@ -284,6 +285,7 @@ def events_edit(request, slug, slug_event) -> HttpResponse | HttpResponseRedirec
 @require_http_methods(["POST"])
 @permission_association_is_approved
 @permission_member_specific_association
+@permission_check_event_creator_only_manager_bypass
 def events_destroy(request, slug, slug_event) -> HttpResponseRedirect | HttpResponsePermanentRedirect:
     if request.method == "POST":
         event: Events = get_object_or_404(Events, slug=slug_event)

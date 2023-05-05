@@ -87,7 +87,7 @@
             {% for event in events %}
             <tr class="hover:bg-slate-500 hover:bg-opacity-5">
               <td class="min-w-[80px] border-b border-b-gray-200 px-6 py-4">
-                <p class="font-inter text-sm text-slate-400">{{ forloop.counter }}</p>
+                <p class="font-inter text-sm text-slate-400">{{ forloop.counter0|add:events.start_index }}</p>
               </td>
               <td
                 class="min-w-[450px] place-items-center content-center items-center justify-center border-b border-b-gray-200 px-6 py-4"
@@ -97,7 +97,7 @@
                     src="{% get_media_prefix %}{{ event.banner }}"
                     alt="{{ event.slug }}"
                     srcset=""
-                    class="shadow-container1 h-20 w-36 rounded-xl object-cover object-center"
+                    class="shadow-container1 h-20 w-36 rounded-xl object-cover object-center shrink-0"
                     draggable="false"
                   />
                   <p class="font-jost text-sky-800 line-clamp-2">{{ event.title }}</p>
@@ -227,7 +227,7 @@
       <div class="flex flex-row items-center gap-2">
         {% for paginate in events.paginator.page_range %}
         <a
-          href="?events_page={{ paginate }}{{ q_members }}"
+          href="?events_page={{ paginate }}{{ q_members }}{{ q_events_other }}"
           class="paginate__item {% if paginate == events.number %}paginate__item--active{% endif %}"
           tabindex="-1"
         >
@@ -238,6 +238,235 @@
     </div>
   </div>
 
+  <!-- Associations Events Others -->
+  <div class="container col-span-4">
+    <div class="flex flex-row justify-between">
+      <div class="font-poppins flex flex-col gap-1">
+        <p class="font-medium text-slate-900">Other Events Datalist Views</p>
+        <small class="text-xs font-light text-slate-600"
+          >The event from manager or other members in this association.</small
+        >
+      </div>
+      <a
+        href="{% url 'events-create' association.slug %}"
+        class="hover:shadow-container3 relative top-0 flex h-fit flex-row items-center gap-2 rounded-md bg-gradient-to-br from-blue-400 to-blue-500 px-3 py-2 text-sm font-semibold text-white transition-all duration-150 ease-out hover:-top-1 hover:brightness-110"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="2"
+          stroke="currentColor"
+          class="h-5 text-white"
+        >
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+        </svg>
+        <span>New Events</span>
+      </a>
+    </div>
+    <div class="wrapper__table">
+      <div class="container__table">
+        <table class="w-full items-center">
+          <thead>
+            <tr>
+              <th
+                class="font-dmSans whitespace-nowrap border-b border-b-gray-200 bg-transparent px-6 py-3 text-left text-xs font-semibold uppercase tracking-normal text-slate-400 opacity-70"
+              >
+                no
+              </th>
+              <th
+                class="font-dmSans whitespace-nowrap border-b border-b-gray-200 bg-transparent px-6 py-3 text-left text-xs font-semibold uppercase tracking-normal text-slate-400 opacity-70"
+              >
+                event
+              </th>
+              <th
+                class="font-dmSans whitespace-nowrap border-b border-b-gray-200 bg-transparent px-6 py-3 text-left text-xs font-semibold uppercase tracking-normal text-slate-400 opacity-70"
+              >
+                schedule
+              </th>
+              <th
+                class="font-dmSans whitespace-nowrap border-b border-b-gray-200 bg-transparent px-6 py-3 text-left text-xs font-semibold uppercase tracking-normal text-slate-400 opacity-70"
+              >
+                created by
+              </th>
+              <th
+                class="font-dmSans whitespace-nowrap border-b border-b-gray-200 bg-transparent px-6 py-3 text-left text-xs font-semibold uppercase tracking-normal text-slate-400 opacity-70"
+              >
+                updated at
+              </th>
+              <th
+                class="font-dmSans whitespace-nowrap border-b border-b-gray-200 bg-transparent px-6 py-3 text-left text-xs font-semibold uppercase tracking-normal text-slate-400 opacity-70"
+              >
+                speaker(s)
+              </th>
+              <th
+                class="font-dmSans whitespace-nowrap border-b border-b-gray-200 bg-transparent px-6 py-3 text-left text-xs font-semibold uppercase tracking-normal text-slate-400 opacity-70"
+              >
+                published
+              </th>
+              <th
+                class="font-dmSans whitespace-nowrap border-b border-b-gray-200 bg-transparent px-6 py-3 text-left text-xs font-semibold uppercase tracking-normal text-slate-400 opacity-70"
+              >
+                action
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for event in events_other %}
+            <tr class="hover:bg-slate-500 hover:bg-opacity-5">
+              <td class="min-w-[80px] border-b border-b-gray-200 px-6 py-4">
+                <p class="font-inter text-sm text-slate-400">{{ forloop.counter0|add:events_other.start_index }}</p>
+              </td>
+              <td
+                class="min-w-[450px] place-items-center content-center items-center justify-center border-b border-b-gray-200 px-6 py-4"
+              >
+                <a href="{% url 'homepage-event-detail' event.slug %}" class="flex flex-row items-center gap-5 rounded-xl px-2 py-1 transition-all duration-150 ease-out hover:bg-slate-500 hover:bg-opacity-10 hover:ring-4 hover:ring-slate-500 hover:ring-opacity-10 active:scale-95">
+                  <img
+                    src="{% get_media_prefix %}{{ event.banner }}"
+                    alt="{{ event.slug }}"
+                    srcset=""
+                    class="shadow-container1 h-20 w-36 rounded-xl object-cover object-center shrink-0"
+                    draggable="false"
+                  />
+                  <p class="font-jost text-sky-800 line-clamp-2">{{ event.title }}</p>
+                </a>
+              </td>
+              <td class="min-w-[290px] border-b border-b-gray-200 px-6 py-4">
+                <div class="flex flex-col gap-1">
+                  <div class="flex flex-row items-center gap-2">
+                    {% if event.schedule_start|date:'M j, Y' == event.schedule_end|date:'M j, Y' %}
+                    <span>{{ event.schedule_start|date:'M j, Y' }}</span>
+                    {% else %}
+                    <span>{{ event.schedule_start|date:'M j, Y' }}</span>
+                    <span>{{ event.schedule_end|date:'M j, Y' }}</span>
+                    {% endif %}
+                  </div>
+                  <p class="font-inter text-sm font-medium text-slate-400">
+                    {{ event.schedule_start|date:'h:i A' }} - {{ event.schedule_end|date:'h:i A (e)' }}
+                  </p>
+                </div>
+              </td>
+              <td class="font-jost min-w-[310px] border-b border-b-gray-200 px-6 py-4 text-left text-sky-600">
+                <a
+                  href="{% url 'users-profile' event.association_group.user.username %}"
+                  class="flex w-fit flex-row items-center gap-3 rounded-xl px-2 py-1 transition-all duration-150 ease-out hover:bg-slate-500 hover:bg-opacity-10 hover:ring-4 hover:ring-slate-500 hover:ring-opacity-10 active:scale-95"
+                >
+                  {% if user.avatar %}
+                  <img
+                    src="{% get_media_prefix %}{{ event.association_group.user.avatar }}"
+                    alt="{{ event.association_group.user.username }}"
+                    srcset=""
+                    class="h-8 w-8 rounded-full object-cover object-center"
+                    draggable="false"
+                  />
+                  {% else %}
+                  <img
+                    src="{% static 'web/assets/avatar_1.png' %}"
+                    alt="{{ event.association_group.user.username }}"
+                    srcset=""
+                    class="h-8 w-8 rounded-full object-cover object-center"
+                    draggable="false"
+                  />
+                  {% endif %}
+                  <div class="flex flex-col gap-1">
+                    <p class="line-clamp-2 font-medium">{{ event.association_group.user.username }}</p>
+                    <span class="text-xs"
+                      >{{ event.association_group.user.last_name }}, {{ event.association_group.user.first_name }}</span
+                    >
+                  </div>
+                </a>
+              </td>
+              <td
+                class="font-inter min-w-[190px] border-b border-b-gray-200 px-6 py-4 text-sm font-medium text-slate-500"
+              >
+                {{ event.updated_at|date:'d F Y'}}
+              </td>
+              <td class="min-w-[260px] border-b border-b-gray-200 px-6 py-4 text-xs font-medium text-slate-500">
+                <a href="" class="flex flex-col items-end gap-1 rounded-xl p-2 border border-dashed border-slate-300 transition-all duration-150 ease-out hover:bg-slate-300 hover:bg-opacity-10 hover:ring-4 hover:ring-slate-500 hover:ring-opacity-10 active:scale-95">
+                  {% if event.invoiceeventpost_set.last.price == 0 %}
+                    <strong class="font-poppins text-lg font-bold text-slate-800">FREE</strong>
+                  {% else %}
+                    <strong class="font-poppins text-lg font-bold text-slate-800">Rp {{ event.invoiceeventpost_set.last.price|intcomma }}</strong>
+                  {% endif %}
+                  <div class="flex flex-row items-center gap-2 flex-wrap">
+                    <span class="rounded-md bg-gray-200 px-2 py-1 text-xs font-semibold font-poppins uppercase w-fit text-gray-500">
+                      {{ event.invoiceeventpost_set.count }} INVOICE
+                    </span>
+                    <!-- TODO: fix it later -->
+                    {% if event.status_paid == "PAID" %}
+                    <span class="rounded-md bg-green-200 px-2 py-1 text-xs font-semibold font-poppins uppercase w-fit text-green-500">PAID SUCCESS</span>
+                    {% elif event.status_paid == "WAITING" %}
+                    <span class="rounded-md bg-gray-200 px-2 py-1 text-xs font-semibold font-poppins uppercase w-fit text-gray-500">WAITING</span>
+                    {% elif event.status_paid == "FAILED" %}
+                    <span class="rounded-md bg-rose-200 px-2 py-1 text-xs font-semibold font-poppins uppercase w-fit text-rose-500">PAID FAILED</span>
+                    {% endif %}
+                  </div>
+                </a>
+              </td>
+              <td class="min-w-[250px] border-b border-b-gray-200 px-6 py-4 text-xs font-medium text-slate-500">
+                {% if event.is_published %}
+                <span class="rounded-md bg-green-200 px-2 py-1 text-xs uppercase text-green-500">Published</span>
+                {% else %}
+                <span class="rounded-md bg-rose-200 px-2 py-1 text-xs uppercase text-rose-500">Not Published</span>
+                {% endif %}
+              </td>
+              <td class="min-w-[500px] border-b border-b-gray-200 px-6 py-4">
+                <div class="font-quicksand flex flex-row items-center gap-2 text-sm font-semibold">
+                  <a
+                    href="{% url 'associations-event-preview' association.slug event.slug %}"
+                    class="hover:shadow-container1 relative rounded-md bg-emerald-500 bg-opacity-10 px-3 py-2 text-emerald-600 transition-all duration-150 ease-out hover:scale-95 hover:brightness-75"
+                    >Preview</a
+                  >
+                  <a
+                    href="{% url 'events-edit' association.slug event.slug %}"
+                    class="hover:shadow-container1 relative rounded-md bg-gradient-to-b from-sky-600 to-sky-500 px-3 py-2 text-white transition-all duration-150 ease-out hover:scale-95 hover:brightness-110"
+                    >Edit</a
+                  >
+                  <a
+                    href="{% url 'events-new-stream' association.slug event.slug %}"
+                    class="hover:shadow-container1 relative rounded-md bg-gradient-to-b from-sky-600 to-sky-500 px-3 py-2 text-white transition-all duration-150 ease-out hover:scale-95 hover:brightness-110"
+                    >New Stream Link</a
+                  >
+                  <form action="{% url 'events-destroy' association.slug event.slug %}" method="post">
+                    {% csrf_token %}
+                    <button
+                      type="submit"
+                      class="hover:shadow-container1 relative rounded-md bg-gradient-to-b from-red-600 to-red-500 px-3 py-2 text-white transition-all duration-150 ease-out hover:scale-95 hover:brightness-110"
+                      onclick="return confirm(`Delete the event {{ event.title|truncatechars:40 }}? This action is irreversible!`)"
+                    >
+                      Delete
+                    </button>
+                  </form>
+                </div>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="flex flex-row justify-between">
+      <span class="flex flex-row items-center gap-1">
+        <p class="text-sm text-slate-600">
+          Showing <strong>{{ events_other.start_index }}</strong> to <strong>{{ events_other.end_index }}</strong> of
+          <strong>{{ events_other.paginator.count }}</strong> entries.
+        </p>
+      </span>
+      <div class="flex flex-row items-center gap-2">
+        {% for paginate in events_other.paginator.page_range %}
+        <a
+          href="?events_other_page={{ paginate }}{{ q_events }}{{ q_members }}"
+          class="paginate__item {% if paginate == events_other.number %}paginate__item--active{% endif %}"
+          tabindex="-1"
+        >
+          <p class="absolute top-2/4 left-2/4 -translate-x-2/4 -translate-y-2/4">{{ paginate }}</p>
+        </a>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+
+  {% if request.user in association.get_manager %}
   <!-- Associations Members -->
   <div class="container col-span-4">
     <div class="flex flex-row justify-between">
@@ -298,7 +527,7 @@
             {% for member in members %}
             <tr class="hover:bg-slate-500 hover:bg-opacity-5">
               <td class="min-w-[80px] border-b border-b-gray-200 px-6 py-4">
-                <p class="font-inter text-sm text-slate-400">{{ forloop.counter }}</p>
+                <p class="font-inter text-sm text-slate-400">{{ forloop.counter0|add:members.start_index }}</p>
               </td>
               <td class="font-jost min-w-[310px] border-b border-b-gray-200 px-6 py-4 text-left text-sky-600">
                 <a
@@ -369,7 +598,7 @@
       <div class="flex flex-row items-center gap-2">
         {% for paginate in members.paginator.page_range %}
         <a
-          href="?members_page={{ paginate }}{{ q_events }}"
+          href="?members_page={{ paginate }}{{ q_events }}{{ q_events_other }}"
           class="paginate__item {% if paginate == members.number %}paginate__item--active{% endif %}"
           tabindex="-1"
         >
@@ -379,6 +608,7 @@
       </div>
     </div>
   </div>
+  {% endif %}
 </div>
 
 {% endblock content %}

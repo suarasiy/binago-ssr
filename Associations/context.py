@@ -21,10 +21,12 @@ if TYPE_CHECKING:
 
     class ContextExplore(Context):
         events: Page
+        events_other: Page
         association: Associations
         members: Page
         q_events: str
         q_members: str
+        q_events_other: str
 
     class ContextInvite(Context):
         slug: str

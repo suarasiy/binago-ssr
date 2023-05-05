@@ -1328,6 +1328,10 @@ main .widget.widget--active > strong.context + p.subcon{
   margin-bottom: 0.5rem;
 }
 
+.mb-9{
+  margin-bottom: 2.25rem;
+}
+
 .ml-1{
   margin-left: 0.25rem;
 }
@@ -1370,6 +1374,10 @@ main .widget.widget--active > strong.context + p.subcon{
 
 .mt-4{
   margin-top: 1rem;
+}
+
+.mt-\[7px\]{
+  margin-top: 7px;
 }
 
 .block{
@@ -1430,6 +1438,10 @@ main .widget.widget--active > strong.context + p.subcon{
 
 .h-28{
   height: 7rem;
+}
+
+.h-3{
+  height: 0.75rem;
 }
 
 .h-32{
@@ -1564,6 +1576,10 @@ main .widget.widget--active > strong.context + p.subcon{
 
 .w-28{
   width: 7rem;
+}
+
+.w-3{
+  width: 0.75rem;
 }
 
 .w-3\/5{
@@ -3126,6 +3142,20 @@ main .widget.widget--active > strong.context + p.subcon{
   -webkit-line-clamp: 4;
 }
 
+.line-clamp-6{
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 6;
+}
+
+.line-clamp-3{
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+}
+
 /* forms */
 
 main .input__field{
@@ -3708,9 +3738,34 @@ main .paginate__item.paginate__item--active:hover{
   left: 0px;
 }
 
+.before\:left-1::before{
+  content: var(--tw-content);
+  left: 0.25rem;
+}
+
+.before\:left-2\/4::before{
+  content: var(--tw-content);
+  left: 50%;
+}
+
 .before\:top-0::before{
   content: var(--tw-content);
   top: 0px;
+}
+
+.before\:top-2\/4::before{
+  content: var(--tw-content);
+  top: 50%;
+}
+
+.before\:top-\[30px\]::before{
+  content: var(--tw-content);
+  top: 30px;
+}
+
+.before\:h-6::before{
+  content: var(--tw-content);
+  height: 1.5rem;
 }
 
 .before\:h-full::before{
@@ -3718,15 +3773,59 @@ main .paginate__item.paginate__item--active:hover{
   height: 100%;
 }
 
+.before\:w-1::before{
+  content: var(--tw-content);
+  width: 0.25rem;
+}
+
+.before\:w-6::before{
+  content: var(--tw-content);
+  width: 1.5rem;
+}
+
 .before\:w-\[1px\]::before{
   content: var(--tw-content);
   width: 1px;
+}
+
+.before\:-translate-x-2\/4::before{
+  content: var(--tw-content);
+  --tw-translate-x: -50%;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+
+.before\:-translate-y-2\/4::before{
+  content: var(--tw-content);
+  --tw-translate-y: -50%;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+
+.before\:rounded-full::before{
+  content: var(--tw-content);
+  border-radius: 9999px;
 }
 
 .before\:bg-base-depth::before{
   content: var(--tw-content);
   --tw-bg-opacity: 1;
   background-color: rgb(227 232 248 / var(--tw-bg-opacity));
+}
+
+.before\:bg-blue-500::before{
+  content: var(--tw-content);
+  --tw-bg-opacity: 1;
+  background-color: rgb(94 114 228 / var(--tw-bg-opacity));
+}
+
+.before\:bg-slate-300::before{
+  content: var(--tw-content);
+  --tw-bg-opacity: 1;
+  background-color: rgb(168 184 216 / var(--tw-bg-opacity));
+}
+
+.before\:bg-opacity-20::before{
+  content: var(--tw-content);
+  --tw-bg-opacity: 0.2;
 }
 
 .before\:content-\[\'\'\]::before{
@@ -3779,6 +3878,11 @@ main .paginate__item.paginate__item--active:hover{
 .after\:content-\[\'\'\]::after{
   --tw-content: '';
   content: var(--tw-content);
+}
+
+.last-of-type\:before\:hidden:last-of-type::before{
+  content: var(--tw-content);
+  display: none;
 }
 
 .hover\:-top-1:hover{

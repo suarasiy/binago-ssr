@@ -1,0 +1,99 @@
+{% extends 'backend/layout/master.html' %}
+
+<!--  -->
+{% load humanize %}
+
+<!-- -->
+{% load static %}
+
+<!-- -->
+{% block content %}
+
+<div class="select-none grid grid-cols-6">
+  <div class="container col-span-4 col-start-2">
+    <div class="flex flex-row justify-between">
+      <div class="font-poppins flex flex-col gap-1">
+        <p class="font-medium text-slate-900">Invoices Listing of {{ invoices_related.first.event_registered.event.title }}</p>
+        <small class="text-xs font-light text-slate-600">If you make multiple invoices which the first one is fail, then it will be shown the histories below.</small>
+      </div>
+    </div>
+    {% regroup invoices_related by created_at|date:'F j, Y' as regroup_invoices_related %}
+    <div class="container__group">
+      {% for invoice in regroup_invoices_related %}
+      <div class="relative mb-9 flex flex-row gap-4 before:absolute before:left-1 before:top-[30px] before:h-full before:w-1 before:rounded-full before:bg-blue-500 before:content-[''] last-of-type:before:hidden">
+        <span class="relative mt-[7px] block h-3 w-3 flex-shrink-0 rounded-full bg-blue-500 before:absolute before:top-2/4 before:left-2/4 before:h-6 before:w-6 before:-translate-x-2/4 before:-translate-y-2/4 before:rounded-full before:bg-slate-300 before:bg-opacity-20 before:content-['']">
+        </span>
+        <div class="flex flex-col gap-3">
+          <span class="mt-1 font-poppins text-sm font-semibold text-blue-500">{{ invoice.grouper }}</span>
+          {% for chunk in invoice.list %}
+          <div class="flex flex-col gap-3 rounded-xl p-4 border border-dashed border-slate-300 transition-all duration-150 ease-out hover:bg-slate-300 hover:bg-opacity-10 hover:ring-4 hover:ring-slate-500 hover:ring-opacity-10 active:scale-95">
+            <div class="flex flex-col gap-1">
+              <span class="text-sm font-bold text-slate-600">Price</span>
+            {% if chunk.price == 0 %}
+              <strong class="font-poppins text-lg font-bold text-slate-800">FREE</strong>
+            {% else %}
+              <strong class="font-poppins text-lg font-bold text-slate-800">Rp {{ chunk.price|intcomma }}</strong>
+            {% endif %}
+            </div>
+            <div class="flex flex-col gap-1">
+              <span class="text-sm font-bold text-slate-600">Discount</span>
+              <span class="font-poppins text-sm text-slate-800">{{ chunk.discount }}% <strong class="font-bold ml-1">(Rp {{ chunk.get_discount|intcomma }})</strong></span>
+            </div>
+            <hr />
+            <div class="flex flex-row items-center gap-4 flex-wrap">
+              <span class="text-sm font-bold text-slate-600">Status Payment</span>
+              <!-- TODO: fix it later -->
+              {% if chunk.status_paid == "PAID" %}
+                <span class="rounded-md bg-green-200 px-2 py-1 text-xs font-semibold font-poppins uppercase w-fit text-green-500">PAYMENT SUCCESS</span>
+              {% elif chunk.status_paid == "WAITING" %}
+                <span class="rounded-md bg-gray-200 px-2 py-1 text-xs font-semibold font-poppins uppercase w-fit text-gray-500">WAITING</span>
+              {% elif chunk.status_paid == "FAILED" %}
+                <span class="rounded-md bg-rose-200 px-2 py-1 text-xs font-semibold font-poppins uppercase w-fit text-rose-500">PAYMENT FAILED</span>
+              {% endif %}
+            </div>
+            <hr />
+            <div class="flex flex-row items-center justify-between flex-wrap">
+              <div class="flex flex-col gap-2">
+                <small class="text-xs text-slate-600 font-poppins px-2 py-1 rounded-lg bg-slate-500 bg-opacity-20">created at</small>
+                <div class="flex flex-col">
+                  <span class="text-xs text-slate-500 font-medium px-1">{{ chunk.created_at|date:'F j, Y' }}</span>
+                  <span class="text-xs text-slate-500 font-medium px-1">{{ chunk.created_at|date:'h:i A' }}</span>
+                </div>
+              </div>
+              <div class="flex flex-col items-end gap-2">
+                <small class="text-xs text-slate-600 font-poppins px-2 py-1 rounded-lg bg-slate-500 bg-opacity-20">updated at</small>
+                <div class="flex flex-col items-end">
+                  <span class="text-xs text-slate-500 font-medium px-1">{{ chunk.updated_at|date:'F j, Y' }}</span>
+                  <span class="text-xs text-slate-500 font-medium px-1">{{ chunk.updated_at|date:'h:i A' }}</span>
+                </div>
+              </div>
+            </div>
+            {% if chunk.status_paid == 'WAITING' %}
+            <hr />
+            <form action="{% url 'invoices-cancel' chunk.id %}" method="post">
+              {% csrf_token %}
+              <button
+              type="submit"
+              class="hover:shadow-container1 mt-3 relative rounded-md bg-gradient-to-b from-red-600 to-red-500 px-5 py-2 text-white transition-all duration-150 ease-out hover:scale-95 hover:brightness-110"
+              onclick="return confirm(`Cancel this invoice? ({{ chunk.event_registered.event.title }})`)">
+                Cancel
+              </button>
+            </form>
+            {% endif %}
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    <div class="flex flex-row items-center gap-3">
+      <a
+        href="{% url 'invoices' %}"
+        class="font-mulish relative rounded-lg border border-slate-100 bg-slate-500 bg-opacity-10 px-4 py-2 text-sm font-semibold uppercase text-slate-400 transition-all duration-150 ease-out hover:brightness-50"
+        >Back to Invoices</a
+      >
+    </div>
+  </div>
+</div>
+
+{% endblock content %}

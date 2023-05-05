@@ -16,6 +16,7 @@ from django.contrib import messages
 from Associations.query import user_registered_associations
 
 from binago.utils import pages_backend
+from Events.models import Events
 from .models import InvoiceUserEventRegistered
 
 
@@ -55,3 +56,35 @@ def cancel_invoices(request, id) -> HttpResponseRedirect | HttpResponsePermanent
 
     messages.success(request, f'Invoices for {invoice.event_registered.event.title} successfully canceled.')
     return redirect(reverse('invoices'))
+
+
+@login_required
+@require_http_methods(['GET'])
+def related_invoices(request, event_id) -> HttpResponse:
+    # invoices: InvoiceUserEventRegistered = get_object_or_404(InvoiceUserEventRegistered, id=pk)
+    event: Events = get_object_or_404(Events, id=event_id)
+    invoices_related: QuerySet[InvoiceUserEventRegistered] = InvoiceUserEventRegistered.objects.filter(
+        event_registered__event__id=event_id).order_by('-created_at')
+    template: str = pages_backend('invoices/related.html')
+    context: context.RelatedContext = {
+        'title': 'Binago Dashboard | Invoices Event Related',
+        'breadcrumb': {
+            'main': 'Invoices',
+            'branch': [
+                {
+                    'name': 'Data',
+                    'reverse': reverse('invoices'),
+                    'type': 'previous'
+                },
+                {
+                    'name': f'Listing invoices of {event.title}',
+                    'reverse': reverse('invoices-related', kwargs={'event_id': event_id}),
+                    'type': 'current'
+                }
+            ]
+        },
+        'description': 'Listing of invoices that you\'ve made for this events.',
+        'invoices_related': invoices_related,
+        'registered_associations': user_registered_associations(request)
+    }
+    return render(request, template, context)

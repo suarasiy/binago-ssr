@@ -48,6 +48,9 @@ class InvoiceUserEventRegistered(models.Model):
     expired_at = models.DateTimeField(default=timezone.now() + timedelta(hours=2))
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    
+    def get_discount(self) -> int:
+        return round(self.price * (self.discount / 100))
 
     def status_paid(self):
         # NOTE: Procedural hierarchy

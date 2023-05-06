@@ -9,11 +9,11 @@
 <!-- -->
 {% block content %}
 
-<div class="grid grid-cols-6 select-none">
+<div class="grid grid-cols-6 gap-8 select-none">
   <div class="container col-span-6">
     <div class="flex flex-row justify-between">
       <div class="font-poppins flex flex-col gap-1">
-        <p class="font-medium text-slate-900">Invoices Events History Listings</p>
+        <p class="font-medium text-slate-900">Invoices for attending Events</p>
         <small class="text-xs font-light text-slate-600">List of Invoices events activity you've made.</small>
       </div>
     </div>
@@ -137,8 +137,145 @@
       <div class="flex flex-row items-center gap-2">
         {% for paginate in invoices.paginator.page_range %}
         <a
-          href="?page={{ paginate }}"
+          href="?page_ae={{ paginate }}{{ q_pe }}"
           class="paginate__item {% if paginate == invoices.number %}paginate__item--active{% endif %}"
+          tabindex="-1"
+        >
+          <p class="absolute top-2/4 left-2/4 -translate-x-2/4 -translate-y-2/4">{{ paginate }}</p>
+        </a>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+  <div class="container col-span-6">
+    <div class="flex flex-row justify-between">
+      <div class="font-poppins flex flex-col gap-1">
+        <p class="font-medium text-slate-900">Invoices for Publishing Events</p>
+        <small class="text-xs font-light text-slate-600">List of Invoices events activity you've made.</small>
+      </div>
+    </div>
+    <div class="wrapper__table">
+      <div class="container__table">
+        <div class="w-full items-center">
+          <table class="w-full items-center">
+            <thead>
+              <tr>
+                <th
+                  class="font-dmSans whitespace-nowrap border-b border-b-gray-200 bg-transparent px-6 py-3 text-left text-xs font-semibold uppercase tracking-normal text-slate-400 opacity-70"
+                >
+                  no
+                </th>
+                <th
+                  class="font-dmSans whitespace-nowrap border-b border-b-gray-200 bg-transparent px-6 py-3 text-left text-xs font-semibold uppercase tracking-normal text-slate-400 opacity-70"
+                >
+                  status
+                </th>
+                <th
+                  class="font-dmSans whitespace-nowrap border-b border-b-gray-200 bg-transparent px-6 py-3 text-left text-xs font-semibold uppercase tracking-normal text-slate-400 opacity-70"
+                >
+                  Event
+                </th>
+                <th
+                  class="font-dmSans whitespace-nowrap border-b border-b-gray-200 bg-transparent px-6 py-3 text-left text-xs font-semibold uppercase tracking-normal text-slate-400 opacity-70"
+                >
+                  price
+                </th>
+                <th
+                  class="font-dmSans whitespace-nowrap border-b border-b-gray-200 bg-transparent px-6 py-3 text-left text-xs font-semibold uppercase tracking-normal text-slate-400 opacity-70"
+                >
+                  discount
+                </th>
+                <th
+                  class="font-dmSans whitespace-nowrap border-b border-b-gray-200 bg-transparent px-6 py-3 text-left text-xs font-semibold uppercase tracking-normal text-slate-400 opacity-70"
+                >
+                  added at
+                </th>
+                <th
+                  class="font-dmSans whitespace-nowrap border-b border-b-gray-200 bg-transparent px-6 py-3 text-left text-xs font-semibold uppercase tracking-normal text-slate-400 opacity-70"
+                >
+                  action
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for invoice in invoices_publish_event %}
+              <tr class="hover:bg-slate-500 hover:bg-opacity-5">
+                <td class="min-w-[80px] border-b border-b-gray-200 px-6 py-4">
+                  <p class="font-inter text-sm text-slate-400">{{ forloop.counter0|add:invoices_publish_event.start_index }}</p>
+                </td>
+                <td class="min-w-[180px] border-b border-b-gray-200 px-6 py-4 text-xs font-medium text-slate-500">
+                  <!-- TODO: fix it later -->
+                  <div class="flex flex-col gap-2">
+                    {% if invoice.status_paid == "PAID" %}
+                    <span class="rounded-md bg-green-200 px-2 py-1 text-xs font-semibold font-poppins uppercase w-fit text-green-500">SUCCESS</span>
+                    {% elif invoice.status_paid == "WAITING" %}
+                    <span class="rounded-md bg-gray-200 px-2 py-1 text-xs font-semibold font-poppins uppercase w-fit text-gray-500">WAITING</span>
+                    <div class="flex flex-row items-center gap-1">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-5 h-5 object-contain">
+                        <path d="M12 2C6.894 2 2.6205469 5.821625 2.0605469 10.890625C1.9995469 11.438625 2.3963125 11.934141 2.9453125 11.994141C3.4973125 12.056141 3.9878281 11.659375 4.0488281 11.109375C4.4968281 7.057375 7.915 4 12 4C16.411 4 20 7.589 20 12C20 16.411 16.411 20 12 20C11.448 20 11 20.447 11 21C11 21.553 11.448 22 12 22C17.514 22 22 17.514 22 12C22 6.486 17.514 2 12 2 z M 11.984375 5.9863281C11.432375 5.9953281 10.992 6.448 11 7L11 12C11 12.552 11.448 13 12 13L15 13C15.552 13.008 16.005672 12.565672 16.013672 12.013672C16.021672 11.461672 15.579344 11.008 15.027344 11L15 11L13 11L13 7C13.008 6.448 12.565672 5.9943281 12.013672 5.9863281L11.984375 5.9863281 z M 3.8769531 13.699219C3.8135 13.688438 3.7466875 13.690781 3.6796875 13.707031L2.7070312 13.943359C2.4380312 14.009359 2.2668906 14.284734 2.3378906 14.552734C2.4308906 14.904734 2.541875 15.250844 2.671875 15.589844C2.772875 15.853844 3.08475 15.972422 3.34375 15.857422L4.2578125 15.453125C4.5018125 15.345125 4.609625 15.0645 4.515625 14.8125C4.427625 14.5765 4.35025 14.332172 4.28125 14.076172C4.228 13.875922 4.0673125 13.731562 3.8769531 13.699219 z M 5.4472656 16.826172C5.3247656 16.806547 5.1973906 16.832156 5.0878906 16.910156L4.2734375 17.490234C4.0424375 17.654234 3.9861094 17.983078 4.1621094 18.205078C4.4031094 18.509078 4.6625 18.800219 4.9375 19.074219C5.1385 19.274219 5.4701562 19.255922 5.6601562 19.044922L6.328125 18.302734C6.508125 18.102734 6.4907344 17.802328 6.3027344 17.611328C6.1147344 17.422328 5.9374844 17.222625 5.7714844 17.015625C5.6869844 16.911125 5.5697656 16.845797 5.4472656 16.826172 z M 8.1640625 19.060547C7.9749219 19.040016 7.7851406 19.123625 7.6816406 19.296875L7.171875 20.15625C7.026875 20.39925 7.108375 20.723469 7.359375 20.855469C7.703375 21.036469 8.059875 21.197891 8.421875 21.337891C8.685875 21.439891 8.9823125 21.286578 9.0703125 21.017578L9.3808594 20.068359C9.4648594 19.812359 9.328125 19.543312 9.078125 19.445312C8.830125 19.347313 8.5866094 19.237234 8.3496094 19.115234C8.2898594 19.084484 8.2271094 19.067391 8.1640625 19.060547 z" fill="currentColor" />
+                      </svg>
+                      <span class="font-poppins">{{ invoice.expired_at|timeuntil }} left.</span>
+                    </div>
+                    {% elif invoice.status_paid == "FAILED" %}
+                    <span class="rounded-md bg-rose-200 px-2 py-1 text-xs font-semibold font-poppins uppercase w-fit text-rose-500">FAILED</span>
+                    {% endif %}
+                  </div>
+                </td>
+                <td class="font-jost min-w-[310px] border-b border-b-gray-200 px-6 py-4 text-left text-slate-800">
+                  <p class="line-clamp-2">{{ invoice.event.title }}</p>
+                </td>
+                <td class="font-jost min-w-[210px] border-b border-b-gray-200 px-6 py-4 text-left text-slate-800">
+                  {% if invoice.price > 0 %}
+                    <p class="line-clamp-2">Rp {{ invoice.price|intcomma }}</p>
+                  {% else %}
+                    <p class="line-clamp-2 text-xs rounded-lg py-1 px-2 bg-slate-100 w-fit font-semibold">FREE</p>
+                  {% endif %}
+                </td>
+                <td class="font-jost min-w-[210px] border-b border-b-gray-200 px-6 py-4 text-left text-slate-800">
+                  <p class="line-clamp-2">{{ invoice.discount }}%</p>
+                </td>
+                <td class="font-inter min-w-[190px] border-b border-b-gray-200 px-6 py-4 text-sm font-medium text-slate-500">
+                  {{ invoice.updated_at|date:'M d, Y'}}
+                </td>
+                <td class="min-w-[150px] border-b border-b-gray-200 px-6 py-4">
+                  <div class="font-quicksand flex flex-row items-center gap-2 text-sm font-semibold">
+                    {% if invoice.status_paid == "WAITING" %}
+                    <form action="{% url 'invoices-cancel' invoice.id %}" method="post">
+                      {% csrf_token %}
+                      <button
+                      type="submit"
+                      class="hover:shadow-container1 relative rounded-md bg-gradient-to-b from-red-600 to-red-500 px-3 py-2 text-white transition-all duration-150 ease-out hover:scale-95 hover:brightness-110"
+                      onclick="return confirm(`Cancel this invoice? ({{ invoice.event.title }})`)">
+                        Cancel
+                      </button>
+                    </form>
+                    {% endif %}
+                    <a
+                      href="{% url 'invoices-related' invoice.event.id %}"
+                      class="text-center hover:shadow-container1 relative rounded-md bg-gradient-to-b from-sky-600 to-sky-500 px-3 py-2 text-white transition-all duration-150 ease-out hover:scale-95 hover:brightness-110">
+                      Invoice Related
+                    </a>
+                  </div>
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="flex flex-row justify-between">
+      <span class="flex flex-row items-center gap-1">
+        <p class="text-sm text-slate-600">
+          Showing <strong>{{ invoices.start_index }}</strong> to <strong>{{ invoices.end_index }}</strong> of
+          <strong>{{ invoices.paginator.count }}</strong> entries.
+        </p>
+      </span>
+      <div class="flex flex-row items-center gap-2">
+        {% for paginate in invoices_publish_event.paginator.page_range %}
+        <a
+          href="?page_pe={{ paginate }}{{ q_ae }}"
+          class="paginate__item {% if paginate == invoices_publish_event.number %}paginate__item--active{% endif %}"
           tabindex="-1"
         >
           <p class="absolute top-2/4 left-2/4 -translate-x-2/4 -translate-y-2/4">{{ paginate }}</p>

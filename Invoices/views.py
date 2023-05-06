@@ -2,11 +2,13 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
+    from typing import Literal
     from django.http import HttpResponse, HttpResponseRedirect, HttpResponsePermanentRedirect
     from . import context
     from django.db.models import QuerySet
 
 from django.core.paginator import Paginator
+from django.db.models import Q
 from django.urls import reverse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
@@ -17,17 +19,29 @@ from Associations.query import user_registered_associations
 
 from binago.utils import pages_backend
 from Events.models import Events
-from .models import InvoiceUserEventRegistered
+from .models import InvoiceUserEventRegistered, InvoiceEventPost
 
 
 @login_required
 @require_http_methods(['GET'])
 def index(request) -> HttpResponse:
-    page: int = int(request.GET.get('page', 1))
+    page_ae: int = int(request.GET.get('page_ae', 1))
+    page_pe: int = int(request.GET.get('page_pe', 1))
+
+    ae: str | Literal[False] = request.GET.get('page_ae', False)
+    pe: str | Literal[False] = request.GET.get('page_pe', False)
+
+    build_ae: str = f'&page_ae={page_ae}' if ae else ''
+    build_pe: str = f'&page_pe={page_pe}' if pe else ''
+
     template: str = pages_backend('invoices/index.html')
     invoices: QuerySet[InvoiceUserEventRegistered] = InvoiceUserEventRegistered.objects.filter(
         event_registered__user=request.user).order_by('-created_at')
+    invoices_publish_events: QuerySet[InvoiceEventPost] = InvoiceEventPost.objects.filter(
+        Q(event__association_group__user=request.user)
+    ).order_by('-created_at')
     cluster_invoices = Paginator(invoices, 5)
+    cluster_invoices_pe = Paginator(invoices_publish_events, 2)
     context: context.IndexContext = {
         'title': 'Invoices',
         'breadcrumb': {
@@ -42,7 +56,10 @@ def index(request) -> HttpResponse:
         },
         'description': 'Listing invoices.',
         'registered_associations': user_registered_associations(request),
-        'invoices': cluster_invoices.get_page(page)
+        'invoices': cluster_invoices.get_page(page_ae),
+        'invoices_publish_event': cluster_invoices_pe.get_page(page_pe),
+        'q_ae': build_ae,
+        'q_pe': build_pe
     }
     return render(request, template, context)
 

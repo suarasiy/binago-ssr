@@ -9,6 +9,9 @@ if TYPE_CHECKING:
 
     class IndexContext(Context):
         invoices: Page
+        invoices_publish_event: Page
+        q_ae: str
+        q_pe: str
 
     class RelatedContext(Context):
         invoices_related: QuerySet[InvoiceUserEventRegistered]

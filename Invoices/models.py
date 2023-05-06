@@ -19,6 +19,7 @@ class InvoiceEventPost(models.Model):
     price = models.PositiveIntegerField()
     discount = models.PositiveIntegerField(default=0)
     status = models.TextField(choices=StatusType.choices, default=StatusType.WAITING)
+    expired_at = models.DateTimeField(default=timezone.now() + timedelta(days=1))
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -45,10 +46,10 @@ class InvoiceUserEventRegistered(models.Model):
     price = models.PositiveIntegerField()
     discount = models.PositiveIntegerField(default=0)
     status = models.TextField(choices=StatusType.choices, default=StatusType.WAITING)
-    expired_at = models.DateTimeField(default=timezone.now() + timedelta(hours=2))
+    expired_at = models.DateTimeField(default=timezone.now() + timedelta(days=1))
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    
+
     def get_discount(self) -> int:
         return round(self.price * (self.discount / 100))
 

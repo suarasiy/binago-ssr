@@ -22,6 +22,7 @@ from .query import fragment_info
 
 from django.contrib import messages
 
+from binago.utils import SNAP
 from django.urls import reverse
 from django.utils import dateformat, timezone
 from django.http import HttpResponseNotFound
@@ -212,9 +213,11 @@ def event_detail(request, slug) -> HttpResponse:
 @permission_check_schedule_eligibility
 @permission_check_seat_eligibility
 def event_register(request, slug) -> HttpResponse | HttpResponseRedirect | HttpResponsePermanentRedirect:
+    snap = SNAP()
     event: Events = get_object_or_404(Events, slug=slug)
     # TODO: need to enhance this later
     register_eligibility: bool = check_eligibility_register(request, slug)
+    user: User = get_object_or_404(User, id=request.user.id)
     if request.method == "POST":
         register_event: EventsUserRegistered
         _: bool
@@ -222,14 +225,37 @@ def event_register(request, slug) -> HttpResponse | HttpResponseRedirect | HttpR
             event=event,
             user=request.user,
         )
-        new_invoice = InvoiceUserEventRegistered.objects.create(
+        invoice: InvoiceUserEventRegistered = InvoiceUserEventRegistered.objects.create(
             event_registered=register_event,
             price=event.price,
             discount=0,
         )
         if event.price == 0:
-            new_invoice.status = 'SUCCESS'
-            new_invoice.save()
+            invoice.status = 'SUCCESS'
+            invoice.save()
+        else:
+            param = {
+                "transaction_details": {
+                    "order_id": str(invoice.uuid),
+                    "gross_amount": invoice.price
+                }, "credit_card": {
+                    "secure": True
+                }, "customer_details": {
+                    "first_name": user.first_name,
+                    "last_name": user.last_name,
+                    "email": user.email,
+                    "phone": "",
+                    "city": user.city,
+                }
+            }
+            transaction_capture = snap.init_new().create_transaction(param)
+            print("=== TRANSACTION CAPTURE ===")
+            print(transaction_capture.get('token', False))
+            print("=== END CAPTURE ===")
+
+            # update midtrans token to the db
+            invoice.midtrans_token = transaction_capture.get('token', None)
+            invoice.save()
 
         schedule_start: str = dateformat.format(event.schedule_start, 'M d, Y h:i A')
         messages.success(

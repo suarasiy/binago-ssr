@@ -5,7 +5,7 @@
 
 <!-- -->
 {% block content %}
-<div class="grid grid-cols-3 gap-7">
+<div class="select-none grid grid-cols-3 gap-7">
   <span class="select-none">
     <div class="shadow-container3 flex h-max flex-col gap-4 rounded-xl bg-white p-5">
       <div class="flex flex-row justify-between">
@@ -91,11 +91,11 @@
       <div class="absolute bottom-0 left-0 right-0 z-0 h-14 w-full bg-gradient-to-t from-sky-500 to-transparent"></div>
     </div>
   </span>
-  <span class="col-span-2">
+  <span class="col-span-2 flex flex-col gap-7">
     <div class="shadow-container3 flex flex-col gap-4 rounded-xl bg-white p-5">
       <div class="flex flex-row justify-between">
         <div class="font-poppins flex flex-col gap-1">
-          <p class="font-medium text-slate-900">Total attended users into events</p>
+          <p class="font-medium text-slate-900">Total registered users into events</p>
           <small class="text-xs font-light text-slate-600"
             >Count every users that attended in many webinar in this month.</small
           >
@@ -107,21 +107,41 @@
       <div class="container__group">
         <div id="main" class="h-96"></div>
       </div>
+    </div>
+    <div class="shadow-container3 flex flex-col gap-4 rounded-xl bg-white p-5">
+      <div class="flex flex-row justify-between">
+        <div class="font-poppins flex flex-col gap-1">
+          <p class="font-medium text-slate-900">Total registered events</p>
+          <small class="text-xs font-light text-slate-600"
+            >Accumulate the total of published (succesfuly paid) events and unpublished events.</small
+          >
+        </div>
+        <span class="h-fit rounded-md bg-blue-400 bg-opacity-10 px-3 py-2 text-sm font-semibold text-blue-500"
+          >Monthly</span
+        >
+      </div>
       <span class="container__group">
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Incidunt cum adipisci excepturi. Minima neque placeat
-          alias deserunt fugiat dolores quos recusandae exercitationem incidunt odit libero quam commodi veniam modi
-          facilis reprehenderit, tempora corrupti quod, nulla iste doloremque numquam unde fugit temporibus. Ducimus
-          quisquam temporibus suscipit, autem reiciendis accusantium corrupti aliquam non possimus recusandae quia
-          deleniti, nesciunt numquam alias, consequuntur corporis. Delectus debitis veniam id soluta nulla accusantium
-          voluptatibus fugit ea minus quas recusandae obcaecati officia exercitationem consequuntur pariatur quia,
-          cupiditate voluptate sit reiciendis unde illo architecto vero? Accusantium ut autem neque beatae, voluptatum,
-          voluptatibus eveniet officiis deserunt doloremque est quae.
-        </p>
+        <div id="chart-registered-events" class="h-96"></div>
       </span>
     </div>
   </span>
-  <span class="">
+  <span class="flex flex-col gap-7">
+    <div class="shadow-container3 flex h-max flex-col gap-4 rounded-xl bg-white p-5">
+      <div class="flex flex-row justify-between">
+        <div class="font-poppins flex flex-col gap-1">
+          <p class="font-medium text-slate-900">Yearly Accumulation</p>
+          <small class="text-xs font-light text-slate-600"
+            >Summaries of events (published & unpublished), user registrant.</small
+          >
+        </div>
+        <span class="h-fit rounded-md bg-red-400 bg-opacity-10 px-3 py-2 text-sm font-semibold text-red-500"
+          >Yearly</span
+        >
+      </div>
+      <div class="container__group">
+        <div id="chart-accumulation-yearly" class="h-[45rem]"></div>
+      </div>
+    </div>
     <div class="shadow-container3 flex h-max flex-col gap-4 rounded-xl bg-white p-5">
       <div class="flex flex-row justify-between">
         <div class="font-poppins flex flex-col gap-1">
@@ -137,12 +157,6 @@
       <div class="container__group">
         <div id="main-donuts" class="h-96"></div>
       </div>
-      <span class="container__group">
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet qui ipsam facilis vel hic neque ratione,
-          quisquam mollitia voluptatibus quae.
-        </p>
-      </span>
     </div>
   </span>
   <span class="col-span-3">
@@ -501,6 +515,10 @@
   </span>
 </div>
 <input type="hidden" value="{{ timeline }}" id="timeline" />
+<input type="hidden" value="{{ summary_by_categories }}" id="summary_by_categories" />
+<input type="hidden" value="{{ summary_user_registered }}" id="summary_user_registered" />
+<input type="hidden" value="{{ summary_events_registered }}" id="summary_events_registered" />
+<input type="hidden" value="{{ summary_accumulation_yearly }}" id="summary_accumulation_yearly" />
 {% endblock content %}
 
 <!-- -->
@@ -509,195 +527,157 @@
 <script src="{% static 'backend/js/binago_dashboard_events.js' %}"></script>
 <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.5/index.global.min.js"></script>
 <script>
-  const chartDom = document.querySelector('#main');
-  const myChart = echarts.init(chartDom);
-  const option = {
-    color: ['#80FFA5', '#00DDFF', '#37A2FF', '#FF0087', '#FFBF00'],
-    title: {
-      text: 'Gradient Stacked Area Chart',
-    },
-    tooltip: {
-      trigger: 'axis',
-      axisPointer: {
-        type: 'cross',
-        label: {
-          backgroundColor: '#6a7985',
-        },
-      },
-    },
-    legend: {
-      data: ['Line 1', 'Line 2', 'Line 3', 'Line 4', 'Line 5'],
-    },
-    toolbox: {
-      feature: {
-        saveAsImage: {},
-      },
-    },
+  let chartTotalRegisteredUser = document.querySelector('#main')
+  let dataUserRegistered = document.querySelector('#summary_user_registered').value;
+  let myChart = echarts.init(chartTotalRegisteredUser)
+  let option = {
     grid: {
       left: '3%',
       right: '4%',
       bottom: '3%',
-      containLabel: true,
+      containLabel: true
     },
-    xAxis: [
-      {
-        type: 'category',
-        boundaryGap: false,
-        data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-      },
-    ],
-    yAxis: [
-      {
-        type: 'value',
-      },
-    ],
+    legend: {
+      show: true,
+      data: ['Total Registrant']
+    },
+    toolbox: {
+      feature: {
+        saveAsImage: {},
+        dataView: {
+          readOnly: true
+        }
+      }
+    },
+    xAxis: {
+      type: 'category',
+      boundaryGap: false,
+      data: JSON.parse(dataUserRegistered).x_label
+    },
+    yAxis: {
+      type: 'value'
+    },
     series: [
       {
-        name: 'Line 1',
-        type: 'line',
-        stack: 'Total',
-        smooth: true,
-        lineStyle: {
-          width: 0,
-        },
-        showSymbol: false,
-        areaStyle: {
-          opacity: 0.8,
-          color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-            {
-              offset: 0,
-              color: 'rgb(128, 255, 165)',
-            },
-            {
-              offset: 1,
-              color: 'rgb(1, 191, 236)',
-            },
-          ]),
-        },
-        emphasis: {
-          focus: 'series',
-        },
-        data: [140, 232, 101, 264, 90, 340, 250],
-      },
-      {
-        name: 'Line 2',
-        type: 'line',
-        stack: 'Total',
-        smooth: true,
-        lineStyle: {
-          width: 0,
-        },
-        showSymbol: false,
-        areaStyle: {
-          opacity: 0.8,
-          color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-            {
-              offset: 0,
-              color: 'rgb(0, 221, 255)',
-            },
-            {
-              offset: 1,
-              color: 'rgb(77, 119, 255)',
-            },
-          ]),
-        },
-        emphasis: {
-          focus: 'series',
-        },
-        data: [120, 282, 111, 234, 220, 340, 310],
-      },
-      {
-        name: 'Line 3',
-        type: 'line',
-        stack: 'Total',
-        smooth: true,
-        lineStyle: {
-          width: 0,
-        },
-        showSymbol: false,
-        areaStyle: {
-          opacity: 0.8,
-          color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-            {
-              offset: 0,
-              color: 'rgb(55, 162, 255)',
-            },
-            {
-              offset: 1,
-              color: 'rgb(116, 21, 219)',
-            },
-          ]),
-        },
-        emphasis: {
-          focus: 'series',
-        },
-        data: [320, 132, 201, 334, 190, 130, 220],
-      },
-      {
-        name: 'Line 4',
-        type: 'line',
-        stack: 'Total',
-        smooth: true,
-        lineStyle: {
-          width: 0,
-        },
-        showSymbol: false,
-        areaStyle: {
-          opacity: 0.8,
-          color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-            {
-              offset: 0,
-              color: 'rgb(255, 0, 135)',
-            },
-            {
-              offset: 1,
-              color: 'rgb(135, 0, 157)',
-            },
-          ]),
-        },
-        emphasis: {
-          focus: 'series',
-        },
-        data: [220, 402, 231, 134, 190, 230, 120],
-      },
-      {
-        name: 'Line 5',
-        type: 'line',
-        stack: 'Total',
-        smooth: true,
-        lineStyle: {
-          width: 0,
-        },
-        showSymbol: false,
-        label: {
+        name: 'Total Registrant',
+        data: JSON.parse(dataUserRegistered).data,
+        tooltip: {
           show: true,
-          position: 'top',
+          trigger: 'axis'
         },
+        type: 'line',
+        smooth: true,
         areaStyle: {
-          opacity: 0.8,
           color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
             {
-              offset: 0,
-              color: 'rgb(255, 191, 0)',
+              offset: 1,
+              color: '#FFFFFF'
             },
             {
-              offset: 1,
-              color: 'rgb(224, 62, 76)',
-            },
-          ]),
-        },
-        emphasis: {
-          focus: 'series',
-        },
-        data: [220, 302, 181, 234, 210, 290, 150],
-      },
+              offset: 0,
+              color: '#5E72E4'
+            }
+          ])
+        }
+      }
     ],
+    tooltip: {
+      show: true,
+      trigger: 'axis',
+      axisPointer: {
+        animation: false,
+        type: 'shadow'
+      },
+      formatter: params => {
+        var colorSpan = color => '<span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + color + '"></span>';
+        let tip = `<p>Days <strong>${params[0].axisValue}</strong></p>`
+        params.forEach(item => {
+          let tmp = `<p>${colorSpan(item.color)} ${item.data} Registrant.</p>`
+          tip += tmp
+        })
+        return tip
+      }
+    }
   };
-
-  myChart.setOption(option);
+  option && myChart.setOption(option);
 </script>
 <script>
+  let chartTotalRegisteredEvent = document.querySelector('#chart-registered-events')
+  let dataEventRegistered = document.querySelector('#summary_events_registered').value;
+  let _chartTotalRegisteredEvent = echarts.init(chartTotalRegisteredEvent)
+  let optionTotalRegisteredEvent = {
+    grid: {
+      left: '3%',
+      right: '4%',
+      bottom: '3%',
+      containLabel: true
+    },
+    legend: {
+      show: true,
+      data: ['Published Events', 'Unpublished Events']
+    },
+    toolbox: {
+      feature: {
+        saveAsImage: {},
+        dataView: {
+          readOnly: true
+        }
+      }
+    },
+    xAxis: {
+      type: 'category',
+      boundaryGap: false,
+      data: JSON.parse(dataEventRegistered).x_label
+    },
+    yAxis: {
+      type: 'value'
+    },
+    series: [
+      {
+        name: 'Published Events',
+        data: JSON.parse(dataEventRegistered).data_published,
+        tooltip: {
+          show: true,
+          trigger: 'axis'
+        },
+        type: 'line',
+        smooth: true,
+      },
+      {
+        name: 'Unpublished Events',
+        data: JSON.parse(dataEventRegistered).data_unpublished,
+        tooltip: {
+          show: true,
+          trigger: 'axis'
+        },
+        type: 'line',
+        smooth: true,
+      }
+    ],
+    tooltip: {
+      show: true,
+      trigger: 'axis',
+      axisPointer: {
+        animation: false,
+        type: 'shadow'
+      },
+      formatter: params => {
+        var colorSpan = color => '<span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + color + '"></span>';
+        let tip = `<p>Days <strong>${params[0].axisValue}</strong></p>`
+        params.forEach(item => {
+          let tmp = `<p>${colorSpan(item.color)} ${item.data} ${item.seriesName}.</p>`
+          tip += tmp
+        })
+        return tip
+      }
+    }
+  };
+  optionTotalRegisteredEvent && _chartTotalRegisteredEvent.setOption(optionTotalRegisteredEvent);
+</script>
+<script>
+  // TODO: need to improve to parsing json
   const chartDomDonuts = document.querySelector('#main-donuts');
+  let value = document.querySelector('#summary_by_categories').value;
   const myChartDonuts = echarts.init(chartDomDonuts);
   const optionDonuts = {
     tooltip: {
@@ -706,6 +686,14 @@
     legend: {
       top: '5%',
       left: 'center',
+    },
+    toolbox: {
+      feature: {
+        saveAsImage: {},
+        dataView: {
+          readOnly: true
+        }
+      }
     },
     series: [
       {
@@ -732,18 +720,69 @@
         labelLine: {
           show: false,
         },
-        data: [
-          { value: 1048, name: 'Search Engine' },
-          { value: 735, name: 'Direct' },
-          { value: 580, name: 'Email' },
-          { value: 484, name: 'Union Ads' },
-          { value: 300, name: 'Video Ads' },
-        ],
+        data: JSON.parse(value),
       },
     ],
   };
 
   optionDonuts && myChartDonuts.setOption(optionDonuts);
+</script>
+<script>
+  const chartAccumulationYearly = document.querySelector('#chart-accumulation-yearly');
+  let dataAccumulationYearly = document.querySelector('#summary_accumulation_yearly').value;
+  const _chartAccumulationYearly = echarts.init(chartAccumulationYearly);
+
+  let optionAccumulationYearly = {
+    tooltip: {
+      trigger: 'axis',
+      axisPointer: {
+        type: 'shadow',
+        animation: false,
+      }
+    },
+    legend: {},
+    toolbox: {
+      feature: {
+        saveAsImage: {},
+        dataView: {
+          readOnly: true
+        }
+      }
+    },
+    grid: {
+      left: '3%',
+      right: '4%',
+      bottom: '3%',
+      containLabel: true
+    },
+    xAxis: {
+      type: 'value',
+      boundaryGap: [0, 0.01]
+    },
+    yAxis: {
+      type: 'category',
+      data: JSON.parse(dataAccumulationYearly).y_label,
+    },
+    series: [
+      {
+        name: 'Published Events',
+        type: 'bar',
+        data: JSON.parse(dataAccumulationYearly).data.events_published,
+      },
+      {
+        name: 'Unpublished Events',
+        type: 'bar',
+        data: JSON.parse(dataAccumulationYearly).data.events_unpublished,
+      },
+      {
+        name: 'Total Registrant',
+        type: 'bar',
+        data: JSON.parse(dataAccumulationYearly).data.users_registered,
+      }
+    ]
+  };
+
+  optionAccumulationYearly && _chartAccumulationYearly.setOption(optionAccumulationYearly)
 </script>
 <script>
   document.addEventListener('DOMContentLoaded', function () {
@@ -754,8 +793,9 @@
       headerToolbar: {
         left: 'prev,next today',
         center: 'title',
-        right: 'dayGridMonth,timeGridWeek,timeGridDay',
+        right: 'listMonth,dayGridMonth,timeGridWeek,timeGridDay',
       },
+      showNonCurrentDates: false,
       selectable: true,
       nowIndicator: true,
       events: JSON.parse(timeline),

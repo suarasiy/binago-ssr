@@ -1,6 +1,9 @@
 {% extends 'frontend/layout/master.html' %}
 
 <!-- -->
+{% load humanize %}
+
+<!-- -->
 {% load static %}
 
 <!-- -->
@@ -21,7 +24,7 @@
       {% if event.price == 0 %}
       <span class="font-quicksand text-lg font-bold text-slate-900">FREE</span>
       {% else %}
-      <span class="font-quicksand text-lg font-bold text-slate-900">Rp {{ event.price }}</span>
+      <span class="font-quicksand text-lg font-bold text-slate-900">Rp {{ event.price|intcomma }}</span>
       {% endif %}
     </div>
     <div class="flex flex-row justify-between gap-2">

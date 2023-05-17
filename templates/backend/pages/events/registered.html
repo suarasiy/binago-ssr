@@ -96,7 +96,7 @@
                   {% else %}
                     <strong class="font-poppins text-lg font-bold text-slate-800">Rp {{ registered.invoiceusereventregistered_set.last.price|intcomma }}</strong>
                   {% endif %}
-                  <div class="flex flex-row items-center gap-2 flex-wrap">
+                  <div class="flex flex-row items-center gap-2 flex-wrap w-full">
                     <span class="rounded-md bg-gray-200 px-2 py-1 text-xs font-semibold font-poppins uppercase w-fit text-gray-500">
                       {{ registered.invoiceusereventregistered_set.count }} INVOICE
                     </span>

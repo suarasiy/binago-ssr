@@ -39,6 +39,7 @@ urlpatterns = [
         path('', views.homepage_past, name='homepage-event-past'),
         path('<category>/', views.homepage_past_category, name='homepage-event-past-category'),
     ])),
+    path('certificate/<str:uuid>/', views.index_certificate, name='homepage-certificate'),
     path('admin/', admin.site.urls),
     path('404/', views.handle_404),
     path('403/', views.handle_403),

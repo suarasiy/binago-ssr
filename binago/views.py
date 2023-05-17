@@ -248,14 +248,24 @@ def event_register(request, slug) -> HttpResponse | HttpResponseRedirect | HttpR
     return render(request, template, context)
 
 
+def index_certificate(request, uuid) -> HttpResponse:
+    # TODO: improve
+    template: str = pages_frontend('certificate/index.html')
+    context = {
+        'title': 'test'
+    }
+    return render(request, template, context)
+
+
 @login_required
 def dashboard(request) -> HttpResponse:
-    template_name: str = pages_testing("dashboard.html")
+    # TODO: improve
+    template: str = pages_testing("dashboard.html")
     context = {
         'title': 'testing',
         'user': request.user
     }
-    return render(request, template_name, context)
+    return render(request, template, context)
 
 
 @login_required

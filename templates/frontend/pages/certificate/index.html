@@ -1,0 +1,78 @@
+{% extends 'frontend/layout/master.html' %}
+
+<!-- -->
+{% load static %}
+
+<!-- -->
+{% block content %}
+
+<div class="flex flex-col gap-10 pb-10">
+  <img src="{% static 'web/assets/certificate_example.png' %}" alt="" srcset="" draggable="false" class="border border-slate-100 p-2">
+  <div class="flex flex-row justify-between items-center px-3">
+    <div class="flex flex-row items-center gap-5 shrink-0">
+      <span class="font-poppins text-xs font-medium text-slate-800">Issued on {{ event.created_at|date:'M d, Y' }}</span>
+      <a
+        href=""
+        class="flex flex-row items-center gap-2 rounded-xl px-4 py-2 transition-all duration-150 ease-out hover:bg-slate-500 hover:bg-opacity-10 hover:ring-4 hover:ring-slate-500 hover:ring-opacity-10"
+      >
+        <img
+          src="{% get_media_prefix %}{{ event.association_group.user.avatar }}"
+          alt=""
+          srcset=""
+          class="h-6 w-6 shrink-0 rounded-full object-cover object-center"
+          draggable="false"
+        />
+        <span class="font-poppins text-xs font-medium text-slate-800"
+          >For {{ event.association_group.user.first_name }} {{ event.association_group.user.last_name }}</span
+        >
+      </a>
+    </div>
+    <a href="" class="border border-slate-500 border-opacity-10 flex flex-row-reverse items-center gap-3 rounded-xl px-4 py-2 transition-all duration-150 ease-out hover:bg-slate-500 hover:bg-opacity-10 hover:ring-4 hover:ring-slate-500 hover:ring-opacity-10 hover:border-opacity-0">
+      <img src="{% static 'web/assets/certificate_example.png' %}" alt="" srcset="" class="w-24 h-16 rounded-xl shrink-0" draggable="false">
+      <span class="font-poppins text-xs font-medium text-slate-800 max-w-[370px] line-clamp-2 text-ellipsis text-right">Study Backend: Building Fullstack AnimeList with Django4</span>
+    </a>
+  </div>
+  <div class="flex flex-col gap-3 px-3">
+    <span class="text-sm font-poppins text-slate-800">Share this certificate through:</span>
+    <div class="border-base-depth flex flex-row flex-wrap gap-3 border-y py-4">
+      <!--  -->
+      <div class="border-base-depth flex flex-row items-center gap-2 border-r py-1 pr-4">
+        <a href="" class="flex flex-row items-center gap-2 rounded-xl px-3 py-2 transition-all duration-150 ease-out hover:bg-slate-500 hover:bg-opacity-10 hover:ring-4 hover:ring-slate-500 hover:ring-opacity-10">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="h-5 w-5 text-slate-800">
+            <path d="M2.3242188 4C1.0521458 4 -2.9605947e-16 5.0521459 0 6.3242188L0 18.675781C0 19.947854 1.0521459 21 2.3242188 21L21.675781 21C22.947854 21 24 19.947593 24 18.675781L24 6.3242188C24 5.0521459 22.947593 4 21.675781 4L2.3242188 4 z M 2.3242188 6L21.675781 6C21.86597 6 22 6.1322916 22 6.3242188L22 8L2 8L2 6.3242188C2 6.1322916 2.1322916 6 2.3242188 6 z M 2 11L22 11L22 18.675781C22 18.86597 21.867708 19 21.675781 19L2.3242188 19C2.1322915 19 2 18.867708 2 18.675781L2 11 z M 4 13L4 14L11 14L11 13L4 13 z" fill="currentColor" />
+          </svg>
+          <span class="font-poppins text-sm font-medium text-slate-800"> Copy ID </span>
+        </a>
+      </div>
+      <!--  -->
+      <div class="border-base-depth flex flex-row items-center gap-2 border-r py-1 pr-4">
+        <a href="" class="flex flex-row items-center gap-2 rounded-xl px-3 py-2 transition-all duration-150 ease-out hover:bg-slate-500 hover:bg-opacity-10 hover:ring-4 hover:ring-slate-500 hover:ring-opacity-10">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="h-5 w-5 text-slate-800">
+            <path d="M5.5625 0C4.136719 0 2.707031 0.542969 1.625 1.625C-0.539063 3.789063 -0.539063 7.335938 1.625 9.5L5.28125 13.15625C5.667969 13.554688 6.304688 13.558594 6.703125 13.171875C7.101563 12.785156 7.105469 12.148438 6.71875 11.75L3.03125 8.0625C1.632813 6.664063 1.632813 4.429688 3.03125 3.03125C4.429688 1.632813 6.664063 1.632813 8.0625 3.03125L12.96875 7.9375C14.367188 9.335938 14.367188 11.570313 12.96875 12.96875C12.804688 13.132813 12.621094 13.25 12.4375 13.375C11.980469 13.6875 11.859375 14.308594 12.171875 14.765625C12.484375 15.222656 13.105469 15.34375 13.5625 15.03125C13.847656 14.835938 14.125 14.625 14.375 14.375C16.539063 12.210938 16.539063 8.664063 14.375 6.5L9.5 1.625C8.417969 0.542969 6.988281 0 5.5625 0 Z M 10.78125 8.875C10.738281 8.882813 10.695313 8.894531 10.65625 8.90625C10.507813 8.9375 10.371094 9 10.25 9.09375C10.039063 9.253906 9.820313 9.429688 9.625 9.625C7.460938 11.789063 7.460938 15.335938 9.625 17.5L14.5 22.375C16.664063 24.539063 20.210938 24.539063 22.375 22.375C24.539063 20.210938 24.539063 16.664063 22.375 14.5L18.71875 10.875C18.476563 10.578125 18.089844 10.441406 17.714844 10.527344C17.34375 10.613281 17.050781 10.90625 16.964844 11.277344C16.878906 11.652344 17.015625 12.039063 17.3125 12.28125L20.96875 15.9375C22.367188 17.335938 22.367188 19.570313 20.96875 20.96875C19.570313 22.367188 17.335938 22.367188 15.9375 20.96875L11.03125 16.0625C9.632813 14.664063 9.632813 12.429688 11.03125 11.03125C11.152344 10.90625 11.300781 10.820313 11.4375 10.71875C11.839844 10.472656 12.015625 9.976563 11.855469 9.53125C11.699219 9.085938 11.25 8.8125 10.78125 8.875Z" fill="currentColor" />
+          </svg>
+          <span class="font-poppins text-sm font-medium text-slate-800"> Copy Link </span>
+        </a>
+      </div>
+      <!--  -->
+      <div class="border-base-depth border-r py-1 pr-4">
+        <a href="" class="flex flex-row items-center gap-2 rounded-xl px-4 py-2 text-[#1DA1F2] transition-all duration-150 ease-out hover:bg-[#1DA1F2] hover:bg-opacity-10 hover:ring-4 hover:ring-[#1DA1F2] hover:ring-opacity-10">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="h-5 w-5">
+            <path d="M24 4.300781C23.101563 4.699219 22.199219 5 21.199219 5.101563C22.199219 4.5 23 3.5 23.398438 2.398438C22.398438 3 21.398438 3.398438 20.300781 3.601563C19.300781 2.601563 18 2 16.601563 2C13.898438 2 11.699219 4.199219 11.699219 6.898438C11.699219 7.300781 11.699219 7.699219 11.800781 8C7.699219 7.800781 4.101563 5.898438 1.699219 2.898438C1.199219 3.601563 1 4.5 1 5.398438C1 7.101563 1.898438 8.601563 3.199219 9.5C2.398438 9.398438 1.601563 9.199219 1 8.898438C1 8.898438 1 8.898438 1 9C1 11.398438 2.699219 13.398438 4.898438 13.800781C4.5 13.898438 4.101563 14 3.601563 14C3.300781 14 3 14 2.699219 13.898438C3.300781 15.898438 5.101563 17.300781 7.300781 17.300781C5.601563 18.601563 3.5 19.398438 1.199219 19.398438C0.800781 19.398438 0.398438 19.398438 0 19.300781C2.199219 20.699219 4.800781 21.5 7.5 21.5C16.601563 21.5 21.5 14 21.5 7.5C21.5 7.300781 21.5 7.101563 21.5 6.898438C22.5 6.199219 23.300781 5.300781 24 4.300781" fill="currentColor" />
+          </svg>
+          <span class="font-poppins text-sm font-medium"> Share to Twitter </span>
+        </a>
+      </div>
+      <!--  -->
+      <div class="border-base-depth border-r py-1 pr-4">
+        <a href="" class="flex flex-row items-center gap-2 rounded-xl px-4 py-2 text-[#1877F2] transition-all duration-150 ease-out hover:bg-[#1877F2] hover:bg-opacity-10 hover:ring-4 hover:ring-[#1877F2] hover:ring-opacity-10">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="h-5 w-5">
+            <path d="M12,0C5.373,0,0,5.373,0,12c0,6.016,4.432,10.984,10.206,11.852V15.18H7.237v-3.154h2.969V9.927c0-3.475,1.693-5,4.581-5 c1.383,0,2.115,0.103,2.461,0.149v2.753h-1.97c-1.226,0-1.654,1.163-1.654,2.473v1.724h3.593L16.73,15.18h-3.106v8.697 C19.481,23.083,24,18.075,24,12C24,5.373,18.627,0,12,0z" fill="currentColor" />
+          </svg>
+          <span class="font-poppins text-sm font-medium"> Share to Facebook </span>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}

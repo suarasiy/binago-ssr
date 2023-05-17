@@ -1,6 +1,7 @@
 import os
 from dotenv import load_dotenv
 from pathlib import Path
+import midtransclient
 
 load_dotenv()
 
@@ -156,3 +157,9 @@ EMAIL_PORT = os.getenv('EMAIL_PORT')
 EMAIL_USE_TLS = True
 
 PASSWORD_RESET_TIMEOUT = 86400  # 1 days, in seconds
+
+# local payment gateway settings
+SNAP = midtransclient.Snap(
+    is_production=False,
+    server_key=str(os.getenv("MIDTRANS_SERVER_KEY"))
+)

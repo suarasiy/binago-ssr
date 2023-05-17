@@ -1743,6 +1743,14 @@ main .widget.widget--active > strong.context + p.subcon{
   min-width: 310px;
 }
 
+.min-w-\[320px\]{
+  min-width: 320px;
+}
+
+.min-w-\[350px\]{
+  min-width: 350px;
+}
+
 .min-w-\[450px\]{
   min-width: 450px;
 }
@@ -2225,6 +2233,11 @@ main .widget.widget--active > strong.context + p.subcon{
   background-color: rgb(94 114 228 / var(--tw-bg-opacity));
 }
 
+.bg-blue-700{
+  --tw-bg-opacity: 1;
+  background-color: rgb(17 113 239 / var(--tw-bg-opacity));
+}
+
 .bg-emerald-500{
   --tw-bg-opacity: 1;
   background-color: rgb(45 206 137 / var(--tw-bg-opacity));
@@ -2268,6 +2281,11 @@ main .widget.widget--active > strong.context + p.subcon{
 .bg-orange-500{
   --tw-bg-opacity: 1;
   background-color: rgb(251 99 64 / var(--tw-bg-opacity));
+}
+
+.bg-red-100{
+  --tw-bg-opacity: 1;
+  background-color: rgb(254 226 226 / var(--tw-bg-opacity));
 }
 
 .bg-red-50{

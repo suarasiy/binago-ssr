@@ -1,6 +1,7 @@
 from __future__ import annotations
 from typing import TYPE_CHECKING
 
+from django.db import transaction
 from django.urls import reverse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.core.paginator import Paginator
@@ -8,7 +9,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_http_methods
 
-from binago.utils import pages_backend
+from binago.utils import pages_backend, SNAP
 from Associations.query import user_registered_associations, get_association_by_slug
 
 from Associations.models import AssociationsGroup
@@ -22,6 +23,7 @@ from .utils import list_no_whitespace, calculate_event_price
 if TYPE_CHECKING:
     from django.db.models import QuerySet
     from django.http import HttpResponse, HttpResponseRedirect, HttpResponsePermanentRedirect
+    from binago.utils import UtilSnapContext
     from .context import (
         IndexContext, FormContext, IndexRegisteredEventsContext, IndexEventResourceContext
     )
@@ -145,7 +147,9 @@ def association_events(request, slug) -> HttpResponse:
 @require_http_methods(['GET', 'POST'])
 @permission_association_is_approved
 @permission_member_specific_association
+@transaction.atomic
 def events_create(request, slug) -> HttpResponse | HttpResponseRedirect | HttpResponsePermanentRedirect:
+    snap = SNAP()
     if request.method == "POST":
         form: EventForm = EventForm(request.POST, request.FILES)
         form_coverage: EventsCoverageForm = EventsCoverageForm(request.POST)
@@ -156,13 +160,37 @@ def events_create(request, slug) -> HttpResponse | HttpResponseRedirect | HttpRe
             event.association_group = group
             event.save()
 
+            # NOTE: Invoices Atomic
             # create invoice
             # TODO: improve later, in-development
-            InvoiceEventPost.objects.create(
+            invoice: InvoiceEventPost = InvoiceEventPost.objects.create(
                 event=event,
                 price=calculate_event_price(event.price),
                 discount=0,
             )
+
+            param = {
+                "transaction_details": {
+                    "order_id": str(invoice.uuid),
+                    "gross_amount": invoice.price
+                }, "credit_card": {
+                    "secure": True
+                }, "customer_details": {
+                    "first_name": group.user.first_name,
+                    "last_name": group.user.last_name,
+                    "email": group.user.email,
+                    "phone": "",
+                    "city": group.user.city,
+                }
+            }
+            transaction_capture = snap.init_new().create_transaction(param)
+            print("=== TRANSACTION CAPTURE ===")
+            print(transaction_capture.get('token', False))
+            print("=== END CAPTURE ===")
+
+            # update midtrans token to the db
+            invoice.midtrans_token = transaction_capture.get('token', None)
+            invoice.save()
 
             coverage_list_cleaned: List[str] = list_no_whitespace(
                 form_coverage.cleaned_data.get('coverage').split("||"))

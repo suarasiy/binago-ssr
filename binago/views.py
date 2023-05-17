@@ -69,7 +69,8 @@ def index(request) -> HttpResponseRedirect | HttpResponsePermanentRedirect:
 def stub_homepage_events(request, events: QuerySet[Events], max_item_per_page: int, _type: Literal['UPCOMING', 'TODAY', 'PAST']) -> HomepageContext:
     page: int = int(request.GET.get('page', 1))
     now: datetime = timezone.localtime(timezone.now())
-    for event in events:
+    published_only_events: QuerySet[Events] = events.filter(is_published=True)
+    for event in published_only_events:
         event.user_eligibility = check_eligibility_user_register(request, event.slug)
         if timezone.localtime(event.schedule_end.replace(tzinfo=pytz.UTC)) < now:
             event.schedule_eligibility = False
@@ -79,7 +80,6 @@ def stub_homepage_events(request, events: QuerySet[Events], max_item_per_page: i
 
     _: QuerySet[EventsCategories] = EventsCategories.objects.all().order_by('category')
 
-    published_only_events: QuerySet[Events] = events.filter(is_published=True)
     cluster_events = Paginator(published_only_events, max_item_per_page)
     return {
         'title': 'Binago Past Events',

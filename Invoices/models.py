@@ -8,6 +8,7 @@ from django.db import models
 from Events.models import Events, EventsUserRegistered
 from django.utils import timezone
 from datetime import timedelta
+from uuid import uuid1
 
 
 class InvoiceEventPost(models.Model):
@@ -15,10 +16,13 @@ class InvoiceEventPost(models.Model):
         WAITING = "WAITING", ("Waiting")
         SUCCESS = "SUCCESS", ("Success")
         FAILED = "FAILED", ("Failed")
+    id: models.BigIntegerField
+    uuid = models.UUIDField(default=uuid1, unique=True)
     event = models.ForeignKey(Events, on_delete=models.CASCADE)
     price = models.PositiveIntegerField()
     discount = models.PositiveIntegerField(default=0)
     status = models.TextField(choices=StatusType.choices, default=StatusType.WAITING)
+    midtrans_token = models.CharField(max_length=255, default=None, blank=True, null=True)
     expired_at = models.DateTimeField(default=timezone.now() + timedelta(days=1))
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -42,10 +46,13 @@ class InvoiceUserEventRegistered(models.Model):
         WAITING = "WAITING", ("Waiting")
         SUCCESS = "SUCCESS", ("Success")
         FAILED = "FAILED", ("Failed")
+    id: models.BigIntegerField
+    uuid = models.UUIDField(default=uuid1, unique=True)
     event_registered = models.ForeignKey(EventsUserRegistered, on_delete=models.CASCADE)
     price = models.PositiveIntegerField()
     discount = models.PositiveIntegerField(default=0)
     status = models.TextField(choices=StatusType.choices, default=StatusType.WAITING)
+    midtrans_token = models.CharField(max_length=255, default=None, blank=True, null=True)
     expired_at = models.DateTimeField(default=timezone.now() + timedelta(days=1))
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

@@ -154,7 +154,7 @@
                 {{ event.updated_at|date:'d F Y'}}
               </td>
               <td class="min-w-[260px] border-b border-b-gray-200 px-6 py-4 text-xs font-medium text-slate-500">
-                <a href="" class="flex flex-col items-end gap-1 rounded-xl p-2 border border-dashed border-slate-300 transition-all duration-150 ease-out hover:bg-slate-300 hover:bg-opacity-10 hover:ring-4 hover:ring-slate-500 hover:ring-opacity-10 active:scale-95">
+                <a href="{% url 'invoices-related-p' event.id %}" class="flex flex-col items-end gap-1 rounded-xl p-2 border border-dashed border-slate-300 transition-all duration-150 ease-out hover:bg-slate-300 hover:bg-opacity-10 hover:ring-4 hover:ring-slate-500 hover:ring-opacity-10 active:scale-95">
                   {% if event.invoiceeventpost_set.last.price == 0 %}
                     <strong class="font-poppins text-lg font-bold text-slate-800">FREE</strong>
                   {% else %}

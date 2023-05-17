@@ -7,6 +7,7 @@ if TYPE_CHECKING:
     from authentication.models import User
     from Events.models import Events, EventsCategories
     from .context_interface import Context, ContextHomepage
+    from midtransclient import Snap
 
     class NavigatePaginator(TypedDict):
         has_next: int
@@ -40,3 +41,8 @@ if TYPE_CHECKING:
         registered_users: int
         registered_associations: int
         registered_events: int
+
+    class UtilSnapContext(TypedDict):
+        snap: Snap
+        SERVER_KEY: str
+        CLIENT_KEY: str

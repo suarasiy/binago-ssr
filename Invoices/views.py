@@ -7,6 +7,7 @@ if TYPE_CHECKING:
     from . import context
     from django.db.models import QuerySet
 
+import json
 from django.core.paginator import Paginator
 from django.db.models import Q
 from django.urls import reverse
@@ -14,17 +15,22 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_http_methods
 from django.contrib import messages
+from django.http.response import JsonResponse
 
 from Associations.query import user_registered_associations
 
-from binago.utils import pages_backend
+from binago.utils import pages_backend, SNAP
 from Events.models import Events
 from .models import InvoiceUserEventRegistered, InvoiceEventPost
+from .utils import update_status_if_exists
+
+from django.views.decorators.csrf import csrf_exempt
 
 
 @login_required
 @require_http_methods(['GET'])
 def index(request) -> HttpResponse:
+    snap = SNAP()
     page_ae: int = int(request.GET.get('page_ae', 1))
     page_pe: int = int(request.GET.get('page_pe', 1))
 
@@ -41,7 +47,7 @@ def index(request) -> HttpResponse:
         Q(event__association_group__user=request.user)
     ).order_by('-created_at')
     cluster_invoices = Paginator(invoices, 5)
-    cluster_invoices_pe = Paginator(invoices_publish_events, 2)
+    cluster_invoices_pe = Paginator(invoices_publish_events, 5)
     context: context.IndexContext = {
         'title': 'Invoices',
         'breadcrumb': {
@@ -59,7 +65,8 @@ def index(request) -> HttpResponse:
         'invoices': cluster_invoices.get_page(page_ae),
         'invoices_publish_event': cluster_invoices_pe.get_page(page_pe),
         'q_ae': build_ae,
-        'q_pe': build_pe
+        'q_pe': build_pe,
+        'midtrans_client_key': snap.get_client_key()
     }
     return render(request, template, context)
 
@@ -102,6 +109,60 @@ def related_invoices(request, event_id) -> HttpResponse:
         },
         'description': 'Listing of invoices that you\'ve made for this events.',
         'invoices_related': invoices_related,
-        'registered_associations': user_registered_associations(request)
+        'registered_associations': user_registered_associations(request),
+        'midtrans_client_key': SNAP().get_client_key()
     }
     return render(request, template, context)
+
+
+@login_required
+@require_http_methods(['GET'])
+def related_invoices_p(request, event_id) -> HttpResponse:
+    template: str = pages_backend('invoices/related_for_publish.html')
+    event: Events = get_object_or_404(Events, id=event_id)
+    invoices_related: QuerySet[InvoiceEventPost] = InvoiceEventPost.objects.filter(
+        event__id=event_id).order_by('-created_at')
+    context: context.RelatedContextPublishing = {
+        'title': 'Binago Dashboard | Invoices Publishing Related',
+        'breadcrumb': {
+            'main': 'Invoices',
+            'branch': [
+                {
+                    'name': 'Data',
+                    'reverse': reverse('invoices'),
+                    'type': 'previous'
+                },
+                {
+                    'name': f'Listing invoices of {event.title}',
+                    'reverse': reverse('invoices'),
+                    'type': 'current'
+                },
+            ]
+        },
+        'description': 'Listing of invoices that you\'ve made for this events.',
+        'invoices_related': invoices_related,
+        'registered_associations': user_registered_associations(request),
+        'midtrans_client_key': SNAP().get_client_key()
+    }
+    return render(request, template, context)
+
+
+@csrf_exempt
+@require_http_methods(['POST'])
+def update_payment_status(request):
+    # webhook to handle invoices status
+    body_unicode = request.body.decode('utf-8')
+    body = json.loads(body_unicode)
+    # get attr request
+    status_code: int = int(body.get('status_code'))
+    transaction_status: Literal['pending', 'cancel', 'settlement'] = body.get('transaction_status')
+    order_id: str = body.get('order_id')
+
+    if status_code == 200:
+        # TODO: need to improve, it's already doing update action tho
+        if update_status_if_exists('invoice_event_post', order_id, transaction_status):
+            pass
+        elif update_status_if_exists('invoice_event_user_register', order_id, transaction_status):
+            pass
+
+    return JsonResponse(body)

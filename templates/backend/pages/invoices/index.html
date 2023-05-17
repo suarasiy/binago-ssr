@@ -100,7 +100,7 @@
                 <td class="font-inter min-w-[190px] border-b border-b-gray-200 px-6 py-4 text-sm font-medium text-slate-500">
                   {{ invoice.updated_at|date:'M d, Y'}}
                 </td>
-                <td class="min-w-[150px] border-b border-b-gray-200 px-6 py-4">
+                <td class="min-w-[320px] border-b border-b-gray-200 px-6 py-4">
                   <div class="font-quicksand flex flex-row items-center gap-2 text-sm font-semibold">
                     {% if invoice.status_paid == "WAITING" %}
                     <form action="{% url 'invoices-cancel' invoice.id %}" method="post">
@@ -237,7 +237,7 @@
                 <td class="font-inter min-w-[190px] border-b border-b-gray-200 px-6 py-4 text-sm font-medium text-slate-500">
                   {{ invoice.updated_at|date:'M d, Y'}}
                 </td>
-                <td class="min-w-[150px] border-b border-b-gray-200 px-6 py-4">
+                <td class="min-w-[320px] border-b border-b-gray-200 px-6 py-4">
                   <div class="font-quicksand flex flex-row items-center gap-2 text-sm font-semibold">
                     {% if invoice.status_paid == "WAITING" %}
                     <form action="{% url 'invoices-cancel' invoice.id %}" method="post">
@@ -251,7 +251,7 @@
                     </form>
                     {% endif %}
                     <a
-                      href="{% url 'invoices-related' invoice.event.id %}"
+                      href="{% url 'invoices-related-p' invoice.event.id %}"
                       class="text-center hover:shadow-container1 relative rounded-md bg-gradient-to-b from-sky-600 to-sky-500 px-3 py-2 text-white transition-all duration-150 ease-out hover:scale-95 hover:brightness-110">
                       Invoice Related
                     </a>
@@ -267,8 +267,8 @@
     <div class="flex flex-row justify-between">
       <span class="flex flex-row items-center gap-1">
         <p class="text-sm text-slate-600">
-          Showing <strong>{{ invoices.start_index }}</strong> to <strong>{{ invoices.end_index }}</strong> of
-          <strong>{{ invoices.paginator.count }}</strong> entries.
+          Showing <strong>{{ invoices_publish_event.start_index }}</strong> to <strong>{{ invoices_publish_event.end_index }}</strong> of
+          <strong>{{ invoices_publish_event.paginator.count }}</strong> entries.
         </p>
       </span>
       <div class="flex flex-row items-center gap-2">

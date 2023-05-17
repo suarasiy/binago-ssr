@@ -229,6 +229,11 @@
             <!--  -->
             <!-- TODO: bug need to fix (mar 30, 2023 - mar 31, 2023 : mark as event ended, but it's more than 1 days. our date in case is Mar 30, 9.12 pm)-->
             <!-- TODO: already fixed on views by adding filter schedule_start__month on 'today' stubs, need to review -->
+            <ul>
+              <li>test {{ event.user_eligibility }}</li>
+              <li>test {{ event.seat_eligibility }}</li>
+              <li>test {{ user.schedule_eligibility }}</li>
+            </ul>
               {% if event.user_eligibility %}
                 <!--  -->
                 {% if event.seat_eligibility %}

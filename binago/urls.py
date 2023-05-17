@@ -63,7 +63,13 @@ urlpatterns = [
     path('register/', register, name='register'),
     path('account/request/verify/', request_verify_account, name='request-verify-account'),
     path('account/verify/<uidb64>/<token>/', verify_account, name='verify-account'),
-    path('logout/', views.signout, name='logout')
+    path('logout/', views.signout, name='logout'),
+    # apis handle
+    path('api/', include([
+        path('v1/', include([
+            path('invoices/', include('Invoices.urls_api'))
+        ]))
+    ]))
 ]
 
 # handler403 = handle_403

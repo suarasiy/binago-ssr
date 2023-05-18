@@ -11,16 +11,26 @@
       <div class="flex flex-row justify-between">
         <div class="font-poppins flex flex-col gap-1">
           <small class="font-jost text-sm font-semibold uppercase text-slate-400">
-            <span class="rounded-md bg-emerald-500 bg-opacity-10 px-1 py-[2px] text-xs text-emerald-500">Attended</span>
+            <span class="rounded-md bg-emerald-500 bg-opacity-10 px-1 py-[2px] text-xs text-emerald-500">cm</span>
             vs
-            <span class="rounded-md bg-slate-500 bg-opacity-10 px-1 py-[2px] text-xs text-slate-500">Unattended</span>
-            Users
+            <span class="rounded-md bg-slate-500 bg-opacity-10 px-1 py-[2px] text-xs text-slate-500">lm</span>
+            Comparison Registered users
           </small>
-          <span class="font-dmSans py-5 pl-1 text-5xl font-semibold text-slate-900">169</span>
-          <small class="font-poppins text-xs font-medium text-slate-600"
-            >Registered users <strong class="font-semibold text-green-600">+27% (45)</strong> since the last
-            month.</small
-          >
+          {% with data=summary_comparison_registered_user %}
+          <span class="font-dmSans py-5 pl-1 text-5xl font-semibold text-slate-900">{{ data.cm }}</span>
+          <small class="font-poppins text-xs font-medium text-slate-600">
+            Registered users
+            {% if data.is_growing == True %}
+            <strong class="font-semibold text-green-600">{{ data.is_growing|yesno:"+,-,≈" }}{{ data.percent }}% ({{ data.diff }})</strong>
+            {% elif data.is_growing == False %}
+            <strong class="font-semibold text-red-600">{{ data.is_growing|yesno:"+,-,≈" }}{{ data.percent }}% ({{ data.diff }})</strong>
+            {% elif data.is_growing == None %}
+            <strong class="font-semibold">{{ data.is_growing|yesno:"+,-,≈" }}{{ data.percent }}% ({{ data.diff }})</strong>
+            {% endif %}
+            since the last
+            month.
+          </small>
+          {% endwith %}
         </div>
         <div class="">
           <div id="chart-widget-1" class="h-32 w-32"></div>
@@ -519,6 +529,7 @@
 <input type="hidden" value="{{ summary_user_registered }}" id="summary_user_registered" />
 <input type="hidden" value="{{ summary_events_registered }}" id="summary_events_registered" />
 <input type="hidden" value="{{ summary_accumulation_yearly }}" id="summary_accumulation_yearly" />
+<input type="hidden" value="{{ summary_comparison_registered_user.dumps }}" id="summary_comparison_registered_user">
 {% endblock content %}
 
 <!-- -->

@@ -32,7 +32,7 @@ from Events.models import Events
 from Associations.query import user_registered_associations
 from authentication.permissions import permission_staff_only
 
-from datetime import datetime
+from datetime import datetime, timedelta
 import pytz
 import json
 
@@ -82,12 +82,12 @@ def events(request) -> HttpResponse:
     summary_user_registered.update({'data': tmp_of_summary_registered_users})
     # end of summary for `total registered users into events` monthly
 
-
-
     # summary for `total registered events` monthly (published and not published)
-    aggregate_summary_events_registered_published = Events.objects.values(day=F('created_at__day')).annotate(value=Count('id')).filter(is_published=True, created_at__month=now().month, created_at__year=now().year)
-    aggregate_summary_events_registered_unpublished = Events.objects.values(day=F('created_at__day')).annotate(value=Count('id')).filter(is_published=False, created_at__month=now().month, created_at__year=now().year)
-    summary_events_registered = { 'x_label': number_of_days_in_month }
+    aggregate_summary_events_registered_published = Events.objects.values(day=F('created_at__day')).annotate(
+        value=Count('id')).filter(is_published=True, created_at__month=now().month, created_at__year=now().year)
+    aggregate_summary_events_registered_unpublished = Events.objects.values(day=F('created_at__day')).annotate(
+        value=Count('id')).filter(is_published=False, created_at__month=now().month, created_at__year=now().year)
+    summary_events_registered = {'x_label': number_of_days_in_month}
 
     coord_events_registered = {
         'published': [],
@@ -109,20 +109,20 @@ def events(request) -> HttpResponse:
     })
 
     # end of summary for `total registered events`
-    
-    
-    
+
     # summary accumulation yearly
-    
+
     month: list[int]
     months_abbr, month = calendar.month_abbr[1:], list(range(1, 13))
-    summary_accumulation_yearly: Any = { 'y_label': months_abbr }
-    aggregate_yearly_events_unpublished = Events.objects.values(month=F('created_at__month')).annotate(value=Count('id')).filter(is_published=False, created_at__year=now().year)
-    aggregate_yearly_events_published = Events.objects.values(month=F('created_at__month')).annotate(value=Count('id')).filter(is_published=True, created_at__year=now().year)
+    summary_accumulation_yearly: Any = {'y_label': months_abbr}
+    aggregate_yearly_events_unpublished = Events.objects.values(month=F('created_at__month')).annotate(
+        value=Count('id')).filter(is_published=False, created_at__year=now().year)
+    aggregate_yearly_events_published = Events.objects.values(month=F('created_at__month')).annotate(
+        value=Count('id')).filter(is_published=True, created_at__year=now().year)
     aggregate_yearly_users_registered = Events.objects.values(month=F('eventsuserregistered__updated_at__month')).annotate(
         value=Count('eventsuserregistered', filter=Q(
             eventsuserregistered__invoiceusereventregistered__status="SUCCESS")),
-    ).filter(schedule_start__year=now().year,schedule_end__year=now().year, is_published=True, eventsuserregistered__invoiceusereventregistered__status="SUCCESS")
+    ).filter(schedule_start__year=now().year, schedule_end__year=now().year, is_published=True, eventsuserregistered__invoiceusereventregistered__status="SUCCESS")
 
     coord_accumulation_yearly = {
         'events_published': [],
@@ -149,6 +149,35 @@ def events(request) -> HttpResponse:
     })
 
     # end of accumulation yearly
+
+    # comparison current month registered user with previous month
+    # TODO: need to validate if month is january and previous_month is december
+    first_now: datetime = now().replace(day=1)
+    previous_month: datetime = first_now - timedelta(days=1)
+    aggregate_count_cm_registered_user = Events.objects.annotate(
+        value=Count('eventsuserregistered', filter=Q(
+            eventsuserregistered__invoiceusereventregistered__status="SUCCESS"))
+    ).filter(created_at__month=first_now.month, created_at__year=first_now.year, is_published=True, eventsuserregistered__invoiceusereventregistered__status="SUCCESS")
+    aggregate_count_lm_registered_user = Events.objects.annotate(
+        value=Count('eventsuserregistered', filter=Q(
+            eventsuserregistered__invoiceusereventregistered__status="SUCCESS"))
+    ).filter(created_at__month=previous_month.month, created_at__year=previous_month.year, is_published=True, eventsuserregistered__invoiceusereventregistered__status="SUCCESS")
+
+    cm: int
+    lm: int
+    cm, lm = aggregate_count_cm_registered_user.count(), aggregate_count_lm_registered_user.count()
+
+    summary_comparison_registered_user = {
+        'cm': cm,
+        'lm': lm,
+        'diff': abs(cm - lm),
+        'percent': round(abs((cm * 100 / lm) - 100 if lm > 0 else 0) if cm < lm else (lm * 100 / cm) + 100 if cm > 0 else 0, 2),
+        'is_growing': True if cm > lm else False if cm < lm else None
+    }
+    summary_comparison_registered_user.update({
+        'dumps': json.dumps(summary_comparison_registered_user)
+    })
+    # end comparison user registered
 
     for event in events:
         event_start: datetime = timezone.localtime(event.schedule_start.replace(tzinfo=pytz.UTC))
@@ -181,6 +210,7 @@ def events(request) -> HttpResponse:
         'summary_user_registered': json.dumps(summary_user_registered),
         'summary_events_registered': json.dumps(summary_events_registered),
         'summary_accumulation_yearly': json.dumps(summary_accumulation_yearly),
+        'summary_comparison_registered_user': summary_comparison_registered_user,
         'header': request.user.avatar,
         'registered_associations': user_registered_associations(request)
     }

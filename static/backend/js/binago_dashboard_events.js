@@ -12,7 +12,7 @@ const chartWidget = (domTarget, data) => {
     },
     series: [
       {
-        name: 'Access From',
+        name: 'Registered User',
         type: 'pie',
         radius: ['40%', '70%'],
         avoidLabelOverlap: false,
@@ -38,10 +38,13 @@ const chartWidget = (domTarget, data) => {
   optionWidgetDonut && myChartWidget.setOption(optionWidgetDonut);
 };
 
+var valueComparisonRegisteredUser = document.querySelector('#summary_comparison_registered_user').value;
+var data = JSON.parse(valueComparisonRegisteredUser);
+
 chartWidget('#chart-widget-1', [
   {
-    name: 'Unattended Users',
-    value: 91,
+    name: 'Last Month',
+    value: data.lm,
     itemStyle: {
       opacity: 0.8,
       color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
@@ -57,8 +60,8 @@ chartWidget('#chart-widget-1', [
     },
   },
   {
-    name: 'Attended Users',
-    value: 78,
+    name: 'Current Month',
+    value: data.cm,
     itemStyle: {
       opacity: 0.8,
       color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [

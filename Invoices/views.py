@@ -88,7 +88,7 @@ def related_invoices(request, event_id) -> HttpResponse:
     # invoices: InvoiceUserEventRegistered = get_object_or_404(InvoiceUserEventRegistered, id=pk)
     event: Events = get_object_or_404(Events, id=event_id)
     invoices_related: QuerySet[InvoiceUserEventRegistered] = InvoiceUserEventRegistered.objects.filter(
-        event_registered__event__id=event_id).order_by('-created_at')
+        event_registered__event__id=event_id, event_registered__user__id=request.user.id).order_by('-created_at')
     template: str = pages_backend('invoices/related.html')
     context: context.RelatedContext = {
         'title': 'Binago Dashboard | Invoices Event Related',

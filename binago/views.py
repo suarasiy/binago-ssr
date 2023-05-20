@@ -282,6 +282,10 @@ def index_certificate(request, uuid) -> HttpResponse:
     }
     return render(request, template, context)
 
+def index_our_teams(request) -> HttpResponse:
+    template: str = pages_frontend('homepage/our_teams.html')
+    context = {}
+    return render(request, template, context)
 
 @login_required
 def dashboard(request) -> HttpResponse:

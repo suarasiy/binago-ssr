@@ -4,7 +4,7 @@
 {% load active_link_tags %}
 
 <nav
-  class="border-base-depth sticky top-24 flex h-[calc(100vh-12rem)] min-w-[15rem] shrink-0 flex-col justify-between border-r py-3 pl-3"
+  class="border-base-depth sticky top-24 flex h-[calc(100vh-12rem)] min-w-[15rem] max-w-[16rem] shrink-0 flex-col justify-between border-r py-3 pl-3"
 >
   <div class="flex flex-col">
     <a
@@ -219,10 +219,11 @@
   <div class="flex flex-col gap-4">
     <hr class="border-base-depth" />
     <div class="flex flex-col items-end gap-4 pr-4">
-      <div class="flex flex-row flex-wrap gap-3">
+      <div class="flex flex-row flex-wrap gap-3 justify-end">
         <a href="#" class="text-base-sub text-xs font-medium underline">Privacy & Policy</a>
         <a href="#" class="text-base-sub text-xs font-medium underline">Tentang Kami</a>
         <a href="#" class="text-base-sub text-xs font-medium underline">Kontak</a>
+        <a href="{% url 'homepage-our-teams' %}" class="text-base-sub text-xs font-medium underline">Staff / Team</a>
       </div>
       <div class="flex flex-col flex-wrap items-end gap-1">
         <span class="text-base-sub text-xs">East Kalimantan, Samarinda City, 75123</span>

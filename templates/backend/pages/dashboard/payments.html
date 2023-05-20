@@ -1,0 +1,316 @@
+{% extends 'backend/layout/master.html' %}
+
+<!-- -->
+{% load humanize %}
+
+<!-- -->
+{% load static %}
+
+<!-- -->
+{% block content %}
+
+<div class="select-none grid grid-cols-3 gap-7">
+  <div class="grid grid-cols-2 col-span-2 gap-7 h-max">
+    <div class="shadow-container3 flex h-full flex-col gap-4 rounded-xl bg-white p-5">
+      <div class="flex flex-row gap-4 items-start justify-between">
+        <div class="font-poppins flex flex-col gap-1 w-full">
+          <small class="font-jost text-sm font-semibold uppercase text-slate-400">
+            <span class="rounded-md bg-emerald-500 bg-opacity-10 px-1 py-[2px] text-xs text-emerald-500">By Published Events</span>
+            monthly
+          </small>
+          {% with data=profit_published_events %}
+          <span class="font-dmSans py-5 pl-1 text-5xl font-semibold text-slate-900">Rp {{ data.total|intcomma }}</span>
+          <small class="font-poppins text-xs font-medium text-slate-600">
+            Incoming profit was
+            {% if data.is_growing == True %}
+            <strong class="font-semibold text-green-600">{{ data.is_growing|yesno:"increased,decreased,approximately same" }} {{ data.is_growing|yesno:"+,-,≈" }}{{ data.percent }}% (Rp {{ data.diff|intcomma }})</strong>
+            {% elif data.is_growing == False %}
+            <strong class="font-semibold text-red-600">{{ data.is_growing|yesno:"increased,decreased,approximately same" }} {{ data.is_growing|yesno:"+,-,≈" }}{{ data.percent }}% (Rp {{ data.diff|intcomma }})</strong>
+            {% elif data.is_growing == None %}
+            <strong class="font-semibold">{{ data.is_growing|yesno:"increased,decreased,approximately same" }} {{ data.is_growing|yesno:"+,-,≈" }}{{ data.percent }}% (Rp {{ data.diff|intcomma }})</strong>
+            {% endif %}
+            since the last month <strong>(Rp {{ data.total_lm|intcomma }})</strong>.
+          </small>
+          {% endwith %}
+        </div>
+        <div class="relative font-quicksand font-bold text-white flex flex-row items-center justify-center aspect-1 rounded-xl bg-emerald-500 bg-opacity-20 shrink-0 p-6">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" class="w-12 h-12 text-emerald-500">
+            <path d="M35.470703 4.9863281 A 1.50015 1.50015 0 0 0 35.310547 5L30.5 5 A 1.50015 1.50015 0 1 0 30.5 8L31.878906 8L26.5 13.378906L21.560547 8.4394531 A 1.50015 1.50015 0 0 0 19.439453 8.4394531L13.439453 14.439453 A 1.50015 1.50015 0 1 0 15.560547 16.560547L20.5 11.621094L25.439453 16.560547 A 1.50015 1.50015 0 0 0 27.560547 16.560547L34 10.121094L34 11.5 A 1.50015 1.50015 0 1 0 37 11.5L37 6.6738281 A 1.50015 1.50015 0 0 0 35.470703 4.9863281 z M 8.5 19C6.5850452 19 5 20.585045 5 22.5L5 39.5C5 41.414955 6.5850452 43 8.5 43L39.5 43C41.414955 43 43 41.414955 43 39.5L43 22.5C43 20.585045 41.414955 19 39.5 19L8.5 19 z M 11 22L37 22C37 23.66 38.34 25 40 25L40 37C38.34 37 37 38.34 37 40L11 40C11 38.34 9.66 37 8 37L8 25C9.66 25 11 23.66 11 22 z M 24 24C20.691 24 18 27.14 18 31C18 34.86 20.691 38 24 38C27.309 38 30 34.86 30 31C30 27.14 27.309 24 24 24 z M 12 29 A 2 2 0 0 0 12 33 A 2 2 0 0 0 12 29 z M 36 29 A 2 2 0 0 0 36 33 A 2 2 0 0 0 36 29 z" fill="currentColor" />
+          </svg>
+        </div>
+      </div>
+    </div>
+    <div class="shadow-container3 flex h-full flex-col gap-4 rounded-xl bg-white p-5">
+      <div class="flex flex-row gap-4 items-start justify-between">
+        <div class="font-poppins flex flex-col gap-1 w-full">
+          <small class="font-jost text-sm font-semibold uppercase text-slate-400">
+            <span class="rounded-md bg-sky-500 bg-opacity-10 px-1 py-[2px] text-xs text-sky-500">By Events Registrant</span>
+            monthly
+          </small>
+          {% with data=income_forward %}
+          <span class="font-dmSans py-5 pl-1 text-5xl font-semibold text-slate-900">Rp {{ data.total|intcomma }}</span>
+          <small class="font-poppins text-xs font-medium text-slate-600">
+            The calculation of invoices users registered to the events was
+            {% if data.is_growing == True %}
+            <strong class="font-semibold text-green-600">{{ data.is_growing|yesno:"increased,decreased,approximately same" }} {{ data.is_growing|yesno:"+,-,≈" }}{{ data.percent }}% (Rp {{ data.diff|intcomma }})</strong>
+            {% elif data.is_growing == False %}
+            <strong class="font-semibold text-red-600">{{ data.is_growing|yesno:"increased,decreased,approximately same" }} {{ data.is_growing|yesno:"+,-,≈" }}{{ data.percent }}% (Rp {{ data.diff|intcomma }})</strong>
+            {% elif data.is_growing == None %}
+            <strong class="font-semibold">{{ data.is_growing|yesno:"increased,decreased,approximately same" }} {{ data.is_growing|yesno:"+,-,≈" }}{{ data.percent }}% (Rp {{ data.diff|intcomma }})</strong>
+            {% endif %}
+            since the last month <strong>(Rp {{ data.total_lm|intcomma }})</strong>.
+          </small>
+          {% endwith %}
+        </div>
+        <div class="relative font-quicksand font-bold text-white flex flex-row items-center justify-center aspect-1 rounded-xl bg-sky-500 bg-opacity-20 shrink-0 p-6">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" class="w-12 h-12 text-sky-500">
+            <path d="M23.976562 3.9785156 A 1.50015 1.50015 0 0 0 22.802734 4.5761719L18.939453 8.4394531 A 1.50015 1.50015 0 1 0 21.060547 10.560547L22.5 9.1210938L22.5 14.5 A 1.50015 1.50015 0 1 0 25.5 14.5L25.5 9.1210938L26.939453 10.560547 A 1.50015 1.50015 0 1 0 29.060547 8.4394531L25.189453 4.5683594 A 1.50015 1.50015 0 0 0 23.976562 3.9785156 z M 8.5 18C6.5850452 18 5 19.585045 5 21.5L5 38.5C5 40.414955 6.5850452 42 8.5 42L39.5 42C41.414955 42 43 40.414955 43 38.5L43 21.5C43 19.585045 41.414955 18 39.5 18L8.5 18 z M 11 21L37 21C37 22.66 38.34 24 40 24L40 36C38.34 36 37 37.34 37 39L11 39C11 37.34 9.66 36 8 36L8 24C9.66 24 11 22.66 11 21 z M 24 23C20.691 23 18 26.141 18 30C18 33.859 20.691 37 24 37C27.309 37 30 33.859 30 30C30 26.141 27.309 23 24 23 z M 12 28 A 2 2 0 0 0 12 32 A 2 2 0 0 0 12 28 z M 36 28 A 2 2 0 0 0 36 32 A 2 2 0 0 0 36 28 z" fill="currentColor" />
+          </svg>
+        </div>
+      </div>
+    </div>
+    <div class="shadow-container3 col-span-2 flex h-full flex-col gap-4 rounded-xl bg-white p-5">
+      <div class="flex flex-row justify-between">
+        <div class="font-poppins flex flex-col gap-1">
+          <p class="font-medium text-slate-900">Monthly Main Profit</p>
+          <small class="text-xs font-light text-slate-600">
+            Monthly summaries of profit. It has 2 different types;
+            <ul class="mt-2 leading-5">
+              <li class="list-disc ml-5">The profit that belongs to Binago which collected by the fee of published events from Associations.</li>
+              <li class="list-disc ml-5">The associations that published the events which counted by user registrant * price of the events.</li>
+            </ul>
+          </small>
+        </div>
+        <span class="h-fit rounded-md bg-blue-400 bg-opacity-10 px-3 py-2 text-sm font-semibold text-blue-500">
+          Monthly
+        </span>
+      </div>
+      <div class="container__group">
+        <div id="chart-summary-profit-monthly" class="h-[30.5rem]"></div>
+      </div>
+    </div>
+  </div>
+  <div class="shadow-container3 flex flex-col gap-4 rounded-xl bg-white p-5 h-max">
+    <div class="flex flex-row justify-between">
+      <div class="font-poppins flex flex-col gap-1">
+        <p class="font-medium text-slate-900">Yearly Accumulation</p>
+        <small class="text-xs font-light text-slate-600">
+          Summaries of invoices that made on this year included waiting, success, and canceled of invoices.
+        </small>
+      </div>
+      <span class="h-fit rounded-md bg-red-400 bg-opacity-10 px-3 py-2 text-sm font-semibold text-red-500">
+        Yearly
+      </span>
+    </div>
+    <div class="container__group">
+      <div id="chart-summary-invoices-yearly" class="h-[45rem]"></div>
+    </div>
+  </div>
+</div>
+
+<input type="hidden" value="{{ summary_yearly_invoices }}" id="summary_yearly_invoices">
+<input type="hidden" value="{{ summary_monthly_profit }}" id="summary_monthly_profit">
+{% endblock content %}
+
+<!-- -->
+{% block js %}
+<script src="https://cdn.jsdelivr.net/npm/echarts@5.4.1/dist/echarts.min.js"></script>
+<script>
+  let option = null;
+</script>
+<script>
+  let chartContainerSummaryInvoicesYearly = document.querySelector("#chart-summary-invoices-yearly")
+  let dataSummaryInvoicesYearly = JSON.parse(document.querySelector("#summary_yearly_invoices").value);
+  let chart = echarts.init(chartContainerSummaryInvoicesYearly)
+  option = {
+    tooltip: {
+      trigger: 'axis',
+      axisPointer: {
+        // Use axis to trigger tooltip
+        type: 'shadow', // 'shadow' as default; can also be 'line' or 'shadow'
+        animation: false,
+      }
+    },
+    toolbox: {
+      feature: {
+        saveAsImage: {},
+        dataView: {
+          readOnly: true
+        }
+      }
+    },
+    legend: {},
+    grid: {
+      left: '3%',
+      right: '4%',
+      bottom: '3%',
+      containLabel: true
+    },
+    xAxis: {
+      type: 'value'
+    },
+    yAxis: {
+      type: 'category',
+      data: dataSummaryInvoicesYearly.y_label
+    },
+    series: [
+      {
+        name: 'Waiting',
+        type: 'bar',
+        stack: 'total',
+        label: {
+          show: true
+        },
+        emphasis: {
+          focus: 'series'
+        },
+        data: dataSummaryInvoicesYearly.coord.total_waiting,
+        color: "#D7DDF4",
+      },
+      {
+        name: 'Success',
+        type: 'bar',
+        stack: 'total',
+        label: {
+          show: true
+        },
+        emphasis: {
+          focus: 'series'
+        },
+        data: dataSummaryInvoicesYearly.coord.total_success,
+        color: "#2DCE89",
+      },
+      {
+        name: 'Canceled',
+        type: 'bar',
+        stack: 'total',
+        label: {
+          show: true
+        },
+        emphasis: {
+          focus: 'series'
+        },
+        data: dataSummaryInvoicesYearly.coord.total_failed,
+        color: "#EB5F5F",
+      },
+    ]
+  };
+  option && chart.setOption(option)
+</script>
+<script>
+  let containerSummaryProfitMonthly = document.querySelector("#chart-summary-profit-monthly");
+  let dataSummaryProfitMonthly = JSON.parse(document.querySelector("#summary_monthly_profit").value);
+  chart = echarts.init(containerSummaryProfitMonthly)
+  option = {
+    color: ['#80FFA5', '#00DDFF', '#37A2FF', '#FF0087', '#FFBF00'],
+    tooltip: {
+      trigger: 'axis',
+      axisPointer: {
+        type: 'cross',
+        animation: false,
+        label: {
+          backgroundColor: '#6a7985'
+        }
+      }
+    },
+    legend: {
+      data: ['Profit Belongs Binago', 'Profit Belongs Associations']
+    },
+    toolbox: {
+      feature: {
+        saveAsImage: {},
+        dataView: {
+          readOnly: true
+        }
+      }
+    },
+    grid: {
+      left: '3%',
+      right: '4%',
+      bottom: '3%',
+      containLabel: true
+    },
+    xAxis: [
+      {
+        type: 'category',
+        boundaryGap: false,
+        data: dataSummaryProfitMonthly.x_label
+      }
+    ],
+    yAxis: [
+      {
+        type: 'value',
+      }
+    ],
+    series: [
+      {
+        name: 'Profit Belongs Binago',
+        type: 'line',
+        stack: 'Total',
+        smooth: true,
+        lineStyle: {
+          width: 0
+        },
+        showSymbol: false,
+        areaStyle: {
+          opacity: 0.8,
+          color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+            {
+              offset: 0,
+              color: 'rgb(128, 255, 165)'
+            },
+            {
+              offset: 1,
+              color: 'rgb(1, 191, 236)'
+            }
+          ])
+        },
+        emphasis: {
+          focus: 'series'
+        },
+        data: dataSummaryProfitMonthly.coord.profit_binago,
+        label: {
+          show: true,
+          formatter: params => {
+            return "Rp " + params.value.toLocaleString()
+          }
+        },
+      },
+      {
+        name: 'Profit Belongs Associations',
+        type: 'line',
+        stack: 'Total',
+        smooth: true,
+        lineStyle: {
+          width: 0
+        },
+        showSymbol: false,
+        areaStyle: {
+          opacity: 0.8,
+          color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+            {
+              offset: 0,
+              color: 'rgb(0, 221, 255)'
+            },
+            {
+              offset: 1,
+              color: 'rgb(77, 119, 255)'
+            }
+          ])
+        },
+        emphasis: {
+          focus: 'series'
+        },
+        data: dataSummaryProfitMonthly.coord.profit_association,
+        label: {
+          show: true,
+          formatter: params => {
+            return "Rp " + params.value.toLocaleString()
+          }
+        },
+      },
+    ]
+  };
+  option && chart.setOption(option);
+</script>
+{% endblock %}

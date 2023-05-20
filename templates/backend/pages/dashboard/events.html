@@ -14,12 +14,12 @@
             <span class="rounded-md bg-emerald-500 bg-opacity-10 px-1 py-[2px] text-xs text-emerald-500">cm</span>
             vs
             <span class="rounded-md bg-slate-500 bg-opacity-10 px-1 py-[2px] text-xs text-slate-500">lm</span>
-            Comparison Registered users
+            Registered users
           </small>
           {% with data=summary_comparison_registered_user %}
           <span class="font-dmSans py-5 pl-1 text-5xl font-semibold text-slate-900">{{ data.cm }}</span>
           <small class="font-poppins text-xs font-medium text-slate-600">
-            Registered users
+            Registered users into events
             {% if data.is_growing == True %}
             <strong class="font-semibold text-green-600">{{ data.is_growing|yesno:"+,-,≈" }}{{ data.percent }}% ({{ data.diff }})</strong>
             {% elif data.is_growing == False %}
@@ -27,8 +27,7 @@
             {% elif data.is_growing == None %}
             <strong class="font-semibold">{{ data.is_growing|yesno:"+,-,≈" }}{{ data.percent }}% ({{ data.diff }})</strong>
             {% endif %}
-            since the last
-            month.
+            since the last month <strong>({{ data.lm }})</strong>.
           </small>
           {% endwith %}
         </div>
@@ -43,16 +42,25 @@
       <div class="flex flex-row justify-between">
         <div class="font-poppins flex flex-col gap-1">
           <small class="font-jost text-sm font-semibold uppercase text-slate-400">
-            <span class="rounded-md bg-emerald-500 bg-opacity-10 px-1 py-[2px] text-emerald-500">Free</span>
+            <span class="rounded-md bg-emerald-500 bg-opacity-10 px-1 py-[2px] text-emerald-500">CM</span>
             vs
-            <span class="rounded-md bg-blue-500 bg-opacity-10 px-1 py-[2px] text-blue-500">Paid</span>
-            Events
+            <span class="rounded-md bg-blue-500 bg-opacity-10 px-1 py-[2px] text-blue-500">LM</span>
+            Registered Events
           </small>
-          <span class="font-dmSans py-5 pl-1 text-5xl font-semibold text-slate-900">260</span>
-          <small class="font-poppins text-xs font-medium text-slate-600"
-            >Registered events <strong class="font-semibold text-green-600">+30% (78)</strong> since the last
-            month.</small
-          >
+          {% with data=summary_comparison_events_published %}
+          <span class="font-dmSans py-5 pl-1 text-5xl font-semibold text-slate-900">{{ data.cm }}</span>
+          <small class="font-poppins text-xs font-medium text-slate-600">
+            Registered published events
+            {% if data.is_growing == True %}
+            <strong class="font-semibold text-green-600">{{ data.is_growing|yesno:"+,-,≈"}}{{ data.percent }}% ({{ data.diff }})</strong>
+            {% elif data.is_growing == False %}
+            <strong class="font-semibold text-red-600">{{ data.is_growing|yesno:"+,-,≈"}}{{ data.percent }}% ({{ data.diff }})</strong>
+            {% else %}
+            <strong class="font-semibold">{{ data.is_growing|yesno:"+,-,≈"}}{{ data.percent }}% ({{ data.diff }})</strong>
+            {% endif %}
+            since the last month <strong>({{ data.lm }})</strong>.
+          </small>
+          {% endwith %}
         </div>
         <div class="">
           <div id="chart-widget-2" class="h-32 w-32"></div>
@@ -170,341 +178,6 @@
     </div>
   </span>
   <span class="col-span-3">
-    <div class="shadow-container3 flex flex-col gap-4 rounded-xl bg-white p-5">
-      <div class="flex flex-row justify-between">
-        <div class="font-poppins flex flex-col gap-1">
-          <p class="font-medium text-slate-900">The latest ratings by Attended</p>
-          <small class="text-xs font-light text-slate-600"
-            >Only valid users that attended to the event can giving an rating.</small
-          >
-        </div>
-        <span class="h-fit rounded-md bg-blue-400 bg-opacity-10 px-3 py-2 text-sm font-semibold text-blue-500"
-          >Monthly</span
-        >
-      </div>
-      <div class="my-5 overflow-x-auto">
-        <table class="w-full items-center">
-          <thead>
-            <tr>
-              <th
-                class="font-dmSans whitespace-nowrap border-b border-b-gray-200 bg-transparent px-6 py-3 text-left text-xs font-semibold uppercase tracking-normal text-slate-400 opacity-70"
-              >
-                no
-              </th>
-              <th
-                class="font-dmSans whitespace-nowrap border-b border-b-gray-200 bg-transparent px-6 py-3 text-left text-xs font-semibold uppercase tracking-normal text-slate-400 opacity-70"
-              >
-                event
-              </th>
-              <th
-                class="font-dmSans whitespace-nowrap border-b border-b-gray-200 bg-transparent px-6 py-3 text-left text-xs font-semibold uppercase tracking-normal text-slate-400 opacity-70"
-              >
-                message
-              </th>
-              <th
-                class="font-dmSans whitespace-nowrap border-b border-b-gray-200 bg-transparent px-6 py-3 text-left text-xs font-semibold uppercase tracking-normal text-slate-400 opacity-70"
-              >
-                rating by
-              </th>
-              <th
-                class="font-dmSans whitespace-nowrap border-b border-b-gray-200 bg-transparent px-6 py-3 text-left text-xs font-semibold uppercase tracking-normal text-slate-400 opacity-70"
-              >
-                update at
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr class="hover:bg-slate-500 hover:bg-opacity-5">
-              <td class="border-b border-b-gray-200 px-6 py-4">
-                <p class="font-inter text-sm text-slate-400">1</p>
-              </td>
-              <td
-                class="max-w-[105px] place-items-center content-center items-center justify-center border-b border-b-gray-200 px-6 py-4"
-              >
-                <img
-                  src="{% static 'examples/4.png' %}"
-                  alt=""
-                  srcset=""
-                  class="shadow-container1 h-20 w-36 rounded-xl object-cover object-center"
-                  draggable="false"
-                />
-              </td>
-              <td class="font-jost max-w-[250px] border-b border-b-gray-200 px-6 py-4 text-left text-slate-800">
-                <p class="line-clamp-2">
-                  "Solid fundamental explanation. Given it's from Microsoft, providing best real case example so we can
-                  absorb the materials every details."
-                </p>
-              </td>
-              <td class="border-b border-b-gray-200 px-6 py-4">
-                <div class="flex flex-col gap-1">
-                  <div class="flex flex-row items-center gap-2">
-                    <div class="flex flex-row items-center">
-                      <img src="{% static 'backend/icons/star.svg' %}" alt="" srcset="" class="w-4" />
-                      <img src="{% static 'backend/icons/star.svg' %}" alt="" srcset="" class="w-4" />
-                      <img src="{% static 'backend/icons/star.svg' %}" alt="" srcset="" class="w-4" />
-                      <img src="{% static 'backend/icons/star.svg' %}" alt="" srcset="" class="w-4" />
-                      <img src="{% static 'backend/icons/star_half.svg' %}" alt="" srcset="" class="w-4" />
-                    </div>
-                    <span
-                      class="font-quicksand rounded-lg bg-yellow-500 bg-opacity-10 px-2 py-1 text-xs font-semibold text-yellow-500"
-                    >
-                      4.5/5
-                    </span>
-                  </div>
-                  <div class="flex flex-row items-center gap-2">
-                    <img
-                      src="https://play-lh.googleusercontent.com/hYdIazwJBlPhmN74Yz3m_jU9nA6t02U7ZARfKunt6dauUAB6O3nLHp0v5ypisNt9OJk"
-                      alt=""
-                      srcset=""
-                      class="h-5 w-5 rounded-full object-center"
-                    />
-                    <p class="font-inter text-sm font-medium text-slate-400">Mr. Tanaka</p>
-                  </div>
-                </div>
-              </td>
-              <td class="font-inter border-b border-b-gray-200 px-6 py-4 text-sm font-medium text-slate-500">
-                5 hours ago.
-              </td>
-            </tr>
-            <tr class="hover:bg-slate-500 hover:bg-opacity-5">
-              <td class="border-b border-b-gray-200 px-6 py-4">
-                <p class="font-inter text-sm text-slate-400">2</p>
-              </td>
-              <td
-                class="max-w-[105px] place-items-center content-center items-center justify-center border-b border-b-gray-200 px-6 py-4"
-              >
-                <img
-                  src="{% static 'examples/3.png' %}"
-                  alt=""
-                  srcset=""
-                  class="shadow-container1 h-20 w-36 rounded-xl object-cover object-center"
-                  draggable="false"
-                />
-              </td>
-              <td class="font-jost max-w-[250px] border-b border-b-gray-200 px-6 py-4 text-left text-slate-800">
-                <p class="line-clamp-2">
-                  "Really Comprehensive explanation, easy going and provide complete materials at the and in free."
-                </p>
-              </td>
-              <td class="border-b border-b-gray-200 px-6 py-4">
-                <div class="flex flex-col gap-1">
-                  <div class="flex flex-row items-center gap-2">
-                    <div class="flex flex-row items-center">
-                      <img src="{% static 'backend/icons/star.svg' %}" alt="" srcset="" class="w-4" />
-                      <img src="{% static 'backend/icons/star.svg' %}" alt="" srcset="" class="w-4" />
-                      <img src="{% static 'backend/icons/star.svg' %}" alt="" srcset="" class="w-4" />
-                      <img src="{% static 'backend/icons/star.svg' %}" alt="" srcset="" class="w-4" />
-                      <img src="{% static 'backend/icons/star_half.svg' %}" alt="" srcset="" class="w-4" />
-                    </div>
-                    <span
-                      class="font-quicksand rounded-lg bg-yellow-500 bg-opacity-10 px-2 py-1 text-xs font-semibold text-yellow-500"
-                    >
-                      4.5/5
-                    </span>
-                  </div>
-                  <div class="flex flex-row items-center gap-2">
-                    <img
-                      src="https://play-lh.googleusercontent.com/hYdIazwJBlPhmN74Yz3m_jU9nA6t02U7ZARfKunt6dauUAB6O3nLHp0v5ypisNt9OJk"
-                      alt=""
-                      srcset=""
-                      class="h-5 w-5 rounded-full object-center"
-                    />
-                    <p class="font-inter text-sm font-medium text-slate-400">Mr. Tanaka</p>
-                  </div>
-                </div>
-              </td>
-              <td class="font-inter border-b border-b-gray-200 px-6 py-4 text-sm font-medium text-slate-500">
-                5 hours ago.
-              </td>
-            </tr>
-            <tr class="hover:bg-slate-500 hover:bg-opacity-5">
-              <td class="border-b border-b-gray-200 px-6 py-4">
-                <p class="font-inter text-sm text-slate-400">3</p>
-              </td>
-              <td
-                class="max-w-[105px] place-items-center content-center items-center justify-center border-b border-b-gray-200 px-6 py-4"
-              >
-                <img
-                  src="{% static 'examples/1.jpg' %}"
-                  alt=""
-                  srcset=""
-                  class="shadow-container1 h-20 w-36 rounded-xl object-cover object-center"
-                  draggable="false"
-                />
-              </td>
-              <td class="font-jost max-w-[250px] border-b border-b-gray-200 px-6 py-4 text-left text-slate-800">
-                <p class="line-clamp-2">
-                  "Materials is easy to understand, but the explanation is not quite friendly for beginner I think,
-                  since there's lot section that I didn't understand when to use it and what different with the other
-                  tools."
-                </p>
-              </td>
-              <td class="border-b border-b-gray-200 px-6 py-4">
-                <div class="flex flex-col gap-1">
-                  <div class="flex flex-row items-center gap-2">
-                    <div class="flex flex-row items-center">
-                      <img src="{% static 'backend/icons/star.svg' %}" alt="" srcset="" class="w-4" />
-                      <img src="{% static 'backend/icons/star.svg' %}" alt="" srcset="" class="w-4" />
-                      <img src="{% static 'backend/icons/star.svg' %}" alt="" srcset="" class="w-4" />
-                      <img src="{% static 'backend/icons/star.svg' %}" alt="" srcset="" class="w-4" />
-                      <img src="{% static 'backend/icons/star_half.svg' %}" alt="" srcset="" class="w-4" />
-                    </div>
-                    <span
-                      class="font-quicksand rounded-lg bg-yellow-500 bg-opacity-10 px-2 py-1 text-xs font-semibold text-yellow-500"
-                    >
-                      4.5/5
-                    </span>
-                  </div>
-                  <div class="flex flex-row items-center gap-2">
-                    <img
-                      src="https://play-lh.googleusercontent.com/hYdIazwJBlPhmN74Yz3m_jU9nA6t02U7ZARfKunt6dauUAB6O3nLHp0v5ypisNt9OJk"
-                      alt=""
-                      srcset=""
-                      class="h-5 w-5 rounded-full object-center"
-                    />
-                    <p class="font-inter text-sm font-medium text-slate-400">Mr. Tanaka</p>
-                  </div>
-                </div>
-              </td>
-              <td class="font-inter border-b border-b-gray-200 px-6 py-4 text-sm font-medium text-slate-500">
-                5 hours ago.
-              </td>
-            </tr>
-            <tr class="hover:bg-slate-500 hover:bg-opacity-5">
-              <td class="border-b border-b-gray-200 px-6 py-4">
-                <p class="font-inter text-sm text-slate-400">4</p>
-              </td>
-              <td
-                class="max-w-[105px] place-items-center content-center items-center justify-center border-b border-b-gray-200 px-6 py-4"
-              >
-                <img
-                  src="{% static 'examples/2.jpg' %}"
-                  alt=""
-                  srcset=""
-                  class="shadow-container1 h-20 w-36 rounded-xl object-cover object-center"
-                  draggable="false"
-                />
-              </td>
-              <td class="font-jost max-w-[250px] border-b border-b-gray-200 px-6 py-4 text-left text-slate-800">
-                <p class="line-clamp-2">
-                  “Really Comprehensive explanation, easy going and provide complete materials at the and in free.”
-                </p>
-              </td>
-              <td class="border-b border-b-gray-200 px-6 py-4">
-                <div class="flex flex-col gap-1">
-                  <div class="flex flex-row items-center gap-2">
-                    <div class="flex flex-row items-center">
-                      <img src="{% static 'backend/icons/star.svg' %}" alt="" srcset="" class="w-4" />
-                      <img src="{% static 'backend/icons/star.svg' %}" alt="" srcset="" class="w-4" />
-                      <img src="{% static 'backend/icons/star.svg' %}" alt="" srcset="" class="w-4" />
-                      <img src="{% static 'backend/icons/star.svg' %}" alt="" srcset="" class="w-4" />
-                      <img src="{% static 'backend/icons/star_half.svg' %}" alt="" srcset="" class="w-4" />
-                    </div>
-                    <span
-                      class="font-quicksand rounded-lg bg-yellow-500 bg-opacity-10 px-2 py-1 text-xs font-semibold text-yellow-500"
-                    >
-                      4.5/5
-                    </span>
-                  </div>
-                  <div class="flex flex-row items-center gap-2">
-                    <img
-                      src="https://play-lh.googleusercontent.com/hYdIazwJBlPhmN74Yz3m_jU9nA6t02U7ZARfKunt6dauUAB6O3nLHp0v5ypisNt9OJk"
-                      alt=""
-                      srcset=""
-                      class="h-5 w-5 rounded-full object-center"
-                    />
-                    <p class="font-inter text-sm font-medium text-slate-400">Mr. Tanaka</p>
-                  </div>
-                </div>
-              </td>
-              <td class="font-inter border-b border-b-gray-200 px-6 py-4 text-sm font-medium text-slate-500">
-                5 hours ago.
-              </td>
-            </tr>
-            <tr class="hover:bg-slate-500 hover:bg-opacity-5">
-              <td class="border-b border-b-gray-200 px-6 py-4">
-                <p class="font-inter text-sm text-slate-400">5</p>
-              </td>
-              <td
-                class="max-w-[105px] place-items-center content-center items-center justify-center border-b border-b-gray-200 px-6 py-4"
-              >
-                <img
-                  src="{% static 'examples/5.png' %}"
-                  alt=""
-                  srcset=""
-                  class="shadow-container1 h-20 w-36 rounded-xl object-cover object-center"
-                  draggable="false"
-                />
-              </td>
-              <td class="font-jost max-w-[250px] border-b border-b-gray-200 px-6 py-4 text-left text-slate-800">
-                <p class="line-clamp-2">
-                  “Really Comprehensive explanation, easy going and provide complete materials at the and in free.”
-                </p>
-              </td>
-              <td class="border-b border-b-gray-200 px-6 py-4">
-                <div class="flex flex-col gap-1">
-                  <div class="flex flex-row items-center gap-2">
-                    <div class="flex flex-row items-center">
-                      <img src="{% static 'backend/icons/star.svg' %}" alt="" srcset="" class="w-4" />
-                      <img src="{% static 'backend/icons/star.svg' %}" alt="" srcset="" class="w-4" />
-                      <img src="{% static 'backend/icons/star.svg' %}" alt="" srcset="" class="w-4" />
-                      <img src="{% static 'backend/icons/star.svg' %}" alt="" srcset="" class="w-4" />
-                      <img src="{% static 'backend/icons/star_half.svg' %}" alt="" srcset="" class="w-4" />
-                    </div>
-                    <span
-                      class="font-quicksand rounded-lg bg-yellow-500 bg-opacity-10 px-2 py-1 text-xs font-semibold text-yellow-500"
-                    >
-                      4.5/5
-                    </span>
-                  </div>
-                  <div class="flex flex-row items-center gap-2">
-                    <img
-                      src="https://play-lh.googleusercontent.com/hYdIazwJBlPhmN74Yz3m_jU9nA6t02U7ZARfKunt6dauUAB6O3nLHp0v5ypisNt9OJk"
-                      alt=""
-                      srcset=""
-                      class="h-5 w-5 rounded-full object-center"
-                    />
-                    <p class="font-inter text-sm font-medium text-slate-400">Mr. Tanaka</p>
-                  </div>
-                </div>
-              </td>
-              <td class="font-inter border-b border-b-gray-200 px-6 py-4 text-sm font-medium text-slate-500">
-                5 hours ago.
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="flex flex-row justify-between">
-        <span class="flex flex-row items-center gap-1">
-          <p class="text-sm text-slate-600">
-            Showing <strong>1</strong> to <strong>3</strong> of <strong>100</strong> entries.
-          </p>
-        </span>
-        <div class="flex flex-row items-center gap-2">
-          <button
-            class="font-poppins relative h-10 w-10 rounded-lg bg-blue-500 text-sm font-semibold text-white hover:bg-opacity-80"
-            tabindex="-1"
-          >
-            <p class="absolute top-2/4 left-2/4 -translate-x-2/4 -translate-y-2/4">1</p>
-          </button>
-          <button
-            class="font-poppins relative h-10 w-10 rounded-lg border border-slate-300 text-sm font-semibold text-slate-300 hover:border-slate-400 hover:text-slate-400"
-            tabindex="-1"
-          >
-            <p class="absolute top-2/4 left-2/4 -translate-x-2/4 -translate-y-2/4">2</p>
-          </button>
-          <button
-            class="font-poppins relative h-10 w-10 rounded-lg border border-slate-300 text-sm font-semibold text-slate-300 hover:border-slate-400 hover:text-slate-400"
-            tabindex="-1"
-          >
-            <p class="absolute top-2/4 left-2/4 -translate-x-2/4 -translate-y-2/4">3</p>
-          </button>
-        </div>
-      </div>
-    </div>
-  </span>
-  <span class="col-span-3">
     <div class="shadow-container3 flex h-max flex-col gap-4 rounded-xl bg-white p-5">
       <div class="flex flex-row justify-between">
         <div class="font-poppins flex flex-col gap-1">
@@ -530,6 +203,7 @@
 <input type="hidden" value="{{ summary_events_registered }}" id="summary_events_registered" />
 <input type="hidden" value="{{ summary_accumulation_yearly }}" id="summary_accumulation_yearly" />
 <input type="hidden" value="{{ summary_comparison_registered_user.dumps }}" id="summary_comparison_registered_user">
+<input type="hidden" value="{{ summary_comparison_events_published.dumps }}" id="summary_comparison_events_published">
 {% endblock content %}
 
 <!-- -->
@@ -779,16 +453,25 @@
         name: 'Published Events',
         type: 'bar',
         data: JSON.parse(dataAccumulationYearly).data.events_published,
+        emphasis: {
+          focus: 'series'
+        }
       },
       {
         name: 'Unpublished Events',
         type: 'bar',
         data: JSON.parse(dataAccumulationYearly).data.events_unpublished,
+        emphasis: {
+          focus: 'series'
+        }
       },
       {
         name: 'Total Registrant',
         type: 'bar',
         data: JSON.parse(dataAccumulationYearly).data.users_registered,
+        emphasis: {
+          focus: 'series'
+        }
       }
     ]
   };

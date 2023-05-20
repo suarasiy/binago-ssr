@@ -1,8 +1,12 @@
-from django.urls import path
+from django.urls import path, include
 
-from .views import events
+from .views import events, payments
 
 
 urlpatterns = [
-    path('events/', events, name='dashboard-events')
+    path('', include([
+        path('', events, name='dashboard'),
+        path('events/', events, name='dashboard-events'),
+        path('payments/', payments, name='dashboard-payments')
+    ])),
 ]

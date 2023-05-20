@@ -26,7 +26,7 @@
     <!-- MENU: OVERVIEW -->
     <div class="">
       <div
-        class="nav__menu {% active_link 'dashboard-events' 'nav__menu--active' strict=True %}"
+        class="nav__menu {% active_link 'dashboard' 'nav__menu--active' %}"
         data-target-menu="menu-dashboard"
       >
         <img src="{% static 'backend/icons/menu_dashboard.svg' %}" alt="" srcset="" class="w-6" draggable="false" />
@@ -36,7 +36,7 @@
             src="{% static 'backend/icons/chevron.svg' %}"
             alt=""
             srcset=""
-            class="indicator {% active_link 'dashboard-events' 'indicator--active' strict=True %}"
+            class="indicator {% active_link 'dashboard' 'indicator--active' %}"
             draggable="false"
           />
         </span>
@@ -47,7 +47,7 @@
           class="link {% active_link 'dashboard-events' 'link--active' strict=True %}"
           >Events</a
         >
-        <a href="" class="link">Payments</a>
+        <a href="{% url 'dashboard-payments' %}" class="link {% active_link 'dashboard-payments' 'link--active' strict=True %}">Payments</a>
         <a href="" class="link">Customer</a>
         <a href="" class="link">Provider</a>
       </div>

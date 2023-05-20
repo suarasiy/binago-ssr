@@ -1,4 +1,4 @@
-const chartWidget = (domTarget, data) => {
+const chartWidget = (domTarget, seriesName, data) => {
   const chartDomWidget = document.querySelector(domTarget);
   const myChartWidget = echarts.init(chartDomWidget);
   const optionWidgetDonut = {
@@ -12,7 +12,7 @@ const chartWidget = (domTarget, data) => {
     },
     series: [
       {
-        name: 'Registered User',
+        name: seriesName,
         type: 'pie',
         radius: ['40%', '70%'],
         avoidLabelOverlap: false,
@@ -41,7 +41,7 @@ const chartWidget = (domTarget, data) => {
 var valueComparisonRegisteredUser = document.querySelector('#summary_comparison_registered_user').value;
 var data = JSON.parse(valueComparisonRegisteredUser);
 
-chartWidget('#chart-widget-1', [
+chartWidget('#chart-widget-1', 'Registered User', [
   {
     name: 'Last Month',
     value: data.lm,
@@ -78,10 +78,13 @@ chartWidget('#chart-widget-1', [
   },
 ]);
 
-chartWidget('#chart-widget-2', [
+var valueComparisonEventsPublished = document.querySelector('#summary_comparison_events_published').value;
+var data = JSON.parse(valueComparisonEventsPublished);
+
+chartWidget('#chart-widget-2', 'Registered Event', [
   {
-    name: 'Paid Events',
-    value: 41,
+    name: 'Last Month',
+    value: data.lm,
     itemStyle: {
       opacity: 0.8,
       color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
@@ -97,8 +100,8 @@ chartWidget('#chart-widget-2', [
     },
   },
   {
-    name: 'Free Events',
-    value: 219,
+    name: 'Current Month',
+    value: data.cm,
     itemStyle: {
       opacity: 0.8,
       color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [

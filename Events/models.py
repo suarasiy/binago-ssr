@@ -126,6 +126,15 @@ class Events(models.Model):
         if start < timezone_now():
             return "PAST"
 
+    def event_today_status(self) -> Literal['UPCOMING', 'PAST', 'LIVE'] | None:
+        now: datetime = timezone_now()
+        if self.schedule_start > now and self.schedule_end < now:
+            return "LIVE"
+        elif self.schedule_start > now:
+            return "UPCOMING"
+        elif self.schedule_start < now:
+            return "PAST"
+
     def count_url(self) -> int:
         base_url: Literal[1, 0] = 1 if self.url_stream else 0
         return base_url + self.event_extended_url.all().count()

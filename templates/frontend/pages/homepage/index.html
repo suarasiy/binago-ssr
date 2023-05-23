@@ -103,7 +103,24 @@
             >{{ event.schedule_end|timesince }} ago.</span
           >
           {% else %}
-          <!-- -->
+          <!--  -->
+            {% if event.event_today_status == 'PAST' %}
+              <span
+                class="bg-base-field font-quicksand absolute right-0 -translate-y-2/4 rounded-l-lg px-3 py-2 text-xs font-semibold text-white">
+                {{ event.schedule_end|timesince }} ago.
+              </span>
+            {% elif event.event_today_status == 'UPCOMING' %}
+              <span
+                class="bg-base-field font-quicksand absolute right-0 -translate-y-2/4 rounded-l-lg px-3 py-2 text-xs font-semibold text-white">
+                in {{ event.schedule_start|timeuntil }}.
+              </span>
+            {% elif event.event_today_status == 'LIVE' %}
+              <span
+                class="bg-red-500 font-quicksand absolute right-0 -translate-y-2/4 rounded-l-lg px-3 py-2 text-xs font-semibold text-white">
+                Currently live!
+              </span>
+            {% endif %}
+            <!--  -->
           {% endif %}
         </div>
         <div class="flex h-full flex-col gap-5 py-4 px-5">

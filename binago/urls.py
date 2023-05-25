@@ -39,6 +39,10 @@ urlpatterns = [
         path('', views.homepage_past, name='homepage-event-past'),
         path('<category>/', views.homepage_past_category, name='homepage-event-past-category'),
     ])),
+    path('on-air/', include([
+        path('', views.homepage_on_air, name='homepage-event-on-air'),
+        path('<category>/', views.homepage_on_air_category, name='homepage-event-on-air-category')
+    ])),
     path('our-teams/', views.index_our_teams, name='homepage-our-teams'),
     path('certificate/<str:uuid>/', views.index_certificate, name='homepage-certificate'),
     path('admin/', admin.site.urls),

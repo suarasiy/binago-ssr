@@ -43,6 +43,26 @@ module.exports = {
   ],
   theme: {
     extend: {
+      keyframes: {
+        'ping-card': {
+          '0%': {
+            width: 'calc(100%)',
+            height: 'calc(100%)',
+            opacity: '1',
+          },
+          '80%': {
+            width: 'calc(100% + 1.4rem)',
+            height: 'calc(100% + 1.4rem)',
+            opacity: '0',
+          },
+          '100%': {
+            opacity: '0',
+          },
+        },
+      },
+      animation: {
+        pingCard: 'ping-card 1.3s ease-out infinite',
+      },
       colors: {
         base: {
           bg: '#EFF3FF',

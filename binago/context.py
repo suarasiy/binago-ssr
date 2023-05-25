@@ -21,7 +21,7 @@ if TYPE_CHECKING:
         # events: QuerySet[Events]
         events: Page
         categories: QuerySet[EventsCategories]
-        type: Literal['UPCOMING', 'TODAY', 'PAST']
+        type: Literal['UPCOMING', 'TODAY', 'PAST', 'ON_AIR']
 
     class EventDetailContext(ContextHomepage):
         event: Events

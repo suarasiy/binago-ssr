@@ -50,6 +50,9 @@
       {% elif type == 'PAST' %}
         {% url 'homepage-event-past' as url_filter %}
         {% include 'frontend/pages/homepage/components/filter_categories_events_unrelated.html' with reverse=url_filter reverse_name='homepage-event-past' label="None" %}
+      {% elif type == 'ON_AIR' %}
+        {% url 'homepage-event-on-air' as url_filter %}
+        {% include 'frontend/pages/homepage/components/filter_categories_events_unrelated.html' with reverse=url_filter reverse_name='homepage-event-on-air' label="None" %}
       {% else %}
         {% url 'homepage-event-today' as url_filter %}
         {% include 'frontend/pages/homepage/components/filter_categories_events_unrelated.html' with reverse=url_filter reverse_name='homepage-event-today' label="None" %}
@@ -66,6 +69,11 @@
           {% url 'homepage-event-past-category' category.slug as url_filter %}
           {% include 'frontend/pages/homepage/components/filter_categories_events.html' with reverse=url_filter reverse_name='homepage-event-past-category' category=category count_type=category.get_past_categories %}
         <!--  -->
+        {% elif type == 'ON_AIR' %}
+        <!--  -->
+          {% url 'homepage-event-on-air-category' category.slug as url_filter %}
+          {% include 'frontend/pages/homepage/components/filter_categories_events.html' with reverse=url_filter reverse_name='homepage-event-on-air-category' category=category count_type=category.get_on_air_categories %}
+        <!--  -->
         {% else %}
         <!--  -->
           {% url 'homepage-event-today-category' category.slug as url_filter %}
@@ -81,189 +89,194 @@
     <span class="text-base-field font-quicksand text-sm font-semibold">Recent Events</span>
     <div class="event_grid">
       {% for event in events %}
-      <div class="event_card" data-scroll-reveal-card>
-        <div class="relative z-0 h-48 shrink-0">
-          <img
-            src="{% get_media_prefix %}{{ event.banner_lazy }}"
-            data-img-src="{% get_media_prefix %}{{ event.banner }}"
-            alt=""
-            srcset=""
-            class="image__blur h-full w-full border-b-4 border-sky-600 border-opacity-20 object-cover object-center transition-all duration-300 ease-out"
-            draggable="false"
-            data-lazyload-image
-          />
-          {% if type == 'UPCOMING' %}
-          <span
-            class="bg-base-field font-quicksand absolute right-0 -translate-y-2/4 rounded-l-lg px-3 py-2 text-xs font-semibold text-white"
-            >in {{ event.schedule_start|timeuntil }}.</span
-          >
-          {% elif type == 'PAST' %}
-          <span
-            class="bg-base-field font-quicksand absolute right-0 -translate-y-2/4 rounded-l-lg px-3 py-2 text-xs font-semibold text-white"
-            >{{ event.schedule_end|timesince }} ago.</span
-          >
-          {% else %}
-          <!--  -->
-            {% if event.event_today_status == 'PAST' %}
-              <span
-                class="bg-base-field font-quicksand absolute right-0 -translate-y-2/4 rounded-l-lg px-3 py-2 text-xs font-semibold text-white">
-                {{ event.schedule_end|timesince }} ago.
-              </span>
-            {% elif event.event_today_status == 'UPCOMING' %}
-              <span
-                class="bg-base-field font-quicksand absolute right-0 -translate-y-2/4 rounded-l-lg px-3 py-2 text-xs font-semibold text-white">
-                in {{ event.schedule_start|timeuntil }}.
-              </span>
-            {% elif event.event_today_status == 'LIVE' %}
-              <span
-                class="bg-red-500 font-quicksand absolute right-0 -translate-y-2/4 rounded-l-lg px-3 py-2 text-xs font-semibold text-white">
-                Currently live!
-              </span>
-            {% endif %}
-            <!--  -->
-          {% endif %}
-        </div>
-        <div class="flex h-full flex-col gap-5 py-4 px-5">
-          <div class="flex flex-row flex-wrap items-center gap-2">
-            {% if event.price > 0 %}
-            <span class="bg-base-field font-dmSans rounded-lg py-1 px-2 text-xs font-semibold text-white">Rp {{ event.price|intcomma }}</span>
-            {% else %}
-            <span class="bg-base-field font-dmSans rounded-lg py-1 px-2 text-xs font-semibold text-white">FREE</span>
-            {% endif %}
-            <span class="bg-base-field font-dmSans rounded-lg py-1 px-2 text-xs font-semibold text-white"
-              >{{ event.category.category }}</span
+      <div class="relative">
+        {% if event.event_today_status == 'LIVE' %}
+        <div class="animate-pingCard absolute h-full w-full bg-red-600 top-2/4 left-2/4 -translate-x-2/4 -translate-y-2/4 rounded-2xl"></div>
+        {% endif %}
+        <div class="event_card" data-scroll-reveal-card>
+          <div class="relative z-0 h-48 shrink-0">
+            <img
+              src="{% get_media_prefix %}{{ event.banner_lazy }}"
+              data-img-src="{% get_media_prefix %}{{ event.banner }}"
+              alt=""
+              srcset=""
+              class="image__blur h-full w-full border-b-4 border-sky-600 border-opacity-20 object-cover object-center transition-all duration-300 ease-out"
+              draggable="false"
+              data-lazyload-image
+            />
+            {% if type == 'UPCOMING' %}
+            <span
+              class="bg-base-field font-quicksand absolute right-0 -translate-y-2/4 rounded-l-lg px-3 py-2 text-xs font-semibold text-white"
+              >in {{ event.schedule_start|timeuntil }}.</span
             >
-          </div>
-          <div class="flex h-full flex-col gap-1">
-            <a
-              href="{% url 'homepage-event-detail' event.slug %}"
-              class="font-montserrat text-base-field break line-clamp-2 text-ellipsis text-lg font-bold transition-all duration-150 ease-out hover:text-blue-500"
-              data-scroll-reveal-title
+            {% elif type == 'PAST' %}
+            <span
+              class="bg-base-field font-quicksand absolute right-0 -translate-y-2/4 rounded-l-lg px-3 py-2 text-xs font-semibold text-white"
+              >{{ event.schedule_end|timesince }} ago.</span
             >
-              {{ event.title }}
-            </a>
-            <div class="flex-warp flex flex-row items-center gap-2">
-              <span class="font-dmSans text-xs font-semibold text-blue-500 hover:text-blue-800"
-                >{{ event.association_group.association.name }}</span
-              >
-            </div>
-          </div>
-          <hr />
-          <div class="flex flex-col gap-2">
-            <div class="flex flex-row flex-wrap gap-3">
-              <div class="flex flex-row items-center gap-1">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="h-4 w-4 text-slate-800">
-                  <path
-                    d="M5 0L5 4L7 4L7 0 Z M 17 0L17 4L19 4L19 0 Z M 1 3C0.398438 3 0 3.398438 0 4L0 7C0 7.601563 0.398438 8 1 8L1 24L23 24L23 8C23.601563 8 24 7.601563 24 7L24 4C24 3.398438 23.601563 3 23 3L20 3L20 5L16 5L16 3L8 3L8 5L4 5L4 3 Z M 3 8L21 8L21 22L3 22 Z M 5 10L5 12L7 12L7 10 Z M 9 10L9 12L11 12L11 10 Z M 13 10L13 12L15 12L15 10 Z M 17 10L17 12L19 12L19 10 Z M 12 13L12 17L16 17L16 13 Z M 5 14L5 16L7 16L7 14 Z M 9 14L9 16L11 16L11 14 Z M 17 14L17 16L19 16L19 14 Z M 5 18L5 20L7 20L7 18 Z M 9 18L9 20L11 20L11 18 Z M 13 18L13 20L15 20L15 18 Z M 17 18L17 20L19 20L19 18Z"
-                    fill="currentColor"
-                  />
-                </svg>
-                {% if event.schedule_start|date:'d' == event.schedule_end|date:'d' %}
-                <span class="font-poppins mt-1 text-xs font-medium text-slate-800">
-                  {{ event.schedule_end|date:'M d, Y' }}
-                </span>
-                {% else %}
-                <span class="font-poppins mt-1 text-xs font-medium text-slate-800">
-                  {{ event.schedule_start|date:'M d, Y' }} - {{ event.schedule_end|date:'M d, Y' }}
-                </span>
-                {% endif %}
-              </div>
-              <div class="flex flex-row items-center gap-1">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="h-4 w-4 text-slate-800">
-                  <path
-                    d="M12 0C5.371094 0 0 5.371094 0 12C0 18.628906 5.371094 24 12 24C18.628906 24 24 18.628906 24 12C24 5.371094 18.628906 0 12 0 Z M 12 2C17.523438 2 22 6.476563 22 12C22 17.523438 17.523438 22 12 22C6.476563 22 2 17.523438 2 12C2 6.476563 6.476563 2 12 2 Z M 10.9375 3.875L10.5 12.0625L10.59375 12.9375L16.75 18.375L17.71875 17.375L12.625 11.96875L12.1875 3.875Z"
-                    fill="currentColor"
-                  />
-                </svg>
-                <span class="font-poppins mt-1 text-xs font-medium text-slate-800">
-                  {{ event.schedule_start|date:'h:i A' }}-{{ event.schedule_end|date:'h:i A' }}
-                </span>
-              </div>
-            </div>
-            <div class="flex flex-row flex-wrap gap-3">
-              <div class="flex flex-row items-center gap-1">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="h-4 w-4 text-blue-500">
-                  <path
-                    d="M10.59375 3C9.957031 3 9.324219 3.269531 8.875 3.71875L5.59375 7L1.3125 7C0.585938 7 0 7.585938 0 8.3125L0 18.6875C0 19.414063 0.585938 20 1.3125 20L3.78125 20L3.0625 21.4375C2.933594 21.695313 3.117188 22 3.40625 22L5.65625 22C5.871094 22 6.0625 21.878906 6.15625 21.6875L7 20L10 20L10.71875 21.4375C10.890625 21.777344 11.242188 22 11.625 22L16.09375 22C16.601563 22 17 21.601563 17 21.09375L17 8.3125C17 8.277344 17.003906 8.25 17 8.21875C17.007813 8.144531 17.007813 8.074219 17 8L17 5.21875C17 4 16 3 14.78125 3 Z M 18 4L18 7L21.5 7C22.039063 7.007813 22.542969 6.722656 22.816406 6.257813C23.089844 5.789063 23.089844 5.210938 22.816406 4.742188C22.542969 4.277344 22.039063 3.992188 21.5 4 Z M 10.59375 5L14.78125 5C14.921875 5 15 5.078125 15 5.21875L15 7L8.40625 7L10.28125 5.125C10.355469 5.050781 10.488281 5 10.59375 5 Z M 22 9C21.03125 9 20 11 19 11L18 11L18 16L19 16C20 16 20.984375 18 22 18L24 18L24 9 Z M 3 10L8 10L8 14L3 14Z"
-                    fill="currentColor"
-                  />
-                </svg>
-                <span class="font-poppins mt-1 text-xs font-medium text-slate-800">Online</span>
-              </div>
-              <div class="flex flex-row items-center gap-1">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="h-4 w-4 text-green-500">
-                  <path
-                    d="M12,2C6.477,2,2,6.477,2,12c0,5.523,4.477,10,10,10s10-4.477,10-10C22,6.477,17.523,2,12,2z M17.707,9.707l-7,7 C10.512,16.902,10.256,17,10,17s-0.512-0.098-0.707-0.293l-3-3c-0.391-0.391-0.391-1.023,0-1.414s1.023-0.391,1.414,0L10,14.586 l6.293-6.293c0.391-0.391,1.023-0.391,1.414,0S18.098,9.316,17.707,9.707z"
-                    fill="currentColor"
-                  />
-                </svg>
-                <span class="font-poppins mt-1 text-xs font-medium text-slate-800">Certificate</span>
-              </div>
-              <div class="flex flex-row items-center gap-1">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="h-4 w-4 text-green-500">
-                  <path
-                    d="M12,2C6.477,2,2,6.477,2,12c0,5.523,4.477,10,10,10s10-4.477,10-10C22,6.477,17.523,2,12,2z M17.707,9.707l-7,7 C10.512,16.902,10.256,17,10,17s-0.512-0.098-0.707-0.293l-3-3c-0.391-0.391-0.391-1.023,0-1.414s1.023-0.391,1.414,0L10,14.586 l6.293-6.293c0.391-0.391,1.023-0.391,1.414,0S18.098,9.316,17.707,9.707z"
-                    fill="currentColor"
-                  />
-                </svg>
-                <span class="font-poppins mt-1 text-xs font-medium text-slate-800">Poin</span>
-              </div>
-            </div>
-          </div>
-          <hr />
-          <div class="flex flex-row items-center gap-3">
-            <a
-              href="{% url 'homepage-event-detail' event.slug %}"
-              class="font-poppins flex flex-row items-center gap-3 rounded-xl bg-blue-500 bg-opacity-10 px-4 py-3 text-sm font-semibold uppercase text-blue-500 transition-all duration-150 ease-out hover:bg-opacity-100 hover:text-white"
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" class="h-5 w-5 object-contain">
-                <path
-                  d="M24 4C12.972066 4 4 12.972074 4 24C4 35.027926 12.972066 44 24 44C35.027934 44 44 35.027926 44 24C44 12.972074 35.027934 4 24 4 z M 24 7C33.406615 7 41 14.593391 41 24C41 33.406609 33.406615 41 24 41C14.593385 41 7 33.406609 7 24C7 14.593391 14.593385 7 24 7 z M 24 14 A 2 2 0 0 0 24 18 A 2 2 0 0 0 24 14 z M 23.976562 20.978516 A 1.50015 1.50015 0 0 0 22.5 22.5L22.5 33.5 A 1.50015 1.50015 0 1 0 25.5 33.5L25.5 22.5 A 1.50015 1.50015 0 0 0 23.976562 20.978516 z"
-                  fill="currentColor"
-                />
-              </svg>
-            </a>
-            {% if event.schedule_eligibility %}
-            <!--  -->
-              {% if event.user_eligibility %}
-                <!--  -->
-                {% if event.seat_eligibility %}
-                  <a
-                    href="{% url 'homepage-event-register' event.slug %}"
-                    class="font-poppins w-full rounded-xl bg-blue-500 bg-opacity-10 px-4 py-3 text-center text-sm font-semibold uppercase text-blue-500 transition-all duration-150 ease-out hover:bg-opacity-100 hover:text-white"
-                  >
-                    REGISTER
-                  </a>
-                {% else %}
-                  <span class="font-quicksand text-sm font-bold capitalize text-sky-500">Seat full</span>
-                {% endif %}
-                <!--  -->
-              {% else %}
-                <span class="font-quicksand font-bold capitalize text-green-500">Registered</span>
-              {% endif %}
-            <!--  -->
             {% else %}
             <!--  -->
-            <!-- TODO: bug need to fix (mar 30, 2023 - mar 31, 2023 : mark as event ended, but it's more than 1 days. our date in case is Mar 30, 9.12 pm)-->
-            <!-- TODO: already fixed on views by adding filter schedule_start__month on 'today' stubs, need to review -->
-            <ul>
-              <li>test {{ event.user_eligibility }}</li>
-              <li>test {{ event.seat_eligibility }}</li>
-              <li>test {{ user.schedule_eligibility }}</li>
-            </ul>
-              {% if event.user_eligibility %}
-                <!--  -->
-                {% if event.seat_eligibility %}
-                  <span class="font-quicksand font-bold capitalize text-rose-500">Event Ended</span>
-                {% else %}
-                  <span class="font-quicksand font-bold capitalize text-rose-500">Event Ended / Seat Full</span>
-                {% endif %}
-                <!--  -->
-              {% else %}
-                <span class="font-quicksand text-sm font-bold capitalize text-sky-500">Event Ended And Registered</span>
+              {% if event.event_today_status == 'PAST' %}
+                <span
+                  class="bg-base-field font-quicksand absolute right-0 -translate-y-2/4 rounded-l-lg px-3 py-2 text-xs font-semibold text-white">
+                  {{ event.schedule_end|timesince }} ago.
+                </span>
+              {% elif event.event_today_status == 'UPCOMING' %}
+                <span
+                  class="bg-base-field font-quicksand absolute right-0 -translate-y-2/4 rounded-l-lg px-3 py-2 text-xs font-semibold text-white">
+                  in {{ event.schedule_start|timeuntil }}.
+                </span>
+              {% elif event.event_today_status == 'LIVE' %}
+                <span
+                  class="bg-red-600 font-quicksand absolute right-0 -translate-y-2/4 rounded-l-lg px-3 py-2 text-xs font-semibold text-white">
+                  Currently live!
+                </span>
               {% endif %}
               <!--  -->
             {% endif %}
+          </div>
+          <div class="flex h-full flex-col gap-5 py-4 px-5">
+            <div class="flex flex-row flex-wrap items-center gap-2">
+              {% if event.price > 0 %}
+              <span class="bg-base-field font-dmSans rounded-lg py-1 px-2 text-xs font-semibold text-white">Rp {{ event.price|intcomma }}</span>
+              {% else %}
+              <span class="bg-base-field font-dmSans rounded-lg py-1 px-2 text-xs font-semibold text-white">FREE</span>
+              {% endif %}
+              <span class="bg-base-field font-dmSans rounded-lg py-1 px-2 text-xs font-semibold text-white"
+                >{{ event.category.category }}</span
+              >
+            </div>
+            <div class="flex h-full flex-col gap-1">
+              <a
+                href="{% url 'homepage-event-detail' event.slug %}"
+                class="font-montserrat text-base-field break line-clamp-2 text-ellipsis text-lg font-bold transition-all duration-150 ease-out hover:text-blue-500"
+                data-scroll-reveal-title
+              >
+                {{ event.title }}
+              </a>
+              <div class="flex-warp flex flex-row items-center gap-2">
+                <span class="font-dmSans text-xs font-semibold text-blue-500 hover:text-blue-800"
+                  >{{ event.association_group.association.name }}</span
+                >
+              </div>
+            </div>
+            <hr />
+            <div class="flex flex-col gap-2">
+              <div class="flex flex-row flex-wrap gap-3">
+                <div class="flex flex-row items-center gap-1">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="h-4 w-4 text-slate-800">
+                    <path
+                      d="M5 0L5 4L7 4L7 0 Z M 17 0L17 4L19 4L19 0 Z M 1 3C0.398438 3 0 3.398438 0 4L0 7C0 7.601563 0.398438 8 1 8L1 24L23 24L23 8C23.601563 8 24 7.601563 24 7L24 4C24 3.398438 23.601563 3 23 3L20 3L20 5L16 5L16 3L8 3L8 5L4 5L4 3 Z M 3 8L21 8L21 22L3 22 Z M 5 10L5 12L7 12L7 10 Z M 9 10L9 12L11 12L11 10 Z M 13 10L13 12L15 12L15 10 Z M 17 10L17 12L19 12L19 10 Z M 12 13L12 17L16 17L16 13 Z M 5 14L5 16L7 16L7 14 Z M 9 14L9 16L11 16L11 14 Z M 17 14L17 16L19 16L19 14 Z M 5 18L5 20L7 20L7 18 Z M 9 18L9 20L11 20L11 18 Z M 13 18L13 20L15 20L15 18 Z M 17 18L17 20L19 20L19 18Z"
+                      fill="currentColor"
+                    />
+                  </svg>
+                  {% if event.schedule_start|date:'d' == event.schedule_end|date:'d' %}
+                  <span class="font-poppins mt-1 text-xs font-medium text-slate-800">
+                    {{ event.schedule_end|date:'M d, Y' }}
+                  </span>
+                  {% else %}
+                  <span class="font-poppins mt-1 text-xs font-medium text-slate-800">
+                    {{ event.schedule_start|date:'M d, Y' }} - {{ event.schedule_end|date:'M d, Y' }}
+                  </span>
+                  {% endif %}
+                </div>
+                <div class="flex flex-row items-center gap-1">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="h-4 w-4 text-slate-800">
+                    <path
+                      d="M12 0C5.371094 0 0 5.371094 0 12C0 18.628906 5.371094 24 12 24C18.628906 24 24 18.628906 24 12C24 5.371094 18.628906 0 12 0 Z M 12 2C17.523438 2 22 6.476563 22 12C22 17.523438 17.523438 22 12 22C6.476563 22 2 17.523438 2 12C2 6.476563 6.476563 2 12 2 Z M 10.9375 3.875L10.5 12.0625L10.59375 12.9375L16.75 18.375L17.71875 17.375L12.625 11.96875L12.1875 3.875Z"
+                      fill="currentColor"
+                    />
+                  </svg>
+                  <span class="font-poppins mt-1 text-xs font-medium text-slate-800">
+                    {{ event.schedule_start|date:'h:i A' }}-{{ event.schedule_end|date:'h:i A' }}
+                  </span>
+                </div>
+              </div>
+              <div class="flex flex-row flex-wrap gap-3">
+                <div class="flex flex-row items-center gap-1">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="h-4 w-4 text-blue-500">
+                    <path
+                      d="M10.59375 3C9.957031 3 9.324219 3.269531 8.875 3.71875L5.59375 7L1.3125 7C0.585938 7 0 7.585938 0 8.3125L0 18.6875C0 19.414063 0.585938 20 1.3125 20L3.78125 20L3.0625 21.4375C2.933594 21.695313 3.117188 22 3.40625 22L5.65625 22C5.871094 22 6.0625 21.878906 6.15625 21.6875L7 20L10 20L10.71875 21.4375C10.890625 21.777344 11.242188 22 11.625 22L16.09375 22C16.601563 22 17 21.601563 17 21.09375L17 8.3125C17 8.277344 17.003906 8.25 17 8.21875C17.007813 8.144531 17.007813 8.074219 17 8L17 5.21875C17 4 16 3 14.78125 3 Z M 18 4L18 7L21.5 7C22.039063 7.007813 22.542969 6.722656 22.816406 6.257813C23.089844 5.789063 23.089844 5.210938 22.816406 4.742188C22.542969 4.277344 22.039063 3.992188 21.5 4 Z M 10.59375 5L14.78125 5C14.921875 5 15 5.078125 15 5.21875L15 7L8.40625 7L10.28125 5.125C10.355469 5.050781 10.488281 5 10.59375 5 Z M 22 9C21.03125 9 20 11 19 11L18 11L18 16L19 16C20 16 20.984375 18 22 18L24 18L24 9 Z M 3 10L8 10L8 14L3 14Z"
+                      fill="currentColor"
+                    />
+                  </svg>
+                  <span class="font-poppins mt-1 text-xs font-medium text-slate-800">Online</span>
+                </div>
+                <div class="flex flex-row items-center gap-1">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="h-4 w-4 text-green-500">
+                    <path
+                      d="M12,2C6.477,2,2,6.477,2,12c0,5.523,4.477,10,10,10s10-4.477,10-10C22,6.477,17.523,2,12,2z M17.707,9.707l-7,7 C10.512,16.902,10.256,17,10,17s-0.512-0.098-0.707-0.293l-3-3c-0.391-0.391-0.391-1.023,0-1.414s1.023-0.391,1.414,0L10,14.586 l6.293-6.293c0.391-0.391,1.023-0.391,1.414,0S18.098,9.316,17.707,9.707z"
+                      fill="currentColor"
+                    />
+                  </svg>
+                  <span class="font-poppins mt-1 text-xs font-medium text-slate-800">Certificate</span>
+                </div>
+                <div class="flex flex-row items-center gap-1">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="h-4 w-4 text-green-500">
+                    <path
+                      d="M12,2C6.477,2,2,6.477,2,12c0,5.523,4.477,10,10,10s10-4.477,10-10C22,6.477,17.523,2,12,2z M17.707,9.707l-7,7 C10.512,16.902,10.256,17,10,17s-0.512-0.098-0.707-0.293l-3-3c-0.391-0.391-0.391-1.023,0-1.414s1.023-0.391,1.414,0L10,14.586 l6.293-6.293c0.391-0.391,1.023-0.391,1.414,0S18.098,9.316,17.707,9.707z"
+                      fill="currentColor"
+                    />
+                  </svg>
+                  <span class="font-poppins mt-1 text-xs font-medium text-slate-800">Poin</span>
+                </div>
+              </div>
+            </div>
+            <hr />
+            <div class="flex flex-row items-center gap-3">
+              <a
+                href="{% url 'homepage-event-detail' event.slug %}"
+                class="font-poppins flex flex-row items-center gap-3 rounded-xl bg-blue-500 bg-opacity-10 px-4 py-3 text-sm font-semibold uppercase text-blue-500 transition-all duration-150 ease-out hover:bg-opacity-100 hover:text-white"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" class="h-5 w-5 object-contain">
+                  <path
+                    d="M24 4C12.972066 4 4 12.972074 4 24C4 35.027926 12.972066 44 24 44C35.027934 44 44 35.027926 44 24C44 12.972074 35.027934 4 24 4 z M 24 7C33.406615 7 41 14.593391 41 24C41 33.406609 33.406615 41 24 41C14.593385 41 7 33.406609 7 24C7 14.593391 14.593385 7 24 7 z M 24 14 A 2 2 0 0 0 24 18 A 2 2 0 0 0 24 14 z M 23.976562 20.978516 A 1.50015 1.50015 0 0 0 22.5 22.5L22.5 33.5 A 1.50015 1.50015 0 1 0 25.5 33.5L25.5 22.5 A 1.50015 1.50015 0 0 0 23.976562 20.978516 z"
+                    fill="currentColor"
+                  />
+                </svg>
+              </a>
+              {% if event.schedule_eligibility %}
+              <!--  -->
+                {% if event.user_eligibility %}
+                  <!--  -->
+                  {% if event.seat_eligibility %}
+                    <a
+                      href="{% url 'homepage-event-register' event.slug %}"
+                      class="font-poppins w-full rounded-xl bg-blue-500 bg-opacity-10 px-4 py-3 text-center text-sm font-semibold uppercase text-blue-500 transition-all duration-150 ease-out hover:bg-opacity-100 hover:text-white"
+                    >
+                      REGISTER
+                    </a>
+                  {% else %}
+                    <span class="font-quicksand text-sm font-bold capitalize text-sky-500">Seat full</span>
+                  {% endif %}
+                  <!--  -->
+                {% else %}
+                  <span class="font-quicksand font-bold capitalize text-green-500">Registered</span>
+                {% endif %}
+              <!--  -->
+              {% else %}
+              <!--  -->
+              <!-- TODO: bug need to fix (mar 30, 2023 - mar 31, 2023 : mark as event ended, but it's more than 1 days. our date in case is Mar 30, 9.12 pm)-->
+              <!-- TODO: already fixed on views by adding filter schedule_start__month on 'today' stubs, need to review -->
+              <ul>
+                <li>test {{ event.user_eligibility }}</li>
+                <li>test {{ event.seat_eligibility }}</li>
+                <li>test {{ user.schedule_eligibility }}</li>
+              </ul>
+                {% if event.user_eligibility %}
+                  <!--  -->
+                  {% if event.seat_eligibility %}
+                    <span class="font-quicksand font-bold capitalize text-rose-500">Event Ended</span>
+                  {% else %}
+                    <span class="font-quicksand font-bold capitalize text-rose-500">Event Ended / Seat Full</span>
+                  {% endif %}
+                  <!--  -->
+                {% else %}
+                  <span class="font-quicksand text-sm font-bold capitalize text-sky-500">Event Ended And Registered</span>
+                {% endif %}
+                <!--  -->
+              {% endif %}
+            </div>
           </div>
         </div>
       </div>

@@ -20,7 +20,7 @@ from binago.utils import timezone_now
 from django.utils import timezone
 
 
-def builder_count_category_by_schedule_type(_type: Literal['UPCOMING', 'PAST', 'TODAY'], events: QuerySet[Events]) -> QuerySet[Events] | Literal[False]:
+def builder_count_category_by_schedule_type(_type: Literal['UPCOMING', 'PAST', 'TODAY', 'ON_AIR'], events: QuerySet[Events]) -> QuerySet[Events] | Literal[False]:
     published_only_events: QuerySet[Events] = events.filter(is_published=True)
     if _type == 'UPCOMING':
         return published_only_events.filter(schedule_start__gte=timezone_now())
@@ -28,6 +28,8 @@ def builder_count_category_by_schedule_type(_type: Literal['UPCOMING', 'PAST', '
         return published_only_events.filter(schedule_start__lte=timezone_now())
     if _type == 'TODAY':
         return published_only_events.filter(schedule_start__month=timezone_now().month, schedule_start__day=timezone_now().day)
+    if _type == 'ON_AIR':
+        return published_only_events.filter(schedule_start__lte=timezone_now(), schedule_end__gte=timezone_now())
     return False
 
 
@@ -47,6 +49,9 @@ class EventsCategories(models.Model):
 
     def get_past_categories(self) -> QuerySet[Events] | Literal[False]:
         return builder_count_category_by_schedule_type('PAST', self.events_set)
+
+    def get_on_air_categories(self) -> QuerySet[Events] | Literal[False]:
+        return builder_count_category_by_schedule_type('ON_AIR', self.events_set)
 
     def __str__(self):
         return self.category
@@ -128,7 +133,7 @@ class Events(models.Model):
 
     def event_today_status(self) -> Literal['UPCOMING', 'PAST', 'LIVE'] | None:
         now: datetime = timezone_now()
-        if self.schedule_start > now and self.schedule_end < now:
+        if self.schedule_start < now and self.schedule_end > now:
             return "LIVE"
         elif self.schedule_start > now:
             return "UPCOMING"

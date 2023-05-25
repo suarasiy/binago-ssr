@@ -67,7 +67,7 @@ def index(request) -> HttpResponseRedirect | HttpResponsePermanentRedirect:
     return redirect(reverse('homepage-event-upcoming'))
 
 
-def stub_homepage_events(request, events: QuerySet[Events], max_item_per_page: int, _type: Literal['UPCOMING', 'TODAY', 'PAST']) -> HomepageContext:
+def stub_homepage_events(request, events: QuerySet[Events], max_item_per_page: int, _type: Literal['UPCOMING', 'TODAY', 'PAST', 'ON_AIR']) -> HomepageContext:
     page: int = int(request.GET.get('page', 1))
     now: datetime = timezone.localtime(timezone.now())
     published_only_events: QuerySet[Events] = events.filter(is_published=True)
@@ -122,9 +122,9 @@ def homepage_past(request, *args, **kwargs) -> HttpResponse:
     category: str | Literal[False] = kwargs.get('category', False)
     if category:
         events: QuerySet[Events] = Events.objects.filter(
-            schedule_start__lte=now, category__slug=category).order_by('-schedule_start')
+            schedule_end__lte=now, category__slug=category).order_by('-schedule_start')
     else:
-        events: QuerySet[Events] = Events.objects.filter(schedule_start__lte=now).order_by('-schedule_start')
+        events: QuerySet[Events] = Events.objects.filter(schedule_end__lte=now).order_by('-schedule_start')
 
     context: HomepageContext = stub_homepage_events(request, events, 6, 'PAST')
     context['title'] = 'Binago Homepage | Past Events'
@@ -155,6 +155,29 @@ def homepage_today(request, *args, **kwargs) -> HttpResponse:
 
 def homepage_today_category(request, category) -> HttpResponse:
     return homepage_today(request, category=category)
+
+
+@require_http_methods(['GET'])
+def homepage_on_air(request, *args, **kwargs) -> HttpResponse:
+    now: datetime = timezone_now()
+    template: str = pages_frontend('homepage/index.html')
+    category: str | Literal[False] = kwargs.get('category', False)
+    if category:
+        events: QuerySet[Events] = Events.objects.filter(
+            schedule_start__lte=now, schedule_end__gte=now, category__slug=category).order_by('schedule_start')
+    else:
+        events: QuerySet[Events] = Events.objects.filter(
+            schedule_start__lte=now, schedule_end__gte=now).order_by('schedule_start')
+
+    context: HomepageContext = stub_homepage_events(request, events, 6, 'ON_AIR')
+    context['title'] = 'Binago Homepage | On-Air Events'
+    context['description'] = 'Events that currently happened now...'
+    return render(request, template, context)
+
+
+@require_http_methods(['GET'])
+def homepage_on_air_category(request, category) -> HttpResponse:
+    return homepage_on_air(request, category=category)
 
 
 @require_http_methods(['GET'])
